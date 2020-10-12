@@ -1,0 +1,82 @@
+{
+  "name": "rakeupeagle",
+  "description": "",
+  "repository": "https://github.com/dbinetti/rakeupeagle",
+  "stack": "heroku-18",
+  "success_url": "/admin/",
+  "buildpacks": [{
+    "url": "heroku/python"
+  }],
+  "formation": {
+    "web": {
+      "quantity": "1",
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": "1",
+      "size": "hobby"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "heroku-redis:hobby-dev"
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": {
+      "description": "Configures which settings to use.  Do not edit.",
+      "value": "settings.prod",
+      "required": true
+    },
+    "PYTHONPATH": {
+      "description": "Configures the PYTHONPATH.  Do not edit.",
+      "value": "project",
+      "required": true
+    },
+    "SECRET_KEY": {
+      "description": "Required by Django.  Auto-generated.",
+      "generator": "secret",
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "description": "Will be populated by Heroku in Review App.",
+      "required": false
+    },
+    "HEROKU_PARENT_APP_NAME": {
+      "description": "Will be populated by Heroku in Review App.",
+      "required": false
+    }
+  },
+  "environments": {
+    "test": {
+      "addons": [
+        "heroku-postgresql:in-dyno",
+        "heroku-redis:in-dyno"
+      ],
+      "env": {
+        "DJANGO_SETTINGS_MODULE": "settings.base",
+        "PYTHONPATH": "project",
+        "HASHID_FIELD_SALT": {
+          "generator": "secret"
+        },
+        "SECRET_KEY": {
+          "generator": "secret"
+        },
+        "LOGLEVEL": {
+          "value": "INFO"
+        },
+        "AUTH0_CLIENT_ID": {
+          "generator": "secret"
+        },
+        "AUTH0_CLIENT_SECRET": {
+          "generator": "secret"
+        },
+        "AUTH0_DOMAIN": {
+          "generator": "secret"
+        }
+      },
+      "scripts": {
+        "test": "pytest"
+      }
+    }
+  }
+}

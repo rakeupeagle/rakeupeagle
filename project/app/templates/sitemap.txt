@@ -1,0 +1,6 @@
+https://www.startnormal.com
+https://www.startnormal.com/faq
+https://www.startnormal.com/about
+https://www.startnormal.com/privacy
+{% for slug in slugs %}https://www.startnormal.com/school/{{slug}}
+{% endfor %}

@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Home{% endblock title%}
+
+
+{% block content %}
+
+<section>
+  <div class='jumbotron'>
+    <section>
+      <p class='my-3 lead'>
+        <strong>Rake Up Eagle</strong> is a public service project.
+      </p>
+    </section>
+    <section class='mt-3'>
+      <div class='row'>
+        <div class='col-lg-6 my-2'>
+          {# <a href='{% url "signup" "parent" %}' role='button' class="btn btn-success btn-block btn-lg"> #}
+            Volunteer Signup
+          {# </a> #}
+        </div>
+        <div class='col-lg-6 my-2'>
+          {# <a href='{% url "signup" "teacher" %}' role='button' class="btn btn-primary btn-block btn-lg"> #}
+            Senior Signup
+          {# </a> #}
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock content %}

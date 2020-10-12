@@ -1,0 +1,9 @@
+{
+  "syntax": "liquid",
+  "body": "./blocked_account.html",
+  "from": "David Binetti <dbinetti@startnormal.com>",
+  "subject": "Account Activity",
+  "urlLifetimeInSeconds": 432000,
+  "template": "blocked_account",
+  "enabled": true
+}

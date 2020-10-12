@@ -1,0 +1,46 @@
+{% autoescape off %}
+
+I wanted to give you a brief status update.
+
+Update #1  Things are really picking up speed and I'm doing my best
+to keep up.  One thing I've learned is that most parents are forming their
+learning groups -- I refuse to call them 'pods', sounds like Invasion of the
+Body Snatchers -- outside of the system.  This makes total sense, and we want
+to support those users as well.  But the invite system is a bit cumbersome
+for those already in groups and so I've turned it off.
+
+Instead, I'll simply take your existing group information and add the
+information into the system directly.  Eventually I'll make it possible
+for parents to enter their own data, but for now I'll just do things
+manually until I learn more how people are using the system.
+
+If you already have a group, wonderful -- just let me know and I'll enter it.
+You can also call/text me at 415.713.2126 if that's easier.  Otherwise, by the end
+of the day I'll send out individual emails with all parents of the same school and
+grade so that they can connect with one another to form their own groups, which
+I can then add to the system.
+
+Update #2 is, bluntly, teachers are very hard to find.  I'm sure you already knew
+that, but even those I'm able to recruit are not committing to times in the Fall
+until they know the schedule for their own distance-learning classrooms.  I am
+going to continue to get better at finding and recruiting teachers, but for now
+please be aware it is slim-pickings and if I haven't followed up with you directly
+it's because I can't find an available teacher at this time.
+
+Update #3 is that because of Update #2 I'm researching other ways parents can
+help educate their children.  I don't want to speak more on that right now since
+I still think experienced teachers are the way to go, but be aware that I am gathering
+additional resources so that we can support each other even when a teacher is
+unavailable.  More on that soon.
+
+As always, thank you, and feel free to reach out if you have any other questions,
+comments, or concerns.
+
+
+Thanks!
+Dave
+415.713.2126
+
+{% endautoescape %}
+
+

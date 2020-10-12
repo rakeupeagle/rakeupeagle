@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}Create Classmate{% endblock title %}
+{% block header %}Create Classmate{% endblock header %}
+
+
+{% block content %}
+  <section class='my-5'>
+    <p class='lead'>
+      You can link a classmate to your student using this tool.  The classmate's parent will receive an invitation to connect, allowing you to form a Homeroom pod together.
+    </p>
+  </section>
+  <section class='mt-2 mt-5'>
+    <div class='card'>
+      <div class='card-header'>
+        <h4>
+          Find a Classmate
+        </h4>
+      </div>
+      <div class="card-body">
+        <form method='POST'>
+          {% csrf_token %}
+          {% bootstrap_form_errors form %}
+          {% bootstrap_field form.from_student %}
+          {% bootstrap_field form.to_student %}
+          <div class='my-2'>
+            <a href='#addClassmate' data-toggle='collapse'> <small>I can't find a particular student.</small></a>
+          </div>
+          <div class='collapse' id='addClassmate'>
+            <p>
+              If you can find the specific student for whom you're looking, click the link below to open a new window to add that student directly.  When finished, you'll come back to this window to complete the link request.
+            </p>
+            <a href='{% url "build-classmate" %}' target='_blank'>Enter Student Info</a>
+            <br><br>
+          </div>
+          {% bootstrap_field form.message %}
+          {% bootstrap_button "Send Classmate Request" button_type='submit' button_class='btn btn-primary btn-block' size='lg' %}
+        </form>
+      </div>
+    </div>
+  </section>
+
+  {# Modal-End #}
+{% endblock content %}
+
+{% block scripts %}
+  {{form.media}}
+{% endblock scripts %}

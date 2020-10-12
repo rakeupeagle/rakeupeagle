@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<script src="https://kit.fontawesome.com/1c8c066f08.js" crossorigin="anonymous"></script>
+<script src="https://browser.sentry-cdn.com/5.20.1/bundle.min.js" integrity="O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo" crossorigin="anonymous"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    {% comment %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173184237-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-173184237-1');
+    </script>
+    <meta name="google-site-verification" content="NZFED8x1eeHzEYAhHPT7GMjw7dgvbcl_EPNWLS4LawI">
+    {% endcomment %}
+    <title>Rake Up Eagle! - {% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-light">
+      <a class="navbar-brand" href="{% url 'index' %}"><img class="d-inline-block mr-1" src='{% static "app/logo.png" %}'></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+
+      {% comment %}
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          {% if request.user.is_authenticated %}
+            <li class='nav-item'>
+              <a href="{% url 'dashboard' %}" class='align-bottom'>Dashboard</a>
+            </li>
+            <li class='nav-item'>
+              <a href="{% url 'logout' %}" role='button' class='btn btn-sm btn-light ml-3'>Logout</a>
+            </li>
+          {% else %}
+            <li class='nav-item'>
+              <a href="{% url 'login' %}" role='button' class='btn btn-sm btn-outline-primary ml-3'>Login</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+      {% endcomment %}
+    </nav>
+
+    <div id="content" class='container'>
+      {% bootstrap_messages %}
+      <section class='my-5'>
+        <h1>
+          {% block header %}{% endblock header %}
+        </h1>
+        <small class='text-muted'>
+          {% block subheader %}{% endblock subheader %}
+        </small>
+      </section>
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <br><br><br>
+
+    {% comment %}
+    {% block bottomnav %}
+      <nav class="navbar navbar-expand-sm navbar-light">
+        <ul class="nav nav-pills mr-auto">
+          <li class="nav-item ml-3">
+            <a href="{% url 'about' %}">About</a>
+          </li>
+          <li class="nav-item ml-3">
+            <a href="{% url 'faq' %}">FAQ</a>
+          </li>
+          <li class="nav-item ml-3">
+            <a href="{% url 'privacy' %}">Privacy</a>
+          </li>
+        </ul>
+      </nav>
+    {% endblock bottomnav %}
+    {% endcomment %}
+    <br><br><br>
+
+    {% block scripts %}
+    {% endblock scripts %}
+
+  </body>
+</html>
