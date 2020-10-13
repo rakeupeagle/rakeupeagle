@@ -5,15 +5,8 @@ from django.contrib.auth.admin import UserAdmin as UserAdminBase
 # # Local
 from .forms import UserChangeForm
 from .forms import UserCreationForm
-# from .inlines import HomeroomInline
-# from .inlines import StudentInline
-# from .models import Account
-# from .models import Ask
-# from .models import Classmate
-# from .models import Homeroom
-# from .models import Parent
-# from .models import School
-# from .models import Student
+from .inlines import AssignmentInline
+from .models import Recipient
 from .models import User
 from .models import Volunteer
 
@@ -28,12 +21,14 @@ class VolunteerAdmin(admin.ModelAdmin):
     fields = [
         'name',
         'phone',
+        'email',
         'number',
         'notes',
     ]
     list_display = [
         'name',
         'phone',
+        'email',
         'number',
         'created',
         'updated',
@@ -49,117 +44,49 @@ class VolunteerAdmin(admin.ModelAdmin):
         'user',
     ]
     inlines = [
+        AssignmentInline,
     ]
 
+@admin.register(Recipient)
+class RecipientAdmin(admin.ModelAdmin):
+    save_on_top = True
+    fields = [
+        'name',
+        'phone',
+        'email',
+        'address',
+        'size',
+        'is_dog',
+        'is_verified',
+        'is_waiver',
+        'notes',
+    ]
+    list_display = [
+        'name',
+        'phone',
+        'email',
+        'address',
+        'size',
+        'is_dog',
+        'is_verified',
+        'is_waiver',
+        'created',
+        'updated',
+    ]
+    list_filter = [
+        'created',
+        'updated',
+    ]
+    search_fields = [
+        'name',
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+    inlines = [
+        AssignmentInline,
+    ]
 
-# @admin.register(Teacher)
-# class TeacherAdmin(admin.ModelAdmin):
-#     save_on_top = True
-#     fields = [
-#         'user',
-#         'is_credential',
-#         'levels',
-#         'subjects',
-#         'school',
-#         'notes',
-#     ]
-#     list_display = [
-#         'user',
-#         'created',
-#         'updated',
-#     ]
-#     list_filter = [
-#         'is_credential',
-#         'levels',
-#         'subjects',
-#         # 'school',
-#         'created',
-#         'updated',
-#     ]
-#     search_fields = [
-#         'user__name',
-#     ]
-#     autocomplete_fields = [
-#         'user',
-#         'school',
-#     ]
-#     inlines = [
-#         # StudentInline,
-#     ]
-
-
-# @admin.register(School)
-# class SchoolAdmin(admin.ModelAdmin):
-#     fields = [
-#         'name',
-#         'status',
-#         'level',
-#         'nces_id',
-#         'grades',
-#         'low_grade',
-#         'high_grade',
-#         'address',
-#         'city',
-#         'state',
-#         'zipcode',
-#         'county',
-#         'phone',
-#         'website',
-#         'lat',
-#         'lon',
-#     ]
-#     list_display = [
-#         'name',
-#         'level',
-#         'nces_id',
-#         'low_grade',
-#         'high_grade',
-#         'city',
-#         'state',
-#         'phone',
-#         'website',
-#         'lat',
-#         'lon',
-#         'created',
-#         'updated',
-#     ]
-#     list_filter = [
-#         'level',
-#         'status',
-#     ]
-#     search_fields = [
-#         'name',
-#         'nces_id',
-#     ]
-#     inlines = [
-#         # StudentInline,
-#     ]
-#     autocomplete_fields = [
-#     ]
-
-
-# @admin.register(Student)
-# class StudentAdmin(admin.ModelAdmin):
-#     list_display = [
-#         'parent',
-#         'school',
-#         'grade',
-#     ]
-#     list_filter = [
-#         'grade',
-#         'created',
-#         'updated',
-#     ]
-#     search_fields = [
-#         'name',
-#         'parent__user__name',
-#     ]
-#     inlines = [
-#     ]
-#     autocomplete_fields = [
-#         'parent',
-#         'school',
-#     ]
 
 
 @admin.register(User)

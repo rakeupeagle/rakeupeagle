@@ -7,9 +7,6 @@ from model_utils import Choices
 # # Local
 from .managers import UserManager
 
-# # First-Party
-
-
 
 class Volunteer(models.Model):
     NUMBER = Choices(
@@ -28,6 +25,12 @@ class Volunteer(models.Model):
         help_text="""Your name (or group name).""",
         default='',
     )
+    email = models.EmailField(
+        max_length=255,
+        blank=False,
+        help_text="""Your email address.""",
+        default='',
+    )
     phone = models.CharField(
         max_length=255,
         blank=False,
@@ -37,7 +40,7 @@ class Volunteer(models.Model):
     number = models.IntegerField(
         blank=False,
         choices=NUMBER,
-        help_text="""Number in Group.""",
+        help_text="""Number in your group.""",
     )
     notes = models.TextField(
         max_length=512,
@@ -59,49 +62,115 @@ class Volunteer(models.Model):
     )
 
     def __str__(self):
-        return str(self.user)
+        return str(self.name)
 
 
-# class Location(models.Model):
-#     id = HashidAutoField(
-#         primary_key=True,
-#     )
-#     SUBJECT = Choices(
-#         (110, 'ps', 'English'),
-#         (120, 'ps', 'History'),
-#         (130, 'ps', 'Mathematics'),
-#         (140, 'ps', 'Science'),
-#         (150, 'ps', 'Art'),
-#         (160, 'ps', 'Music'),
-#         (170, 'ps', 'PE'),
-#         (180, 'ps', 'Other'),
-#     )
-#     subject = models.IntegerField(
-#         blank=False,
-#         choices=SUBJECT,
-#         default=SUBJECT.none
-#     )
-#     notes = models.TextField(
-#         max_length=2000,
-#         blank=True,
-#         default='',
-#         help_text="""Please add any other notes you think we should know.""",
-#     )
-#     created = models.DateTimeField(
-#         auto_now_add=True,
-#     )
-#     updated = models.DateTimeField(
-#         auto_now=True,
-#     )
-#     user = models.OneToOneField(
-#         'app.User',
-#         on_delete=models.CASCADE,
-#         related_name='location',
-#     )
-#     def __str__(self):
-#         return str(self.user)
+class Recipient(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    SIZE = Choices(
+        (110, 'small', 'Small (1-15 bags)'),
+        (120, 'medium', 'Medium (16-30 bags'),
+        (130, 'large', 'Large (35+ bags)'),
+    )
+    size = models.IntegerField(
+        blank=False,
+        choices=SIZE,
+    )
+    name = models.CharField(
+        max_length=255,
+        blank=False,
+        help_text="""Your name.""",
+        default='',
+    )
+    address = models.CharField(
+        max_length=255,
+        blank=False,
+        help_text="""Your street address (must be in Eagle).""",
+        default='',
+    )
+    email = models.EmailField(
+        blank=False,
+        help_text="""Your email.""",
+        default='',
+    )
+    phone = models.CharField(
+        max_length=255,
+        blank=False,
+        help_text="""Your phone.""",
+        default='',
+    )
+    is_verified = models.BooleanField(
+        blank=False,
+        help_text="""Are you age 65 or older, disabled, or veteran?""",
+    )
+    is_dog = models.BooleanField(
+        blank=False,
+        help_text="""Do you have a dog?""",
+    )
+    is_waiver = models.BooleanField(
+        blank=False,
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.OneToOneField(
+        'app.User',
+        on_delete=models.SET_NULL,
+        related_name='location',
+        null=True,
+    )
+    def __str__(self):
+        return str(self.name)
 
 
+class Assignment(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATUS = Choices(
+        (0, 'new', "New"),
+        (10, 'pending', "Pending"),
+        (20, 'accepted', "Accepted"),
+        (30, 'rejected', "Rejected"),
+    )
+    status = models.IntegerField(
+        blank=True,
+        choices=STATUS,
+        default=STATUS.new,
+    )
+    notes = models.TextField(
+        blank=True,
+        default='',
+    )
+    recipient = models.ForeignKey(
+        'Recipient',
+        on_delete=models.CASCADE,
+        blank=False,
+        related_name='recipients',
+    )
+    volunteer = models.ForeignKey(
+        'Volunteer',
+        on_delete=models.CASCADE,
+        blank=False,
+        related_name='volunteers',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
 
 
 class User(AbstractBaseUser):

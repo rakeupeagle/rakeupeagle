@@ -1,21 +1,25 @@
 
 # # Django
-# from django.contrib import admin
+from django.contrib import admin
 
 # # Local
-# from .models import Homeroom
+from .models import Assignment
+
 # from .models import School
 # from .models import Student
 
 
-# class HomeroomInline(admin.TabularInline):
-#     model = Homeroom
-#     fields = [
-#         'parent',
-#     ]
-#     autocomplete_fields = [
-#         'parent',
-#     ]
+class AssignmentInline(admin.TabularInline):
+    model = Assignment
+    fields = [
+        'status',
+        'recipient',
+        'volunteer',
+    ]
+    autocomplete_fields = [
+        'recipient',
+        'volunteer',
+    ]
 
 
 # class StudentInline(admin.TabularInline):
