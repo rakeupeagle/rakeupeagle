@@ -1,0 +1,68 @@
+{% extends 'app/base.html' %}
+
+{% load bootstrap4 %}
+{% load humanize %}
+
+{% block title %}Registration!{% endblock title %}
+{% block header %}Registration!{% endblock header %}
+
+{% block content %}
+
+  <section>
+    <p class='lead'>
+      Resident Registration
+    </p>
+  </section>
+  <section>
+    <p>
+    To qualify for Rake Up Eagle, registrants MUST:<br>
+    •    Be at least 65 years old, disabled or a veteran<br>
+    •    Live within the city limits of Eagle<br>
+    •    Reside at stated residence<br>
+
+    Due to the uncertainty of the event this year and decreased volunteer participation, we cannot guarantee that your yard will be raked. If your yard is selected to be raked, you should receive notification of who your team and team captain are on or before Friday, November 7, 2020.  We hope that you can understand the event circumstances and also know that we are going to do our absolute best to rake as many yards as possible.<br>
+
+    If you live in a mobile home park, please check with the park manager to make sure that it is okay that your yard is raked by our volunteers before sending in your application.<br>
+
+  </p>
+  </section>
+  <section class='mt-2 mt-5'>
+    <div class='card'>
+      <div class='card-header'>
+        <h4>Recipient Information</h4>
+      </div>
+      <div class="card-body">
+        <div class='card-text'>
+          <form method='post'>
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+
+            {% bootstrap_field form.name show_help=False show_label=False placeholder="Name" %}
+            {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
+            {% bootstrap_field form.phone show_help=False show_label=False %}
+            {% bootstrap_field form.address show_help=True show_label=False  %}
+            {% bootstrap_field form.size show_help=True show_label=False  %}
+            {% bootstrap_field form.is_dog show_help=False show_label=False %}
+            {% bootstrap_field form.is_verified show_help=False show_label=False%}
+            {% bootstrap_field form.is_waiver show_help=True show_label=False %}
+            {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
+
+            {% buttons %}
+              <button type="submit" class="btn btn-primary btn-lg btn-block" >
+                Submit
+              </button>
+            {% endbuttons %}
+          </form>
+        </div>
+      </div>
+
+      <div class='card-footer'>
+        <p>
+          <small class='text-muted'>Please contact <a href='eaglemiddlepto@gmail.com'>eaglemiddlepto@gmail.com</a> if you have any questions or need support.</small>
+        </p>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
+d

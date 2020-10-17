@@ -18,7 +18,11 @@ urlpatterns = [
 
     # Dashboard
     # path('dashboard', views.dashboard, name='dashboard',),
-    # path('volunteer', views.volunteer, name='volunteer',),
-    path('volunteer/<volunteer_id>', views.volunteer, name='volunteer',),
+    path('volunteer/', views.volunteers, name='volunteers',),
+    path('recipient/', views.recipients, name='recipients',),
+    path('thanks/', views.thanks, name='thanks',),
+    path('confirmation/', views.confirmation, name='confirmation',),
+    # path('volunteer/<volunteer_id>', views.volunteer, name='volunteer',),
+    # path('recipient/<recipient_id>', views.recipient, name='recipient',),
 
 ]

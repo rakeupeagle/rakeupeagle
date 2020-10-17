@@ -1,9 +1,13 @@
 # # Django
+# Django
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+
+# First-Party
 from hashid_field import HashidAutoField
 from model_utils import Choices
 
+# Local
 # # Local
 from .managers import UserManager
 
@@ -77,6 +81,7 @@ class Recipient(models.Model):
     size = models.IntegerField(
         blank=False,
         choices=SIZE,
+        help_text='Yard Size',
     )
     name = models.CharField(
         max_length=255,
@@ -110,6 +115,7 @@ class Recipient(models.Model):
         help_text="""Do you have a dog?""",
     )
     is_waiver = models.BooleanField(
+        help_text='I agree to waive and release Rake Up Eagle and the sponsors of this event, including all persons and agencies connected with this event from all claims for damages, injuries or death, arising from my participation in  this event. I will provide my own insurance and care, if necessary. I also understand and agree that Rake Up Eagle or a sponsor may subsequently use for publicity and/or promotional purposes pictures of me and my team participating in this event without obligation of liability to me. I understand that the work done on my property is done by volunteers and will not hold them or Rake Up Eagle responsible for damage to personal property. I have read this waiver carefully and having done so, I am signing voluntarily.',
         blank=False,
     )
     notes = models.TextField(

@@ -1,7 +1,9 @@
 # Standard Library
+# Standard Libary
 import json
 import logging
 
+# Django
 # # Django
 # from django.conf import settings
 from django.contrib import messages
@@ -20,6 +22,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+# Local
 # # Local
 # from .forms import AddAskForm
 # from .forms import AskForm
@@ -30,6 +33,7 @@ from django.shortcuts import render
 # from .forms import ParentForm
 # from .forms import SchoolForm
 # from .forms import StudentForm
+from .forms import RecipientForm
 from .forms import VolunteerForm
 # from .forms import TeacherForm
 # from .forms import UserAskForm
@@ -59,6 +63,56 @@ def index(request):
     return render(
         request,
         'app/index.html',
+    )
+
+def thanks(request):
+    return render(
+        request,
+        'app/thanks.html',
+    )
+
+def confirmation(request):
+    return render(
+        request,
+        'app/confirmation.html',
+    )
+
+def volunteers(request):
+    form = VolunteerForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('thanks')
+    return render(
+        request,
+        'app/volunteers.html',
+        context={
+            'form': form,
+        }
+    )
+
+def recipients(request):
+    form = RecipientForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('confirmation')
+    return render(
+        request,
+        'app/recipients.html',
+        context={
+            'form': form,
+        }
     )
 
 # def about(request):

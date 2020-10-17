@@ -2,10 +2,12 @@
 # # Third-Party
 # from dal import autocomplete
 
+# Django
 from django import forms
 from django.contrib.auth.forms import UserChangeForm as UserChangeFormBase
 from django.contrib.auth.forms import UserCreationForm as UserCreationFormBase
 
+# Local
 # # Local
 from .models import Recipient
 from .models import User
@@ -55,6 +57,11 @@ class RecipientForm(forms.ModelForm):
             'is_waiver',
             'notes',
         ]
+        labels = {
+            "is_dog": "Do You Have a Dog?",
+            "is_verified": "Are you 65+, a Veteran, or Disabled?",
+            "is_waiver": "Agree to Waiver",
+        }
         widgets = {
             'notes': forms.Textarea(
                 attrs={
