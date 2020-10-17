@@ -6,6 +6,7 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm as UserChangeFormBase
 from django.contrib.auth.forms import UserCreationForm as UserCreationFormBase
+from django.core.exceptions import ValidationError
 
 # Local
 # # Local
@@ -13,7 +14,6 @@ from .models import Recipient
 from .models import User
 from .models import Volunteer
 
-# from django.core.exceptions import ValidationError
 # from django.forms.models import inlineformset_factory
 
 
@@ -73,6 +73,18 @@ class RecipientForm(forms.ModelForm):
         }
         help_texts = {
         }
+
+    def clean_is_waiver(self):
+        data = self.cleaned_data['is_waiver']
+        if not data:
+            raise ValidationError("You must accept the waiver to participate.")
+        return data
+
+    def clean_is_verified(self):
+        data = self.cleaned_data['is_verified']
+        if not data:
+            raise ValidationError("You must be over 65, a veteran or disabled to participate.")
+        return data
 
 
 

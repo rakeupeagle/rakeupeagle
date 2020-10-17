@@ -104,7 +104,7 @@ def recipients(request):
         form.save()
         messages.success(
             request,
-            "Saved!",
+            "Submitted!",
         )
         return redirect('confirmation')
     return render(
@@ -114,6 +114,7 @@ def recipients(request):
             'form': form,
         }
     )
+
 
 # def about(request):
 #     return render(

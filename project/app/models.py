@@ -74,7 +74,7 @@ class Recipient(models.Model):
     )
     SIZE = Choices(
         (110, 'small', 'Small (1-15 bags)'),
-        (120, 'medium', 'Medium (16-30 bags'),
+        (120, 'medium', 'Medium (16-30 bags)'),
         (130, 'large', 'Large (35+ bags)'),
     )
     size = models.IntegerField(
