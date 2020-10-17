@@ -36,14 +36,6 @@
       "description": "Required by Django.  Auto-generated.",
       "generator": "secret",
       "required": true
-    },
-    "HEROKU_APP_NAME": {
-      "description": "Will be populated by Heroku in Review App.",
-      "required": false
-    },
-    "HEROKU_PARENT_APP_NAME": {
-      "description": "Will be populated by Heroku in Review App.",
-      "required": false
     }
   },
   "environments": {
@@ -71,6 +63,12 @@
           "generator": "secret"
         },
         "AUTH0_DOMAIN": {
+          "generator": "secret"
+        },
+        "SENDGRID_API_KEY": {
+          "generator": "secret"
+        },
+        "SENTRY_DSN": {
           "generator": "secret"
         }
       },

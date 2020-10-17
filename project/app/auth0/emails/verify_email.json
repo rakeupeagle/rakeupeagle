@@ -1,9 +1,0 @@
-{
-  "syntax": "liquid",
-  "body": "./verify_email.html",
-  "from": "David Binetti <dbinetti@startnormal.com>",
-  "subject": "Start Normal - Please Verify Email",
-  "urlLifetimeInSeconds": 432000,
-  "template": "verify_email",
-  "enabled": false
-}

@@ -1,9 +1,0 @@
-{
-  "syntax": "liquid",
-  "body": "./reset_email.html",
-  "from": "David Binetti <dbinetti@startnormal.com>",
-  "subject": "Start Normal - Password Change Request",
-  "urlLifetimeInSeconds": 432000,
-  "template": "reset_email",
-  "enabled": true
-}

@@ -1,8 +1,0 @@
-{
-  "syntax": "liquid",
-  "body": "./welcome_email.html",
-  "from": "David Binetti <dbinetti@startnormal.com>",
-  "subject": "Welcome to Start Normal!",
-  "template": "welcome_email",
-  "enabled": true
-}
