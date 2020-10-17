@@ -1,9 +1,9 @@
 # Django
+from django.test.client import Client
+
 # First-Party
 import pytest
-from app.factories import AccountFactory
 from app.factories import UserFactory
-from django.test.client import Client
 
 
 @pytest.fixture
@@ -17,12 +17,9 @@ def user_client():
     user = UserFactory(
         username='user',
         name='User',
-        email='user@dbinetti.com',
+        email='user@localhost',
         is_active=True,
         is_admin=False,
-    )
-    AccountFactory(
-        user=user,
     )
     client = Client()
     client.force_login(user)
@@ -34,7 +31,7 @@ def admin_client():
     admin = UserFactory(
         username='admin',
         name='Admin',
-        email='admin@dbinetti.com',
+        email='admin@localhost',
         is_active=True,
         is_admin=True,
     )
