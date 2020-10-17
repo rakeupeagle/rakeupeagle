@@ -1,10 +1,12 @@
 # Standard Library
+# Standard Libary
 import logging.config
 import os
 
 # Django
 from django.contrib.messages import constants as messages
 from django.utils.log import DEFAULT_LOGGING
+
 # First-Party
 from environ import Env
 from environ import Path
@@ -99,6 +101,9 @@ STATIC_ROOT = root('staticfiles')
 MEDIA_ROOT = root('mediafiles')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+STATICFILES_DIRS = [
+    root('app/static'),
+]
 
 # Bootstrap
 BOOTSTRAP4 = {
