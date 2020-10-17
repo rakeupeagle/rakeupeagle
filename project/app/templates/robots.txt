@@ -1,13 +1,4 @@
 User-Agent: *
-Disallow: /login
-Disallow: /signup
-Disallow: /callback
-Disallow: /account
-Disallow: /pending
-Disallow: /split
-Disallow: /teacher
-Disallow: /parent
-Disallow: /share
-Disallow: /delete
+Allow: /
 
-Sitemap: https://www.startnormal.com/sitemap.txt
+Sitemap: https://www.rakeupeagle.com/sitemap.txt
