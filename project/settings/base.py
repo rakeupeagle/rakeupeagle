@@ -102,8 +102,7 @@ MEDIA_ROOT = root('mediafiles')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
-    root('app/static'),
-    root('static'),
+    root('app/static/app'),
 ]
 
 # Bootstrap
