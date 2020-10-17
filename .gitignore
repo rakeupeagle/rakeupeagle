@@ -14,5 +14,9 @@
 .pytest_cache/*
 .venv/*
 config/database.yml
+project/media/*
+project/static/*
+project/mediafiles/*
+project/staticfiles/*
 htmlcov/*
 latest.dump
