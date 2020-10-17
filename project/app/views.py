@@ -4,30 +4,21 @@ import logging
 
 # # Django
 # from django.conf import settings
-# from django.contrib import messages
+from django.contrib import messages
 # from django.contrib.auth import authenticate
 # from django.contrib.auth import login as log_in
 # from django.contrib.auth import logout as log_out
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 # from django.contrib.postgres.search import SearchVector
 # from django.db.models import Case
 # from django.db.models import CharField
 # from django.db.models import Q
 # from django.db.models import Value
 # from django.db.models import When
-# from django.http import HttpResponse
-# from django.shortcuts import get_object_or_404
-# from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.shortcuts import render
-
-# from django.template.loader import render_to_string
-# from django.urls import reverse
-# from django.utils.crypto import get_random_string
-# from django.utils.html import format_html
-
-# # First-Party
-# import requests
-# from dal import autocomplete
 
 # # Local
 # from .forms import AddAskForm
@@ -39,7 +30,7 @@ from django.shortcuts import render
 # from .forms import ParentForm
 # from .forms import SchoolForm
 # from .forms import StudentForm
-# from .forms import StudentFormSet
+from .forms import VolunteerForm
 # from .forms import TeacherForm
 # from .forms import UserAskForm
 # from .models import Ask
@@ -48,8 +39,18 @@ from django.shortcuts import render
 # from .models import Parent
 # from .models import School
 # from .models import Student
-# from .models import Teacher
-# from .models import User
+from .models import User
+from .models import Volunteer
+
+# from django.template.loader import render_to_string
+# from django.urls import reverse
+# from django.utils.crypto import get_random_string
+# from django.utils.html import format_html
+
+# # First-Party
+# import requests
+# from dal import autocomplete
+
 # from .tasks import mailchimp_subscribe_email
 
 
@@ -297,13 +298,13 @@ def index(request):
 #     )
 
 # @login_required
-# def student(request, student_id):
+# def volunteer(request, volunteer_id):
 #     user = request.user
-#     student = Student.objects.get(
+#     volunteer = Volunteer.objects.get(
 #         id=student_id,
 #         parent=user.parent,
 #     )
-#     form = StudentForm(request.POST or None, instance=student)
+#     form = VolunteerForm(request.POST or None, instance=volunteer)
 #     if form.is_valid():
 #         form.save()
 #         messages.success(
@@ -313,10 +314,9 @@ def index(request):
 #         return redirect('dashboard')
 #     return render(
 #         request,
-#         'app/student.html',
+#         'app/volunteer.html',
 #         context={
 #             'form': form,
-#             'student': student,
 #         },
 #     )
 
@@ -415,29 +415,29 @@ def index(request):
 #         },
 #     )
 
-# @login_required
-# def parent(request, parent_id):
-#     parent = get_object_or_404(Parent, id=parent_id)
-#     if parent.id != request.user.parent.id:
-#         return HttpResponse(status=400)
-#     form = ParentForm(
-#         request.POST or None,
-#         instance=parent,
-#     )
-#     if form.is_valid():
-#         form.save()
-#         messages.success(
-#             request,
-#             "Saved!",
-#         )
-#         return redirect('dashboard')
-#     return render(
-#         request,
-#         'app/parent.html',
-#         context={
-#             'form': form,
-#         }
-#     )
+@login_required
+def volunteer(request, volunteer_id):
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+    if volunteer.id != request.user.volunteer.id:
+        return HttpResponse(status=400)
+    form = VolunteerForm(
+        request.POST or None,
+        instance=volunteer,
+    )
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('dashboard')
+    return render(
+        request,
+        'app/volunteer.html',
+        context={
+            'form': form,
+        }
+    )
 
 # @login_required
 # def delete_parent(request, parent_id):
