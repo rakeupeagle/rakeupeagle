@@ -15,4 +15,5 @@
 .venv/*
 config/database.yml
 htmlcov/*
+project/staticfiles/*
 latest.dump
