@@ -1,7 +1,7 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock title%}
+{% block title %}Rake Up Eagle! - Sponsored by Eagle Middle School PTO{% endblock title%}
 
 
 {% block content %}
@@ -22,7 +22,7 @@
       <div class='row'>
         <div class='col-lg-6 my-2'>
           <div class='card'>
-            <img src='https://rakeupeagle.s3-us-west-1.amazonaws.com/volunteer.png' class='card-img-top'>
+            <img src='https://rakeupeagle.s3-us-west-1.amazonaws.com/volunteer.jpg' class='card-img-top'>
             <div class='card-body'>
               <h4 class='card-title text-center'>
                 Volunteer to Help
@@ -30,7 +30,8 @@
               <p class='card-text'>
                 Create a team for a day to help a senior, veteran, or disabled neighbor!
               </p>
-              <a href='{% url "volunteers" %}' role='button' class="btn btn-success btn-block btn-lg">
+              {# <a href='{% url "volunteers" %}' role='button' class="btn btn-success btn-block btn-lg"> #}
+              <a href='https://www.signupgenius.com/go/20f0e4aaba62ca0fc1-rake' role='button' class="btn btn-success btn-block btn-lg">
                 Signup!
               </a>
             </div>
@@ -38,7 +39,7 @@
         </div>
         <div class='col-lg-6 my-2'>
           <div class='card'>
-            <img src="https://rakeupeagle.s3-us-west-1.amazonaws.com/recipient.png" class='card-img-top'>
+            <img src="https://rakeupeagle.s3-us-west-1.amazonaws.com/recipient.jpg" class='card-img-top'>
             <div class='card-body'>
               <h4 class='card-title text-center'>
                 Clean My Yard

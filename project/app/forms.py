@@ -58,15 +58,15 @@ class RecipientForm(forms.ModelForm):
             'notes',
         ]
         labels = {
-            "is_dog": "Do You Have a Dog?",
-            "is_verified": "Are you 65+, a Veteran, or Disabled?",
-            "is_waiver": "Agree to Waiver",
+            "is_dog": "I Have a Dog",
+            "is_verified": "I Am 65+, a Veteran, or Disabled",
+            "is_waiver": "I Agree to the Waiver",
         }
         widgets = {
             'notes': forms.Textarea(
                 attrs={
                     'class': 'form-control h-25',
-                    'placeholder': 'Anything else we should know? (Optional).',
+                    'placeholder': 'Anything else we should know? (Optional)',
                     'rows': 5,
                 }
             )

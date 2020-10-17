@@ -3,28 +3,28 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
-{% block title %}Registration!{% endblock title %}
-{% block header %}Registration!{% endblock header %}
+{% block title %}Yard Rake Registration{% endblock title %}
+{% block header %}Yard Rake Registration{% endblock header %}
 
 {% block content %}
 
   <section>
     <p class='lead'>
-      Resident Registration
+      To qualify for Rake Up Eagle, registrants <strong>must</strong>:
     </p>
   </section>
   <section>
+    <ul class='list-styled'>
+      <li>Be at least 65 years old, disabled or a veteran</li>
+      <li>Live within the city limits of Eagle</li>
+      <li>Reside at stated residence</li>
+    </ul>
     <p>
-    To qualify for Rake Up Eagle, registrants MUST:<br>
-    •    Be at least 65 years old, disabled or a veteran<br>
-    •    Live within the city limits of Eagle<br>
-    •    Reside at stated residence<br>
-
-    Due to the uncertainty of the event this year and decreased volunteer participation, we cannot guarantee that your yard will be raked. If your yard is selected to be raked, you should receive notification of who your team and team captain are on or before Friday, November 7, 2020.  We hope that you can understand the event circumstances and also know that we are going to do our absolute best to rake as many yards as possible.<br>
-
-    If you live in a mobile home park, please check with the park manager to make sure that it is okay that your yard is raked by our volunteers before sending in your application.<br>
-
-  </p>
+      If your yard is selected to be raked, you should receive notification of who your team and team captain are on or before Friday, November 7, 2020.  We hope that you can understand the event circumstances and also know that we are going to do our absolute best to rake as many yards as possible.
+    </p>
+    <p>
+      If you live in a mobile home park, please check with the park manager to make sure that it is okay that your yard is raked by our volunteers before sending in your application.
+    </p>
   </section>
   <section class='mt-2 mt-5'>
     <div class='card'>
@@ -42,8 +42,8 @@
             {% bootstrap_field form.phone show_help=False show_label=False %}
             {% bootstrap_field form.address show_help=True show_label=False  %}
             {% bootstrap_field form.size show_help=True show_label=False  %}
-            {% bootstrap_field form.is_dog show_help=False show_label=False %}
-            {% bootstrap_field form.is_verified show_help=False show_label=False%}
+            {% bootstrap_field form.is_dog show_help=True show_label=False %}
+            {% bootstrap_field form.is_verified show_help=True show_label=False%}
             {% bootstrap_field form.is_waiver show_help=True show_label=False %}
             {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
 
