@@ -1,14 +1,15 @@
-# # Django
 # Django
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+
 # First-Party
 from hashid_field import HashidAutoField
 from model_utils import Choices
 
 # Local
-# # Local
 from .managers import UserManager
+from .tasks import build_email
+from .tasks import send_email
 
 
 class Volunteer(models.Model):
@@ -137,6 +138,16 @@ class Recipient(models.Model):
     )
     def __str__(self):
         return str(self.name)
+
+    def send_confirmation(self):
+        email = build_email(
+            template='emails/confirmed.txt',
+            subject='Rake Up Eagle Confirmation',
+            to=[self.email],
+            bcc=['dbinetti@gmail.com'],
+            # html_content='emails/homerooms.html',
+        )
+        send_email.delay(email)
 
 
 class Assignment(models.Model):

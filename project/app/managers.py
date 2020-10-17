@@ -1,38 +1,6 @@
 # # Django
+# Django
 from django.contrib.auth.base_user import BaseUserManager
-
-# from django.contrib.postgres.search import SearchVector
-# from django.db.models import Case
-# from django.db.models import CharField
-# from django.db.models import Value
-# from django.db.models import When
-
-
-# class StudentManager(BaseUserManager):
-#     def with_vector(self):
-#         grades = [When(grade=k, then=Value(v)) for k, v in self.model.GRADE]
-#         vector = \
-#             SearchVector(
-#                 'name',
-#                 weight='A',
-#             ) + \
-#             SearchVector(
-#                 'school__name',
-#                 weight='B',
-#             ) + \
-#             SearchVector(
-#                 Case(*grades, output_field=CharField()),
-#                 weight='C',
-#             ) + \
-#             SearchVector(
-#                 'parent__name',
-#                 weight='B',
-#             ) + \
-#             SearchVector(
-#                 'parent__email',
-#                 weight='B',
-#             )
-#         return self.get_queryset().annotate(vector=vector)
 
 
 class UserManager(BaseUserManager):

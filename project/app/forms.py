@@ -1,7 +1,3 @@
-# # Django
-# # Third-Party
-# from dal import autocomplete
-
 # Django
 from django import forms
 from django.contrib.auth.forms import UserChangeForm as UserChangeFormBase
@@ -9,12 +5,9 @@ from django.contrib.auth.forms import UserCreationForm as UserCreationFormBase
 from django.core.exceptions import ValidationError
 
 # Local
-# # Local
 from .models import Recipient
 from .models import User
 from .models import Volunteer
-
-# from django.forms.models import inlineformset_factory
 
 
 class VolunteerForm(forms.ModelForm):

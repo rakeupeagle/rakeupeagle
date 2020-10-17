@@ -1,7 +1,11 @@
 # # Django
+# Django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
+# from django.urls import reverse
+from django.utils.safestring import mark_safe
 
+# Local
 # # Local
 from .forms import UserChangeForm
 from .forms import UserCreationForm
@@ -9,10 +13,6 @@ from .inlines import AssignmentInline
 from .models import Recipient
 from .models import User
 from .models import Volunteer
-
-# from django.urls import reverse
-# from django.utils.safestring import mark_safe
-
 
 
 @admin.register(Volunteer)
@@ -101,9 +101,6 @@ class UserAdmin(UserAdminBase):
                 'name',
                 'email',
                 'username',
-                # 'account_link',
-                # 'parent_link',
-                # 'teacher_link',
             ]
         }
         ),
@@ -111,22 +108,9 @@ class UserAdmin(UserAdminBase):
     )
     list_display = [
         'name',
-        # 'email_link',
-        # 'parent_link',
-        # 'teacher_link',
         'created',
         'last_login'
     ]
-    # list_select_related = [
-    #     'parent',
-    #     'teacher',
-    #     'account',
-    # ]
-    # readonly_fields = [
-    #     'account_link',
-    #     'parent_link',
-    #     'teacher_link',
-    # ]
     list_filter = [
         'is_active',
         'is_admin',
@@ -156,7 +140,6 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        # StudentInline,
     ]
 
     def email_link(self, obj):
@@ -166,39 +149,3 @@ class UserAdmin(UserAdminBase):
             )
         )
     email_link.short_description = 'email'
-
-    # def account_link(self, obj):
-    #     return mark_safe(
-    #         '<a href="{}">{}</a>'.format(
-    #             reverse(
-    #                 "admin:app_account_change",
-    #                 args=[obj.account.pk,]
-    #             ),
-    #             'Account',
-    #         )
-    #     )
-    # account_link.short_description = 'account'
-
-    # def parent_link(self, obj):
-    #     return mark_safe(
-    #         '<a href="{}">{}</a>'.format(
-    #             reverse(
-    #                 "admin:app_parent_change",
-    #                 args=[obj.parent.pk,]
-    #             ),
-    #             'Parent',
-    #         )
-    #     )
-    # parent_link.short_description = 'parent'
-
-    # def teacher_link(self, obj):
-    #     return mark_safe(
-    #         '<a href="{}">{}</a>'.format(
-    #             reverse(
-    #                 "admin:app_teacher_change",
-    #                 args=[obj.teacher.pk,]
-    #             ),
-    #             'Teacher',
-    #         )
-    #     )
-    # teacher_link.short_description = 'teacher'
