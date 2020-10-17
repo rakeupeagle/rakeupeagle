@@ -96,7 +96,7 @@ EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
 
 # File Management
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATIC_ROOT = root('staticfiles')
 MEDIA_ROOT = root('mediafiles')
 STATIC_URL = '/static/'
