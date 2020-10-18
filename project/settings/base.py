@@ -99,7 +99,7 @@ vars().update(EMAIL_CONFIG)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATIC_ROOT = root('staticfiles')
 MEDIA_ROOT = root('mediafiles')
-STATIC_URL = '/static/'
+STATIC_URL = 'https://rakeupeagle.s3-us-west-1.amazonaws.com/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     root('app/static'),
