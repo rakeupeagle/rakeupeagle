@@ -1,7 +1,6 @@
 # Django
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
-
 # First-Party
 from hashid_field import HashidAutoField
 from model_utils import Choices
@@ -147,7 +146,7 @@ class Recipient(models.Model):
             bcc=['dbinetti@gmail.com'],
             # html_content='emails/homerooms.html',
         )
-        send_email.delay(email)
+        send_email(email)
 
 
 class Assignment(models.Model):
