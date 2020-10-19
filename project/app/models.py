@@ -142,11 +142,12 @@ class Recipient(models.Model):
         email = build_email(
             template='emails/confirmed.txt',
             subject='Rake Up Eagle Confirmation',
+            context={'recipient': self},
             to=[self.email],
-            bcc=['dbinetti@gmail.com'],
+            bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
             # html_content='emails/homerooms.html',
         )
-        send_email(email)
+        send_email.delay(email)
 
 
 class Assignment(models.Model):
