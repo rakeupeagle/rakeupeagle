@@ -14,9 +14,9 @@ from django.template.loader import render_to_string
 # Local
 from .forms import RecipientForm
 from .models import Recipient
+from .tasks import build_email
+from .tasks import send_email
 
-# from .forms import VolunteerForm
-# from .models import Volunteer
 
 # Root
 def index(request):
@@ -35,6 +35,14 @@ def recipients(request):
             request,
             "Submitted!",
         )
+        email = build_email(
+            template='emails/confirmed.txt',
+            subject='Rake Up Eagle Confirmation',
+            context={'recipient': form.cleaned_data['email']},
+            to=[form.cleaned_data['email']],
+            bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
+        )
+        send_email.delay(email)
         return redirect('confirmation')
     return render(
         request,

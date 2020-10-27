@@ -138,18 +138,6 @@ class Recipient(models.Model):
     def __str__(self):
         return str(self.name)
 
-    def send_confirmation(self):
-        email = build_email(
-            template='emails/confirmed.txt',
-            subject='Rake Up Eagle Confirmation',
-            context={'recipient': self},
-            to=[self.email],
-            bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
-            # html_content='emails/homerooms.html',
-        )
-        send_email.delay(email)
-
-
 class Assignment(models.Model):
     id = HashidAutoField(
         primary_key=True,
