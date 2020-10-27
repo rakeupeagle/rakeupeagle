@@ -38,7 +38,7 @@ def recipients(request):
         email = build_email(
             template='emails/confirmed.txt',
             subject='Rake Up Eagle Confirmation',
-            context={'recipient': form.cleaned_data['email']},
+            context={'recipient': form.cleaned_data},
             to=[form.cleaned_data['email']],
             bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
         )
