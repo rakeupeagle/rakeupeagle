@@ -30,7 +30,7 @@ def recipients(request):
         request.POST or None,
     )
     if form.is_valid():
-        form.save()
+        recipient=form.save()
         messages.success(
             request,
             "Submitted!",
@@ -38,8 +38,8 @@ def recipients(request):
         email = build_email(
             template='emails/confirmed.txt',
             subject='Rake Up Eagle Confirmation',
-            context={'recipient': form.cleaned_data},
-            to=[form.cleaned_data['email']],
+            context={'recipient': recipient},
+            to=[recipient.email],
             bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
         )
         send_email.delay(email)
