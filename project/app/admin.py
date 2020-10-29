@@ -73,6 +73,11 @@ class RecipientAdmin(admin.ModelAdmin):
         'created',
         'updated',
     ]
+    list_editable = [
+        'phone',
+        'email',
+        'address',
+    ]
     list_filter = [
         'created',
         'updated',
@@ -86,8 +91,6 @@ class RecipientAdmin(admin.ModelAdmin):
     inlines = [
         AssignmentInline,
     ]
-
-
 
 @admin.register(User)
 class UserAdmin(UserAdminBase):
