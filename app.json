@@ -68,6 +68,9 @@
         "SENDGRID_API_KEY": {
           "generator": "secret"
         },
+        "GOOGLE_API_KEY": {
+          "generator": "secret"
+        },
         "SENTRY_DSN": {
           "generator": "secret"
         }

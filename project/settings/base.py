@@ -6,7 +6,6 @@ import os
 # Django
 from django.contrib.messages import constants as messages
 from django.utils.log import DEFAULT_LOGGING
-
 # First-Party
 from environ import Env
 from environ import Path
@@ -104,6 +103,9 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     root('app/static'),
 ]
+
+# Google
+GOOGLE_API_KEY = env("GOOGLE_API_KEY")
 
 # Bootstrap
 BOOTSTRAP4 = {

@@ -1,5 +1,6 @@
 # Django
 from django.contrib.auth.models import AbstractBaseUser
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 # First-Party
 from hashid_field import HashidAutoField
@@ -7,8 +8,6 @@ from model_utils import Choices
 
 # Local
 from .managers import UserManager
-from .tasks import build_email
-from .tasks import send_email
 
 
 class Volunteer(models.Model):
@@ -94,6 +93,11 @@ class Recipient(models.Model):
         help_text="""Your street address (must be in Eagle).""",
         default='',
     )
+    geo = models.JSONField(
+        encoder=DjangoJSONEncoder,
+        null=True,
+        blank=True,
+    )
     email = models.EmailField(
         blank=False,
         help_text="""Your email.""",
@@ -137,6 +141,7 @@ class Recipient(models.Model):
     )
     def __str__(self):
         return str(self.name)
+
 
 class Assignment(models.Model):
     id = HashidAutoField(

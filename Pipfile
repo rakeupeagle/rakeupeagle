@@ -30,6 +30,7 @@ django-sendgrid-v5 = "*"
 django-model-utils = "*"
 sentry-sdk = "*"
 django-hashid-field = "*"
+geocoder = "*"
 
 [requires]
 python_version = "3.8"

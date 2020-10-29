@@ -2,9 +2,10 @@
 # Django
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-
 # First-Party
 from django_rq import job
+
+import geocoder
 
 
 # Utility
@@ -30,3 +31,12 @@ def build_email(template, subject, context=None, to=[], cc=[], bcc=[], attachmen
 @job
 def send_email(email):
     return email.send()
+
+
+@job
+def geocode_address(address):
+    full = f"{address}, Eagle, ID  83616"
+    response = geocoder.google(full)
+    if not response.ok:
+        raise ValueError("{0}".format(address))
+    return response.json
