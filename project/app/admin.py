@@ -23,6 +23,8 @@ class VolunteerAdmin(admin.ModelAdmin):
         'phone',
         'email',
         'number',
+        'adults',
+        'children',
         'notes',
     ]
     list_display = [
@@ -30,6 +32,8 @@ class VolunteerAdmin(admin.ModelAdmin):
         'phone',
         'email',
         'number',
+        'adults',
+        'children',
         'created',
         'updated',
     ]

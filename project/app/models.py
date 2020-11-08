@@ -1,23 +1,17 @@
 # Django
+# Third-Party
+from hashid_field import HashidAutoField
+from model_utils import Choices
+
 from django.contrib.auth.models import AbstractBaseUser
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
-# First-Party
-from hashid_field import HashidAutoField
-from model_utils import Choices
 
 # Local
 from .managers import UserManager
 
 
 class Volunteer(models.Model):
-    NUMBER = Choices(
-        (1, 'one', "One"),
-        (2, 'two', "Two"),
-        (3, 'three', "Three"),
-        (4, 'four', "Four"),
-        (5, 'five', "Five +"),
-    )
     id = HashidAutoField(
         primary_key=True,
     )
@@ -41,8 +35,18 @@ class Volunteer(models.Model):
     )
     number = models.IntegerField(
         blank=False,
-        choices=NUMBER,
+        null=True,
         help_text="""Number in your group.""",
+    )
+    adults = models.IntegerField(
+        blank=False,
+        null=True,
+        help_text="""Number of adults in your group.""",
+    )
+    children = models.IntegerField(
+        blank=False,
+        null=True,
+        help_text="""Number of children in your group.""",
     )
     notes = models.TextField(
         max_length=512,
