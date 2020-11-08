@@ -2,13 +2,11 @@
 # Third-Party
 from hashid_field import HashidAutoField
 from model_utils import Choices
+from phone_field import PhoneField
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
-
-# First-Party
-from phone_field import PhoneField
 
 # Local
 from .managers import UserManager
@@ -42,12 +40,12 @@ class Volunteer(models.Model):
         help_text="""Number in your group.""",
     )
     adults = models.IntegerField(
-        blank=False,
+        blank=True,
         null=True,
         help_text="""Number of adults in your group.""",
     )
     children = models.IntegerField(
-        blank=False,
+        blank=True,
         null=True,
         help_text="""Number of children in your group.""",
     )
