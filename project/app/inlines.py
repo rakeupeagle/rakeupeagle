@@ -17,3 +17,5 @@ class AssignmentInline(admin.TabularInline):
         'recipient',
         'volunteer',
     ]
+    extra = 0
+    show_change_link = True

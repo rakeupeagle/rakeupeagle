@@ -72,17 +72,19 @@ class RecipientAdmin(admin.ModelAdmin):
         'address',
         'size',
         'is_dog',
-        'is_verified',
-        'is_waiver',
-        'created',
-        'updated',
+        # 'is_verified',
+        # 'is_waiver',
+        # 'created',
+        # 'updated',
     ]
-    list_editable = [
-        'phone',
-        'email',
-        'address',
-    ]
+    # list_editable = [
+    #     'phone',
+    #     'email',
+    #     'address',
+    # ]
     list_filter = [
+        'size',
+        'is_dog',
         'created',
         'updated',
     ]

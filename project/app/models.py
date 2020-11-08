@@ -69,7 +69,10 @@ class Volunteer(models.Model):
     )
 
     def __str__(self):
-        return str(self.name)
+        return "{0} - {1} Persons".format(
+            str(self.name),
+            str(self.number),
+        )
 
 
 class Recipient(models.Model):
@@ -145,7 +148,10 @@ class Recipient(models.Model):
         null=True,
     )
     def __str__(self):
-        return str(self.name)
+        return " - ".join([
+            str(self.name),
+            str(self.get_size_display()),
+        ])
 
 
 class Assignment(models.Model):
@@ -185,6 +191,23 @@ class Assignment(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
+
+    def __str__(self):
+        return " : ".join([
+            str(self.recipient),
+            str(self.volunteer),
+        ])
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'recipient',
+                    'volunteer',
+                ],
+                name='unique_assignment',
+            ),
+        ]
 
 
 class User(AbstractBaseUser):
