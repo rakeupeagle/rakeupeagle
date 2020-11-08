@@ -31,6 +31,7 @@ django-model-utils = "*"
 sentry-sdk = "*"
 django-hashid-field = "*"
 geocoder = "*"
+django-phone-field = "*"
 
 [requires]
 python_version = "3.9"
