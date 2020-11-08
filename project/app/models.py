@@ -12,69 +12,6 @@ from django.db import models
 from .managers import UserManager
 
 
-class Volunteer(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    name = models.CharField(
-        max_length=255,
-        blank=False,
-        help_text="""Your name (or group name).""",
-        default='',
-    )
-    email = models.EmailField(
-        max_length=255,
-        blank=False,
-        help_text="""Your email address.""",
-        default='',
-    )
-    phone = PhoneField(
-        max_length=255,
-        blank=False,
-        help_text="""Your mobile phone.""",
-        default='',
-    )
-    number = models.IntegerField(
-        blank=False,
-        null=True,
-        help_text="""Number in your group.""",
-    )
-    adults = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text="""Number of adults in your group.""",
-    )
-    children = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text="""Number of children in your group.""",
-    )
-    notes = models.TextField(
-        max_length=512,
-        blank=True,
-        default='',
-        help_text="""Notes.""",
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    user = models.OneToOneField(
-        'app.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='volunteer',
-    )
-
-    def __str__(self):
-        return "{0} - {1} Persons".format(
-            str(self.name),
-            str(self.number),
-        )
-
-
 class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -147,11 +84,81 @@ class Recipient(models.Model):
         related_name='location',
         null=True,
     )
+
+    def is_assigned(self):
+        return bool(self.assignments.count())
+
     def __str__(self):
         return " - ".join([
             str(self.name),
             str(self.get_size_display()),
         ])
+
+
+class Volunteer(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    name = models.CharField(
+        max_length=255,
+        blank=False,
+        help_text="""Your name (or group name).""",
+        default='',
+    )
+    email = models.EmailField(
+        max_length=255,
+        blank=False,
+        help_text="""Your email address.""",
+        default='',
+    )
+    phone = PhoneField(
+        max_length=255,
+        blank=False,
+        help_text="""Your mobile phone.""",
+        default='',
+    )
+    number = models.IntegerField(
+        blank=False,
+        null=True,
+        help_text="""Number in your group.""",
+    )
+    adults = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text="""Number of adults in your group.""",
+    )
+    children = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text="""Number of children in your group.""",
+    )
+    notes = models.TextField(
+        max_length=512,
+        blank=True,
+        default='',
+        help_text="""Notes.""",
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.OneToOneField(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='volunteer',
+    )
+
+    def is_assigned(self):
+        return bool(self.assignments.count())
+
+    def __str__(self):
+        return "{0} - {1} Persons".format(
+            str(self.name),
+            str(self.number),
+        )
 
 
 class Assignment(models.Model):
@@ -177,13 +184,19 @@ class Assignment(models.Model):
         'Recipient',
         on_delete=models.CASCADE,
         blank=False,
-        related_name='recipients',
+        related_name='assignments',
     )
     volunteer = models.ForeignKey(
         'Volunteer',
         on_delete=models.CASCADE,
         blank=False,
-        related_name='volunteers',
+        related_name='assignments',
+    )
+    notes = models.TextField(
+        max_length=512,
+        blank=True,
+        default='',
+        help_text="""Notes.""",
     )
     created = models.DateTimeField(
         auto_now_add=True,

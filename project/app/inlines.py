@@ -9,7 +9,7 @@ from .models import Assignment
 class AssignmentInline(admin.TabularInline):
     model = Assignment
     fields = [
-        'status',
+        # 'status',
         'recipient',
         'volunteer',
     ]
