@@ -1,0 +1,9 @@
+Your yard has been chosen to be raked by Rake Up Eagle, sponsored by the Eagle Middle School PTO.  We had an overwhelming response by volunteers and are so grateful for the many willing hearts and hands in Eagle!
+
+Volunteers are scheduled to arrive the morning of Saturday, November 14th, between 9AM and Noon.  They will knock upon arrival but must stay outside your home.  Volunteers bring their own bags, rakes, and gloves; all filled leaf bags will be placed for normal pickup on your designated garbage day.
+
+{% if recipient.is_dog %}
+Please be sure to clean up any dog waste prior to our arrival and keep any pets inside while volunteers are at your home.
+
+{% endif %}
+If you have any questions please contact Michelle Erekson by phone/text at 319-541-1111 or email emerekson@gmail.com.  We look forward to seeing you on Saturday, November 14th!
