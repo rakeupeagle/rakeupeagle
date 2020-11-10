@@ -1,11 +1,16 @@
+import csv
 
+import geocoder
 # Django
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Sum
 from django.template.loader import render_to_string
 # First-Party
 from django_rq import job
 
-import geocoder
+from .models import Assignment
+from .models import Recipient
+from .models import Volunteer
 
 
 # Utility
@@ -40,3 +45,33 @@ def geocode_address(address):
     if not response.ok:
         raise ValueError("{0}".format(address))
     return response.json
+
+def export_csv():
+    rs = Recipient.objects.all()
+    with open('export.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'Name',
+            'Address',
+            'Phone',
+            'Email',
+            'Dog',
+            'Size',
+            'Group(s)',
+            'Total',
+        ])
+        for r in rs:
+            gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
+            foo = ["{0} - {1}".format(g[0], g[1]) for g in gs]
+            bar = "; ".join(foo)
+            total = r.assignments.aggregate(s=Sum('volunteer__number'))['s']
+            writer.writerow([
+                r.name,
+                r.address,
+                r.phone,
+                r.email,
+                r.is_dog,
+                r.get_size_display(),
+                bar,
+                total,
+            ])
