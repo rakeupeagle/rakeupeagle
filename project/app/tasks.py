@@ -14,14 +14,14 @@ from .models import Volunteer
 
 
 # Utility
-def build_email(template, subject, context=None, to=[], cc=[], bcc=[], attachments=[], html_content=None):
+def build_email(template, subject, from_email, context=None, to=[], cc=[], bcc=[], attachments=[], html_content=None):
     body = render_to_string(template, context)
     if html_content:
         html_rendered = render_to_string(html_content, context)
     email = EmailMultiAlternatives(
         subject=subject,
         body=body,
-        from_email='Eagle Middle School PTO <eaglemiddlepto@gmail.com>',
+        from_email=from_email,
         to=to,
         cc=cc,
         bcc=bcc,
@@ -47,7 +47,12 @@ def geocode_address(address):
     return response.json
 
 def export_csv():
-    rs = Recipient.objects.all()
+    rs = Recipient.objects.annotate(
+        total=Sum('assignments__volunteer__number')
+    ).order_by(
+        'size',
+        'total',
+    )
     with open('export.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow([
@@ -62,9 +67,7 @@ def export_csv():
         ])
         for r in rs:
             gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
-            foo = ["{0} - {1}".format(g[0], g[1]) for g in gs]
-            bar = "; ".join(foo)
-            total = r.assignments.aggregate(s=Sum('volunteer__number'))['s']
+            groups = "; ".join(["{0} - {1}".format(g[0], g[1]) for g in gs])
             writer.writerow([
                 r.name,
                 r.address,
@@ -72,6 +75,18 @@ def export_csv():
                 r.email,
                 r.is_dog,
                 r.get_size_display(),
-                bar,
-                total,
+                groups,
+                r.total,
             ])
+
+
+def followup_email(recipient):
+    email = build_email(
+        template='emails/followup.txt',
+        subject='Rake Up Eagle Follow-Up Details',
+        from_email='Michelle Erekson (Rake Up Eagle) <emerekson@gmail.com>',
+        context={'recipient': recipient},
+        to=[recipient.email],
+        bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
+    )
+    return email
