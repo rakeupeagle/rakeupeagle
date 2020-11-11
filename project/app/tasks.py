@@ -1,13 +1,16 @@
+# Standard Libary
 import csv
 
-import geocoder
 # Django
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Sum
 from django.template.loader import render_to_string
+
 # First-Party
+import geocoder
 from django_rq import job
 
+# Local
 from .models import Assignment
 from .models import Recipient
 from .models import Volunteer
@@ -80,6 +83,7 @@ def export_csv():
             ])
 
 
+@job
 def followup_email(recipient):
     email = build_email(
         template='emails/followup.txt',
@@ -87,6 +91,7 @@ def followup_email(recipient):
         from_email='Michelle Erekson (Rake Up Eagle) <emerekson@gmail.com>',
         context={'recipient': recipient},
         to=[recipient.email],
-        bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
+        cc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
+        bcc=['emerekson@gmail.com'],
     )
-    return email
+    return email.send()
