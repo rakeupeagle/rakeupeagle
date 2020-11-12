@@ -132,6 +132,13 @@ class Volunteer(models.Model):
         null=True,
         help_text="""Number of children in your group.""",
     )
+    recipient = models.ForeignKey(
+        'Recipient',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='volunteers',
+    )
     notes = models.TextField(
         max_length=512,
         blank=True,
