@@ -10,31 +10,6 @@ from .models import User
 from .models import Volunteer
 
 
-class VolunteerForm(forms.ModelForm):
-
-    class Meta:
-        model = Volunteer
-        fields = [
-            'name',
-            'phone',
-            'email',
-            'number',
-            'notes',
-        ]
-        widgets = {
-            'notes': forms.Textarea(
-                attrs={
-                    'class': 'form-control h-25',
-                    'placeholder': 'Anything else we should know? (Optional).',
-                    'rows': 5,
-                }
-            )
-        }
-        help_texts = {
-        }
-
-
-
 class RecipientForm(forms.ModelForm):
 
     class Meta:
@@ -80,6 +55,28 @@ class RecipientForm(forms.ModelForm):
         return data
 
 
+class VolunteerForm(forms.ModelForm):
+
+    class Meta:
+        model = Volunteer
+        fields = [
+            'name',
+            'phone',
+            'email',
+            'number',
+            'notes',
+        ]
+        widgets = {
+            'notes': forms.Textarea(
+                attrs={
+                    'class': 'form-control h-25',
+                    'placeholder': 'Anything else we should know? (Optional).',
+                    'rows': 5,
+                }
+            )
+        }
+        help_texts = {
+        }
 
 
 class UserCreationForm(UserCreationFormBase):

@@ -1,19 +1,12 @@
-# Standard Libary
-import json
-import logging
-
 # Django
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
 
 # Local
 from .forms import RecipientForm
-from .models import Recipient
 from .tasks import build_email
 from .tasks import send_email
 
@@ -52,7 +45,6 @@ def recipients(request):
         }
     )
 
-
 def confirmation(request):
     return render(
         request,
@@ -76,28 +68,3 @@ def sitemap(request):
         rendered,
         content_type="text/plain",
     )
-
-
-# @login_required
-# def volunteer(request, volunteer_id):
-#     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
-#     if volunteer.id != request.user.volunteer.id:
-#         return HttpResponse(status=400)
-#     form = VolunteerForm(
-#         request.POST or None,
-#         instance=volunteer,
-#     )
-#     if form.is_valid():
-#         form.save()
-#         messages.success(
-#             request,
-#             "Saved!",
-#         )
-#         return redirect('dashboard')
-#     return render(
-#         request,
-#         'app/volunteer.html',
-#         context={
-#             'form': form,
-#         }
-#     )

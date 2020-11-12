@@ -3,19 +3,17 @@
 from django.contrib import admin
 
 # Local
-from .models import Assignment
+from .models import Volunteer
 
 
-class AssignmentInline(admin.TabularInline):
-    model = Assignment
+class VolunteerInline(admin.TabularInline):
+    model = Volunteer
     fields = [
         # 'status',
         'recipient',
-        'volunteer',
     ]
     autocomplete_fields = [
         'recipient',
-        'volunteer',
     ]
     extra = 0
     show_change_link = True
