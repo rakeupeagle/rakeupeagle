@@ -109,6 +109,32 @@ def handout_pdf(request, volunteer_id):
     )
 
 
+def handout_pdfs(request):
+    volunteers = Volunteer.objects.order_by('name')
+    output = ''
+    for volunteer in volunteers:
+        context={
+            'volunteer': volunteer,
+            'recipient': volunteer.recipient,
+            'map': map,
+        }
+        rendered = render_to_string('app/handout.html', context)
+        output += "<br>"+rendered
+    pdf = pydf.generate_pdf(
+        output,
+        enable_smart_shrinking=False,
+        orientation='Portrait',
+        margin_top='10mm',
+        margin_bottom='10mm',
+    )
+    content = ContentFile(pdf)
+    return FileResponse(
+        content,
+        as_attachment=True,
+        filename='handouts.pdf',
+    )
+
+
 
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
