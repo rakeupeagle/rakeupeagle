@@ -15,6 +15,7 @@ urlpatterns = [
     # path('confirmation/', views.confirmation, name='confirmation',),
     # path('volunteer/', views.volunteers, name='volunteers',),
     path('handout/', views.handouts, name='handouts',),
+    path('handout/<volunteer_id>/pdf', views.handout_pdf, name='handout_pdf',),
     path('handout/<volunteer_id>', views.handout, name='handout',),
     # path('thanks/', views.thanks, name='thanks',),
     # path('volunteer/<volunteer_id>', views.volunteer, name='volunteer',),

@@ -1,10 +1,15 @@
 # Django
 from django.contrib import messages
+from django.core.files.base import ContentFile
+from django.http import FileResponse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
+
+# First-Party
+import pydf
 
 # Local
 from .forms import RecipientForm
@@ -69,6 +74,30 @@ def handout(request, volunteer_id):
             'recipient': volunteer.recipient,
         }
     )
+
+def handout_pdf(request, volunteer_id):
+    volunteer = get_object_or_404(Volunteer, pk=volunteer_id)
+    context={
+        'volunteer': volunteer,
+        'recipient': volunteer.recipient,
+    }
+    rendered = render_to_string('app/handout.html', context)
+    pdf = pydf.generate_pdf(
+        rendered,
+        enable_smart_shrinking=False,
+        orientation='Portrait',
+        margin_top='10mm',
+        margin_bottom='10mm',
+    )
+    content = ContentFile(pdf)
+    return FileResponse(
+        content,
+        as_attachment=True,
+        filename='rake_up_eagle_handout.pdf',
+    )
+
+
+
 
 
 

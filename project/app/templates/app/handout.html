@@ -3,6 +3,22 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
+{% block customstyles %}
+  <style type="text/css">
+    section {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    li {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .card {
+      margin: 50px;
+    }
+  </style>
+{% endblock customstyles %}
+
 {% block title %}Volunteer Handout for {{volunteer.name}}{% endblock title %}
 
 {% block content %}
@@ -53,7 +69,7 @@
   </section>
   <section>
     <p class='lead'>
-      Thank you for volunteering today &mdash; <em>There is so much good in the world!</em>
+      Thank you for volunteering today &mdash; <em>there is so much good in the world!</em>
     </p>
     <p>
       Fondly, <br>

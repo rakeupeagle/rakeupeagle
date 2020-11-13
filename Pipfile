@@ -32,6 +32,7 @@ sentry-sdk = "*"
 django-hashid-field = "*"
 geocoder = "*"
 django-phone-field = "*"
+python-pdf = "*"
 
 [requires]
 python_version = "3.9"
