@@ -1,14 +1,14 @@
 # Standard Libary
 import csv
 
-# Third-Party
-import geocoder
-from django_rq import job
-
 # Django
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Sum
 from django.template.loader import render_to_string
+
+# First-Party
+import geocoder
+from django_rq import job
 
 # Local
 from .models import Recipient
@@ -48,38 +48,44 @@ def geocode_address(address):
         raise ValueError("{0}".format(address))
     return response.json
 
-# def export_csv():
-#     rs = Recipient.objects.annotate(
-#         total=Sum('assignments__volunteer__number')
-#     ).order_by(
-#         'size',
-#         'total',
-#     )
-#     with open('export.csv', 'w') as f:
-#         writer = csv.writer(f)
-#         writer.writerow([
-#             'Name',
-#             'Address',
-#             'Phone',
-#             'Email',
-#             'Dog',
-#             'Size',
-#             'Group(s)',
-#             'Total',
-#         ])
-#         for r in rs:
-#             gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
-#             groups = "; ".join(["{0} - {1}".format(g[0], g[1]) for g in gs])
-#             writer.writerow([
-#                 r.name,
-#                 r.address,
-#                 r.phone,
-#                 r.email,
-#                 r.is_dog,
-#                 r.get_size_display(),
-#                 groups,
-#                 r.total,
-#             ])
+def export_csv():
+    rs = Recipient.objects.annotate(
+        total=Sum('assignments__volunteer__number')
+    ).order_by(
+        'size',
+        'total',
+    )
+    with open('export.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'Name',
+            'Address',
+            'Phone',
+            'Email',
+            'Dog',
+            'Size',
+            'Group(s)',
+            'Total',
+        ])
+        for r in rs:
+            gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
+            groups = "; ".join(["{0} - {1}".format(g[0], g[1]) for g in gs])
+            writer.writerow([
+                r.name,
+                r.address,
+                r.phone,
+                r.email,
+                r.is_dog,
+                r.get_size_display(),
+                groups,
+                r.total,
+            ])
+        content = ContentFile(f)
+        return FileResponse(
+            content,
+            as_attachment=True,
+            filename='export.csv',
+        )
 
 
 @job

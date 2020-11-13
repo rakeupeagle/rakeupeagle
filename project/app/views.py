@@ -1,5 +1,6 @@
 # Django
 # Standard Libary
+import csv
 from urllib.parse import urlencode
 
 from django.conf import settings
@@ -109,6 +110,36 @@ def handout_pdf(request, volunteer_id):
 
 
 
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="export.csv"'
+    vs = Volunteer.objects.order_by('name')
+
+    writer = csv.writer(response)
+    writer.writerow([
+        'Volunteer',
+        'Phone',
+        'Number',
+        'Recipient',
+        'Address',
+        'Phone',
+        'Email',
+        'Dog',
+        'Size',
+    ])
+    for v in vs:
+        writer.writerow([
+            v.name,
+            v.phone,
+            v.number,
+            v.recipient.name,
+            v.recipient.address,
+            v.recipient.phone,
+            v.recipient.email,
+            v.recipient.is_dog,
+            v.recipient.get_size_display(),
+        ])
+    return response
 
 
 
