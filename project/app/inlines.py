@@ -15,7 +15,7 @@ class VolunteerInline(admin.TabularInline):
         'number',
     ]
     autocomplete_fields = [
-        'recipient',
+        # 'recipient',
     ]
     extra = 0
     show_change_link = True
