@@ -106,6 +106,7 @@ class Recipient(models.Model):
             self.volunteers.values_list('name', flat=True)
         )
 
+
 class Volunteer(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -177,68 +178,6 @@ class Volunteer(models.Model):
             str(self.name),
             str(self.number),
         )
-
-
-# class Assignment(models.Model):
-#     id = HashidAutoField(
-#         primary_key=True,
-#     )
-#     STATUS = Choices(
-#         (0, 'new', "New"),
-#         (10, 'pending', "Pending"),
-#         (20, 'accepted', "Accepted"),
-#         (30, 'rejected', "Rejected"),
-#     )
-#     status = models.IntegerField(
-#         blank=True,
-#         choices=STATUS,
-#         default=STATUS.new,
-#     )
-#     notes = models.TextField(
-#         blank=True,
-#         default='',
-#     )
-#     recipient = models.ForeignKey(
-#         'Recipient',
-#         on_delete=models.CASCADE,
-#         blank=False,
-#         related_name='assignments',
-#     )
-#     volunteer = models.ForeignKey(
-#         'Volunteer',
-#         on_delete=models.CASCADE,
-#         blank=False,
-#         related_name='assignments',
-#     )
-#     notes = models.TextField(
-#         max_length=512,
-#         blank=True,
-#         default='',
-#         help_text="""Notes.""",
-#     )
-#     created = models.DateTimeField(
-#         auto_now_add=True,
-#     )
-#     updated = models.DateTimeField(
-#         auto_now=True,
-#     )
-
-#     def __str__(self):
-#         return " : ".join([
-#             str(self.recipient),
-#             str(self.volunteer),
-#         ])
-
-#     class Meta:
-#         constraints = [
-#             models.UniqueConstraint(
-#                 fields=[
-#                     'recipient',
-#                     'volunteer',
-#                 ],
-#                 name='unique_assignment',
-#             ),
-#         ]
 
 
 class User(AbstractBaseUser):
