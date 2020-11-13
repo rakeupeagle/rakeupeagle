@@ -1,4 +1,8 @@
 # Django
+# Standard Libary
+from urllib.parse import urlencode
+
+from django.conf import settings
 from django.contrib import messages
 from django.core.files.base import ContentFile
 from django.http import FileResponse
@@ -66,12 +70,18 @@ def handouts(request):
 
 def handout(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, pk=volunteer_id)
+    url = 'https://maps.googleapis.com/maps/api/staticmap?markers={0},{1}&zoom=13&size=300x150&scale=1&key={2}'.format(
+        volunteer.recipient.geo['lat'],
+        volunteer.recipient.geo['lng'],
+        settings.GOOGLE_API_KEY,
+    )
     return render(
         request,
         'app/handout.html',
         context={
             'volunteer': volunteer,
             'recipient': volunteer.recipient,
+            'mapurl': url,
         }
     )
 
@@ -80,6 +90,7 @@ def handout_pdf(request, volunteer_id):
     context={
         'volunteer': volunteer,
         'recipient': volunteer.recipient,
+        'map': map,
     }
     rendered = render_to_string('app/handout.html', context)
     pdf = pydf.generate_pdf(

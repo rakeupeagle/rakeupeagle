@@ -38,7 +38,11 @@
             <li>Address: {{recipient.address}}</li>
             <li>Phone: {{recipient.phone}}</li>
             <li>Has Dog? {{recipient.is_dog|yesno|title}}</li>
+            <li>Notes: {{recipient.notes|default:"(No Notes Provided)"}}</li>
           </ul>
+          {# <div class='img-fluid'> #}
+            {# <img src={{mapurl}}> #}
+          {# </div> #}
         </div>
       </div>
     </div>

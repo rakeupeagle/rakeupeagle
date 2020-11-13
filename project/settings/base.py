@@ -3,13 +3,13 @@
 import logging.config
 import os
 
-# Third-Party
-from environ import Env
-from environ import Path
-
 # Django
 from django.contrib.messages import constants as messages
 from django.utils.log import DEFAULT_LOGGING
+
+# First-Party
+from environ import Env
+from environ import Path
 
 # Set Environment
 env = Env(
