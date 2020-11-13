@@ -6,60 +6,13 @@ from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.utils.safestring import mark_safe
 
 # Local
-from .filters import IsAssignedFilter
 # # Local
 from .forms import UserChangeForm
 from .forms import UserCreationForm
-from .inlines import AssignmentInline
-from .models import Assignment
+from .inlines import VolunteerInline
 from .models import Recipient
 from .models import User
 from .models import Volunteer
-
-
-@admin.register(Volunteer)
-class VolunteerAdmin(admin.ModelAdmin):
-    save_on_top = True
-    fields = [
-        'name',
-        'phone',
-        'email',
-        'number',
-        'adults',
-        'children',
-        'is_assigned',
-        'notes',
-    ]
-    list_display = [
-        'name',
-        'phone',
-        'email',
-        'number',
-        'adults',
-        'children',
-        'is_assigned',
-    ]
-    list_filter = [
-        'created',
-        'updated',
-        IsAssignedFilter,
-    ]
-    search_fields = [
-        'name',
-    ]
-    autocomplete_fields = [
-        'user',
-    ]
-    inlines = [
-        AssignmentInline,
-    ]
-    ordering = [
-        'number',
-        'name',
-    ]
-    readonly_fields = [
-        'is_assigned',
-    ]
 
 
 @admin.register(Recipient)
@@ -74,7 +27,6 @@ class RecipientAdmin(admin.ModelAdmin):
         'is_dog',
         'is_verified',
         'is_waiver',
-        'is_assigned',
         'notes',
     ]
     list_display = [
@@ -88,7 +40,6 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'is_waiver',
         # 'created',
         # 'updated',
-        'is_assigned',
     ]
     # list_editable = [
     #     'phone',
@@ -98,7 +49,6 @@ class RecipientAdmin(admin.ModelAdmin):
     list_filter = [
         'size',
         'is_dog',
-        IsAssignedFilter,
         'created',
         'updated',
     ]
@@ -109,34 +59,56 @@ class RecipientAdmin(admin.ModelAdmin):
         'user',
     ]
     inlines = [
-        AssignmentInline,
+        VolunteerInline,
     ]
     ordering = [
         'size',
         'name',
     ]
     readonly_fields = [
-        'is_assigned',
     ]
 
 
-@admin.register(Assignment)
-class AssignmentAdmin(admin.ModelAdmin):
+@admin.register(Volunteer)
+class VolunteerAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'recipient',
-        'volunteer',
+        'name',
+        'phone',
+        'email',
+        'number',
+        'adults',
+        'children',
         'notes',
+        'recipient',
     ]
     list_display = [
-        'status',
-        'recipient',
-        'volunteer',
+        'name',
+        'phone',
+        'email',
+        'number',
+        'adults',
+        'children',
     ]
-    list_editable = [
-        'recipient',
-        'volunteer',
+    list_filter = [
+        'created',
+        'updated',
     ]
+    search_fields = [
+        'name',
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+    inlines = [
+    ]
+    ordering = [
+        'number',
+        'name',
+    ]
+    readonly_fields = [
+    ]
+
 
 @admin.register(User)
 class UserAdmin(UserAdminBase):

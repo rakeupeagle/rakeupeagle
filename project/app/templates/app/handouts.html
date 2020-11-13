@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+
+{% load bootstrap4 %}
+{% load humanize %}
+
+{% block title %}Volunteer Handouts{% endblock title %}
+{% block header %}Volunteer Handouts{% endblock header %}
+
+{% block content %}
+
+  <section>
+    <p class='lead'>
+      Volunteer Handouts
+    </p>
+  </section>
+  <section>
+    <ul class='list-styled'>
+      {% for volunteer in volunteers %}
+        <li><a href='{% url "handout" volunteer.id %}'>{{volunteer}}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+{% endblock content %}
