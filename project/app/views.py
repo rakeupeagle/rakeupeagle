@@ -66,6 +66,7 @@ def handout(request, volunteer_id):
         'app/handout.html',
         context={
             'volunteer': volunteer,
+            'recipient': volunteer.recipient,
         }
     )
 

@@ -3,17 +3,62 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
-{% block title %}Volunteer Handout{% endblock title %}
-{% block header %}Volunteer Handout{% endblock header %}
+{% block title %}Volunteer Handout for {{volunteer.name}}{% endblock title %}
 
 {% block content %}
 
   <section>
-    <p class='lead'>
-      {{volunteer}}
-    </p>
+    <h2>Rake Up Eagle Handout for {{volunteer.name}}</h2>
   </section>
   <section>
+    <div class='card'>
+      <h5 class='card-header'>
+        Recipient Details
+      </h5>
+      <div class='card-body'>
+        <div class='card-text'>
+          <ul class='list-unstyled'>
+            <li>Name: {{recipient.name}}</li>
+            <li>Address: {{recipient.address}}</li>
+            <li>Phone: {{recipient.phone}}</li>
+            <li>Has Dog? {{recipient.is_dog|yesno|title}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h3>Instructions</h3>
+    <ul class='list-styled'>
+    <li>
+      Please have leader of group knock on door so they know you have arrived.   <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
+    </li>
+    <li>
+      Put all filled leaf bags at the end of the driveway (or in the normal garbage collection area.)
+    </li>
+    <li>
+      Need more lawn bags?   Head back to EMS or call for a delivery.    Please note that someone over 18 has to be at the residence the entire time of raking.  <strong>Do not leave youth alone at the recipient's home.</strong>
+    </li>
+    <li>
+      If you have any questions, needs, or concerns, please call <strong>319-541-1111</strong> or <strong>847-347-1579</strong>.
+    </li>
+    <li>
+      If you take any group photos, please send them to eaglemiddlepto@gmail.com so we put them in our EMS yearbook and Facebook page.
+    </li>
+    {% if recipient.is_dog %}
+      <li>
+        The recipient's dog should be inside the entire time your group is there and all poop should be cleaned up.   If you see any animal waste, please leave and head back to EMS for a different assignment.
+      </li>
+    {% endif %}
+  </section>
+  <section>
+    <p class='lead'>
+      Thank you for volunteering today &mdash; <em>There is so much good in the world!</em>
+    </p>
+    <p>
+      Fondly, <br>
+      The EMS PTO
+    </p>
   </section>
 
 {% endblock content %}
