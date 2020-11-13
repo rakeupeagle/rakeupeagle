@@ -100,6 +100,11 @@ class Recipient(models.Model):
             s=models.Sum('number')
         )['s']
 
+    @property
+    def reps(self):
+        return "; ".join(
+            self.volunteers.values_list('name', flat=True)
+        )
 
 class Volunteer(models.Model):
     id = HashidAutoField(

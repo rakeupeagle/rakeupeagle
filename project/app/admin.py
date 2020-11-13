@@ -40,6 +40,7 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'is_verified',
         # 'is_waiver',
         # 'created',
+        'reps',
         'total',
     ]
     # list_editable = [
@@ -68,6 +69,7 @@ class RecipientAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         'total',
+        'reps',
     ]
 
 
