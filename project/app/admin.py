@@ -36,10 +36,11 @@ class RecipientAdmin(admin.ModelAdmin):
         'address',
         'size',
         'is_dog',
+        # 'notes',
         # 'is_verified',
         # 'is_waiver',
         # 'created',
-        # 'updated',
+        'total',
     ]
     # list_editable = [
     #     'phone',
@@ -66,6 +67,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'name',
     ]
     readonly_fields = [
+        'total',
     ]
 
 
@@ -77,8 +79,6 @@ class VolunteerAdmin(admin.ModelAdmin):
         'phone',
         'email',
         'number',
-        'adults',
-        'children',
         'notes',
         'recipient',
     ]
@@ -87,8 +87,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'phone',
         'email',
         'number',
-        'adults',
-        'children',
+        'recipient',
     ]
     list_filter = [
         'created',
@@ -96,6 +95,10 @@ class VolunteerAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'name',
+    ]
+    list_editable = [
+        'number',
+        'recipient',
     ]
     autocomplete_fields = [
         'user',

@@ -1,12 +1,12 @@
 # Django
-# Third-Party
-from hashid_field import HashidAutoField
-from model_utils import Choices
-from phone_field import PhoneField
-
 from django.contrib.auth.models import AbstractBaseUser
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+
+# First-Party
+from hashid_field import HashidAutoField
+from model_utils import Choices
+from phone_field import PhoneField
 
 # Local
 from .managers import UserManager
@@ -93,6 +93,12 @@ class Recipient(models.Model):
             str(self.name),
             str(self.get_size_display()),
         ])
+
+    @property
+    def total(self):
+        return self.volunteers.aggregate(
+            s=models.Sum('number')
+        )['s']
 
 
 class Volunteer(models.Model):
