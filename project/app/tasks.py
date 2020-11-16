@@ -100,3 +100,17 @@ def followup_email(recipient):
         bcc=['emerekson@gmail.com'],
     )
     return email.send()
+
+
+@job
+def post_email(volunteer):
+    email = build_email(
+        template='emails/post.txt',
+        subject='Rake Up Eagle Pictures Posted',
+        from_email='Dave Binetti (Rake Up Eagle) <dbinetti@gmail.com>',
+        context={'volunteer': volunteer},
+        to=[volunteer.email],
+        cc=['emerekson@gmail.com', 'mnwashow@yahoo.com'],
+        bcc=['dbinetti@gmail.com'],
+    )
+    return email.send()
