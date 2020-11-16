@@ -28,6 +28,10 @@ class RecipientAdmin(admin.ModelAdmin):
         'is_verified',
         'is_waiver',
         'notes',
+        'bags',
+        'hours',
+        'persons',
+
     ]
     list_display = [
         'name',
@@ -42,12 +46,15 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'created',
         'reps',
         'total',
+        'bags',
+        'hours',
+        'persons',
     ]
-    # list_editable = [
-    #     'phone',
-    #     'email',
-    #     'address',
-    # ]
+    list_editable = [
+        'bags',
+        'hours',
+        'persons',
+    ]
     list_filter = [
         'size',
         'is_dog',

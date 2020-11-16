@@ -72,6 +72,21 @@ class Recipient(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
+    bags = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='Actual Bags Used',
+    )
+    hours = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='Actual Hours Worked',
+    )
+    persons = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='Actual Persons',
+    )
     created = models.DateTimeField(
         auto_now_add=True,
     )
