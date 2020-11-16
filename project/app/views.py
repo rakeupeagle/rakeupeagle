@@ -25,9 +25,13 @@ from .tasks import send_email
 
 # Root
 def index(request):
+    pictures = ["app/{0}.jpeg".format(x) for x in range(1, 48)]
     return render(
         request,
         'app/index.html',
+        context={
+            'pictures': pictures,
+        }
     )
 
 def recipients(request):
