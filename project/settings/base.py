@@ -3,13 +3,13 @@
 import logging.config
 import os
 
+# Third-Party
+from environ import Env
+from environ import Path
+
 # Django
 from django.contrib.messages import constants as messages
 from django.utils.log import DEFAULT_LOGGING
-
-# First-Party
-from environ import Env
-from environ import Path
 
 # Set Environment
 env = Env(
@@ -95,15 +95,15 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
 
-# File Management
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Static File Management
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = root('staticfiles')
+STATIC_URL = '/static/'
+
+# Media File Management
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 MEDIA_ROOT = root('mediafiles')
-STATIC_URL = 'https://rakeupeagle.s3-us-west-1.amazonaws.com/static/'
 MEDIA_URL = '/media/'
-STATICFILES_DIRS = [
-    root('app/static'),
-]
 
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
