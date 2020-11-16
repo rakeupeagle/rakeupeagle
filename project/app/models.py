@@ -77,7 +77,7 @@ class Recipient(models.Model):
         null=True,
         help_text='Actual Bags Used',
     )
-    hours = models.IntegerField(
+    hours = models.FloatField(
         blank=True,
         null=True,
         help_text='Actual Hours Worked',
