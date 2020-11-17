@@ -82,10 +82,15 @@ class Recipient(models.Model):
         null=True,
         help_text='Actual Hours Worked',
     )
-    persons = models.IntegerField(
+    adults = models.IntegerField(
         blank=True,
         null=True,
-        help_text='Actual Persons',
+        help_text='Actual Adults',
+    )
+    children = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='Actual Children',
     )
     created = models.DateTimeField(
         auto_now_add=True,

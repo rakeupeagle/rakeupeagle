@@ -30,8 +30,8 @@ class RecipientAdmin(admin.ModelAdmin):
         'notes',
         'bags',
         'hours',
-        'persons',
-
+        'adults',
+        'children',
     ]
     list_display = [
         'name',
@@ -46,14 +46,11 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'created',
         'reps',
         'total',
-        'bags',
-        'hours',
-        'persons',
     ]
     list_editable = [
-        'bags',
-        'hours',
-        'persons',
+        # 'bags',
+        # 'hours',
+        # 'persons',
     ]
     list_filter = [
         'size',
