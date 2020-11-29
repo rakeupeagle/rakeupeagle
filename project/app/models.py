@@ -1,6 +1,5 @@
 # Django
 from django.contrib.auth.models import AbstractBaseUser
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 
 # First-Party
@@ -33,23 +32,23 @@ class Recipient(models.Model):
         help_text="""Your name.""",
         default='',
     )
-    address = models.CharField(
-        max_length=255,
-        blank=False,
-        help_text="""Your street address (must be in Eagle).""",
-        default='',
-    )
-    addresss = AddressField(
+    # address = models.CharField(
+    #     max_length=255,
+    #     blank=False,
+    #     help_text="""Your street address (must be in Eagle).""",
+    #     default='',
+    # )
+    address = AddressField(
         blank=True,
         null=True,
         related_name='recipient',
         on_delete=models.CASCADE,
     )
-    geo = models.JSONField(
-        encoder=DjangoJSONEncoder,
-        null=True,
-        blank=True,
-    )
+    # geo = models.JSONField(
+    #     encoder=DjangoJSONEncoder,
+    #     null=True,
+    #     blank=True,
+    # )
     email = models.EmailField(
         blank=False,
         help_text="""Your email.""",
