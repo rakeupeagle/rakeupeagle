@@ -18,7 +18,7 @@ class RecipientForm(forms.ModelForm):
             'name',
             'phone',
             'email',
-            # 'address',
+            'address',
             'size',
             'is_dog',
             'is_verified',
