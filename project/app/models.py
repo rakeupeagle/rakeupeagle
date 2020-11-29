@@ -4,6 +4,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 
 # First-Party
+from address.models import AddressField
 from hashid_field import HashidAutoField
 from model_utils import Choices
 from phone_field import PhoneField
@@ -37,6 +38,12 @@ class Recipient(models.Model):
         blank=False,
         help_text="""Your street address (must be in Eagle).""",
         default='',
+    )
+    addresss = AddressField(
+        blank=True,
+        null=True,
+        related_name='recipient',
+        on_delete=models.CASCADE,
     )
     geo = models.JSONField(
         encoder=DjangoJSONEncoder,
