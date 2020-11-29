@@ -5,6 +5,10 @@ from django.contrib.auth.admin import UserAdmin as UserAdminBase
 # from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+# First-Party
+from address.forms import AddressWidget
+from address.models import AddressField
+
 # Local
 # # Local
 from .forms import UserChangeForm
@@ -23,7 +27,6 @@ class RecipientAdmin(admin.ModelAdmin):
         'phone',
         'email',
         'address',
-        'addresss',
         'size',
         'is_dog',
         'is_verified',
@@ -76,6 +79,15 @@ class RecipientAdmin(admin.ModelAdmin):
         'total',
         'reps',
     ]
+    formfield_overrides = {
+        AddressField: {
+            'widget': AddressWidget(
+                attrs={
+                    'style': 'width: 300px;'
+                }
+            )
+        }
+    }
 
 
 @admin.register(Volunteer)
