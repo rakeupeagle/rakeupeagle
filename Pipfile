@@ -33,6 +33,7 @@ django-hashid-field = "*"
 geocoder = "*"
 django-phone-field = "*"
 python-pdf = "*"
+django-address = "*"
 
 [requires]
 python_version = "3.9"
