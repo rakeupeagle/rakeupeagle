@@ -23,6 +23,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'phone',
         'email',
         'address',
+        'addresss',
         'size',
         'is_dog',
         'is_verified',
