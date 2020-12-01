@@ -1,6 +1,7 @@
 # Django
 # Standard Libary
 import os
+import secrets
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
@@ -242,14 +243,14 @@ class Volunteer(Person):
 
 @deconstructible
 class UploadPath(object):
-
     def __init__(self, name):
         self.name = name
 
     def __call__(self, instance, filename):
+        short = secrets.token_urlsafe()[:8]
         return os.path.join(
             self.name,
-            str(instance.id),
+            short,
         )
 
 class Picture(models.Model):
