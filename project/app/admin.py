@@ -69,7 +69,6 @@ class RecipientAdmin(admin.ModelAdmin):
         VolunteerInline,
     ]
     ordering = [
-        'size',
         'last',
         'first',
     ]
@@ -123,7 +122,6 @@ class VolunteerAdmin(admin.ModelAdmin):
     inlines = [
     ]
     ordering = [
-        'number',
         'last',
         'first',
     ]
