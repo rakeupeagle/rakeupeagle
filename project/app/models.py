@@ -1,6 +1,10 @@
 # Django
+# Standard Libary
+import os
+
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+from django.utils.deconstruct import deconstructible
 
 # First-Party
 from address.models import AddressField
@@ -236,11 +240,31 @@ class Volunteer(Person):
         return bool(self.assignments.count())
 
 
+@deconstructible
+class UploadPath(object):
+
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self, instance, filename):
+        return os.path.join(
+            self.name,
+            str(instance.id),
+        )
+
 class Picture(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
     image = models.ImageField(
+        upload_to=UploadPath('image'),
+        blank=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
     )
 
 
