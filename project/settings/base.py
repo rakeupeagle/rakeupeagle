@@ -1,10 +1,7 @@
-# Standard Library
 # Standard Libary
 import logging.config
-import os
 
 # Django
-from django.contrib.messages import constants as messages
 from django.utils.log import DEFAULT_LOGGING
 
 # First-Party
@@ -242,7 +239,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'django_rq',
     'bootstrap4',
-    # 'names',
+    'names',
     'phonenumber_field',
     'address',
     'app',
