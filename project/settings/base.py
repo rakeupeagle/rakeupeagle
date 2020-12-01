@@ -23,8 +23,8 @@ env = Env(
 
 root = Path(__file__) - 2
 
-
 # Common
+BASE_DIR = root()
 SECRET_KEY = env("SECRET_KEY")
 ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'wsgi.application'
@@ -164,7 +164,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            root('app/templates'),
+            root('templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
