@@ -30,10 +30,11 @@ django-sendgrid-v5 = "*"
 django-model-utils = "*"
 sentry-sdk = "*"
 django-hashid-field = "*"
-geocoder = "*"
-django-phone-field = "*"
 python-pdf = "*"
 django-address = "*"
+django-names = "*"
+phonenumberslite = "*"
+django-phonenumber-field = "*"
 
 [requires]
 python_version = "3.9"
