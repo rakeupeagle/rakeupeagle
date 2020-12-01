@@ -7,7 +7,6 @@ from django.db.models import Sum
 from django.template.loader import render_to_string
 
 # First-Party
-import geocoder
 from django_rq import job
 
 # Local
@@ -39,14 +38,6 @@ def build_email(template, subject, from_email, context=None, to=[], cc=[], bcc=[
 def send_email(email):
     return email.send()
 
-
-@job
-def geocode_address(address):
-    full = f"{address}, Eagle, ID  83616"
-    response = geocoder.google(full)
-    if not response.ok:
-        raise ValueError("{0}".format(address))
-    return response.json
 
 def export_csv():
     rs = Recipient.objects.annotate(
