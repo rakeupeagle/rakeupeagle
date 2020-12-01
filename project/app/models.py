@@ -6,7 +6,7 @@ from django.db import models
 from address.models import AddressField
 from hashid_field import HashidAutoField
 from model_utils import Choices
-from phone_field import PhoneField
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
 from .managers import UserManager
@@ -43,7 +43,7 @@ class Recipient(models.Model):
         help_text="""Your email.""",
         default='',
     )
-    phone = PhoneField(
+    phone = PhoneNumberField(
         max_length=255,
         blank=False,
         help_text="""Your phone.""",
@@ -138,7 +138,7 @@ class Volunteer(models.Model):
         help_text="""Your email address.""",
         default='',
     )
-    phone = PhoneField(
+    phone = PhoneNumberField(
         max_length=255,
         blank=False,
         help_text="""Your mobile phone.""",

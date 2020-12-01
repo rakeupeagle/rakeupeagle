@@ -147,6 +147,10 @@ DJANGO_ICONS = {
     },
 }
 
+# Phone Numbers
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'US'
+
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -239,6 +243,7 @@ INSTALLED_APPS = [
     'django_rq',
     'bootstrap4',
     # 'names',
+    'phonenumber_field',
     'address',
     'app',
 ]
