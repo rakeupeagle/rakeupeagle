@@ -11,10 +11,18 @@ from address.models import AddressField
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import VolunteerInline
+from .models import Picture
 from .models import Recipient
 from .models import User
 from .models import Volunteer
 
+
+@admin.register(Picture)
+class PictureAdmin(admin.ModelAdmin):
+    save_on_top = True
+    fields = [
+        'image',
+    ]
 
 @admin.register(Recipient)
 class RecipientAdmin(admin.ModelAdmin):

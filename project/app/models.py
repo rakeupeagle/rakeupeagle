@@ -112,7 +112,6 @@ class Person(models.Model):
         abstract = True
 
 
-
 class Recipient(Person):
     id = HashidAutoField(
         primary_key=True,
@@ -126,12 +125,6 @@ class Recipient(Person):
         blank=False,
         choices=SIZE,
         help_text='Yard Size',
-    )
-    namer = models.CharField(
-        max_length=255,
-        blank=False,
-        help_text="""Your name.""",
-        default='',
     )
     is_verified = models.BooleanField(
         blank=False,
@@ -198,12 +191,6 @@ class Volunteer(Person):
     id = HashidAutoField(
         primary_key=True,
     )
-    namer = models.CharField(
-        max_length=255,
-        blank=False,
-        help_text="""Your name (or group name).""",
-        default='',
-    )
     number = models.IntegerField(
         blank=False,
         null=True,
@@ -247,6 +234,14 @@ class Volunteer(Person):
 
     def is_assigned(self):
         return bool(self.assignments.count())
+
+
+class Picture(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    image = models.ImageField(
+    )
 
 
 class User(AbstractBaseUser):

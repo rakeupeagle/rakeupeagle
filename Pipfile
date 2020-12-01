@@ -35,6 +35,8 @@ django-address = "*"
 phonenumberslite = "*"
 django-phonenumber-field = "*"
 nameparser = "*"
+pillow = "*"
+django-cloudinary-storage = "*"
 
 [requires]
 python_version = "3.9"

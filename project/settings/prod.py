@@ -18,6 +18,13 @@ ALLOWED_HOSTS = [
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = env("SENDGRID_API_KEY")
 
+# Media File Management
+CLOUDINARY_STORAGE = {
+    'MEDIA_TAG': 'rakeupeagle',
+}
+CLOUDINARY_URL = env("CLOUDINARY_URL")
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # Sentry
 sentry_sdk.init(
     dsn=env("SENTRY_DSN"),
@@ -35,3 +42,8 @@ sentry_sdk.init(
         True,
     },
 )
+
+INSTALLED_APPS += [
+    'cloudinary_storage',
+    'cloudinary',
+]
