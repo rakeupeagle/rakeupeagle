@@ -27,7 +27,7 @@ class Recipient(NameModelMixin):
         choices=SIZE,
         help_text='Yard Size',
     )
-    name = models.CharField(
+    namer = models.CharField(
         max_length=255,
         blank=False,
         help_text="""Your name.""",
@@ -104,30 +104,18 @@ class Recipient(NameModelMixin):
     def is_assigned(self):
         return bool(self.assignments.count())
 
-    def __str__(self):
-        return " - ".join([
-            str(self.name),
-            str(self.get_size_display()),
-        ])
-
     @property
     def total(self):
         return self.volunteers.aggregate(
             s=models.Sum('number')
         )['s']
 
-    @property
-    def reps(self):
-        return "; ".join(
-            self.volunteers.values_list('name', flat=True)
-        )
-
 
 class Volunteer(NameModelMixin):
     id = HashidAutoField(
         primary_key=True,
     )
-    name = models.CharField(
+    namer = models.CharField(
         max_length=255,
         blank=False,
         help_text="""Your name (or group name).""",
@@ -188,12 +176,6 @@ class Volunteer(NameModelMixin):
 
     def is_assigned(self):
         return bool(self.assignments.count())
-
-    def __str__(self):
-        return "{0} - {1} Persons".format(
-            str(self.name),
-            str(self.number),
-        )
 
 
 class User(AbstractBaseUser):
