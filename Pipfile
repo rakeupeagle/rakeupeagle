@@ -35,6 +35,7 @@ django-address = "*"
 django-names = "*"
 phonenumberslite = "*"
 django-phonenumber-field = "*"
+django-phone-field = "*"
 
 [requires]
 python_version = "3.9"

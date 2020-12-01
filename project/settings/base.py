@@ -238,7 +238,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'django_rq',
     'bootstrap4',
+    # 'names',
     'address',
-    'phone_field',
     'app',
 ]
