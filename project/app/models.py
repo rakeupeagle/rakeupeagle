@@ -6,13 +6,14 @@ from django.db import models
 from address.models import AddressField
 from hashid_field import HashidAutoField
 from model_utils import Choices
+from names.mixins import NameModelMixin
 from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
 from .managers import UserManager
 
 
-class Recipient(models.Model):
+class Recipient(NameModelMixin):
     id = HashidAutoField(
         primary_key=True,
     )
@@ -122,7 +123,7 @@ class Recipient(models.Model):
         )
 
 
-class Volunteer(models.Model):
+class Volunteer(NameModelMixin):
     id = HashidAutoField(
         primary_key=True,
     )

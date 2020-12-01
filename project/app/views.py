@@ -63,7 +63,10 @@ def recipients(request):
     )
 
 def handouts(request):
-    volunteers = Volunteer.objects.order_by('name')
+    volunteers = Volunteer.objects.order_by(
+        'last',
+        'first',
+    )
     return render(
         request,
         'app/handouts.html',
@@ -114,7 +117,10 @@ def handout_pdf(request, volunteer_id):
 
 
 def handout_pdfs(request):
-    volunteers = Volunteer.objects.order_by('name')
+    volunteers = Volunteer.objects.order_by(
+        'last',
+        'first',
+    )
     output = ''
     for volunteer in volunteers:
         context={
@@ -143,7 +149,10 @@ def handout_pdfs(request):
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="export.csv"'
-    vs = Volunteer.objects.order_by('name')
+    vs = Volunteer.objects.order_by(
+        'last',
+        'first',
+    )
 
     writer = csv.writer(response)
     writer.writerow([
@@ -159,10 +168,10 @@ def export_csv(request):
     ])
     for v in vs:
         writer.writerow([
-            v.name,
+            v.full,
             v.phone,
             v.number,
-            v.recipient.name,
+            v.recipient.full,
             v.recipient.address,
             v.recipient.phone,
             v.recipient.email,

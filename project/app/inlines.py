@@ -11,7 +11,7 @@ class VolunteerInline(admin.TabularInline):
     fields = [
         # 'status',
         'recipient',
-        'name',
+        'full',
         'number',
     ]
     autocomplete_fields = [

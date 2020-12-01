@@ -1,8 +1,6 @@
-# # Django
 # Django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
-# from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 # First-Party
@@ -10,7 +8,6 @@ from address.forms import AddressWidget
 from address.models import AddressField
 
 # Local
-# # Local
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import VolunteerInline
@@ -23,7 +20,7 @@ from .models import Volunteer
 class RecipientAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'name',
+        'full',
         'phone',
         'email',
         'address',
@@ -38,7 +35,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'children',
     ]
     list_display = [
-        'name',
+        'full',
         'phone',
         'email',
         'address',
@@ -63,7 +60,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'updated',
     ]
     search_fields = [
-        'name',
+        'full',
     ]
     autocomplete_fields = [
         'user',
@@ -73,7 +70,8 @@ class RecipientAdmin(admin.ModelAdmin):
     ]
     ordering = [
         'size',
-        'name',
+        'last',
+        'first',
     ]
     readonly_fields = [
         'total',
@@ -94,7 +92,7 @@ class RecipientAdmin(admin.ModelAdmin):
 class VolunteerAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'name',
+        'full',
         'phone',
         'email',
         'number',
@@ -102,7 +100,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'recipient',
     ]
     list_display = [
-        'name',
+        'full',
         'phone',
         'email',
         'number',
@@ -113,7 +111,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'updated',
     ]
     search_fields = [
-        'name',
+        'full',
     ]
     list_editable = [
         'number',
@@ -126,7 +124,8 @@ class VolunteerAdmin(admin.ModelAdmin):
     ]
     ordering = [
         'number',
-        'name',
+        'last',
+        'first',
     ]
     readonly_fields = [
     ]

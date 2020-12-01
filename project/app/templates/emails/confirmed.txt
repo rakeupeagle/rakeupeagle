@@ -4,7 +4,7 @@ Your registration for Rake Up Eagle is confirmed!
 
 
 *Details*
-Name: {{recipient.name}}
+Name: {{recipient.full}}
 Email: {{recipient.email}}
 Address: {{recipient.address}}
 Size: {{recipient.get_size_display}}

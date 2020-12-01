@@ -19,7 +19,7 @@ We look forward to seeing you on Saturday, November 14th!
 
 
 --Recipient Details--
-Name: {{recipient.name}}
+Name: {{recipient.full}}
 Phone: {{recipient.phone}}
 Address: {{recipient.address}}
 Size: {{recipient.get_size_display}}

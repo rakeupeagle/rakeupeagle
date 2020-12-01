@@ -2,8 +2,10 @@
 import csv
 
 # Django
+from django.core.files.base import ContentFile
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Sum
+from django.http import FileResponse
 from django.template.loader import render_to_string
 
 # First-Party
@@ -11,7 +13,6 @@ from django_rq import job
 
 # Local
 from .models import Recipient
-from .models import Volunteer
 
 
 # Utility
@@ -59,10 +60,10 @@ def export_csv():
             'Total',
         ])
         for r in rs:
-            gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
+            gs = r.assignments.values_list('volunteer__full', 'volunteer__number')
             groups = "; ".join(["{0} - {1}".format(g[0], g[1]) for g in gs])
             writer.writerow([
-                r.name,
+                r.full,
                 r.address,
                 r.phone,
                 r.email,

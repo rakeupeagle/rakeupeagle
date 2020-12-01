@@ -19,12 +19,12 @@
   </style>
 {% endblock customstyles %}
 
-{% block title %}Volunteer Handout for {{volunteer.name}}{% endblock title %}
+{% block title %}Volunteer Handout for {{volunteer.full}}{% endblock title %}
 
 {% block content %}
 
   <section>
-    <h2>Rake Up Eagle Handout for {{volunteer.name}}</h2>
+    <h2>Rake Up Eagle Handout for {{volunteer.full}}</h2>
   </section>
   <section>
     <div class='card'>
@@ -34,7 +34,7 @@
       <div class='card-body'>
         <div class='card-text'>
           <ul class='list-unstyled'>
-            <li>Name: {{recipient.name}}</li>
+            <li>Name: {{recipient.full}}</li>
             <li>Address: {{recipient.address}}</li>
             <li>Phone: {{recipient.phone}}</li>
             <li>Has Dog? {{recipient.is_dog|yesno|title}}</li>
