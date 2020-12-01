@@ -60,7 +60,6 @@ class RecipientAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'name',
-        'namer',
     ]
     autocomplete_fields = [
         'user',
@@ -111,7 +110,6 @@ class VolunteerAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'name',
-        'namer',
     ]
     list_editable = [
         'number',
