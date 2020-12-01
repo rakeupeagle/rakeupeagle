@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a75fcc74bf7e0bdd5141b56b8ed340295c81581e7d8a4199b32fd99c9426306e"
+            "sha256": "2c54d512483b78e7c5a26b145bafad06f82fbc5f236a5d720f951c6b6bb36855"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -168,22 +168,6 @@
             "index": "pypi",
             "version": "==4.1.0"
         },
-        "django-names": {
-            "hashes": [
-                "sha256:60a0161d42c05559c8bcb0495288577d6a87b9aa1f51a0bfb8b2b24935e6d52b",
-                "sha256:9c3f39a97115154b2474cf696c7d69d1361a93046cc0298d76c66178052ac504"
-            ],
-            "index": "pypi",
-            "version": "==1.0.5"
-        },
-        "django-phone-field": {
-            "hashes": [
-                "sha256:407e74b65e8f7dd14d0a0aa89e277516d57ad6a09ce992cdd94e15b1624b9961",
-                "sha256:db63af60fc3a3c66b9faa7e72bb7972cd1518299f2e93d68dd95d8df6214f7ed"
-            ],
-            "index": "pypi",
-            "version": "==1.8.1"
-        },
         "django-phonenumber-field": {
             "hashes": [
                 "sha256:1eb7af3a108744665f7c3939d38aa15b3728c57d13d45d656b0a2aa11e8cdc3c",
@@ -275,6 +259,7 @@
                 "sha256:2a5f509b50a25880c2cb0850ea1b99694241e7e1aacdcb3704f7b3cf549e652b",
                 "sha256:c867649cdb1842d35e41d8f182de94864b5387c20a07aa8022257cde1d3f916b"
             ],
+            "index": "pypi",
             "version": "==1.0.6"
         },
         "parso": {
@@ -449,7 +434,7 @@
                 "sha256:19188f96923873c92ccb987120ec4acaa12f0461fa9ce5d3d0772bc965a39e08",
                 "sha256:d8ff90d979214d7b4f8ce956e80f4028fc6860e4431f731ea4a8c08f23f99473"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
             "version": "==1.26.2"
         },
         "wcwidth": {

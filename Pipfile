@@ -32,10 +32,9 @@ sentry-sdk = "*"
 django-hashid-field = "*"
 python-pdf = "*"
 django-address = "*"
-django-names = "*"
 phonenumberslite = "*"
 django-phonenumber-field = "*"
-django-phone-field = "*"
+nameparser = "*"
 
 [requires]
 python_version = "3.9"

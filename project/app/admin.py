@@ -20,7 +20,7 @@ from .models import Volunteer
 class RecipientAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'full',
+        # 'full',
         'phone',
         'email',
         'address',
@@ -35,7 +35,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'children',
     ]
     list_display = [
-        'full',
+        # 'full',
         'phone',
         'email',
         'address',
@@ -59,7 +59,8 @@ class RecipientAdmin(admin.ModelAdmin):
         'updated',
     ]
     search_fields = [
-        'full',
+        # 'full',
+        'namer',
     ]
     autocomplete_fields = [
         'user',
@@ -68,11 +69,12 @@ class RecipientAdmin(admin.ModelAdmin):
         VolunteerInline,
     ]
     ordering = [
-        'last',
-        'first',
+        # 'last',
+        # 'first',
     ]
     readonly_fields = [
         'total',
+        # 'reps',
     ]
     formfield_overrides = {
         AddressField: {
@@ -89,7 +91,7 @@ class RecipientAdmin(admin.ModelAdmin):
 class VolunteerAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'full',
+        # 'full',
         'phone',
         'email',
         'number',
@@ -97,7 +99,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'recipient',
     ]
     list_display = [
-        'full',
+        # 'full',
         'phone',
         'email',
         'number',
@@ -108,7 +110,8 @@ class VolunteerAdmin(admin.ModelAdmin):
         'updated',
     ]
     search_fields = [
-        'full',
+        # 'full',
+        'namer',
     ]
     list_editable = [
         'number',
@@ -120,8 +123,8 @@ class VolunteerAdmin(admin.ModelAdmin):
     inlines = [
     ]
     ordering = [
-        'last',
-        'first',
+        # 'last',
+        # 'first',
     ]
     readonly_fields = [
     ]

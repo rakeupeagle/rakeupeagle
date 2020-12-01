@@ -15,7 +15,7 @@ class RecipientForm(forms.ModelForm):
     class Meta:
         model = Recipient
         fields = [
-            'full',
+            # 'full',
             'phone',
             'email',
             'address',
@@ -60,7 +60,7 @@ class VolunteerForm(forms.ModelForm):
     class Meta:
         model = Volunteer
         fields = [
-            'full',
+            # 'full',
             'phone',
             'email',
             'number',
