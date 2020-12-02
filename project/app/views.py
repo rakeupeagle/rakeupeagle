@@ -168,10 +168,10 @@ def export_csv(request):
     ])
     for v in vs:
         writer.writerow([
-            v.full,
+            v.name,
             v.phone,
             v.number,
-            v.recipient.full,
+            v.recipient.name,
             v.recipient.address,
             v.recipient.phone,
             v.recipient.email,

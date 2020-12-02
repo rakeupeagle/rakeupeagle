@@ -60,10 +60,10 @@ def export_csv():
             'Total',
         ])
         for r in rs:
-            gs = r.assignments.values_list('volunteer__full', 'volunteer__number')
+            gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
             groups = "; ".join(["{0} - {1}".format(g[0], g[1]) for g in gs])
             writer.writerow([
-                r.full,
+                r.name,
                 r.address,
                 r.phone,
                 r.email,

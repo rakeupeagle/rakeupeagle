@@ -8,7 +8,7 @@ from .models import User
 
 
 class UserFactory(DjangoModelFactory):
-    full = Faker('name_male')
+    name = Faker('name_male')
     email = Faker('email')
     password = PostGenerationMethodCall('set_unusable_password')
     is_active = True
