@@ -18,6 +18,7 @@ import pydf
 
 # Local
 from .forms import RecipientForm
+from .models import Picture
 from .models import Volunteer
 from .tasks import build_email
 from .tasks import send_email
@@ -25,7 +26,7 @@ from .tasks import send_email
 
 # Root
 def index(request):
-    pictures = ["app/{0}.jpeg".format(x) for x in range(1, 56)]
+    pictures = Picture.objects.all()
     return render(
         request,
         'app/index.html',

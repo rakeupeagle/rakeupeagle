@@ -2,6 +2,7 @@
 import csv
 
 # Django
+from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Sum
@@ -12,6 +13,7 @@ from django.template.loader import render_to_string
 from django_rq import job
 
 # Local
+from .models import Picture
 from .models import Recipient
 
 
@@ -106,3 +108,10 @@ def post_email(volunteer):
         bcc=['dbinetti@gmail.com'],
     )
     return email.send()
+
+@job
+def create_and_upload_picture(path):
+    with open(path, 'rb') as f:
+        imagefile = File(f)
+        picture = Picture.objects.create()
+        picture.image.save('null', imagefile)

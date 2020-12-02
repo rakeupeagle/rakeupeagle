@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load cloudinary %}
 {% load static %}
 
 {% block title %}Rake Up Eagle! - Sponsored by Eagle Middle School PTO{% endblock title%}
@@ -15,13 +16,9 @@
     </div>
   </section>
   <section>
-   {# <div class="row"> #}
-      {% for picture in pictures %}
-        {# <div class="col-sm"> #}
-          <img src='{% static picture %}' class='img-fluid img-thumbnail'>
-        {# </div> #}
-      {% endfor %}
-    {# </div> #}
+    {% for picture in pictures %}
+      {% cloudinary picture.image.name width=800 class='img-fluid img-thumbnail'%}
+    {% endfor %}
   </section>
     {% comment %}
     <section>
