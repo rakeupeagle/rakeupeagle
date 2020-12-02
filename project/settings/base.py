@@ -98,9 +98,10 @@ STATIC_ROOT = root('staticfiles')
 STATIC_URL = '/static/'
 
 # Media File Management
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_ROOT = root('mediafiles')
 MEDIA_URL = '/media/'
+CLOUDINARY_URL = env("CLOUDINARY_URL")
 
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
@@ -238,8 +239,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django_rq',
+    'cloudinary_storage',
+    'cloudinary',
     'bootstrap4',
-    'names',
     'phonenumber_field',
     'address',
     'app',
