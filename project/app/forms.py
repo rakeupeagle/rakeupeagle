@@ -10,6 +10,13 @@ from .models import User
 from .models import Volunteer
 
 
+class DeleteForm(forms.Form):
+    confirm = forms.BooleanField(
+        required=True,
+    )
+
+
+
 class RecipientForm(forms.ModelForm):
 
     class Meta:

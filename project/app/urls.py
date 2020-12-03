@@ -15,10 +15,12 @@ urlpatterns = [
 
     # Dashboard
     path('dashboard', views.dashboard, name='dashboard',),
+    path('dashboard/delete', views.delete_user, name='delete-user',),
 
     # Footer
     path('about/', views.about, name='about',),
     path('privacy/', views.privacy, name='privacy',),
+    path('delete/', views.delete, name='delete',),
 
     # Dashboard
     # path('recipient/', views.recipients, name='recipients',),

@@ -24,6 +24,7 @@ import pydf
 import requests
 
 # Local
+from .forms import DeleteForm
 from .forms import RecipientForm
 from .models import Picture
 from .models import Volunteer
@@ -52,6 +53,27 @@ def dashboard(request):
             'user': user,
         }
     )
+
+@login_required
+def delete_user(request):
+    if request.method == "POST":
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            user.delete()
+            messages.error(
+                request,
+                "Account Deleted!",
+            )
+            return redirect('index')
+    else:
+        form = DeleteForm()
+    return render(
+        request,
+        'app/user_delete.html',
+        {'form': form,},
+    )
+
 # Authenticationa
 def login(request):
     redirect_uri = request.build_absolute_uri(reverse('callback'))
@@ -294,4 +316,10 @@ def privacy(request):
     return render(
         request,
         'app/privacy.html',
+    )
+
+def delete(request):
+    return render(
+        request,
+        'app/delete.html',
     )
