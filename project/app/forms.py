@@ -80,6 +80,11 @@ class VolunteerForm(forms.ModelForm):
 
 
 class UserCreationForm(UserCreationFormBase):
+    """
+    Custom user creation form for Auth0
+    """
+
+    # Bypass password requirement
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password1'].required = False
@@ -92,37 +97,20 @@ class UserCreationForm(UserCreationFormBase):
             user.save()
         return user
 
-    def clean_email(self):
-        data = self.cleaned_data['email']
-        return data.lower()
-
-    def clean_name(self):
-        data = self.cleaned_data['name']
-        return data.title()
-
     class Meta:
         model = User
         fields = [
             'username',
-            'email',
-            'name',
         ]
 
 
 class UserChangeForm(UserChangeFormBase):
-
-    def clean_email(self):
-        data = self.cleaned_data['email']
-        return data.lower()
-
-    def clean_name(self):
-        data = self.cleaned_data['name']
-        return data.title()
+    """
+    Custom user change form for Auth0
+    """
 
     class Meta:
         model = User
         fields = [
             'username',
-            'email',
-            'name',
         ]

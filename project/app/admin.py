@@ -1,5 +1,7 @@
 # Django
+from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.utils.safestring import mark_safe
 
@@ -145,16 +147,25 @@ class UserAdmin(UserAdminBase):
     fieldsets = (
         (None, {
             'fields': [
+                'username',
+            ]
+        }
+        ),
+        ('Data', {
+            'fields': [
                 'name',
                 'email',
-                'username',
+                'phone',
             ]
         }
         ),
         ('Permissions', {'fields': ('is_admin', 'is_active')}),
     )
     list_display = [
+        # 'username',
         'name',
+        'email',
+        'phone',
         'created',
         'last_login'
     ]
@@ -165,9 +176,10 @@ class UserAdmin(UserAdminBase):
         'last_login',
     ]
     search_fields = [
+        'username',
         'name',
         'email',
-        'username',
+        'phone',
     ]
     ordering = [
         '-created',
@@ -176,8 +188,6 @@ class UserAdmin(UserAdminBase):
         (None, {
             'classes': ('wide',),
             'fields': [
-                'name',
-                'email',
                 'username',
                 'is_admin',
                 'is_active',
@@ -188,11 +198,13 @@ class UserAdmin(UserAdminBase):
     filter_horizontal = ()
     inlines = [
     ]
-
-    def email_link(self, obj):
-        return mark_safe(
-            '<a href="mailto:{0}">{0}</a>'.format(
-                obj.email,
-            )
-        )
-    email_link.short_description = 'email'
+    readonly_fields = [
+        'name',
+        'email',
+        'phone',
+    ]
+# Use Auth0 for login
+admin.site.login = staff_member_required(
+    admin.site.login,
+    login_url=settings.LOGIN_URL,
+)
