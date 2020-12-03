@@ -283,3 +283,15 @@ def confirmation(request):
         request,
         'app/confirmation.html',
     )
+
+def about(request):
+    return render(
+        request,
+        'app/about.html',
+    )
+
+def privacy(request):
+    return render(
+        request,
+        'app/privacy.html',
+    )

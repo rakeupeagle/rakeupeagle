@@ -71,7 +71,7 @@
 
     <br><br><br>
 
-    {% comment %}
+
     {% block bottomnav %}
       <nav class="navbar navbar-expand-sm navbar-light">
         <ul class="nav nav-pills mr-auto">
@@ -79,15 +79,12 @@
             <a href="{% url 'about' %}">About</a>
           </li>
           <li class="nav-item ml-3">
-            <a href="{% url 'faq' %}">FAQ</a>
-          </li>
-          <li class="nav-item ml-3">
             <a href="{% url 'privacy' %}">Privacy</a>
           </li>
         </ul>
       </nav>
     {% endblock bottomnav %}
-    {% endcomment %}
+
     <br><br><br>
 
     {% block scripts %}

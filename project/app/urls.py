@@ -16,6 +16,10 @@ urlpatterns = [
     # Dashboard
     path('dashboard', views.dashboard, name='dashboard',),
 
+    # Footer
+    path('about/', views.about, name='about',),
+    path('privacy/', views.privacy, name='privacy',),
+
     # Dashboard
     # path('recipient/', views.recipients, name='recipients',),
     # path('confirmation/', views.confirmation, name='confirmation',),
