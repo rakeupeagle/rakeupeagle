@@ -3,12 +3,11 @@
 import os
 import secrets
 
+# First-Party
+from address.models import AddressField
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.utils.deconstruct import deconstructible
-
-# First-Party
-from address.models import AddressField
 from hashid_field import HashidAutoField
 from model_utils import Choices
 from nameparser import HumanName
@@ -276,6 +275,7 @@ class User(AbstractBaseUser):
     username = models.CharField(
         max_length=150,
         blank=False,
+        null=False,
         unique=True,
     )
     data = models.JSONField(
@@ -285,27 +285,11 @@ class User(AbstractBaseUser):
     name = models.CharField(
         max_length=100,
         blank=True,
+        default='(Unknown)',
         verbose_name="Name",
         editable=False,
     )
-    first_name = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name="First Name",
-        editable=False,
-    )
-    last_name = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name="Last Name",
-        editable=False,
-    )
     email = models.EmailField(
-        blank=True,
-        null=True,
-        editable=False,
-    )
-    phone = PhoneNumberField(
         blank=True,
         null=True,
         editable=False,
@@ -334,7 +318,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def __str__(self):
-        return str(self.name)
+        return str(self.username)
 
     def has_perm(self, perm, obj=None):
         return True
