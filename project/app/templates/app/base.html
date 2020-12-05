@@ -10,6 +10,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{%  static 'app/favicon.png' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     {% comment %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173184237-1"></script>
@@ -29,7 +31,13 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-light">
-      <a class="navbar-brand" href="{% url 'index' %}"><img class="d-inline-block mr-1" height=200 src="{% static 'app/logo.png' %}"></a>
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img class="d-inline-block mr-1" height=100 src="{% static 'app/square_logo.png' %}">
+        <div class='float-right align-middle'>
+          <h1 style="font-family:Caveat" class='text-success'>Rake Up Eagle!</span></h1>
+          <p style="font-family:Caveat" class='text-success'>Sponsored by EMS PTO</p>
+        </div>
+      </a>
       {% comment %}
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

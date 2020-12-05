@@ -20,48 +20,48 @@
       {% cloudinary picture.image.name width=800 class='img-fluid img-thumbnail'%}
     {% endfor %}
   </section>
-    {% comment %}
-    <section>
-      <p class='my-3'>
-        Rake Up Eagle connects volunteers with seniors, veterans, and disabled citizens in a day of public service.
-      </p>
-    </section>
-    <section class='mt-3'>
-      <div class='row'>
-        <div class='col-lg-6 my-2'>
-          <div class='card'>
-            <img src={% static 'app/volunteer.jpg' %} class='card-img-top'>
-            <div class='card-body'>
-              <h4 class='card-title text-center'>
-                Volunteer to Help
-              </h4>
-              <p class='card-text'>
-                Create a team for a day to help a senior, veteran, or disabled neighbor!
-              </p>
-              {# <a href='{% url "volunteers" %}' role='button' class="btn btn-success btn-block btn-lg"> #}
-              <a href='#' class="btn btn-success btn-block btn-lg disabled">
-                Signup!
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class='col-lg-6 my-2'>
-          <div class='card'>
-            <img src="{% static 'app/recipient.jpg' %}" class='card-img-top'>
-            <div class='card-body'>
-              <h4 class='card-title text-center'>
-                Clean My Yard
-              </h4>
-              <p class='card-text'>
-                Must be a senior, veteran, or unable to maintain your yard due to disability.
-              </p>
-              <a href='#' role='button' class="btn btn-success btn-block btn-lg disabled">
-                Register!
-              </a>
-            </div>
+
+  {% comment %}
+  <section>
+    <p class='my-3'>
+      Rake Up Eagle connects volunteers with seniors, veterans, and disabled citizens in a day of public service.
+    </p>
+  </section>
+  <section class='mt-3'>
+    <div class='row'>
+      <div class='col-lg-6 my-2'>
+        <div class='card'>
+          <img src={% static 'app/volunteer.jpg' %} class='card-img-top'>
+          <div class='card-body'>
+            <h4 class='card-title text-center'>
+              Volunteer to Help
+            </h4>
+            <p class='card-text'>
+              Create a team for a day to help a senior, veteran, or disabled neighbor!
+            </p>
+            <a href='{% url "login" %}?signup=volunteer' class="btn btn-success btn-block btn-lg">
+              Signup!
+            </a>
           </div>
         </div>
       </div>
-    </section>
-    {% endcomment %}
+      <div class='col-lg-6 my-2'>
+        <div class='card'>
+          <img src="{% static 'app/recipient.jpg' %}" class='card-img-top'>
+          <div class='card-body'>
+            <h4 class='card-title text-center'>
+              Clean My Yard
+            </h4>
+            <p class='card-text'>
+              Must be a senior, veteran, or unable to maintain your yard due to disability.
+            </p>
+            <a href='{% url "login" %}?signup=recipient' class="btn btn-success btn-block btn-lg">
+              Register!
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endcomment %}
 {% endblock content %}

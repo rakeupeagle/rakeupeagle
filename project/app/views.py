@@ -2,6 +2,9 @@
 import csv
 import json
 
+# First-Party
+import pydf
+import requests
 # Django
 from django.conf import settings
 from django.contrib import messages
@@ -18,10 +21,6 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
-
-# First-Party
-import pydf
-import requests
 
 # Local
 from .forms import DeleteForm
@@ -43,39 +42,12 @@ def index(request):
         }
     )
 
-@login_required
-def dashboard(request):
-    user = request.user
-    return render(
-        request,
-        'app/dashboard.html',
-        context={
-            'user': user,
-        }
-    )
-
-@login_required
-def delete_user(request):
-    if request.method == "POST":
-        form = DeleteForm(request.POST)
-        if form.is_valid():
-            user = request.user
-            user.delete()
-            messages.error(
-                request,
-                "Account Deleted!",
-            )
-            return redirect('index')
-    else:
-        form = DeleteForm()
-    return render(
-        request,
-        'app/user_delete.html',
-        {'form': form,},
-    )
 
 # Authenticationa
 def login(request):
+    signup = request.GET.get('signup', None)
+    request.session['signup'] = signup
+
     redirect_uri = request.build_absolute_uri(reverse('callback'))
     state = "{0}".format(
         get_random_string(),
@@ -97,6 +69,7 @@ def login(request):
 
 def callback(request):
     # Reject if state doesn't match
+    signup = request.session.get('signup', 'dashboard')
     browser_state = request.session.get('state', None)
     server_state = request.GET.get('state', None)
     if browser_state != server_state:
@@ -134,12 +107,8 @@ def callback(request):
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        return redirect(reverse('dashboard'))
-    messages.success(
-        request,
-        "Log In Successful!",
-    )
-    return HttpResponse(status=400)
+        return redirect(signup)
+    return HttpResponse(status=403)
 
 def logout(request):
     log_out(request)
@@ -158,34 +127,127 @@ def logout(request):
     )
     return redirect(logout_url)
 
-def recipients(request):
-    form = RecipientForm(
-        request.POST or None,
-    )
-    if form.is_valid():
-        recipient=form.save()
-        messages.success(
-            request,
-            "Submitted!",
-        )
-        email = build_email(
-            template='emails/confirmed.txt',
-            subject='Rake Up Eagle Confirmation',
-            context={'recipient': recipient},
-            to=[recipient.email],
-            from_email='Eagle Middle School PTO <eaglemiddlepto@gmail.com>',
-            bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
-        )
-        send_email.delay(email)
-        return redirect('confirmation')
+#Dashboard
+@login_required
+def dashboard(request):
+    user = request.user
     return render(
         request,
-        'app/recipients.html',
+        'app/dashboard.html',
         context={
-            'form': form,
+            'user': user,
         }
     )
 
+@login_required
+def delete_user(request):
+    if request.method == "POST":
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            user.delete()
+            messages.error(
+                request,
+                "Account Deleted!",
+            )
+            return redirect('index')
+    else:
+        form = DeleteForm()
+    return render(
+        request,
+        'app/user_delete.html',
+        {'form': form,},
+    )
+
+# Footer
+def about(request):
+    return render(
+        request,
+        'app/about.html',
+    )
+
+def privacy(request):
+    return render(
+        request,
+        'app/privacy.html',
+    )
+
+def delete(request):
+    return render(
+        request,
+        'app/delete.html',
+    )
+
+
+# Recipient
+# def recipients(request):
+#     form = RecipientForm(
+#         request.POST or None,
+#     )
+#     if form.is_valid():
+#         recipient=form.save()
+#         messages.success(
+#             request,
+#             "Submitted!",
+#         )
+#         email = build_email(
+#             template='emails/confirmed.txt',
+#             subject='Rake Up Eagle Confirmation',
+#             context={'recipient': recipient},
+#             to=[recipient.email],
+#             from_email='Eagle Middle School PTO <eaglemiddlepto@gmail.com>',
+#             bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
+#         )
+#         send_email.delay(email)
+#         return redirect('confirmation')
+#     return render(
+#         request,
+#         'app/recipients.html',
+#         context={
+#             'form': form,
+#         }
+#     )
+
+def confirmation(request):
+    return render(
+        request,
+        'app/confirmation.html',
+    )
+
+# Volunteerl
+def volunteer(request):
+    return redirect(reverse('about'))
+
+
+# def volunteers(request):
+#     form = RecipientForm(
+#         request.POST or None,
+#     )
+#     if form.is_valid():
+#         recipient=form.save()
+#         messages.success(
+#             request,
+#             "Submitted!",
+#         )
+#         email = build_email(
+#             template='emails/confirmed.txt',
+#             subject='Rake Up Eagle Confirmation',
+#             context={'recipient': recipient},
+#             to=[recipient.email],
+#             from_email='Eagle Middle School PTO <eaglemiddlepto@gmail.com>',
+#             bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
+#         )
+#         send_email.delay(email)
+#         return redirect('confirmation')
+#     return render(
+#         request,
+#         'app/recipients.html',
+#         context={
+#             'form': form,
+#         }
+#     )
+
+# Admin
 def handouts(request):
     volunteers = Volunteer.objects.order_by(
         'last',
@@ -299,27 +361,3 @@ def export_csv(request):
             v.recipient.get_size_display(),
         ])
     return response
-
-def confirmation(request):
-    return render(
-        request,
-        'app/confirmation.html',
-    )
-
-def about(request):
-    return render(
-        request,
-        'app/about.html',
-    )
-
-def privacy(request):
-    return render(
-        request,
-        'app/privacy.html',
-    )
-
-def delete(request):
-    return render(
-        request,
-        'app/delete.html',
-    )
