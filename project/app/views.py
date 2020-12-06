@@ -70,7 +70,8 @@ def login(request):
 
 def callback(request):
     # Reject if state doesn't match
-    signup = request.session.get('signup', 'dashboard')
+    # signup = request.session.get('signup', 'dashboard')
+    signup = 'volunteer-create'
     browser_state = request.session.get('state', None)
     server_state = request.GET.get('state', None)
     if browser_state != server_state:
@@ -181,42 +182,63 @@ def delete(request):
 
 
 # Recipient
-# def recipients(request):
-#     form = RecipientForm(
-#         request.POST or None,
-#     )
-#     if form.is_valid():
-#         recipient=form.save()
-#         messages.success(
-#             request,
-#             "Submitted!",
-#         )
-#         email = build_email(
-#             template='emails/confirmed.txt',
-#             subject='Rake Up Eagle Confirmation',
-#             context={'recipient': recipient},
-#             to=[recipient.email],
-#             from_email='Eagle Middle School PTO <eaglemiddlepto@gmail.com>',
-#             bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
-#         )
-#         send_email.delay(email)
-#         return redirect('confirmation')
-#     return render(
-#         request,
-#         'app/recipients.html',
-#         context={
-#             'form': form,
-#         }
-#     )
-
-def confirmation(request):
+@login_required
+def recipient_create(request):
+    data = {
+        'name': request.user.name,
+        'email': request.user.email,
+    }
+    if request.POST:
+        form = RecipientForm(request.POST)
+    else:
+        form = RecipientForm(initial=data)
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Submitted!",
+        )
+        return redirect('recipient-confirmation')
     return render(
         request,
-        'app/confirmation.html',
+        'app/recipient.html',
+        context={
+            'form': form,
+        }
     )
 
-# Volunteerl
-def volunteer(request):
+@login_required
+def recipient_confirmation(request):
+    return render(
+        request,
+        'app/recipient_confirmation.html',
+    )
+
+@login_required
+def recipient_update(request, recipient_id):
+    recipient = Recipient.objects.get(id=recipient_id)
+    if request.POST:
+        form = RecipientForm(request.POST, instance=recipient)
+    else:
+        form = RecipientForm(instance=recipient)
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('recipient-update', recipient_id=recipient_id)
+    return render(
+        request,
+        'app/recipient.html',
+        context={
+            'form': form,
+        }
+    )
+
+# Volunteer
+@login_required
+def volunteer_create(request):
     data = {
         'name': request.user.name,
         'email': request.user.email,
@@ -240,33 +262,35 @@ def volunteer(request):
         }
     )
 
-# def volunteers(request):
-#     form = RecipientForm(
-#         request.POST or None,
-#     )
-#     if form.is_valid():
-#         recipient=form.save()
-#         messages.success(
-#             request,
-#             "Submitted!",
-#         )
-#         email = build_email(
-#             template='emails/confirmed.txt',
-#             subject='Rake Up Eagle Confirmation',
-#             context={'recipient': recipient},
-#             to=[recipient.email],
-#             from_email='Eagle Middle School PTO <eaglemiddlepto@gmail.com>',
-#             bcc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
-#         )
-#         send_email.delay(email)
-#         return redirect('confirmation')
-#     return render(
-#         request,
-#         'app/recipients.html',
-#         context={
-#             'form': form,
-#         }
-#     )
+@login_required
+def volunteer_confirmation(request):
+    return render(
+        request,
+        'app/volunteer_confirmation.html',
+    )
+
+@login_required
+def volunteer_update(request, volunteer_id):
+    volunteer = Volunteer.objects.get(id=volunteer_id)
+    if request.POST:
+        form = VolunteerForm(request.POST, instance=volunteer)
+    else:
+        form = VolunteerForm(instance=volunteer)
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('volunteer-update', volunteer_id=volunteer_id)
+    return render(
+        request,
+        'app/volunteer.html',
+        context={
+            'form': form,
+        }
+    )
+
 
 # Admin
 def handouts(request):

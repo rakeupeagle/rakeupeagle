@@ -23,11 +23,15 @@ urlpatterns = [
     path('delete/', views.delete, name='delete',),
 
     # Recipient
-    # path('recipient/', views.recipients, name='recipients',),
-    # path('confirmation/', views.confirmation, name='confirmation',),
+    path('recipient/create', views.recipient_create, name='recipient-create',),
+    path('recipient/confirmation', views.recipient_confirmation, name='recipient-confirmation',),
+    path('recipient/<recipient_id>', views.recipient_update, name='recipient-update',),
 
     # Volunteer
-    path('volunteer/', views.volunteer, name='volunteer',),
+    path('volunteer/create', views.volunteer_create, name='volunteer-create',),
+    path('volunteer/confirmation', views.volunteer_confirmation, name='volunteer_confirmation',),
+    path('volunteer/<volunteer_id>', views.volunteer_update, name='volunteer-update',),
+
 
     # Admin
     path('handout/', views.handouts, name='handouts',),
