@@ -25,6 +25,7 @@ from django.utils.crypto import get_random_string
 # Local
 from .forms import DeleteForm
 from .forms import RecipientForm
+from .forms import VolunteerForm
 from .models import Picture
 from .models import Volunteer
 from .tasks import build_email
@@ -216,8 +217,28 @@ def confirmation(request):
 
 # Volunteerl
 def volunteer(request):
-    return redirect(reverse('about'))
-
+    data = {
+        'name': request.user.name,
+        'email': request.user.email,
+    }
+    if request.POST:
+        form = VolunteerForm(request.POST)
+    else:
+        form = VolunteerForm(initial=data)
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Submitted!",
+        )
+        return redirect('confirmation')
+    return render(
+        request,
+        'app/volunteer.html',
+        context={
+            'form': form,
+        }
+    )
 
 # def volunteers(request):
 #     form = RecipientForm(
