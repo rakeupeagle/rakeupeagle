@@ -34,6 +34,7 @@
     }
     var loginHint = config.extraParams.login_hint;
     var colors = config.colors || {};
+    var initialScreen = config.extraParams.initialScreen || 'login';
 
     // Available Lock configuration options: https://auth0.com/docs/libraries/lock/v11/configuration
     var lock = new Auth0Lock(config.clientID, config.auth0Domain, {
@@ -53,7 +54,7 @@
       allowPasswordAutocomplete: true,
       allowShowPassword: true,
       allowSignUp: !config.extraParams.prevent_sign_up,
-      initialScreen: config.extraParams.initialScreen || 'login',
+      initialScreen: initialScreen,
       autoclose: true,
       autofocus: false,
       closable: false,
