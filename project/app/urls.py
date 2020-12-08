@@ -20,6 +20,7 @@ urlpatterns = [
     # Footer
     path('about/', views.about, name='about',),
     path('privacy/', views.privacy, name='privacy',),
+    path('support/', views.support, name='support',),
     path('delete/', views.delete, name='delete',),
 
     # Recipient

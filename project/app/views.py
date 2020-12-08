@@ -172,6 +172,12 @@ def privacy(request):
         'app/privacy.html',
     )
 
+def support(request):
+    return render(
+        request,
+        'app/support.html',
+    )
+
 def delete(request):
     return render(
         request,
