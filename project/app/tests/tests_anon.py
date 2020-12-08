@@ -1,7 +1,6 @@
 # Django
 # Third-Party
 import pytest
-
 from django.urls import reverse
 
 
@@ -9,6 +8,7 @@ def test_deploy():
     assert True
 
 
+@pytest.mark.django_db
 def test_index(anon_client):
     path = reverse('index')
     response = anon_client.get(path)

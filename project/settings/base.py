@@ -1,12 +1,12 @@
-# Standard Libary
 import logging.config
 
-# Django
+import sentry_sdk
 from django.utils.log import DEFAULT_LOGGING
-
-# First-Party
 from environ import Env
 from environ import Path
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
+from sentry_sdk.integrations.rq import RqIntegration
 
 # Set Environment
 env = Env(
@@ -105,6 +105,19 @@ CLOUDINARY_URL = env("CLOUDINARY_URL")
 
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
+
+# Sentry
+SENTRY_DSN = env("SENTRY_DSN")
+SENTRY_ENVIRONMENT = env("SENTRY_ENVIRONMENT")
+
+sentry_sdk.init(
+    integrations=[
+        DjangoIntegration(),
+        RqIntegration(),
+        RedisIntegration(),
+    ],
+    send_default_pii=True,
+)
 
 # Bootstrap
 BOOTSTRAP4 = {

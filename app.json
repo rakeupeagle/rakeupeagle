@@ -71,6 +71,9 @@
         "GOOGLE_API_KEY": {
           "generator": "secret"
         },
+        "SENTRY_ENVIRONMENT": {
+          "value": "Test"
+        },
         "SENTRY_DSN": {
           "generator": "secret"
         }
