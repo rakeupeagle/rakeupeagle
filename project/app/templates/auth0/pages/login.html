@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Sign In Foo</title>
+  <title>Sign In</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 </head>
 <body>
@@ -34,7 +34,6 @@
     }
     var loginHint = config.extraParams.login_hint;
     var colors = config.colors || {};
-    var initialScreen = config.extraParams.initialScreen;
 
     // Available Lock configuration options: https://auth0.com/docs/libraries/lock/v11/configuration
     var lock = new Auth0Lock(config.clientID, config.auth0Domain, {
@@ -54,7 +53,7 @@
       allowPasswordAutocomplete: true,
       allowShowPassword: true,
       allowSignUp: !config.extraParams.prevent_sign_up,
-      initialScreen: initialScreen,
+      initialScreen: config.extraParams.initialScreen ? 'login',
       autoclose: true,
       autofocus: false,
       closable: false,
