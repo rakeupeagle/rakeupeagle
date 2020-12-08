@@ -60,7 +60,7 @@ def login(request):
         'scope': 'openid profile email',
         'redirect_uri': redirect_uri,
         'state': state,
-        'initial_screen': 'login', # signUp
+        'initialScreen': 'login', # signUp
     }
     url = requests.Request(
         'GET',
