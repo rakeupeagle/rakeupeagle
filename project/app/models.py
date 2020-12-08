@@ -74,11 +74,11 @@ class Person(models.Model):
         on_delete=models.CASCADE,
     )
     email = models.EmailField(
-        blank=True,
+        blank=False,
         null=True,
     )
     phone = PhoneNumberField(
-        blank=True,
+        blank=False,
         null=True,
     )
 
@@ -123,7 +123,7 @@ class Recipient(Person):
     SIZE = Choices(
         (110, 'small', 'Small (1-15 bags)'),
         (120, 'medium', 'Medium (16-30 bags)'),
-        (130, 'large', 'Large (35+ bags)'),
+        (130, 'large', 'Large (31+ bags)'),
     )
     size = models.IntegerField(
         blank=False,
@@ -195,8 +195,20 @@ class Volunteer(Person):
     id = HashidAutoField(
         primary_key=True,
     )
-    number = models.IntegerField(
+    SIZE = Choices(
+        (110, 'xs', 'Extra-Small (1-2 Adults)'),
+        (120, 'small', 'Small (3-5 Adults)'),
+        (130, 'medium', 'Medium (5-9 Adults)'),
+        (140, 'large', 'Large (10-15 Adults)'),
+        (150, 'xl', 'Extra-Large (15+ Adults)'),
+    )
+    size = models.IntegerField(
         blank=False,
+        choices=SIZE,
+        help_text='The size of your group',
+    )
+    number = models.IntegerField(
+        blank=True,
         null=True,
         help_text="""Number in your group.""",
     )

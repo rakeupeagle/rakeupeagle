@@ -70,7 +70,7 @@ class VolunteerForm(forms.ModelForm):
             'name',
             'phone',
             'email',
-            'number',
+            'size',
             'notes',
         ]
         widgets = {
@@ -83,6 +83,7 @@ class VolunteerForm(forms.ModelForm):
             )
         }
         help_texts = {
+            'size': 'The size of your group.  (Children of sufficient age can be combined as a "adult" for the purposes of this question.)',
         }
 
 

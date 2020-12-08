@@ -1,6 +1,9 @@
 # Standard Libary
 import csv
 
+# First-Party
+from auth0.v3.authentication import GetToken
+from auth0.v3.management import Auth0
 # Django
 from django.conf import settings
 from django.core.files import File
@@ -9,10 +12,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models import Sum
 from django.http import FileResponse
 from django.template.loader import render_to_string
-
-# First-Party
-from auth0.v3.authentication import GetToken
-from auth0.v3.management import Auth0
 from django_rq import job
 
 # Local
@@ -125,7 +124,7 @@ def export_csv():
 @job
 def followup_email(recipient):
     email = build_email(
-        template='emails/followup.txt',
+        template='app/emails/followup.txt',
         subject='Rake Up Eagle Follow-Up Details',
         from_email='Michelle Erekson (Rake Up Eagle) <emerekson@gmail.com>',
         context={'recipient': recipient},
@@ -139,7 +138,7 @@ def followup_email(recipient):
 @job
 def post_email(volunteer):
     email = build_email(
-        template='emails/post.txt',
+        template='app/emails/post.txt',
         subject='Rake Up Eagle Pictures Posted',
         from_email='Dave Binetti (Rake Up Eagle) <dbinetti@gmail.com>',
         context={'volunteer': volunteer},

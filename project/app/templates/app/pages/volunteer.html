@@ -15,14 +15,11 @@
   </section>
   <section>
     <p>
-      Here are some things you'll need to know before you sign up:<br>
-      - Registration Fee<br>
-      There is a $25 registration fee to help us cover the cost of the event.  If you are a sponsor team, non profit organization, or school affiliated group, we would be happy to waive the registration fee for you.<br>
-      -How many children and adults will be participating? Please record the number of volunteers on your team.  We'd like at least one team member over the age of 18.<br>
-      -The number of yards you would you like to rake and how big of yards? Please keep in mind that we estimate that an average adult can handle 5 leaf bags per homeowner's yard.<br>
-      -What day would you like to rake? If you are unable to rake on Saturday, November 14, please let the homeowner know the alternate date and time as soon as you receive your assignment on Friday, October 30, 2020.<br>
-      -Would you like to rake in a specific area of town? We automatically match your yards closest to the address you use to register, but please note any special requests.<br>
+      Here are some things you'll need to know before you sign up:
     </p>
+    <ul class='list-styled'>
+      <li>Foo</li>
+    </ul>
   </section>
   <section class='mt-2 mt-5'>
     <div class='card'>
@@ -37,7 +34,7 @@
             {% bootstrap_field form.name show_help=False show_label=False placeholder="Your Name" %}
             {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
             {% bootstrap_field form.phone show_help=False show_label=False placeholder='Cell Phone' %}
-            {% bootstrap_field form.number show_help=True show_label=False  %}
+            {% bootstrap_field form.size show_help=True show_label=False  %}
             {% bootstrap_field form.notes show_help=False show_label=False %}
             {% buttons %}
               <button type="submit" class="btn btn-primary btn-lg btn-block" >
