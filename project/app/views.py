@@ -44,7 +44,7 @@ def index(request):
     )
 
 
-# Authenticationa
+# Authentication
 def login(request):
     signup = request.GET.get('signup', None)
     request.session['signup'] = signup
@@ -60,6 +60,7 @@ def login(request):
         'scope': 'openid profile email',
         'redirect_uri': redirect_uri,
         'state': state,
+        'initial_screen': 'login', # signUp
     }
     url = requests.Request(
         'GET',
