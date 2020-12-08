@@ -37,7 +37,7 @@ def index(request):
     pictures = Picture.objects.all()
     return render(
         request,
-        'app/index.html',
+        'app/pages/index.html',
         context={
             'pictures': pictures,
         }
@@ -136,7 +136,7 @@ def dashboard(request):
     user = request.user
     return render(
         request,
-        'app/dashboard.html',
+        'app/pages/dashboard.html',
         context={
             'user': user,
         }
@@ -158,7 +158,7 @@ def delete_user(request):
         form = DeleteForm()
     return render(
         request,
-        'app/user_delete.html',
+        'app/pages/user_delete.html',
         {'form': form,},
     )
 
@@ -166,25 +166,25 @@ def delete_user(request):
 def about(request):
     return render(
         request,
-        'app/about.html',
+        'app/pages/about.html',
     )
 
 def privacy(request):
     return render(
         request,
-        'app/privacy.html',
+        'app/pages/privacy.html',
     )
 
 def support(request):
     return render(
         request,
-        'app/support.html',
+        'app/pages/support.html',
     )
 
 def delete(request):
     return render(
         request,
-        'app/delete.html',
+        'app/pages/delete.html',
     )
 
 
@@ -208,7 +208,7 @@ def recipient_create(request):
         return redirect('recipient-confirmation')
     return render(
         request,
-        'app/recipient.html',
+        'app/pages/recipient.html',
         context={
             'form': form,
         }
@@ -218,7 +218,7 @@ def recipient_create(request):
 def recipient_confirmation(request):
     return render(
         request,
-        'app/recipient_confirmation.html',
+        'app/pages/recipient_confirmation.html',
     )
 
 @login_required
@@ -237,7 +237,7 @@ def recipient_update(request, recipient_id):
         return redirect('recipient-update', recipient_id=recipient_id)
     return render(
         request,
-        'app/recipient.html',
+        'app/pages/recipient.html',
         context={
             'form': form,
         }
@@ -263,7 +263,7 @@ def volunteer_create(request):
         return redirect('confirmation')
     return render(
         request,
-        'app/volunteer.html',
+        'app/pages/volunteer.html',
         context={
             'form': form,
         }
@@ -273,7 +273,7 @@ def volunteer_create(request):
 def volunteer_confirmation(request):
     return render(
         request,
-        'app/volunteer_confirmation.html',
+        'app/pages/volunteer_confirmation.html',
     )
 
 @login_required
@@ -292,7 +292,7 @@ def volunteer_update(request, volunteer_id):
         return redirect('volunteer-update', volunteer_id=volunteer_id)
     return render(
         request,
-        'app/volunteer.html',
+        'app/pages/volunteer.html',
         context={
             'form': form,
         }
@@ -307,7 +307,7 @@ def handouts(request):
     )
     return render(
         request,
-        'app/handouts.html',
+        'app/pages/handouts.html',
         context={
             'volunteers': volunteers,
         }
@@ -322,7 +322,7 @@ def handout(request, volunteer_id):
     )
     return render(
         request,
-        'app/handout.html',
+        'app/pages/handout.html',
         context={
             'volunteer': volunteer,
             'recipient': volunteer.recipient,
@@ -337,7 +337,7 @@ def handout_pdf(request, volunteer_id):
         'recipient': volunteer.recipient,
         'map': map,
     }
-    rendered = render_to_string('app/handout.html', context)
+    rendered = render_to_string('app/pages/handout.html', context)
     pdf = pydf.generate_pdf(
         rendered,
         enable_smart_shrinking=False,
@@ -364,7 +364,7 @@ def handout_pdfs(request):
             'recipient': volunteer.recipient,
             'map': map,
         }
-        rendered = render_to_string('app/handout.html', context)
+        rendered = render_to_string('app/pages/handout.html', context)
         output += "<br>"+rendered
     pdf = pydf.generate_pdf(
         output,
