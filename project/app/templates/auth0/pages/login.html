@@ -53,7 +53,7 @@
       allowPasswordAutocomplete: true,
       allowShowPassword: true,
       allowSignUp: !config.extraParams.prevent_sign_up,
-      initialScreen: config.extraParams.initialScreen ? 'login',
+      initialScreen: config.extraParams.initialScreen ?? 'login',
       autoclose: true,
       autofocus: false,
       closable: false,
