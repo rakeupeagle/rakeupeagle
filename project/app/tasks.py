@@ -1,6 +1,7 @@
 # Standard Libary
 import csv
 
+import requests
 # First-Party
 from auth0.v3.authentication import GetToken
 from auth0.v3.management import Auth0
@@ -29,7 +30,6 @@ def get_auth0_token():
     )
     return token
 
-
 def get_auth0_client():
     token = get_auth0_token()
     client = Auth0(
@@ -42,6 +42,19 @@ def get_user_data(user_id):
     client = get_auth0_client()
     data = client.users.get(user_id)
     return data
+
+def put_auth0_payload(endpoint, payload):
+    token = get_auth0_token()
+    access_token = token['access_token']
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+    }
+    response = requests.put(
+        f'https://{settings.AUTH0_DOMAIN}/api/v2/{endpoint}',
+        headers=headers,
+        json=payload,
+    )
+    return response
 
 @job
 def update_user(user):
