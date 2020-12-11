@@ -12,6 +12,7 @@ env = Env(
     EMAIL_URL=(str, 'smtp://localhost:1025'),
     REDIS_URL=(str, 'redis://localhost:6379/0'),
     LOGLEVEL=(str, 'INFO'),
+    ACTIVE=(bool, False),
 )
 
 root = Path(__file__) - 2
@@ -35,6 +36,9 @@ TIME_ZONE = env("TIME_ZONE")
 
 # HashIDs
 HASHID_FIELD_SALT = env("HASHID_FIELD_SALT")
+
+# Application Active Flag
+ACTIVE = env("ACTIVE")
 
 # Authentication
 AUTH_USER_MODEL = 'app.User'

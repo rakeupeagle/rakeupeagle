@@ -6,62 +6,65 @@
 
 
 {% block content %}
-
-  <section>
-    <div class='jumbotron'>
-      <p class='my-3 lead'>
-        <h2><strong>Rake Up Eagle</strong> was a huge success!</h2>
-        <h3>Thank you to all our volunteers and recipients, and see you again next year!</h3><br>
-      </p>
-    </div>
-  </section>
-  <section>
-    {% for picture in pictures %}
-      {% cloudinary picture.image.name width=800 class='img-fluid img-thumbnail'%}
-    {% endfor %}
-  </section>
-
-  {% comment %}
-  <section>
-    <p class='my-3'>
-      Rake Up Eagle connects volunteers with seniors, veterans, and disabled citizens in a day of public service.
-    </p>
-  </section>
-  <section class='mt-3'>
-    <div class='row'>
-      <div class='col-lg-6 my-2'>
-        <div class='card'>
-          <img src={% static 'app/volunteer.jpg' %} class='card-img-top'>
-          <div class='card-body'>
-            <h4 class='card-title text-center'>
+  {% if is_active %}
+    <section class='my-3'>
+      <div class='jumbotron'>
+        <h2>
+          <strong>Rake Up Eagle</strong> connects volunteers with seniors, veterans, and disabled citizens in a day of public service.
+        </h2>
+      </div>
+    </section>
+    <section class='mt-3'>
+      <div class='row'>
+        <div class='col-lg-6 my-2'>
+          <div class='card'>
+            <h4 class='card-header text-center'>
               Volunteer to Help
             </h4>
-            <p class='card-text'>
-              Create a team for a day to help a senior, veteran, or disabled neighbor!
-            </p>
-            <a href='{% url "login" %}?signup=volunteer' class="btn btn-success btn-block btn-lg">
-              Signup!
-            </a>
+            <img src={% static 'app/volunteer.jpg' %} class='card-img-top'>
+            <div class='card-body'>
+              <p class='card-text'>
+                Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
+              </p>
+              <a href='{% url "login" %}?signup=volunteer' class="btn btn-success btn-block btn-lg">
+                Signup!
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class='col-lg-6 my-2'>
-        <div class='card'>
-          <img src="{% static 'app/recipient.jpg' %}" class='card-img-top'>
-          <div class='card-body'>
-            <h4 class='card-title text-center'>
-              Clean My Yard
+        <div class='col-lg-6 my-2'>
+          <div class='card'>
+            <h4 class='card-header text-center'>
+              Register for Raking
             </h4>
-            <p class='card-text'>
-              Must be a senior, veteran, or unable to maintain your yard due to disability.
-            </p>
-            <a href='{% url "login" %}?signup=recipient' class="btn btn-success btn-block btn-lg">
-              Register!
-            </a>
+            <img src="{% static 'app/recipient.jpg' %}" class='card-img-top'>
+            <div class='card-body'>
+              <p class='card-text'>
+                If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
+              </p>
+              <a href='{% url "login" %}?signup=recipient' class="btn btn-success btn-block btn-lg">
+                Register!
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  {% endcomment %}
+    </section>
+  {% else %}
+    <section class='my-3'>
+      <div class='jumbotron'>
+        <h2>
+          <strong>Rake Up Eagle</strong> was a huge success!
+        </h2>
+        <h3>
+          Thank you to all our volunteers and recipients, and see you again next year!
+        </h3>
+      </div>
+    </section>
+    <section class='my-3'>
+      {% for picture in pictures %}
+        {% cloudinary picture.image.name width=800 class='img-fluid img-thumbnail'%}
+      {% endfor %}
+    </section>
+  {% endif %}
 {% endblock content %}

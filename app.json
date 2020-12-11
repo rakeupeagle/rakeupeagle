@@ -45,6 +45,7 @@
         "heroku-redis:in-dyno"
       ],
       "env": {
+        "ACTIVE": "False",
         "DJANGO_SETTINGS_MODULE": "settings.base",
         "PYTHONPATH": "project",
         "HASHID_FIELD_SALT": {
