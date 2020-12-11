@@ -18,3 +18,6 @@ SENTY_RELEASE = env("HEROKU_SLUG_COMMIT")
 CLOUDINARY_STORAGE = {
     'PREFIX': 'rakeupeagle',
 }
+
+# Sentry
+SENTRY_CONFIG['release'] = env("HEROKU_SLUG_COMMIT")

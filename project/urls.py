@@ -2,16 +2,19 @@
 # Django
 from django.conf import settings
 from django.contrib import admin
-from django.http import Http404
 from django.shortcuts import render
 from django.urls import include
 from django.urls import path
 from django.views.defaults import page_not_found
 from django.views.defaults import server_error
 from django.views.generic import TemplateView
-
 # First-Party
 from sentry_sdk import last_event_id
+
+
+def trigger_error(request):
+    return 1 / 0
+
 
 urlpatterns = [
     path('', include('app.urls')),
@@ -25,6 +28,7 @@ urlpatterns = [
         template_name='sitemap.txt',
         content_type='text/plain"',
     )),
+    path('sentry-debug/', trigger_error),
 ]
 
 if settings.DEBUG:

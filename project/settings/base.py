@@ -1,18 +1,14 @@
 import logging.config
 
-import sentry_sdk
 from django.utils.log import DEFAULT_LOGGING
 from environ import Env
 from environ import Path
-from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.redis import RedisIntegration
-from sentry_sdk.integrations.rq import RqIntegration
 
 # Set Environment
 env = Env(
     DEBUG=(bool, False),
     DEFAULT_FROM_EMAIL=(str, 'webmaster@localhost'),
-    TIME_ZONE=(str, 'US/Pacific'),
+    TIME_ZONE=(str, 'US/Mountain'),
     EMAIL_URL=(str, 'smtp://localhost:1025'),
     REDIS_URL=(str, 'redis://localhost:6379/0'),
     LOGLEVEL=(str, 'INFO'),
@@ -106,18 +102,17 @@ CLOUDINARY_URL = env("CLOUDINARY_URL")
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
 
+# Phone Numbers
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'US'
+
 # Sentry
+
 SENTRY_DSN = env("SENTRY_DSN")
 SENTRY_ENVIRONMENT = env("SENTRY_ENVIRONMENT")
-
-sentry_sdk.init(
-    integrations=[
-        DjangoIntegration(),
-        RqIntegration(),
-        RedisIntegration(),
-    ],
-    send_default_pii=True,
-)
+SENTRY_CONFIG = {
+    'send_default_pii': True,
+}
 
 # Bootstrap
 BOOTSTRAP4 = {
@@ -157,10 +152,6 @@ DJANGO_ICONS = {
         "settings": {"name": "far fa-gear"},
     },
 }
-
-# Phone Numbers
-PHONENUMBER_DB_FORMAT = 'NATIONAL'
-PHONENUMBER_DEFAULT_REGION = 'US'
 
 # Middleware
 MIDDLEWARE = [
