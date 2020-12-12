@@ -47,11 +47,12 @@ def index(request):
 
 # Authentication
 def login(request):
-    signup = request.GET.get('signup', None)
-    request.session['signup'] = signup
+    destination = request.GET.get('destination', 'dashboard')
+    request.session['destination'] = destination
 
     redirect_uri = request.build_absolute_uri(reverse('callback'))
-    state = "{0}".format(
+    state = "{0}|{1}".format(
+        destination,
         get_random_string(),
     )
     request.session['state'] = state
@@ -61,31 +62,30 @@ def login(request):
         'scope': 'openid profile email',
         'redirect_uri': redirect_uri,
         'state': state,
-        'initialScreen': 'login', # signUp
+        'screen_hint': 'signup',
     }
     url = requests.Request(
         'GET',
-        'https://{0}/authorize'.format(settings.AUTH0_DOMAIN),
+        f'https://{settings.AUTH0_DOMAIN}/authorize',
         params=params,
     ).prepare().url
     return redirect(url)
 
 def callback(request):
     # Reject if state doesn't match
-    # signup = request.session.get('signup', 'dashboard')
-    signup = 'volunteer-create'
     browser_state = request.session.get('state', None)
     server_state = request.GET.get('state', None)
     if browser_state != server_state:
         return HttpResponse(status=400)
 
+    # set destination
+    destination = server_state.partition('|')[0]
+
     # Get Auth0 Code
     code = request.GET.get('code', None)
     if not code:
         return HttpResponse(status=400)
-    token_url = 'https://{0}/oauth/token'.format(
-        settings.AUTH0_DOMAIN,
-    )
+    token_url = f'https://{settings.AUTH0_DOMAIN}/oauth/token'
     redirect_uri = request.build_absolute_uri(reverse('callback'))
     token_payload = {
         'client_id': settings.AUTH0_CLIENT_ID,
@@ -94,24 +94,19 @@ def callback(request):
         'code': code,
         'grant_type': 'authorization_code'
     }
-    token_info = requests.post(
+    token = requests.post(
         token_url,
-        data=json.dumps(token_payload),
-        headers={
-            'content-type': 'application/json',
-        }
+        json=token_payload,
     ).json()
-    user_url = 'https://{0}/userinfo?access_token={1}'.format(
-        settings.AUTH0_DOMAIN,
-        token_info.get('access_token', ''),
-    )
+    access_token = token['access_token']
+    user_url = f'https://{settings.AUTH0_DOMAIN}/userinfo?access_token={access_token}'
     payload = requests.get(user_url).json()
     # format payload key
     payload['username'] = payload.pop('sub')
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        return redirect(signup)
+        return redirect(destination)
     return HttpResponse(status=403)
 
 def logout(request):
@@ -122,7 +117,7 @@ def logout(request):
     }
     logout_url = requests.Request(
         'GET',
-        'https://{0}/v2/logout'.format(settings.AUTH0_DOMAIN),
+        f'https://{settings.AUTH0_DOMAIN}/v2/logout',
         params=params,
     ).prepare().url
     messages.success(
@@ -192,6 +187,9 @@ def delete(request):
 # Recipient
 @login_required
 def recipient_create(request):
+    # Remove state
+    del request.session['destination']
+
     data = {
         'name': request.user.name,
         'email': request.user.email,
@@ -247,6 +245,9 @@ def recipient_update(request, recipient_id):
 # Volunteer
 @login_required
 def volunteer_create(request):
+    # Remove state
+    del request.session['destination']
+
     data = {
         'name': request.user.name,
         'email': request.user.email,
