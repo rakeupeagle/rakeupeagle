@@ -180,9 +180,9 @@ def recipient_create(request):
         send_recipient_confirmation.delay(recipient)
         messages.success(
             request,
-            "Submitted!",
+            "Registration complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('recipient-confirmation')
+        return redirect('account')
     return render(
         request,
         'app/pages/recipient.html',
@@ -254,9 +254,9 @@ def volunteer_create(request):
         send_volunteer_confirmation.delay(volunteer)
         messages.success(
             request,
-            "Submitted!",
+            "Signup complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('volunteer-confirmation')
+        return redirect('account')
     return render(
         request,
         'app/pages/volunteer.html',

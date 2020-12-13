@@ -26,7 +26,7 @@
       If you live in a mobile home park, please check with the park manager to make sure that it is okay that your yard is raked by our volunteers before sending in your application.
     </p>
   </section>
-  <section class='mt-2 mt-5'>
+  <section class='my-5'>
     <div class='card'>
       <div class='card-header'>
         <h4>Recipient Information</h4>
@@ -46,7 +46,6 @@
             {% bootstrap_field form.is_verified show_help=True show_label=False%}
             {% bootstrap_field form.is_waiver show_help=True show_label=False %}
             {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
-
             {% buttons %}
               <button type="submit" class="btn btn-primary btn-lg btn-block" >
                 Submit
@@ -55,7 +54,6 @@
           </form>
         </div>
       </div>
-
       <div class='card-footer'>
         <p>
           <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>

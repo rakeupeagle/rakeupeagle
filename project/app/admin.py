@@ -102,15 +102,17 @@ class VolunteerAdmin(admin.ModelAdmin):
         'name',
         'phone',
         'email',
-        'number',
+        'size',
         'notes',
+        'user',
         'recipient',
     ]
     list_display = [
         'name',
         'phone',
         'email',
-        'number',
+        'size',
+        'user',
         'recipient',
     ]
     list_filter = [
@@ -121,7 +123,6 @@ class VolunteerAdmin(admin.ModelAdmin):
         'name',
     ]
     list_editable = [
-        'number',
         'recipient',
     ]
     autocomplete_fields = [
