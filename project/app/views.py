@@ -129,6 +129,8 @@ def account(request):
     user = request.user
     recipient = getattr(user, 'recipient', None)
     volunteer = getattr(user, 'volunteer', None)
+    if volunteer:
+        assignment = getattr(volunteer, 'recipient', None)
     return render(
         request,
         'app/pages/account.html',
@@ -136,6 +138,7 @@ def account(request):
             'user': user,
             'recipient': recipient,
             'volunteer': volunteer,
+            'assignment': assignment,
         }
     )
 

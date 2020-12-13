@@ -52,28 +52,4 @@
       </div>
     </div>
   </section>
-  <section class='my-5'>
-    <div class='card'>
-      <h4 class='card-header'>Your Assignment</h4>
-      <div class="card-body">
-        {% if assignment %}
-          <ul class='list-unstyled'>
-            <li>Name:&nbsp;{{assignment.name}}</li>
-            <li>Address:&nbsp;{{assignment.address}}</li>
-            <li>Size:&nbsp;{{assignment.get_size_display}}</li>
-            <li>Dog in Yard?&nbsp;{{assignment.is_dog|yesno|title}}</li>
-          </ul>
-        {% else %}
-          <p class='card-text'>
-            No current assignment; we expect these to be made November 8.
-          </p>
-        {% endif %}
-      </div>
-      <div class='card-footer'>
-        <p>
-          <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
-        </p>
-      </div>
-    </div>
-  </section>
 {% endblock content %}

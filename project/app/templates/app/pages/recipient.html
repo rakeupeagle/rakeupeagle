@@ -17,7 +17,8 @@
     <ul class='list-styled'>
       <li>Be at least 65 years old, disabled or a veteran</li>
       <li>Live within the city limits of Eagle</li>
-      <li>Reside at stated residence</li>
+      <li>Reside at the stated residence</li>
+      <li>Agree to our <a href='{% url "terms" %}'>terms and waiver</a></li>
     </ul>
     <p>
       If your yard is selected to be raked, you should receive notification by Monday, November 9, 2020.  We are going to do our absolute best to rake as many yards as possible.
@@ -43,8 +44,6 @@
             {% bootstrap_field form.address show_help=True show_label=False  %}
             {% bootstrap_field form.size show_help=True show_label=False  %}
             {% bootstrap_field form.is_dog show_help=True show_label=False %}
-            {% bootstrap_field form.is_verified show_help=True show_label=False%}
-            {% bootstrap_field form.is_waiver show_help=True show_label=False %}
             {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
             {% buttons %}
               <button type="submit" class="btn btn-primary btn-lg btn-block" >

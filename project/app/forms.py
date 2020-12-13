@@ -28,14 +28,10 @@ class RecipientForm(forms.ModelForm):
             'address',
             'size',
             'is_dog',
-            'is_verified',
-            'is_waiver',
             'notes',
         ]
         labels = {
             "is_dog": "I Have a Dog",
-            "is_verified": "I Am 65+, a Veteran, or Disabled",
-            "is_waiver": "I Agree to the Waiver",
         }
         widgets = {
             'notes': forms.Textarea(
@@ -48,18 +44,6 @@ class RecipientForm(forms.ModelForm):
         }
         help_texts = {
         }
-
-    def clean_is_waiver(self):
-        data = self.cleaned_data['is_waiver']
-        if not data:
-            raise ValidationError("You must accept the waiver to participate.")
-        return data
-
-    def clean_is_verified(self):
-        data = self.cleaned_data['is_verified']
-        if not data:
-            raise ValidationError("You must be over 65, a veteran or disabled to participate.")
-        return data
 
 
 class VolunteerForm(forms.ModelForm):

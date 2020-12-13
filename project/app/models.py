@@ -130,17 +130,9 @@ class Recipient(Person):
         choices=SIZE,
         help_text='Yard Size',
     )
-    is_verified = models.BooleanField(
-        blank=False,
-        help_text="""We are only able to service yards for persons in one of these categories.""",
-    )
     is_dog = models.BooleanField(
         blank=False,
         help_text="""If you have a dog, it must be contained in your home for us to rake.  Also, you must clean up all animal waste before we arrive or our volunteer group will not be able to rake.""",
-    )
-    is_waiver = models.BooleanField(
-        help_text='I agree to waive and release Rake Up Eagle and the sponsors of this event, including all persons and agencies connected with this event from all claims for damages, injuries or death, arising from my participation in  this event. I will provide my own insurance and care, if necessary. I also understand and agree that Rake Up Eagle or a sponsor may subsequently use for publicity and/or promotional purposes pictures of me and my team participating in this event without obligation of liability to me. I understand that the work done on my property is done by volunteers and will not hold them or Rake Up Eagle responsible for damage to personal property. I have read this waiver carefully and having done so, I am signing voluntarily.',
-        blank=False,
     )
     notes = models.TextField(
         max_length=2000,
@@ -179,6 +171,7 @@ class Recipient(Person):
         on_delete=models.SET_NULL,
         related_name='recipient',
         null=True,
+        unique=True,
     )
 
     def is_assigned(self):
@@ -246,6 +239,7 @@ class Volunteer(Person):
         on_delete=models.SET_NULL,
         null=True,
         related_name='volunteer',
+        unique=True,
     )
 
     def is_assigned(self):
