@@ -139,11 +139,9 @@ def followup_email(recipient):
     email = build_email(
         template='app/emails/followup.txt',
         subject='Rake Up Eagle Follow-Up Details',
-        from_email='Michelle Erekson (Rake Up Eagle) <emerekson@gmail.com>',
+        from_email='Rake Up Eagle <support@rakeupeagle.com>',
         context={'recipient': recipient},
         to=[recipient.email],
-        cc=['dbinetti@gmail.com', 'mnwashow@yahoo.com'],
-        bcc=['emerekson@gmail.com'],
     )
     return email.send()
 
@@ -153,11 +151,9 @@ def post_email(volunteer):
     email = build_email(
         template='app/emails/post.txt',
         subject='Rake Up Eagle Pictures Posted',
-        from_email='Dave Binetti (Rake Up Eagle) <dbinetti@gmail.com>',
+        from_email='Rake Up Eagle <support@rakeupeagle.com>',
         context={'volunteer': volunteer},
         to=[volunteer.email],
-        cc=['emerekson@gmail.com', 'mnwashow@yahoo.com'],
-        bcc=['dbinetti@gmail.com'],
     )
     return email.send()
 
