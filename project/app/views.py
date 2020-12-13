@@ -229,7 +229,7 @@ def recipient_confirmation(request):
 def recipient_update(request):
     recipient = getattr(request.user, 'recipient', None)
     if not recipient:
-        return redirect('recipient-create')
+        return redirect('recipient')
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
         form.save()
@@ -310,7 +310,7 @@ def volunteer_confirmation(request):
 def volunteer_update(request):
     volunteer = getattr(request.user, 'volunteer', None)
     if not volunteer:
-        return redirect('volunteer-create')
+        return redirect('volunteer')
     form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
     if form.is_valid():
         form.save()
