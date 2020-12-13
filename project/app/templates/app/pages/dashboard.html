@@ -6,19 +6,100 @@
 {% block title %}Your Dashboard{% endblock title %}
 
 {% block content %}
-  <section class='mt-2 mt-5'>
-    <div class='card'>
-      <div class='card-header'>
-        <h4>Information</h4>
+  <section class='my-5'>
+    <h2>
+      Your Dashboard
+    </h2>
+    {% if user.is_admin %}
+      <div class='my-5 ml-2'>
+        <a href="{% url 'admin:index' %}">Admin</a>
       </div>
-        <div class='card-body'>
-          <p>
-            Hello, World!
-          </p>
-        </div>
-    </div>
+    {% endif %}
   </section>
-  <section class='ml-2'>
+  {% comment %}
+  <section class='my-5'>
+    <p class='lead'>
+      Update your information below.
+    </p>
+  </section>
+  {% endcomment %}
+  {% if recipient %}
+    <section class='mt-2 mt-5'>
+      <div class='card'>
+        <h4 class='card-header'>
+          Recipient Information
+        </h4>
+        <div class='card-body'>
+          <ul class='list-unstyled'>
+            <li><strong>Name:&nbsp;&nbsp;</strong>{{recipient.name}}</li>
+            <li><strong>Email:&nbsp;&nbsp;</strong>{{recipient.email}}</li>
+            <li><strong>Phone:&nbsp;&nbsp;</strong>{{recipient.phone}}</li>
+            <li><strong>Address:&nbsp;&nbsp;</strong>{{recipient.address}}</li>
+            <li><strong>Size:&nbsp;&nbsp;</strong>{{recipient.get_size_display}}</li>
+            <li><strong>Dog in Yard?&nbsp;&nbsp;</strong>{{recipient.is_dog|yesno|title}}</li>
+            <li><strong>Notes:&nbsp;&nbsp;</strong>{{recipient.notes|default:"(No Notes)"}}</li>
+          </ul>
+        </div>
+        <div class='card-footer'>
+          <ul class='list-inline'>
+            <li class='float-right'>
+              <a href='{% url "recipient-delete" %}' class='text-danger'>
+                Remove me as Recipient
+              </a>
+            </li>
+            <li>
+              <a href='{% url "recipient-update" %}' class="btn btn-lg btn-success">
+                Update this Information
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <a href='{% url "recipient" %}' class="btn btn-success btn-block btn-lg my-5">
+      Register as a Recipient!
+    </a>
+  {% endif %}
+  {% if volunteer %}
+    <section class='mt-2 mt-5'>
+      <div class='card'>
+        <h4 class='card-header'>
+          Volunteer Information
+        </h4>
+        <div class='card-body'>
+          <ul class='list-unstyled'>
+            <li><strong>Name:&nbsp;&nbsp;</strong>{{volunteer.name}}</li>
+            <li><strong>Email:&nbsp;&nbsp;</strong>{{volunteer.email}}</li>
+            <li><strong>Phone:&nbsp;&nbsp;</strong>{{volunteer.phone}}</li>
+            <li><strong>Size:&nbsp;&nbsp;</strong>{{volunteer.get_size_display}}</li>
+            <li><strong>Notes:&nbsp;&nbsp;</strong>{{volunteer.notes|default:"(No Notes)"}}</li>
+          </ul>
+        </div>
+        <div class='card-footer'>
+          <ul class='list-inline'>
+            <li class='float-right'>
+              <a href='{% url "volunteer-delete" %}' class='text-danger'>
+                Remove me as Volunteer
+              </a>
+            </li>
+            <li>
+              <a href='{% url "volunteer-update" %}' class="btn btn-lg btn-success">
+                Update this Information
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <a href='{% url "volunteer" %}' class="btn btn-success btn-block btn-lg my-5">
+      Signup as a Volunteer!
+    </a>
+  {% endif %}
+
+
+  <section class='ml-2 my-5'>
     <a href='{% url "delete-user" %}'><span class='text-danger'>Delete Account</span></a>
   </section>
 {% endblock content %}

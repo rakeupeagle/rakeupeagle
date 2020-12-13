@@ -135,10 +135,10 @@ def export_csv():
 
 
 @job
-def followup_email(recipient):
+def send_recipient_confirmation(recipient):
     email = build_email(
-        template='app/emails/followup.txt',
-        subject='Rake Up Eagle Follow-Up Details',
+        template='app/emails/recipient_confirmation.txt',
+        subject='Rake Up Eagle Recipient Confirmation',
         from_email='Rake Up Eagle <support@rakeupeagle.com>',
         context={'recipient': recipient},
         to=[recipient.email],
@@ -147,10 +147,10 @@ def followup_email(recipient):
 
 
 @job
-def post_email(volunteer):
+def send_volunteer_confirmation(volunteer):
     email = build_email(
-        template='app/emails/post.txt',
-        subject='Rake Up Eagle Pictures Posted',
+        template='app/emails/volunteer_confirmation.txt',
+        subject='Rake Up Eagle Volunteer Confirmation',
         from_email='Rake Up Eagle <support@rakeupeagle.com>',
         context={'volunteer': volunteer},
         to=[volunteer.email],

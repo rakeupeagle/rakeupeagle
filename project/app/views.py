@@ -24,10 +24,14 @@ from .forms import VolunteerForm
 from .models import Picture
 from .models import Recipient
 from .models import Volunteer
+from .tasks import send_recipient_confirmation
+from .tasks import send_volunteer_confirmation
 
 
 # Root
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     pictures = Picture.objects.all()
     return render(
         request,
@@ -124,11 +128,15 @@ def logout(request):
 @login_required
 def dashboard(request):
     user = request.user
+    recipient = getattr(user, 'recipient', None)
+    volunteer = getattr(user, 'volunteer', None)
     return render(
         request,
         'app/pages/dashboard.html',
         context={
             'user': user,
+            'recipient': recipient,
+            'volunteer': volunteer,
         }
     )
 
@@ -191,12 +199,12 @@ def recipient_create(request):
         'name': request.user.name,
         'email': request.user.email,
     }
-    if request.POST:
-        form = RecipientForm(request.POST)
-    else:
-        form = RecipientForm(initial=data)
+    form = RecipientForm(request.POST) if request.POST else RecipientForm(initial=data)
     if form.is_valid():
-        form.save()
+        recipient = form.save(commit=False)
+        recipient.user = request.user
+        recipient.save()
+        send_recipient_confirmation.delay(recipient)
         messages.success(
             request,
             "Submitted!",
@@ -218,25 +226,45 @@ def recipient_confirmation(request):
     )
 
 @login_required
-def recipient_update(request, recipient_id):
-    recipient = Recipient.objects.get(id=recipient_id)
-    if request.POST:
-        form = RecipientForm(request.POST, instance=recipient)
-    else:
-        form = RecipientForm(instance=recipient)
+def recipient_update(request):
+    recipient = getattr(request.user, 'recipient', None)
+    if not recipient:
+        return redirect('recipient-create')
+    form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
         form.save()
         messages.success(
             request,
-            "Saved!",
+            "Recipient information updated!",
         )
-        return redirect('recipient-update', recipient_id=recipient_id)
+        return redirect('dashboard')
     return render(
         request,
         'app/pages/recipient.html',
         context={
             'form': form,
         }
+    )
+
+@login_required
+def recipient_delete(request):
+    if request.method == "POST":
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            recipient = getattr(request.user, 'recipient', None)
+            if recipient:
+                recipient.delete()
+            messages.error(
+                request,
+                "Removed!",
+            )
+            return redirect('dashboard')
+    else:
+        form = DeleteForm()
+    return render(
+        request,
+        'app/pages/recipient_delete.html',
+        {'form': form,},
     )
 
 # Volunteer
@@ -254,7 +282,10 @@ def volunteer_create(request):
     }
     form = VolunteerForm(request.POST) if request.POST else VolunteerForm(initial=data)
     if form.is_valid():
-        form.save()
+        volunteer = form.save(commit=False)
+        volunteer.user = request.user
+        volunteer.save()
+        send_volunteer_confirmation.delay(volunteer)
         messages.success(
             request,
             "Submitted!",
@@ -276,22 +307,45 @@ def volunteer_confirmation(request):
     )
 
 @login_required
-def volunteer_update(request, volunteer_id):
-    volunteer = Volunteer.objects.get(id=volunteer_id)
+def volunteer_update(request):
+    volunteer = getattr(request.user, 'volunteer', None)
+    if not volunteer:
+        return redirect('volunteer-create')
     form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
     if form.is_valid():
         form.save()
         messages.success(
             request,
-            "Saved!",
+            "Volunteer information updated!",
         )
-        return redirect('volunteer-update', volunteer_id=volunteer_id)
+        return redirect('dashboard')
     return render(
         request,
         'app/pages/volunteer.html',
         context={
             'form': form,
         }
+    )
+
+@login_required
+def volunteer_delete(request):
+    if request.method == "POST":
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            volunteer = getattr(request.user, 'volunteer', None)
+            if volunteer:
+                volunteer.delete()
+            messages.error(
+                request,
+                "Removed!",
+            )
+            return redirect('dashboard')
+    else:
+        form = DeleteForm()
+    return render(
+        request,
+        'app/pages/volunteer_delete.html',
+        {'form': form,},
     )
 
 

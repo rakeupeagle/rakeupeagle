@@ -177,7 +177,7 @@ class Recipient(Person):
     user = models.OneToOneField(
         'app.User',
         on_delete=models.SET_NULL,
-        related_name='location',
+        related_name='recipient',
         null=True,
     )
 
@@ -263,6 +263,7 @@ class UploadPath(object):
             self.name,
             short,
         )
+
 
 class Picture(models.Model):
     id = HashidAutoField(
