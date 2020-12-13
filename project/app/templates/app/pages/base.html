@@ -48,7 +48,7 @@
         <ul class="navbar-nav ml-auto">
           {% if request.user.is_authenticated %}
             <li class='nav-item'>
-              <a href="{% url 'dashboard' %}" class='align-bottom'>Dashboard</a>
+              <a href="{% url 'account' %}" class='align-bottom'>Account</a>
             </li>
             <li class='nav-item'>
               <a href="{% url 'logout' %}" role='button' class='btn btn-sm btn-light ml-3'>Logout</a>

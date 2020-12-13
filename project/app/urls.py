@@ -13,9 +13,9 @@ urlpatterns = [
     path('callback', views.callback, name='callback'),
     path('logout', views.logout, name='logout'),
 
-    # Dashboard
-    path('dashboard', views.dashboard, name='dashboard',),
-    path('dashboard/delete', views.delete_user, name='delete-user',),
+    # Account
+    path('account', views.account, name='account',),
+    path('account/delete', views.delete_user, name='delete-user',),
 
     # Footer
     path('about/', views.about, name='about',),

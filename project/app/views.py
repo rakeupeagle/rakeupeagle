@@ -31,7 +31,7 @@ from .tasks import send_volunteer_confirmation
 # Root
 def index(request):
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('account')
     pictures = Picture.objects.all()
     return render(
         request,
@@ -45,7 +45,7 @@ def index(request):
 
 # Authentication
 def login(request):
-    destination = request.GET.get('destination', 'dashboard')
+    destination = request.GET.get('destination', 'account')
     request.session['destination'] = destination
 
     redirect_uri = request.build_absolute_uri(reverse('callback'))
@@ -124,15 +124,15 @@ def logout(request):
     )
     return redirect(logout_url)
 
-#Dashboard
+#Account
 @login_required
-def dashboard(request):
+def account(request):
     user = request.user
     recipient = getattr(user, 'recipient', None)
     volunteer = getattr(user, 'volunteer', None)
     return render(
         request,
-        'app/pages/dashboard.html',
+        'app/pages/account.html',
         context={
             'user': user,
             'recipient': recipient,
@@ -237,7 +237,7 @@ def recipient_update(request):
             request,
             "Recipient information updated!",
         )
-        return redirect('dashboard')
+        return redirect('account')
     return render(
         request,
         'app/pages/recipient.html',
@@ -258,7 +258,7 @@ def recipient_delete(request):
                 request,
                 "Removed!",
             )
-            return redirect('dashboard')
+            return redirect('account')
     else:
         form = DeleteForm()
     return render(
@@ -318,7 +318,7 @@ def volunteer_update(request):
             request,
             "Volunteer information updated!",
         )
-        return redirect('dashboard')
+        return redirect('account')
     return render(
         request,
         'app/pages/volunteer.html',
@@ -339,7 +339,7 @@ def volunteer_delete(request):
                 request,
                 "Removed!",
             )
-            return redirect('dashboard')
+            return redirect('account')
     else:
         form = DeleteForm()
     return render(
