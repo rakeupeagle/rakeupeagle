@@ -42,7 +42,6 @@ def index(request):
         }
     )
 
-
 # Authentication
 def login(request):
     destination = request.GET.get('destination', 'account')
@@ -141,7 +140,7 @@ def account(request):
     )
 
 @login_required
-def delete_user(request):
+def account_delete(request):
     if request.method == "POST":
         form = DeleteForm(request.POST)
         if form.is_valid():
@@ -159,32 +158,6 @@ def delete_user(request):
         'app/pages/user_delete.html',
         {'form': form,},
     )
-
-# Footer
-def about(request):
-    return render(
-        request,
-        'app/pages/about.html',
-    )
-
-def privacy(request):
-    return render(
-        request,
-        'app/pages/privacy.html',
-    )
-
-def support(request):
-    return render(
-        request,
-        'app/pages/support.html',
-    )
-
-def delete(request):
-    return render(
-        request,
-        'app/pages/delete.html',
-    )
-
 
 # Recipient
 @login_required
@@ -216,13 +189,6 @@ def recipient_create(request):
         context={
             'form': form,
         }
-    )
-
-@login_required
-def recipient_confirmation(request):
-    return render(
-        request,
-        'app/pages/recipient_confirmation.html',
     )
 
 @login_required
@@ -297,13 +263,6 @@ def volunteer_create(request):
         context={
             'form': form,
         }
-    )
-
-@login_required
-def volunteer_confirmation(request):
-    return render(
-        request,
-        'app/pages/volunteer_confirmation.html',
     )
 
 @login_required
