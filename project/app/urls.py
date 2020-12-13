@@ -30,7 +30,7 @@ urlpatterns = [
 
     # Volunteer
     path('volunteer/create', views.volunteer_create, name='volunteer',),
-    path('volunteer/confirmation', views.volunteer_confirmation, name='volunteer_confirmation',),
+    path('volunteer/confirmation', views.volunteer_confirmation, name='volunteer-confirmation',),
     path('volunteer/<volunteer_id>', views.volunteer_update, name='volunteer-update',),
 
 

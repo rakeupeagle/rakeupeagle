@@ -252,17 +252,14 @@ def volunteer_create(request):
         'name': request.user.name,
         'email': request.user.email,
     }
-    if request.POST:
-        form = VolunteerForm(request.POST)
-    else:
-        form = VolunteerForm(initial=data)
+    form = VolunteerForm(request.POST) if request.POST else VolunteerForm(initial=data)
     if form.is_valid():
         form.save()
         messages.success(
             request,
             "Submitted!",
         )
-        return redirect('confirmation')
+        return redirect('volunteer-confirmation')
     return render(
         request,
         'app/pages/volunteer.html',
@@ -281,10 +278,7 @@ def volunteer_confirmation(request):
 @login_required
 def volunteer_update(request, volunteer_id):
     volunteer = Volunteer.objects.get(id=volunteer_id)
-    if request.POST:
-        form = VolunteerForm(request.POST, instance=volunteer)
-    else:
-        form = VolunteerForm(instance=volunteer)
+    form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
     if form.is_valid():
         form.save()
         messages.success(
