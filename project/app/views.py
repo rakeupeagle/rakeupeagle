@@ -1,11 +1,7 @@
-# Standard Libary
 import csv
-import json
 
-# First-Party
 import pydf
 import requests
-# Django
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -22,14 +18,12 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
-# Local
 from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import VolunteerForm
 from .models import Picture
+from .models import Recipient
 from .models import Volunteer
-from .tasks import build_email
-from .tasks import send_email
 
 
 # Root
@@ -188,7 +182,10 @@ def delete(request):
 @login_required
 def recipient_create(request):
     # Remove state
-    del request.session['destination']
+    try:
+        del request.session['destination']
+    except KeyError:
+        pass
 
     data = {
         'name': request.user.name,
@@ -246,7 +243,10 @@ def recipient_update(request, recipient_id):
 @login_required
 def volunteer_create(request):
     # Remove state
-    del request.session['destination']
+    try:
+        del request.session['destination']
+    except KeyError:
+        pass
 
     data = {
         'name': request.user.name,
