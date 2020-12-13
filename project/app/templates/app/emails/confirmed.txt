@@ -13,6 +13,6 @@ Dog in Yard? {{recipient.is_dog|yesno|title}}
 
 We will be in contact after November 7th with further instructions.
 If you have any questions in the meantime, please contact
-eaglemiddlepto@gmail.com.
+support@rakeupeagle.com.
 
 {% endautoescape %}

@@ -77,7 +77,7 @@ class VolunteerForm(forms.ModelForm):
             'notes': forms.Textarea(
                 attrs={
                     'class': 'form-control h-25',
-                    'placeholder': 'Anything else we should know? (Optional).',
+                    'placeholder': 'Anything else we should know? (Optional)',
                     'rows': 5,
                 }
             )
