@@ -46,6 +46,7 @@
             {% bootstrap_field form.is_dog show_help=True show_label=False %}
             {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
             {% bootstrap_button "Save" button_type='submit' size='large' %}
+            {% bootstrap_button "Cancel" button_type='link' href="/account" size='large' button_class='btn-light' extra_classes='ml-3'%}
           </form>
         </div>
       </div>

@@ -215,12 +215,12 @@ class Volunteer(Person):
         null=True,
         help_text="""Number of children in your group.""",
     )
-    recipient = models.ForeignKey(
+    assignment = models.ForeignKey(
         'Recipient',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='volunteers',
+        related_name='assignments',
     )
     notes = models.TextField(
         max_length=512,

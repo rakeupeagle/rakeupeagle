@@ -105,7 +105,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'size',
         'notes',
         'user',
-        'recipient',
+        'assignment',
     ]
     list_display = [
         'name',
@@ -113,7 +113,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'email',
         'size',
         'user',
-        'recipient',
+        'assignment',
     ]
     list_filter = [
         'created',
@@ -123,7 +123,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'name',
     ]
     list_editable = [
-        'recipient',
+        'assignment',
     ]
     autocomplete_fields = [
         'user',

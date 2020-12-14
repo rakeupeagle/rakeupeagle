@@ -168,39 +168,24 @@ def account_delete(request):
         form = DeleteForm()
     return render(
         request,
-        'app/pages/user_delete.html',
+        'app/pages/account_delete.html',
         {'form': form,},
     )
 
 # Recipient
 @login_required
 def recipient(request):
-    # Remove state
     try:
-        del request.session['initial']
-    except KeyError:
-        pass
-
-    data = {
-        'name': request.user.name,
-        'email': request.user.email,
-    }
-    form = RecipientForm(request.POST) if request.POST else RecipientForm(initial=data)
-    if form.is_valid():
-        recipient = form.save(commit=False)
-        recipient.user = request.user
-        recipient.save()
-        send_recipient_confirmation.delay(recipient)
-        messages.success(
-            request,
-            "Registration complete!  We will reach out before November 8th with futher details.",
-        )
-        return redirect('account')
+        recipient = request.user.recipient
+    except AttributeError:
+        return redirect('recipient-create')
+    assignments = getattr(recipient, 'assignments', None)
     return render(
         request,
         'app/pages/recipient.html',
         context={
-            'form': form,
+            'recipient': recipient,
+            'assignments': assignments,
         }
     )
 
@@ -212,11 +197,16 @@ def recipient_create(request):
     except KeyError:
         pass
 
-    data = {
+    recipient = getattr(request.user, 'recipient', None)
+    if recipient:
+        return redirect('recipient')
+
+    initial = {
         'name': request.user.name,
         'email': request.user.email,
     }
-    form = RecipientForm(request.POST) if request.POST else RecipientForm(initial=data)
+    form = RecipientForm(request.POST) if request.POST else RecipientForm(initial=initial)
+
     if form.is_valid():
         recipient = form.save(commit=False)
         recipient.user = request.user
@@ -226,10 +216,10 @@ def recipient_create(request):
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('account')
+        return redirect('recipient')
     return render(
         request,
-        'app/pages/recipient.html',
+        'app/pages/recipient_create.html',
         context={
             'form': form,
         }
@@ -239,7 +229,7 @@ def recipient_create(request):
 def recipient_update(request):
     recipient = getattr(request.user, 'recipient', None)
     if not recipient:
-        return redirect('recipient')
+        return redirect('recipient-create')
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
         form.save()
@@ -247,10 +237,10 @@ def recipient_update(request):
             request,
             "Recipient information updated!",
         )
-        return redirect('account')
+        return redirect('recipient')
     return render(
         request,
-        'app/pages/recipient.html',
+        'app/pages/recipient_update.html',
         context={
             'form': form,
         }
@@ -334,7 +324,7 @@ def volunteer_create(request):
 def volunteer_update(request):
     volunteer = getattr(request.user, 'volunteer', None)
     if not volunteer:
-        return redirect('volunteer')
+        return redirect('volunteer-create')
     form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
     if form.is_valid():
         form.save()
