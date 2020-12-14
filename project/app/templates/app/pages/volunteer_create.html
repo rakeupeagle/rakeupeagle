@@ -29,18 +29,22 @@
       <h4 class='card-header'>Volunteer Information</h4>
       <div class="card-body">
         <div class='card-text'>
-          <ul class='list-unstyled'>
-            <li><strong>Name:</strong>:&nbsp;&nbsp;{{volunteer.name}}</li>
-            <li><strong>Email:</strong>:&nbsp;&nbsp;{{volunteer.email}}</li>
-            <li><strong>Phone:</strong>:&nbsp;&nbsp;{{volunteer.phone}}</li>
-            <li><strong>Size:</strong>:&nbsp;&nbsp;{{volunteer.get_size_display}}</li>
-            <li><strong>Notes:</strong>:&nbsp;&nbsp;{{volunteer.notes|default:"(No Notes)"}}</li>
-          </ul>
+          <form method='post'>
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_field form.name show_help=False show_label=False placeholder="Your Name" %}
+            {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
+            {% bootstrap_field form.phone show_help=False show_label=False placeholder='Cell Phone' %}
+            {% bootstrap_field form.size show_help=True show_label=False  %}
+            {% bootstrap_field form.notes show_help=False show_label=False %}
+            {% bootstrap_button "Save" button_type='submit' extra_classes='btn-block' %}
+          </form>
         </div>
       </div>
       <div class='card-footer'>
-        {% bootstrap_button "Update" button_type='link' href="volunteer/update" size='large' %}
-        {% bootstrap_button "Delete" button_type='link' href="volunteer/delete" size='large' button_class='btn-danger' extra_classes='float-right'%}
+        <p>
+          <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
+        </p>
       </div>
     </div>
   </section>

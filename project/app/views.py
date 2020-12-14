@@ -140,8 +140,7 @@ def account(request):
     user = request.user
     recipient = getattr(user, 'recipient', None)
     volunteer = getattr(user, 'volunteer', None)
-    if volunteer:
-        assignment = getattr(volunteer, 'recipient', None)
+    assignment = getattr(volunteer, 'recipient', None) if volunteer else None
     return render(
         request,
         'app/pages/account.html',
@@ -174,6 +173,37 @@ def account_delete(request):
     )
 
 # Recipient
+@login_required
+def recipient(request):
+    # Remove state
+    try:
+        del request.session['initial']
+    except KeyError:
+        pass
+
+    data = {
+        'name': request.user.name,
+        'email': request.user.email,
+    }
+    form = RecipientForm(request.POST) if request.POST else RecipientForm(initial=data)
+    if form.is_valid():
+        recipient = form.save(commit=False)
+        recipient.user = request.user
+        recipient.save()
+        send_recipient_confirmation.delay(recipient)
+        messages.success(
+            request,
+            "Registration complete!  We will reach out before November 8th with futher details.",
+        )
+        return redirect('account')
+    return render(
+        request,
+        'app/pages/recipient.html',
+        context={
+            'form': form,
+        }
+    )
+
 @login_required
 def recipient_create(request):
     # Remove state
@@ -247,7 +277,24 @@ def recipient_delete(request):
         {'form': form,},
     )
 
+
 # Volunteer
+@login_required
+def volunteer(request):
+    try:
+        volunteer = request.user.volunteer
+    except AttributeError:
+        return redirect('volunteer-create')
+    assignment = getattr(volunteer, 'assignment', None)
+    return render(
+        request,
+        'app/pages/volunteer.html',
+        context={
+            'volunteer': volunteer,
+            'assignment': assignment,
+        }
+    )
+
 @login_required
 def volunteer_create(request):
     # Remove state
@@ -256,11 +303,15 @@ def volunteer_create(request):
     except KeyError:
         pass
 
-    data = {
+    volunteer = getattr(request.user, 'volunteer', None)
+    if volunteer:
+        return redirect('volunteer')
+
+    initial = {
         'name': request.user.name,
         'email': request.user.email,
     }
-    form = VolunteerForm(request.POST) if request.POST else VolunteerForm(initial=data)
+    form = VolunteerForm(request.POST) if request.POST else VolunteerForm(initial=initial)
     if form.is_valid():
         volunteer = form.save(commit=False)
         volunteer.user = request.user
@@ -270,10 +321,10 @@ def volunteer_create(request):
             request,
             "Signup complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('account')
+        return redirect('volunteer')
     return render(
         request,
-        'app/pages/volunteer.html',
+        'app/pages/volunteer_create.html',
         context={
             'form': form,
         }
@@ -291,10 +342,10 @@ def volunteer_update(request):
             request,
             "Volunteer information updated!",
         )
-        return redirect('account')
+        return redirect('volunteer')
     return render(
         request,
-        'app/pages/volunteer.html',
+        'app/pages/volunteer_update.html',
         context={
             'form': form,
         }
@@ -310,7 +361,7 @@ def volunteer_delete(request):
                 volunteer.delete()
             messages.error(
                 request,
-                "Removed!",
+                "You have been removed as a Volunteer!",
             )
             return redirect('account')
     else:

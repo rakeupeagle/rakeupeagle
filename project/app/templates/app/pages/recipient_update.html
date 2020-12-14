@@ -1,0 +1,61 @@
+{% extends 'app/pages/base.html' %}
+
+{% load bootstrap4 %}
+{% load humanize %}
+
+{% block formmedia %}{{ form.media }}{% endblock formmedia %}
+
+{% block title %}Registration for Yard Rake{% endblock title %}
+
+{% block content %}
+  <section>
+    <p class='lead'>
+      To qualify for Rake Up Eagle, registrants <strong>must</strong>:
+    </p>
+  </section>
+  <section>
+    <ul class='list-styled'>
+      <li>Be at least 65 years old, disabled or a veteran</li>
+      <li>Live within the city limits of Eagle</li>
+      <li>Reside at the stated residence</li>
+      <li>Agree to our <a href='{% url "terms" %}'>terms and waiver</a></li>
+    </ul>
+    <p>
+      If your yard is selected to be raked, you should receive notification by Monday, November 9, 2020.  We are going to do our absolute best to rake as many yards as possible.
+    </p>
+    <p>
+      If you live in a mobile home park, please check with the park manager to make sure that it is okay that your yard is raked by our volunteers before sending in your application.
+    </p>
+  </section>
+  <section class='my-5'>
+    <div class='card'>
+      <div class='card-header'>
+        <h4>Recipient Information</h4>
+      </div>
+      <div class="card-body">
+        <div class='card-text'>
+          <form method='post'>
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+
+            {% bootstrap_field form.name show_help=False show_label=False placeholder="Name" %}
+            {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
+            {% bootstrap_field form.phone show_help=False show_label=False %}
+            {% bootstrap_field form.address show_help=True show_label=False  %}
+            {% bootstrap_field form.size show_help=True show_label=False  %}
+            {% bootstrap_field form.is_dog show_help=True show_label=False %}
+            {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
+            {% bootstrap_button "Save" button_type='submit' size='large' %}
+          </form>
+        </div>
+      </div>
+      <div class='card-footer'>
+        <p>
+          <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
+        </p>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
+d

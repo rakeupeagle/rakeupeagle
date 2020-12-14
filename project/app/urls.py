@@ -25,12 +25,14 @@ urlpatterns = [
     path('account/delete', views.account_delete, name='account-delete',),
 
     # Recipient
-    path('recipient/create', views.recipient_create, name='recipient',),
+    path('recipient', views.recipient, name='recipient',),
+    path('recipient/create', views.recipient_create, name='recipient-create',),
     path('recipient/update', views.recipient_update, name='recipient-update',),
     path('recipient/delete', views.recipient_delete, name='recipient-delete',),
 
     # Volunteer
-    path('volunteer/create', views.volunteer_create, name='volunteer',),
+    path('volunteer', views.volunteer, name='volunteer',),
+    path('volunteer/create', views.volunteer_create, name='volunteer-create',),
     path('volunteer/update', views.volunteer_update, name='volunteer-update',),
     path('volunteer/delete', views.volunteer_delete, name='volunteer-delete',),
 
