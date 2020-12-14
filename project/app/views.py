@@ -45,15 +45,15 @@ def index(request):
 
 # Authentication
 def login(request):
-    destination = request.GET.get('destination', 'account')
-    request.session['destination'] = destination
+    # Set landing page depending on initial button
+    initial = request.GET.get('initial', None)
+    if initial:
+        request.session['initial'] = initial
 
     redirect_uri = request.build_absolute_uri(reverse('callback'))
-    state = "{0}|{1}".format(
-        destination,
-        get_random_string(),
-    )
+    state = f"{get_random_string()}"
     request.session['state'] = state
+
     params = {
         'response_type': 'code',
         'client_id': settings.AUTH0_CLIENT_ID,
@@ -71,13 +71,13 @@ def login(request):
 
 def callback(request):
     # Reject if state doesn't match
-    browser_state = request.session.get('state', None)
-    server_state = request.GET.get('state', None)
+    browser_state = request.session.get('state')
+    server_state = request.GET.get('state')
     if browser_state != server_state:
         return HttpResponse(status=400)
 
-    # set destination
-    destination = server_state.partition('|')[0]
+    # get initial
+    initial = request.session.get('initial', None)
 
     # Get Auth0 Code
     code = request.GET.get('code', None)
@@ -104,7 +104,17 @@ def callback(request):
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        return redirect(destination)
+        if initial == 'recipient':
+            return redirect('recipient-create')
+        if initial == 'volunteer':
+            return redirect('volunteer-create')
+        if user.is_admin:
+            return redirect('admin:index')
+        if getattr(user, 'recipient'):
+            return redirect('recipient')
+        if getattr(user, 'volunteer'):
+            return redirect('volunteer')
+        return redirect('account')
     return HttpResponse(status=403)
 
 def logout(request):
@@ -168,7 +178,7 @@ def account_delete(request):
 def recipient_create(request):
     # Remove state
     try:
-        del request.session['destination']
+        del request.session['initial']
     except KeyError:
         pass
 
@@ -242,7 +252,7 @@ def recipient_delete(request):
 def volunteer_create(request):
     # Remove state
     try:
-        del request.session['destination']
+        del request.session['initial']
     except KeyError:
         pass
 

@@ -43,24 +43,25 @@
       <span class="navbar-toggler-icon"></span>
       </button>
       {% endcomment %}
-      {% comment %}
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          {% if request.user.is_authenticated %}
-            <li class='nav-item'>
-              <a href="{% url 'account' %}" class='align-bottom'>Account</a>
-            </li>
-            <li class='nav-item'>
-              <a href="{% url 'logout' %}" role='button' class='btn btn-sm btn-light ml-3'>Logout</a>
-            </li>
-          {% else %}
-            <li class='nav-item'>
-              <a href="{% url 'login' %}" role='button' class='btn btn-sm btn-outline-primary ml-3'>Login</a>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
-      {% endcomment %}
+      {% if is_active %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+              <li class='nav-item'>
+                <a href="{% url 'account' %}" class='align-bottom'>Account</a>
+              </li>
+              <li class='nav-item'>
+                <a href="{% url 'logout' %}" role='button' class='btn btn-sm btn-light ml-3'>Logout</a>
+              </li>
+            {% else %}
+              <li class='nav-item'>
+                <a href="{% url 'login' %}" role='button' class='btn btn-sm btn-outline-primary ml-3'>Login</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+
     </nav>
 
     <div id="content" class='container'>
