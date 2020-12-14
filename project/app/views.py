@@ -4,6 +4,7 @@ import pydf
 import requests
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
@@ -312,36 +313,29 @@ def volunteer_delete(request):
 
 
 # Admin
-def handouts(request):
+@staff_member_required
+def dashboard(request):
     volunteers = Volunteer.objects.order_by(
-        'last',
-        'first',
+        'last_name',
+        'first_name',
     )
     return render(
         request,
-        'app/pages/handouts.html',
-        context={
-            'volunteers': volunteers,
-        }
+        'app/pages/dashboard.html',
+        {'volunteers': volunteers},
     )
 
-def handout(request, volunteer_id):
-    volunteer = get_object_or_404(Volunteer, pk=volunteer_id)
-    url = 'https://maps.googleapis.com/maps/api/staticmap?markers={0},{1}&zoom=13&size=300x150&scale=1&key={2}'.format(
-        volunteer.recipient.geo['lat'],
-        volunteer.recipient.geo['lng'],
-        settings.GOOGLE_API_KEY,
-    )
+@staff_member_required
+def dashboard_volunteer(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(
         request,
-        'app/pages/handout.html',
-        context={
-            'volunteer': volunteer,
-            'recipient': volunteer.recipient,
-            'mapurl': url,
-        }
+        'app/pages/volunteer.html',
+        {'volunteer': volunteer},
     )
 
+
+@staff_member_required
 def handout_pdf(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, pk=volunteer_id)
     context={
@@ -364,6 +358,7 @@ def handout_pdf(request, volunteer_id):
         filename='rake_up_eagle_handout.pdf',
     )
 
+@staff_member_required
 def handout_pdfs(request):
     volunteers = Volunteer.objects.order_by(
         'last',
@@ -392,6 +387,7 @@ def handout_pdfs(request):
         filename='handouts.pdf',
     )
 
+@staff_member_required
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="export.csv"'

@@ -33,3 +33,8 @@ def test_support(anon_client):
     path = reverse('support')
     response = anon_client.get(path)
     assert response.status_code == 200
+
+def test_dashboard(anon_client):
+    path = reverse('dashboard')
+    response = anon_client.get(path)
+    assert response.status_code == 302
