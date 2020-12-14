@@ -46,12 +46,9 @@ def index(request):
 # Authentication
 def login(request):
     # Set landing page depending on initial button
-    initial = request.GET.get('initial', None)
-    if initial:
-        request.session['initial'] = initial
-
+    initial = request.GET.get('initial', 'None')
     redirect_uri = request.build_absolute_uri(reverse('callback'))
-    state = f"{get_random_string()}"
+    state = f"{initial}|{get_random_string()}"
     request.session['state'] = state
 
     params = {
@@ -77,7 +74,7 @@ def callback(request):
         return HttpResponse(status=400)
 
     # get initial
-    initial = request.session.get('initial', None)
+    initial = browser_state.partition("|")[0]
 
     # Get Auth0 Code
     code = request.GET.get('code', None)
@@ -110,6 +107,8 @@ def callback(request):
             return redirect('volunteer-create')
         if user.is_admin:
             return redirect('admin:index')
+        if getattr(user, 'recipient') and getattr(user, 'volunteer'):
+            return redirect('account')
         if getattr(user, 'recipient'):
             return redirect('recipient')
         if getattr(user, 'volunteer'):
@@ -191,12 +190,6 @@ def recipient(request):
 
 @login_required
 def recipient_create(request):
-    # Remove state
-    try:
-        del request.session['initial']
-    except KeyError:
-        pass
-
     recipient = getattr(request.user, 'recipient', None)
     if recipient:
         return redirect('recipient')
@@ -287,12 +280,6 @@ def volunteer(request):
 
 @login_required
 def volunteer_create(request):
-    # Remove state
-    try:
-        del request.session['initial']
-    except KeyError:
-        pass
-
     volunteer = getattr(request.user, 'volunteer', None)
     if volunteer:
         return redirect('volunteer')
