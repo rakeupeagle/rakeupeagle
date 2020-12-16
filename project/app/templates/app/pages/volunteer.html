@@ -15,14 +15,8 @@
   </section>
   <section class='my-5'>
     <p class='lead'>
-      Thanks for volunteering!  Here's what you need to know:
+      Please update the information below as needed.  If you need to remove yourself as a volunteer please use that button.  Otherwise, we will let you know when assignments have been made via email.
     </p>
-    <ul class='list-styled'>
-      <li>The event date is November 1, 2021</li>
-      <li>We will coordinate with you before October 15</li>
-      <li>Check-in takes place from 9-10 AM at Eagle Middle School</li>
-      <li>We provide the bags; you need to bring rakes, gloves, etc.</li>
-    </ul>
   </section>
   <section class='my-5'>
     <div class='card'>
@@ -44,4 +38,30 @@
       </div>
     </div>
   </section>
+  {% if assignment %}
+    <section class='my-5'>
+      <div class='card'>
+        <h4 class='card-header'>Volunteer Assignment</h4>
+        <div class="card-body">
+          <div class='card-text'>
+            <p>
+              Here is your assignment:
+            </p>
+            <ul class='list-unstyled'>
+              <li><strong>Name:</strong>&nbsp;&nbsp;{{assignment.name}}</li>
+              <li><strong>Size:</strong>&nbsp;&nbsp;{{assignment.address}}</li>
+              <li><strong>Email:</strong>&nbsp;&nbsp;{{assignment.email}}</li>
+              <li><strong>Phone:</strong>&nbsp;&nbsp;{{assignment.phone}}</li>
+              <li><strong>Size:</strong>&nbsp;&nbsp;{{assignment.get_size_display}}</li>
+              <li><strong>Dog in Yard?</strong>&nbsp;&nbsp;{{assignment.is_dog|yesno|title}}</li>
+              <li><strong>Notes:</strong>&nbsp;&nbsp;{{assignment.notes|default:"(No Notes)"}}</li>
+            </ul>
+          </div>
+        </div>
+        <div class='card-footer'>
+          Please Note:  All recipients with dogs are required to remove waste before you arrive.  If you notice dog waste in the raking area please call the coordinator before proceeding.
+        </div>
+      </div>
+    </section>
+  {% endif %}
 {% endblock content %}
