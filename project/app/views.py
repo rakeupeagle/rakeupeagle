@@ -107,11 +107,13 @@ def callback(request):
             return redirect('volunteer-create')
         if user.is_admin:
             return redirect('admin:index')
-        if getattr(user, 'recipient') and getattr(user, 'volunteer'):
+        recipient = getattr(user, 'recipient', None)
+        volunteer = getattr(user, 'volunteer', None)
+        if recipient and volunteer:
             return redirect('account')
-        if getattr(user, 'recipient'):
+        if recipient:
             return redirect('recipient')
-        if getattr(user, 'volunteer'):
+        if volunteer:
             return redirect('volunteer')
         return redirect('account')
     return HttpResponse(status=403)
