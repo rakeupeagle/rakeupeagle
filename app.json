@@ -72,9 +72,6 @@
         "GOOGLE_API_KEY": {
           "generator": "secret"
         },
-        "CLOUDINARY_URL": {
-          "generator": "secret"
-        },
         "SENTRY_ENVIRONMENT": {
           "value": "Test"
         },
