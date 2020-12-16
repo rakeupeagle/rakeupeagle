@@ -26,4 +26,4 @@ jobs:
         pipenv install --deploy --dev    
     - name: Run Tests
       run: |
-        pytest
+        pipenv run pytest
