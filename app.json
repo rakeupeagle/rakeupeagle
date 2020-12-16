@@ -48,10 +48,10 @@
         "ACTIVE": "False",
         "DJANGO_SETTINGS_MODULE": "settings.base",
         "PYTHONPATH": "project",
-        "HASHID_FIELD_SALT": {
+        "SECRET_KEY": {
           "generator": "secret"
         },
-        "SECRET_KEY": {
+        "HASHID_FIELD_SALT": {
           "generator": "secret"
         },
         "LOGLEVEL": {
@@ -70,6 +70,9 @@
           "generator": "secret"
         },
         "GOOGLE_API_KEY": {
+          "generator": "secret"
+        },
+        "CLOUDINARY_URL": {
           "generator": "secret"
         },
         "SENTRY_ENVIRONMENT": {
