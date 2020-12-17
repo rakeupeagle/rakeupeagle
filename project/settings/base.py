@@ -94,7 +94,6 @@ EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
 
 # Static File Management
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = root('staticfiles')
 STATIC_URL = '/static/'
 

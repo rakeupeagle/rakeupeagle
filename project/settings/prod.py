@@ -10,6 +10,7 @@ ALLOWED_HOSTS = [
 # SendGrid
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = env("SENDGRID_API_KEY")
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Sentry
 SENTY_RELEASE = env("HEROKU_SLUG_COMMIT")
