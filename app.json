@@ -76,7 +76,7 @@
           "value": "Test"
         },
         "SENTRY_DSN": {
-          "value": "''"
+          "value": "https://foo@sentry.io/123"
         }
       },
       "scripts": {
