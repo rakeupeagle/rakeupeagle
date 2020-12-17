@@ -76,7 +76,7 @@
           "value": "Test"
         },
         "SENTRY_DSN": {
-          "value": "https://foo@bar"
+          "value": ""
         }
       },
       "scripts": {
