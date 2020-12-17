@@ -7,3 +7,4 @@ class AppConfig(AppConfig):
     name = 'app'
     def ready(self):
         sentry_sdk.init(**settings.SENTRY_CONFIG)
+        import app.signals
