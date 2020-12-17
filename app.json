@@ -54,9 +54,6 @@
         "HASHID_FIELD_SALT": {
           "generator": "secret"
         },
-        "LOGLEVEL": {
-          "value": "INFO"
-        },
         "AUTH0_CLIENT_ID": {
           "generator": "secret"
         },
@@ -64,7 +61,7 @@
           "generator": "secret"
         },
         "AUTH0_DOMAIN": {
-          "generator": "secret"
+          "value": "foo.com"
         },
         "SENDGRID_API_KEY": {
           "generator": "secret"
@@ -73,13 +70,13 @@
           "generator": "secret"
         },
         "CLOUDINARY_URL": {
-          "value": "cloudinary://foo:bar"
+          "value": "cloudinary://foo:bar@baz"
         },
         "SENTRY_ENVIRONMENT": {
           "value": "Test"
         },
         "SENTRY_DSN": {
-          "generator": "secret"
+          "value": "https://foo@bar"
         }
       },
       "scripts": {
