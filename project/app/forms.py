@@ -59,9 +59,17 @@ class VolunteerForm(forms.ModelForm):
             'phone',
             'email',
             'size',
+            'reference',
             'notes',
         ]
         widgets = {
+            'reference': forms.Textarea(
+                attrs={
+                    'class': 'form-control h-25',
+                    'placeholder': 'How did you hear about us? (Optional)',
+                    'rows': 1,
+                }
+            ),
             'notes': forms.Textarea(
                 attrs={
                     'class': 'form-control h-25',

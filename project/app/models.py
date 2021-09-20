@@ -189,11 +189,11 @@ class Volunteer(Person):
         primary_key=True,
     )
     SIZE = Choices(
-        (110, 'xs', 'Extra-Small (1-2 Adults)'),
-        (120, 'small', 'Small (3-5 Adults)'),
-        (130, 'medium', 'Medium (5-9 Adults)'),
-        (140, 'large', 'Large (10-15 Adults)'),
-        (150, 'xl', 'Extra-Large (15+ Adults)'),
+        (110, 'xs', 'Extra-Small (1-5 Adults)'),
+        (120, 'small', 'Small (6-10 Adults)'),
+        (130, 'medium', 'Medium (11-15 Adults)'),
+        (140, 'large', 'Large (16-20 Adults)'),
+        (150, 'xl', 'Extra-Large (21+ Adults)'),
     )
     size = models.IntegerField(
         blank=False,
@@ -221,6 +221,12 @@ class Volunteer(Person):
         null=True,
         blank=True,
         related_name='assignments',
+    )
+    reference = models.TextField(
+        max_length=512,
+        blank=True,
+        default='',
+        help_text="""How did you hear about us?""",
     )
     notes = models.TextField(
         max_length=512,

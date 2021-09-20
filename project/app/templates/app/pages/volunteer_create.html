@@ -18,10 +18,10 @@
       Thanks for volunteering!  Here's what you need to know:
     </p>
     <ul class='list-styled'>
-      <li>The event date is November 1, 2021</li>
-      <li>We will coordinate with you before October 15</li>
-      <li>Check-in takes place from 9-10 AM at Eagle Middle School</li>
+      <li>The event date is November 13, 2021</li>
+      <li>Check-in takes place from 8-10 AM at Eagle Middle School</li>
       <li>We provide the bags; you need to bring rakes, gloves, etc.</li>
+      <li>You must agree to our <a href='{% url "terms" %}'>terms and waiver</a></li>
     </ul>
   </section>
   <section class='my-5'>
@@ -36,6 +36,7 @@
             {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
             {% bootstrap_field form.phone show_help=False show_label=False placeholder='Cell Phone' %}
             {% bootstrap_field form.size show_help=True show_label=False  %}
+            {% bootstrap_field form.reference show_help=False show_label=False %}
             {% bootstrap_field form.notes show_help=False show_label=False %}
             {% bootstrap_button "Save" button_type='submit' size='large' %}
             {% bootstrap_button "Cancel" button_type='link' href="/account" size='large' button_class='btn-light' extra_classes='ml-3'%}

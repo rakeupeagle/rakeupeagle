@@ -9,7 +9,7 @@ Email: {{volunteer.email}}
 Size: {{volunteer.get_size_display}}
 
 
-We will be in contact after November 7th with further instructions.
+We will be in contact after November 8th with further instructions.
 If you have any questions in the meantime, please contact
 support@rakeupeagle.com.
 
