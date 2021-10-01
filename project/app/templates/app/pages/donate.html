@@ -1,0 +1,26 @@
+{% extends 'app/pages/base.html' %}
+{% load static %}
+{% block title %}Donations{% endblock title %}
+
+
+{% block content %}
+
+  <section class='my-5'>
+    <h2>
+      Donations
+    </h2>
+  </section>
+  <section class='my-5'>
+    <div class='col-lg-8'>
+      <p class='lead'>
+        Donations are not expected, but greatly appreciated!
+      </p>
+      <p>
+        Donate any amount to the Eagle Middle School PTO through Venmo at @Eagle-Middle, or by scanning the QR code below.
+      </p>
+    </div>
+    <div class='my-5 col-lg-4'>
+      <img src='{% static "app/venmo.png" %}' class='img-fluid'>
+    </div>
+  </section>
+{% endblock content %}
