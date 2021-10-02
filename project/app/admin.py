@@ -160,7 +160,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'user',
     ]
     inlines = [
-        VolunteerInline,
+        # VolunteerInline,
     ]
     ordering = [
         'last_name',
@@ -191,7 +191,6 @@ class VolunteerAdmin(admin.ModelAdmin):
         'size',
         'notes',
         'user',
-        'assignment',
     ]
     list_display = [
         'name',
@@ -199,7 +198,6 @@ class VolunteerAdmin(admin.ModelAdmin):
         'email',
         'size',
         'user',
-        'assignment',
     ]
     list_filter = [
         'created',
@@ -209,7 +207,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'name',
     ]
     list_editable = [
-        'assignment',
+
     ]
     autocomplete_fields = [
         'user',

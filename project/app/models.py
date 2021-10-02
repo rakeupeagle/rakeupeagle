@@ -220,16 +220,6 @@ class Recipient(Person):
         null=True,
         help_text='Actual Hours Worked',
     )
-    adults = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='Actual Adults',
-    )
-    children = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='Actual Children',
-    )
     created = models.DateTimeField(
         auto_now_add=True,
     )
@@ -243,15 +233,13 @@ class Recipient(Person):
         null=True,
         unique=True,
     )
-
-    def is_assigned(self):
-        return bool(self.assignments.count())
-
-    # @property
-    # def total(self):
-    #     return self.volunteers.aggregate(
-    #         s=models.Sum('number')
-    #     )['s']
+    account = models.OneToOneField(
+        'app.Account',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='raccount',
+        unique=True,
+    )
 
 
 class Volunteer(Person):
@@ -268,29 +256,7 @@ class Volunteer(Person):
     size = models.IntegerField(
         blank=False,
         choices=SIZE,
-        help_text='The size of your group',
-    )
-    number = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text="""Number in your group.""",
-    )
-    adults = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text="""Number of adults in your group.""",
-    )
-    children = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text="""Number of children in your group.""",
-    )
-    assignment = models.ForeignKey(
-        'Recipient',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='assignments',
+        help_text='The size of your group.',
     )
     reference = models.TextField(
         max_length=512,
@@ -310,6 +276,13 @@ class Volunteer(Person):
     updated = models.DateTimeField(
         auto_now=True,
     )
+    account = models.OneToOneField(
+        'app.Account',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='vaccount',
+        unique=True,
+    )
     user = models.OneToOneField(
         'app.User',
         on_delete=models.SET_NULL,
@@ -317,9 +290,6 @@ class Volunteer(Person):
         related_name='volunteer',
         unique=True,
     )
-
-    def is_assigned(self):
-        return bool(self.assignments.count())
 
 
 class Event(models.Model):
