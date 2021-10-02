@@ -60,7 +60,6 @@ class AccountAdmin(VersionAdmin):
         'email',
         'phone',
         # 'picture',
-        'address',
         # 'user',
         # 'is_steering',
         'notes',
@@ -69,8 +68,7 @@ class AccountAdmin(VersionAdmin):
         'name',
         'email',
         'phone',
-        'address',
-        # 'is_public',
+
         # 'is_spouse',
         # 'is_steering',
         # 'zone',
@@ -176,7 +174,6 @@ class VolunteerAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'size',
-        'user',
     ]
     list_filter = [
         'created',

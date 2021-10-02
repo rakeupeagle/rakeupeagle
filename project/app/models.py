@@ -41,27 +41,6 @@ class Account(models.Model):
         null=False,
         unique=True,
     )
-    address = models.CharField(
-        max_length=512,
-        blank=True,
-        default='',
-    )
-    place = models.CharField(
-        max_length=255,
-        blank=True,
-        default='',
-    )
-    is_precise = models.BooleanField(
-        default=False,
-    )
-    point = models.PointField(
-        null=True,
-        blank=True,
-    )
-    geocode = models.JSONField(
-        blank=True,
-        null=True,
-    )
     notes = models.TextField(
         max_length=2000,
         blank=True,
@@ -146,13 +125,6 @@ class Recipient(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    user = models.OneToOneField(
-        'app.User',
-        on_delete=models.SET_NULL,
-        related_name='recipient',
-        null=True,
-        unique=True,
-    )
     account = models.ForeignKey(
         'app.Account',
         on_delete=models.SET_NULL,
@@ -201,13 +173,6 @@ class Volunteer(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name='vaccount',
-        unique=True,
-    )
-    user = models.OneToOneField(
-        'app.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='volunteer',
         unique=True,
     )
 
