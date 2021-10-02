@@ -200,6 +200,27 @@ class Recipient(Person):
         choices=SIZE,
         help_text='Yard Size',
     )
+    location = models.CharField(
+        max_length=512,
+        blank=True,
+        default='',
+    )
+    place = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+    )
+    is_precise = models.BooleanField(
+        default=False,
+    )
+    point = models.PointField(
+        null=True,
+        blank=True,
+    )
+    geocode = models.JSONField(
+        blank=True,
+        null=True,
+    )
     is_dog = models.BooleanField(
         blank=False,
         help_text="""If you have a dog, it must be contained in your home for us to rake.  Also, you must clean up all animal waste before we arrive or our volunteer group will not be able to rake.""",
