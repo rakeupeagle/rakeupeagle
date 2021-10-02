@@ -59,6 +59,7 @@ class AccountAdmin(VersionAdmin):
         'state',
         'name',
         'email',
+        'phone',
         # 'picture',
         'address',
         # 'user',
@@ -68,6 +69,7 @@ class AccountAdmin(VersionAdmin):
     list_display = [
         'name',
         'email',
+        'phone',
         'address',
         # 'is_public',
         # 'is_spouse',
@@ -115,10 +117,6 @@ class PictureAdmin(admin.ModelAdmin):
 class RecipientAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'name',
-        'phone',
-        'email',
-        'address',
         'size',
         'is_dog',
         'is_verified',
@@ -126,14 +124,10 @@ class RecipientAdmin(admin.ModelAdmin):
         'notes',
         'bags',
         'hours',
-        'adults',
-        'children',
+        'location',
     ]
     list_display = [
-        'name',
-        'phone',
-        'email',
-        'address',
+        'location',
         'size',
         'is_dog',
         # 'notes',
@@ -154,7 +148,8 @@ class RecipientAdmin(admin.ModelAdmin):
         'updated',
     ]
     search_fields = [
-        'name',
+        'account__name',
+        'account__email',
     ]
     autocomplete_fields = [
         'user',
@@ -163,22 +158,13 @@ class RecipientAdmin(admin.ModelAdmin):
         # VolunteerInline,
     ]
     ordering = [
-        'last_name',
-        'first_name',
+        'created',
     ]
     readonly_fields = [
         # 'total',
         # 'reps',
     ]
-    formfield_overrides = {
-        AddressField: {
-            'widget': AddressWidget(
-                attrs={
-                    'style': 'width: 300px;'
-                }
-            )
-        }
-    }
+
 
 
 @admin.register(Volunteer)

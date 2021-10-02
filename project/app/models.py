@@ -186,7 +186,7 @@ class Person(models.Model):
         abstract = True
 
 
-class Recipient(Person):
+class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )

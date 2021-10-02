@@ -13,22 +13,39 @@ from .models import Volunteer
 from .widgets import AddressWidget
 
 
-class AccountAdminForm(forms.ModelForm):
+class AccountForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = [
-            'id',
-            'state',
             'name',
             'email',
-            'address',
-            'place',
-            'is_precise',
-            'point',
-            'geocode',
-            'notes',
-            'user',
+            'phone',
         ]
+
+        help_texts = {
+            'name': mark_safe("Please enter your preferred name."),
+            'email': mark_safe("We do not sell, share, or spam you."),
+            'phone': mark_safe("Please enter your mobile phone."),
+        }
+
+
+class AccountAdminForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        # fields = [
+        #     'id',
+        #     'state',
+        #     'name',
+        #     'email',
+        #     'address',
+        #     'place',
+        #     'is_precise',
+        #     'point',
+        #     'geocode',
+        #     'notes',
+        #     'user',
+        # ]
+        fields = '__all__'
         widgets = {
             'address': AddressWidget(
                 attrs={'style': "width: 600px;"}
@@ -59,10 +76,6 @@ class RecipientForm(forms.ModelForm):
     class Meta:
         model = Recipient
         fields = [
-            'name',
-            'phone',
-            'email',
-            'address',
             'size',
             'is_dog',
             'notes',

@@ -19,6 +19,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
+from .forms import AccountForm
 from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import VolunteerForm
@@ -107,14 +108,14 @@ def callback(request):
             return redirect('volunteer-create')
         if user.is_admin:
             return redirect('admin:index')
-        recipient = getattr(user, 'recipient', None)
-        volunteer = getattr(user, 'volunteer', None)
-        if recipient and volunteer:
-            return redirect('account')
-        if recipient:
-            return redirect('recipient')
-        if volunteer:
-            return redirect('volunteer')
+        # recipient = getattr(user, 'recipient', None)
+        # volunteer = getattr(user, 'volunteer', None)
+        # if recipient and volunteer:
+        #     return redirect('account')
+        # if recipient:
+        #     return redirect('recipient')
+        # if volunteer:
+        #     return redirect('volunteer')
         return redirect('account')
     return HttpResponse(status=403)
 
@@ -138,18 +139,26 @@ def logout(request):
 #Account
 @login_required
 def account(request):
-    user = request.user
-    recipient = getattr(user, 'recipient', None)
-    volunteer = getattr(user, 'volunteer', None)
-    assignment = getattr(volunteer, 'recipient', None) if volunteer else None
+    account = request.user.account
+    recipient = getattr(account, 'recipient', None)
+    volunteer = getattr(account, 'volunteer', None)
+    form = AccountForm(request.POST, instance=account) if request.POST else RecipientForm(instance=account)
+
+    if form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('account')
     return render(
         request,
         'app/pages/account.html',
         context={
-            'user': user,
+            'account': account,
             'recipient': recipient,
             'volunteer': volunteer,
-            'assignment': assignment,
+            'form': form,
         }
     )
 
@@ -177,7 +186,7 @@ def account_delete(request):
 @login_required
 def recipient(request):
     try:
-        recipient = request.user.recipient
+        recipient = request.user.account.recipient
     except AttributeError:
         return redirect('recipient-create')
     assignments = getattr(recipient, 'assignments', None)
@@ -192,7 +201,7 @@ def recipient(request):
 
 @login_required
 def recipient_create(request):
-    recipient = getattr(request.user, 'recipient', None)
+    recipient = getattr(request.user.account, 'recipient', None)
     if recipient:
         return redirect('recipient')
 
@@ -204,7 +213,7 @@ def recipient_create(request):
 
     if form.is_valid():
         recipient = form.save(commit=False)
-        recipient.user = request.user
+        recipient.account = request.user.account
         recipient.save()
         send_recipient_confirmation.delay(recipient)
         messages.success(
@@ -222,7 +231,7 @@ def recipient_create(request):
 
 @login_required
 def recipient_update(request):
-    recipient = getattr(request.user, 'recipient', None)
+    recipient = getattr(request.user.account, 'recipient', None)
     if not recipient:
         return redirect('recipient-create')
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
@@ -246,7 +255,7 @@ def recipient_delete(request):
     if request.method == "POST":
         form = DeleteForm(request.POST)
         if form.is_valid():
-            recipient = getattr(request.user, 'recipient', None)
+            recipient = getattr(request.user.account, 'recipient', None)
             if recipient:
                 recipient.delete()
             messages.error(
@@ -267,7 +276,7 @@ def recipient_delete(request):
 @login_required
 def volunteer(request):
     try:
-        volunteer = request.user.volunteer
+        volunteer = request.user.account.volunteer
     except AttributeError:
         return redirect('volunteer-create')
     assignment = getattr(volunteer, 'assignment', None)
@@ -282,7 +291,7 @@ def volunteer(request):
 
 @login_required
 def volunteer_create(request):
-    volunteer = getattr(request.user, 'volunteer', None)
+    volunteer = getattr(request.user.account, 'volunteer', None)
     if volunteer:
         return redirect('volunteer')
 
@@ -293,7 +302,7 @@ def volunteer_create(request):
     form = VolunteerForm(request.POST) if request.POST else VolunteerForm(initial=initial)
     if form.is_valid():
         volunteer = form.save(commit=False)
-        volunteer.user = request.user
+        volunteer.account = request.user.account
         volunteer.save()
         send_volunteer_confirmation.delay(volunteer)
         messages.success(
@@ -311,12 +320,13 @@ def volunteer_create(request):
 
 @login_required
 def volunteer_update(request):
-    volunteer = getattr(request.user, 'volunteer', None)
+    volunteer = getattr(request.user.account, 'volunteer', None)
     if not volunteer:
         return redirect('volunteer-create')
     form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
     if form.is_valid():
-        form.save()
+        volunteer = form.save(commit=False)
+        volunteer.account = request.user.account
         messages.success(
             request,
             "Volunteer information updated!",
@@ -335,7 +345,7 @@ def volunteer_delete(request):
     if request.method == "POST":
         form = DeleteForm(request.POST)
         if form.is_valid():
-            volunteer = getattr(request.user, 'volunteer', None)
+            volunteer = getattr(request.user.account, 'volunteer', None)
             if volunteer:
                 volunteer.delete()
             messages.error(

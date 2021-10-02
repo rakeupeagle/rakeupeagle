@@ -9,8 +9,10 @@ class Auth0Backend(ModelBackend):
 
     def authenticate(self, request, **kwargs):
         username = kwargs.get('username', None)
-        name = kwargs.get('name', '(Unknown)')
+        name = kwargs.get('name', '')
         email = kwargs.get('email', None)
+        if name == email:
+            name = ''
         try:
             user = User.objects.get(
                 username=username,
