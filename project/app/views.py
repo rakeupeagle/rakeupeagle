@@ -142,8 +142,7 @@ def account(request):
     account = request.user.account
     recipient = getattr(account, 'recipient', None)
     volunteer = getattr(account, 'volunteer', None)
-    form = AccountForm(request.POST, instance=account) if request.POST else RecipientForm(instance=account)
-
+    form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
     if form.is_valid():
         form.save()
         messages.success(

@@ -68,10 +68,10 @@ class DeleteForm(forms.Form):
 
 
 class RecipientForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+        # super().__init__(*args, **kwargs)
         # Making name required
-        self.fields['address'].required = True
+        # self.fields['location'].required = True
 
     class Meta:
         model = Recipient

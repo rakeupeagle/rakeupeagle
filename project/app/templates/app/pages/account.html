@@ -10,11 +10,6 @@
     <h2>
       Your Account
     </h2>
-    {% if user.is_admin %}
-      <div class='my-5 ml-2'>
-        <a href="{% url 'admin:index' %}">Admin</a>
-      </div>
-    {% endif %}
   </section>
   {% comment %}
   <section class='my-5'>
@@ -27,7 +22,7 @@
     <section class='mt-2 mt-5'>
       <div class='card'>
         <h4 class='card-header'>
-          Recipient Information
+          Account Information
         </h4>
         <form method='post'>
           {% csrf_token %}
@@ -157,8 +152,4 @@
     </a>
   {% endif %}
 
-
-  <section class='ml-2 my-5'>
-    <a href='{% url "account-delete" %}'><span class='text-danger'>Delete Account</span></a>
-  </section>
 {% endblock content %}
