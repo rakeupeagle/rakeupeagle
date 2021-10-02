@@ -177,11 +177,11 @@ class Recipient(Person):
     def is_assigned(self):
         return bool(self.assignments.count())
 
-    @property
-    def total(self):
-        return self.volunteers.aggregate(
-            s=models.Sum('number')
-        )['s']
+    # @property
+    # def total(self):
+    #     return self.volunteers.aggregate(
+    #         s=models.Sum('number')
+    #     )['s']
 
 
 class Volunteer(Person):
