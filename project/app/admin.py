@@ -152,7 +152,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'account__email',
     ]
     autocomplete_fields = [
-        'user',
+        'account',
     ]
     inlines = [
         # VolunteerInline,
@@ -171,17 +171,11 @@ class RecipientAdmin(admin.ModelAdmin):
 class VolunteerAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
-        'name',
-        'phone',
-        'email',
         'size',
         'notes',
         'user',
     ]
     list_display = [
-        'name',
-        'phone',
-        'email',
         'size',
         'user',
     ]
@@ -190,19 +184,17 @@ class VolunteerAdmin(admin.ModelAdmin):
         'updated',
     ]
     search_fields = [
-        'name',
+        'account__name',
     ]
     list_editable = [
 
     ]
     autocomplete_fields = [
-        'user',
+        'account',
     ]
     inlines = [
     ]
     ordering = [
-        'last_name',
-        'first_name',
     ]
     readonly_fields = [
     ]

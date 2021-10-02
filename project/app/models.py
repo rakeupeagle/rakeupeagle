@@ -263,7 +263,7 @@ class Recipient(models.Model):
     )
 
 
-class Volunteer(Person):
+class Volunteer(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )

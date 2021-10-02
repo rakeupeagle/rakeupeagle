@@ -101,9 +101,6 @@ class VolunteerForm(forms.ModelForm):
     class Meta:
         model = Volunteer
         fields = [
-            'name',
-            'phone',
-            'email',
             'size',
             'reference',
             'notes',
@@ -123,7 +120,7 @@ class VolunteerForm(forms.ModelForm):
                     'rows': 5,
                 }
             ),
-            'address': AddressWidget(),
+            # 'address': AddressWidget(),
         }
         help_texts = {
             'size': 'The size of your group.  (Children of sufficient age can be combined as a "adult" for the purposes of this question.)',
