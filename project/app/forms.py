@@ -37,7 +37,7 @@ class AccountAdminForm(forms.ModelForm):
 
         help_texts = {
             'name': mark_safe("Please enter your preferred name."),
-            'address': mark_safe("Please provide your <strong>residence address</strong>, which will remain <strong>private and confidential</strong> unless we certify."),
+            'address': mark_safe("Please provide your <strong>residence address</strong>."),
             'email': mark_safe("We do not sell, share, or spam you."),
         }
 
