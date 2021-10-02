@@ -99,7 +99,7 @@ def export_csv():
         total=Sum('assignments__volunteer__number')
     ).order_by(
         'size',
-        'total',
+        # 'total',
     )
     with open('export.csv', 'w') as f:
         writer = csv.writer(f)

@@ -54,7 +54,7 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'is_verified',
         # 'is_waiver',
         # 'created',
-        'total',
+        # 'total',
     ]
     list_editable = [
         # 'bags',
@@ -81,7 +81,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'first_name',
     ]
     readonly_fields = [
-        'total',
+        # 'total',
         # 'reps',
     ]
     formfield_overrides = {
