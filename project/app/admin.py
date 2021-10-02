@@ -1,25 +1,24 @@
 # Django
 # First-Party
-from address.forms import AddressWidget
-from address.models import AddressField
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
-from django.utils.safestring import mark_safe
 from reversion.admin import VersionAdmin
 
 # Local
 from .forms import AccountAdminForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
-from .inlines import VolunteerInline
+# from .inlines import VolunteerInline
 from .models import Account
 from .models import Event
 from .models import Picture
 from .models import Recipient
 from .models import User
 from .models import Volunteer
+
+# from .widgets import AddressWidget
 
 
 @admin.register(Event)

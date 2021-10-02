@@ -366,8 +366,8 @@ def volunteer_delete(request):
 @staff_member_required
 def dashboard(request):
     volunteers = Volunteer.objects.order_by(
-        'last_name',
-        'first_name',
+        # 'last_name',
+        # 'first_name',
     )
     return render(
         request,

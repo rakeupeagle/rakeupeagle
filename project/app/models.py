@@ -4,14 +4,12 @@ import os
 import secrets
 
 # First-Party
-from address.models import AddressField
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
 from django.utils.deconstruct import deconstructible
 from django_fsm import FSMIntegerField
 from hashid_field import HashidAutoField
 from model_utils import Choices
-from nameparser import HumanName
 from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
