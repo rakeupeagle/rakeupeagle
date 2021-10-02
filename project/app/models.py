@@ -6,8 +6,9 @@ import secrets
 # First-Party
 from address.models import AddressField
 from django.contrib.auth.models import AbstractBaseUser
-from django.db import models
+from django.contrib.gis.db import models
 from django.utils.deconstruct import deconstructible
+from django_fsm import FSMIntegerField
 from hashid_field import HashidAutoField
 from model_utils import Choices
 from nameparser import HumanName
@@ -15,6 +16,74 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
 from .managers import UserManager
+
+
+class Account(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+    )
+    phone = PhoneNumberField(
+        blank=False,
+        null=False,
+    )
+    email = models.EmailField(
+        blank=True,
+        default='',
+    )
+    address = models.CharField(
+        max_length=512,
+        blank=True,
+        default='',
+    )
+    place = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+    )
+    is_precise = models.BooleanField(
+        default=False,
+    )
+    point = models.PointField(
+        null=True,
+        blank=True,
+    )
+    geocode = models.JSONField(
+        blank=True,
+        null=True,
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.OneToOneField(
+        'app.User',
+        on_delete=models.SET_NULL,
+        related_name='account',
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Person(models.Model):

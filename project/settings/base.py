@@ -60,6 +60,9 @@ DATABASES = {
     'default': env.db()
 }
 
+# POSTGIS
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+
 # Cache
 CACHES = {
     "default": {

@@ -37,6 +37,8 @@ django-phonenumber-field = "*"
 nameparser = "*"
 pillow = "*"
 django-cloudinary-storage = "*"
+django-fsm = "*"
+django-fsm-admin = "*"
 
 [requires]
 python_version = "3.9"
