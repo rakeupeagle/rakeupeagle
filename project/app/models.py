@@ -233,7 +233,7 @@ class Recipient(Person):
         null=True,
         unique=True,
     )
-    account = models.OneToOneField(
+    account = models.ForeignKey(
         'app.Account',
         on_delete=models.SET_NULL,
         null=True,
@@ -276,7 +276,7 @@ class Volunteer(Person):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    account = models.OneToOneField(
+    account = models.ForeignKey(
         'app.Account',
         on_delete=models.SET_NULL,
         null=True,
