@@ -39,6 +39,8 @@ pillow = "*"
 django-cloudinary-storage = "*"
 django-fsm = "*"
 django-fsm-admin = "*"
+django-reversion = "*"
+geocoder = "*"
 
 [requires]
 python_version = "3.9"

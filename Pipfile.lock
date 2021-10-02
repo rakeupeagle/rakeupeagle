@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9a18f4bcd3055dfbe8c48acb0f7e6723aef6eebe5d08c31958522f6f1a316b32"
+            "sha256": "71a94c9fd99a435e6134d53911f4aef757e546f031b07e4a9613585861afecca"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -306,6 +306,14 @@
             "index": "pypi",
             "version": "==5.0.0"
         },
+        "django-reversion": {
+            "hashes": [
+                "sha256:ad6d714b4b9b824e22b88d47201cc0f74b5c4294c8d4e1f8d7ac7c3631ef3188",
+                "sha256:f059c654e38c0dd8dccd7f0990aa2f6d9ad22dab55c5e095f9596aeda8079dcd"
+            ],
+            "index": "pypi",
+            "version": "==4.0.0"
+        },
         "django-rq": {
             "hashes": [
                 "sha256:23981f83c537178cbbf730f192c13e99cede2204e9d917b1c1c80c42215dd227",
@@ -321,6 +329,21 @@
             ],
             "index": "pypi",
             "version": "==1.1.1"
+        },
+        "future": {
+            "hashes": [
+                "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"
+            ],
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==0.18.2"
+        },
+        "geocoder": {
+            "hashes": [
+                "sha256:a733e1dfbce3f4e1a526cac03aadcedb8ed1239cf55bd7f3a23c60075121a834",
+                "sha256:c9925374c961577d0aee403b09e6f8ea1971d913f011f00ca70c76beaf7a77e7"
+            ],
+            "index": "pypi",
+            "version": "==1.38.1"
         },
         "gunicorn": {
             "hashes": [
@@ -546,6 +569,13 @@
                 "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"
             ],
             "version": "==2021.3"
+        },
+        "ratelim": {
+            "hashes": [
+                "sha256:826d32177e11f9a12831901c9fda6679fd5bbea3605910820167088f5acbb11d",
+                "sha256:e1a7dd39e6b552b7cc7f52169cd66cdb826a1a30198e355d7016012987c9ad08"
+            ],
+            "version": "==0.1.6"
         },
         "redis": {
             "hashes": [

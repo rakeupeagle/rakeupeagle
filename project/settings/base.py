@@ -250,6 +250,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django_rq',
+    'reversion',
     'cloudinary_storage',
     'cloudinary',
     'bootstrap4',

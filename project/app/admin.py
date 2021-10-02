@@ -7,15 +7,101 @@ from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.utils.safestring import mark_safe
+from reversion.admin import VersionAdmin
 
 # Local
+from .forms import AccountAdminForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import VolunteerInline
+from .models import Account
+from .models import Event
 from .models import Picture
 from .models import Recipient
 from .models import User
 from .models import Volunteer
+
+
+@admin.register(Event)
+class EventAdmin(VersionAdmin):
+    save_on_top = True
+    autocomplete_fields = [
+        # 'account',
+        # 'voter',
+    ]
+    fields = [
+        'name',
+        'state',
+        'description',
+        'date',
+    ]
+    list_display = [
+        'name',
+        'date',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+        'date',
+        'state',
+        # 'is_spouse',
+        # 'zone',
+    ]
+    search_fields = [
+    ]
+
+
+@admin.register(Account)
+class AccountAdmin(VersionAdmin):
+    form = AccountAdminForm
+    save_on_top = True
+    fields = [
+        'state',
+        'name',
+        'email',
+        # 'picture',
+        'address',
+        # 'user',
+        # 'is_steering',
+        'notes',
+    ]
+    list_display = [
+        'name',
+        'email',
+        'address',
+        # 'is_public',
+        # 'is_spouse',
+        # 'is_steering',
+        # 'zone',
+        'state',
+        'created',
+        'updated',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+        'state',
+        # 'is_steering',
+        # 'is_spouse',
+        # 'zone',
+        'created',
+        'updated',
+    ]
+    search_fields = [
+        'name',
+        'email',
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+    inlines = [
+    ]
+    ordering = [
+        '-created',
+    ]
+    readonly_fields = [
+        'created',
+    ]
 
 
 @admin.register(Picture)

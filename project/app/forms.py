@@ -3,11 +3,44 @@ from django import forms
 from django.contrib.auth.forms import UserChangeForm as UserChangeFormBase
 from django.contrib.auth.forms import UserCreationForm as UserCreationFormBase
 from django.core.exceptions import ValidationError
+from django.utils.safestring import mark_safe
 
 # Local
+from .models import Account
 from .models import Recipient
 from .models import User
 from .models import Volunteer
+from .widgets import AddressWidget
+
+
+class AccountAdminForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = [
+            'id',
+            'state',
+            'name',
+            'email',
+            'address',
+            'place',
+            'is_precise',
+            'point',
+            'geocode',
+            'notes',
+            'user',
+        ]
+        widgets = {
+            'address': AddressWidget(
+                attrs={'style': "width: 600px;"}
+            ),
+        }
+
+        help_texts = {
+            'name': mark_safe("Please enter your preferred name."),
+            'address': mark_safe("Please provide your <strong>residence address</strong>, which will remain <strong>private and confidential</strong> unless we certify."),
+            'email': mark_safe("We do not sell, share, or spam you."),
+        }
+
 
 
 class DeleteForm(forms.Form):
@@ -76,7 +109,8 @@ class VolunteerForm(forms.ModelForm):
                     'placeholder': 'Anything else we should know? (Optional)',
                     'rows': 5,
                 }
-            )
+            ),
+            'address': AddressWidget(),
         }
         help_texts = {
             'size': 'The size of your group.  (Children of sufficient age can be combined as a "adult" for the purposes of this question.)',
