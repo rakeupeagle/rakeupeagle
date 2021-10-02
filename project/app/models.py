@@ -35,12 +35,13 @@ class Account(models.Model):
         default='',
     )
     phone = PhoneNumberField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
     email = models.EmailField(
-        blank=True,
-        default='',
+        blank=False,
+        null=False,
+        unique=True,
     )
     address = models.CharField(
         max_length=512,
@@ -319,6 +320,90 @@ class Volunteer(Person):
 
     def is_assigned(self):
         return bool(self.assignments.count())
+
+
+class Event(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+        (10, 'active', 'Active'),
+        (20, 'archived', 'Archived'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=False,
+    )
+    description = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+    )
+    date = models.DateField(
+        blank=True,
+        null=True,
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Assignment(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    recipient = models.ForeignKey(
+        'app.Recipient',
+        on_delete=models.SET_NULL,
+        related_name='one',
+        null=True,
+        blank=True,
+    )
+    volunteer = models.ForeignKey(
+        'app.Volunteer',
+        on_delete=models.SET_NULL,
+        related_name='two',
+        null=True,
+        blank=True,
+    )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=False,
+        blank=False,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    def __str__(self):
+        return f"{self.id}"
 
 
 @deconstructible

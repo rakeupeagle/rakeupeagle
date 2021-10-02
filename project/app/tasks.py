@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django_rq import job
 
 # Local
+from .models import Account
 from .models import Picture
 from .models import Recipient
 
@@ -68,6 +69,17 @@ def update_user(user):
     user.save()
     return user
 
+
+def get_or_create_account_from_user(user):
+    defaults = {
+        'name': user.name,
+        'user': user,
+    }
+    account, _ = Account.objects.get_or_create(
+        email=user.email,
+        defaults=defaults,
+    )
+    return account
 
 # Utility
 def build_email(template, subject, from_email, context=None, to=[], cc=[], bcc=[], attachments=[], html_content=None):
