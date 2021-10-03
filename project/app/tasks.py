@@ -75,11 +75,11 @@ def get_or_create_account_from_user(user):
         'name': user.name,
         'user': user,
     }
-    account, _ = Account.objects.get_or_create(
+    account, created = Account.objects.update_or_create(
         email=user.email,
         defaults=defaults,
     )
-    return account
+    return account, created
 
 # Utility
 def build_email(template, subject, from_email, context=None, to=[], cc=[], bcc=[], attachments=[], html_content=None):
