@@ -38,17 +38,16 @@
           <p style="font-family:Caveat" class='text-success'>Sponsored by EMS PTO</p>
         </div>
       </a>
+      {% comment %}
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           {% if request.user.is_authenticated %}
-            {% comment %}
             <li class='nav-item'>
               <a href="{% url 'account' %}" class='align-bottom'>Account</a>
             </li>
-            {% endcomment %}
             {% if request.user.is_admin %}
               <li class='nav-item'>
                 <a href="{% url 'admin:index' %}" class='align-bottom'>Admin</a>
@@ -64,6 +63,7 @@
           {% endif %}
         </ul>
       </div>
+      {% endcomment %}
     </nav>
 
     <div id="content" class='container'>
