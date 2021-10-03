@@ -67,7 +67,9 @@
     </nav>
 
     <div id="content" class='container'>
-      {% bootstrap_messages %}
+      <div class='col-lg-8'>
+        {% bootstrap_messages %}
+      </div>
       {% block content %}
       {% endblock %}
     </div>

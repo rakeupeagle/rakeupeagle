@@ -19,7 +19,7 @@
   </section>
   {% endcomment %}
 
-  <section class='my-5'>
+  <section class='my-5 col-lg-8'>
     <div class='card'>
       <h4 class='card-header'>
         Contact Information
@@ -48,7 +48,7 @@
   </section>
 
   {% if recipient %}
-    <section class='mt-2 mt-5'>
+    <section class='my-5 col-lg-8'>
       <div class='card'>
         <h4 class='card-header'>
           Recipient Details
@@ -69,12 +69,14 @@
       </div>
     </section>
   {% else %}
-    <a href='{% url "recipient-create" %}' class="btn btn-success btn-block btn-lg my-5">
-      Register as a Recipient!
-    </a>
+    <section class='my-5 col-lg-8'>
+      <a href='{% url "recipient-create" %}' class="btn btn-success btn-block btn-lg my-5">
+        Register as a Recipient!
+      </a>
+    </section>
   {% endif %}
   {% if volunteer %}
-    <section class='mt-2 mt-5'>
+    <section class='my-5 col-lg-8'>
       <div class='card'>
         <h4 class='card-header'>
           Volunteer Details
@@ -92,7 +94,18 @@
         </div>
       </div>
     </section>
-    <section class='my-5'>
+
+  {% else %}
+    <section class='my-5 col-lg-8'>
+      <a href='{% url "volunteer-create" %}' class="btn btn-success btn-block btn-lg my-5">
+      Signup as a Volunteer!
+      </a>
+    </section>
+  {% endif %}
+
+
+  {% comment %}
+    <section class='my-5 col-lg-8'>
       <div class='card'>
         <h4 class='card-header'>Your Assignment</h4>
         <div class="card-body">
@@ -113,12 +126,7 @@
         </div>
       </div>
     </section>
-
-  {% else %}
-    <a href='{% url "volunteer-create" %}' class="btn btn-success btn-block btn-lg my-5">
-      Signup as a Volunteer!
-    </a>
-  {% endif %}
+  {% endcomment %}
 
   <section class='my-5 col-lg-8'>
     <p class='float-right'>

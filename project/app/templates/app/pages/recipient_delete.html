@@ -5,12 +5,17 @@
 {% block title %}Remove Recipient{% endblock title %}
 
 {% block content %}
-  <section>
+  <section class='my-5 col-lg-8'>
+    <h2>
+      Remove Recipient
+    </h2>
+  </section>
+  <section class='my-5 col-lg-8'>
     <p class='lead'>
       Remove me as a Recipient.
     </p>
   </section>
-  <section class='my-5'>
+  <section class='my-5 col-lg-8'>
     <form method='post' role='form'>
       {% csrf_token %}
       {% bootstrap_form_errors form %}
