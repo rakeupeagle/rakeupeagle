@@ -209,6 +209,8 @@ def recipient(request):
 def recipient_create(request):
     account = request.user.account
     recipient = getattr(account, 'recipient', None)
+    if recipient:
+        return redirect('account')
     account_form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
     recipient_form = RecipientForm(request.POST) if request.POST else RecipientForm(instance=recipient)
     if account_form.is_valid() and recipient_form.is_valid():
@@ -281,6 +283,8 @@ def volunteer(request):
 def volunteer_create(request):
     account = request.user.account
     volunteer = getattr(account, 'volunteer', None)
+    if volunteer:
+        return redirect('account')
     account_form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
     volunteer_form = VolunteerForm(request.POST) if request.POST else VolunteerForm(instance=volunteer)
     if account_form.is_valid() and volunteer_form.is_valid():
