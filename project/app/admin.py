@@ -10,6 +10,7 @@ from reversion.admin import VersionAdmin
 from .forms import AccountAdminForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
+from .inlines import RecipientInline
 # from .inlines import VolunteerInline
 from .models import Account
 from .models import Event
@@ -94,6 +95,7 @@ class AccountAdmin(VersionAdmin):
         'user',
     ]
     inlines = [
+        RecipientInline,
     ]
     ordering = [
         '-created',

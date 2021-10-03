@@ -5,18 +5,23 @@
 {% block title %}Delete Account{% endblock title %}
 
 {% block content %}
-<section>
-  <p class='lead'>
-    Deleting your account will remove all information from the system.  There is no undo!
-  </p>
-</section>
-<section class='my-5'>
-  <form method='post' role='form'>
-    {% csrf_token %}
-    {% bootstrap_form_errors form %}
-    {% bootstrap_field form.confirm %}
-    {% bootstrap_button "Delete My Account and All Related Data" button_type='submit' button_class='btn btn-danger btn-lg btn-block' %}
-  </form>
-</section>
+  <section class='my-5'>
+    <h2>
+      Delete Account
+    </h2>
+  </section>
+  <section class='my-5 col-lg-8'>
+    <p class='lead'>
+      Deleting your account will remove all information from the system.  You will be removed as a Recipient and/or Volunteer and will not be contacted further.  There is no undo!
+    </p>
+  </section>
+  <section class='my-5'>
+    <form method='post' role='form'>
+      {% csrf_token %}
+      {% bootstrap_form_errors form %}
+      {% bootstrap_field form.confirm %}
+      {% bootstrap_button "Delete My Account and All Related Data" button_type='submit' button_class='btn btn-danger btn-lg btn-block' %}
+    </form>
+  </section>
 
 {% endblock content %}

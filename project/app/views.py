@@ -184,68 +184,50 @@ def account_delete(request):
 # Recipient
 @login_required
 def recipient(request):
-    try:
-        recipient = request.user.account.recipient
-    except AttributeError:
-        return redirect('recipient-create')
-    assignments = getattr(recipient, 'assignments', None)
+    account = request.user.account
+    recipient = getattr(account, 'recipient', None)
+    form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
+    if form.is_valid():
+        recipient = form.save(commit=False)
+        recipient.account = account
+        recipient.save()
+        send_recipient_confirmation.delay(recipient)
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('account')
     return render(
         request,
         'app/pages/recipient.html',
         context={
-            'recipient': recipient,
-            'assignments': assignments,
+            'form': form,
         }
     )
 
 @login_required
 def recipient_create(request):
-    recipient = getattr(request.user.account, 'recipient', None)
-    if recipient:
-        return redirect('recipient')
-
-    initial = {
-        'name': request.user.name,
-        'email': request.user.email,
-    }
-    form = RecipientForm(request.POST) if request.POST else RecipientForm(initial=initial)
-
-    if form.is_valid():
-        recipient = form.save(commit=False)
-        recipient.account = request.user.account
+    account = request.user.account
+    recipient = getattr(account, 'recipient', None)
+    account_form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
+    recipient_form = RecipientForm(request.POST) if request.POST else RecipientForm(instance=recipient)
+    if account_form.is_valid() and recipient_form.is_valid():
+        account_form.save()
+        recipient = recipient_form.save(commit=False)
+        recipient.account = account
         recipient.save()
         send_recipient_confirmation.delay(recipient)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('recipient')
+        return redirect('account')
     return render(
         request,
         'app/pages/recipient_create.html',
         context={
-            'form': form,
-        }
-    )
-
-@login_required
-def recipient_update(request):
-    recipient = getattr(request.user.account, 'recipient', None)
-    if not recipient:
-        return redirect('recipient-create')
-    form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
-    if form.is_valid():
-        form.save()
-        messages.success(
-            request,
-            "Recipient information updated!",
-        )
-        return redirect('recipient')
-    return render(
-        request,
-        'app/pages/recipient_update.html',
-        context={
-            'form': form,
+            'account_form': account_form,
+            'recipient_form': recipient_form,
         }
     )
 
@@ -274,68 +256,50 @@ def recipient_delete(request):
 # Volunteer
 @login_required
 def volunteer(request):
-    try:
-        volunteer = request.user.account.volunteer
-    except AttributeError:
-        return redirect('volunteer-create')
-    assignment = getattr(volunteer, 'assignment', None)
+    account = request.user.account
+    volunteer = getattr(account, 'volunteer', None)
+    form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
+    if form.is_valid():
+        volunteer = form.save(commit=False)
+        volunteer.account = account
+        volunteer.save()
+        send_volunteer_confirmation.delay(volunteer)
+        messages.success(
+            request,
+            "Saved!",
+        )
+        return redirect('account')
     return render(
         request,
         'app/pages/volunteer.html',
         context={
-            'volunteer': volunteer,
-            'assignment': assignment,
+            'form': form,
         }
     )
 
 @login_required
 def volunteer_create(request):
-    volunteer = getattr(request.user.account, 'volunteer', None)
-    if volunteer:
-        return redirect('volunteer')
-
-    initial = {
-        'name': request.user.name,
-        'email': request.user.email,
-    }
-    form = VolunteerForm(request.POST) if request.POST else VolunteerForm(initial=initial)
-    if form.is_valid():
-        volunteer = form.save(commit=False)
-        volunteer.account = request.user.account
+    account = request.user.account
+    volunteer = getattr(account, 'volunteer', None)
+    account_form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
+    volunteer_form = VolunteerForm(request.POST) if request.POST else VolunteerForm(instance=volunteer)
+    if account_form.is_valid() and volunteer_form.is_valid():
+        account_form.save()
+        volunteer = volunteer_form.save(commit=False)
+        volunteer.account = account
         volunteer.save()
         send_volunteer_confirmation.delay(volunteer)
         messages.success(
             request,
-            "Signup complete!  We will reach out before November 8th with futher details.",
+            "Registration complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('volunteer')
+        return redirect('account')
     return render(
         request,
         'app/pages/volunteer_create.html',
         context={
-            'form': form,
-        }
-    )
-
-@login_required
-def volunteer_update(request):
-    volunteer = getattr(request.user.account, 'volunteer', None)
-    if not volunteer:
-        return redirect('volunteer-create')
-    form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
-    if form.is_valid():
-        volunteer = form.save(commit=False)
-        volunteer.account = request.user.account
-        messages.success(
-            request,
-            "Volunteer information updated!",
-        )
-        return redirect('volunteer')
-    return render(
-        request,
-        'app/pages/volunteer_update.html',
-        context={
-            'form': form,
+            'account_form': account_form,
+            'volunteer_form': volunteer_form,
         }
     )
 

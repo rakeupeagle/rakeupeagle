@@ -6,12 +6,12 @@
 {% block title %}Your Account{% endblock title %}
 
 {% block content %}
+  {% comment %}
   <section class='my-5'>
     <h2>
       Your Account
     </h2>
   </section>
-  {% comment %}
   <section class='my-5'>
     <p class='lead'>
       Update your information below.
@@ -19,74 +19,57 @@
   </section>
   {% endcomment %}
 
-    <section class='mt-2 mt-5'>
-      <div class='card'>
-        <h4 class='card-header'>
-          Account Information
-        </h4>
-        <form method='post'>
-          {% csrf_token %}
-          <div class='card-body'>
-            {% bootstrap_form_errors form %}
-            {% bootstrap_field form.name show_help=False show_label=False placeholder="Name" %}
-            {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
-            {% bootstrap_field form.phone show_help=False show_label=False %}
-          </div>
-          <div class='card-footer'>
-            <ul class='list-inline'>
-              <li class='list-inline-item'>
-                {% bootstrap_button "Save" button_type='submit' size='large' %}
-              </li>
-              <li class='list-inline-item'>
-                {% url 'account' as account_url %}
-                {% bootstrap_button "Cancel" button_type='link' href=account_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
-              </li>
-            </ul>
-          </div>
-        </form>
-      </div>
-      <p class='float-right'>
-        <a class='text-danger' href='{% url "account-delete" %}'>Delete Account</a>
-      </p>
-    </section>
-
-
+  <section class='my-5'>
+    <div class='card'>
+      <h4 class='card-header'>
+        Contact Information
+      </h4>
+      <form method='post'>
+        {% csrf_token %}
+        <div class='card-body'>
+          {% bootstrap_form_errors form %}
+          {% bootstrap_field form.name show_help=False show_label=False placeholder="Name" %}
+          {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
+          {% bootstrap_field form.phone show_help=False show_label=False %}
+        </div>
+        <div class='card-footer'>
+          <ul class='list-inline'>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Save" button_type='submit' size='large' %}
+            </li>
+            <li class='list-inline-item'>
+              {% url 'account' as account_url %}
+              {% bootstrap_button "Cancel" button_type='link' href=account_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </section>
 
   {% if recipient %}
     <section class='mt-2 mt-5'>
       <div class='card'>
         <h4 class='card-header'>
-          Recipient Information
+          Recipient Details
         </h4>
         <div class='card-body'>
           <ul class='list-unstyled'>
-            <li><strong>Name:&nbsp;&nbsp;</strong>{{recipient.name}}</li>
-            <li><strong>Email:&nbsp;&nbsp;</strong>{{recipient.email}}</li>
-            <li><strong>Phone:&nbsp;&nbsp;</strong>{{recipient.phone}}</li>
-            <li><strong>Address:&nbsp;&nbsp;</strong>{{recipient.address}}</li>
+            <li><strong>Location:&nbsp;&nbsp;</strong>{{recipient.location}}</li>
             <li><strong>Size:&nbsp;&nbsp;</strong>{{recipient.get_size_display}}</li>
             <li><strong>Dog in Yard?&nbsp;&nbsp;</strong>{{recipient.is_dog|yesno|title}}</li>
             <li><strong>Notes:&nbsp;&nbsp;</strong>{{recipient.notes|default:"(No Notes)"}}</li>
           </ul>
         </div>
         <div class='card-footer'>
-          <ul class='list-inline'>
-            <li class='float-right'>
-              <a href='{% url "recipient-delete" %}' class='text-danger'>
-                Remove me as Recipient
-              </a>
-            </li>
-            <li>
-              <a href='{% url "recipient-update" %}' class="btn btn-lg btn-success">
-                Update this Information
-              </a>
-            </li>
-          </ul>
+          <a href='{% url "recipient" %}' class="btn btn-lg btn-info">
+            Update this Information
+          </a>
         </div>
       </div>
     </section>
   {% else %}
-    <a href='{% url "recipient" %}' class="btn btn-success btn-block btn-lg my-5">
+    <a href='{% url "recipient-create" %}' class="btn btn-success btn-block btn-lg my-5">
       Register as a Recipient!
     </a>
   {% endif %}
@@ -94,30 +77,18 @@
     <section class='mt-2 mt-5'>
       <div class='card'>
         <h4 class='card-header'>
-          Volunteer Information
+          Volunteer Details
         </h4>
         <div class='card-body'>
           <ul class='list-unstyled'>
-            <li><strong>Name:&nbsp;&nbsp;</strong>{{volunteer.name}}</li>
-            <li><strong>Email:&nbsp;&nbsp;</strong>{{volunteer.email}}</li>
-            <li><strong>Phone:&nbsp;&nbsp;</strong>{{volunteer.phone}}</li>
             <li><strong>Size:&nbsp;&nbsp;</strong>{{volunteer.get_size_display}}</li>
             <li><strong>Notes:&nbsp;&nbsp;</strong>{{volunteer.notes|default:"(No Notes)"}}</li>
           </ul>
         </div>
         <div class='card-footer'>
-          <ul class='list-inline'>
-            <li class='float-right'>
-              <a href='{% url "volunteer-delete" %}' class='text-danger'>
-                Remove me as Volunteer
-              </a>
-            </li>
-            <li>
-              <a href='{% url "volunteer-update" %}' class="btn btn-lg btn-success">
-                Update this Information
-              </a>
-            </li>
-          </ul>
+          <a href='{% url "volunteer" %}' class="btn btn-lg btn-info">
+            Update this Information
+          </a>
         </div>
       </div>
     </section>
@@ -139,17 +110,20 @@
           {% endif %}
         </div>
         <div class='card-footer'>
-          <p>
-            <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
-          </p>
         </div>
       </div>
     </section>
 
   {% else %}
-    <a href='{% url "volunteer" %}' class="btn btn-success btn-block btn-lg my-5">
+    <a href='{% url "volunteer-create" %}' class="btn btn-success btn-block btn-lg my-5">
       Signup as a Volunteer!
     </a>
   {% endif %}
+
+  <section class='my-5 col-lg-8'>
+    <p class='float-right'>
+      <a class='text-danger' href='{% url "account-delete" %}'>Delete My Account and All Information</a>
+    </p>
+  </section>
 
 {% endblock content %}

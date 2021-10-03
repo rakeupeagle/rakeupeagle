@@ -68,14 +68,16 @@ class DeleteForm(forms.Form):
 
 
 class RecipientForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-        # super().__init__(*args, **kwargs)
-        # Making name required
-        # self.fields['location'].required = True
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Overriding required fields in form
+        self.fields['size'].required = True
+        self.fields['location'].required = True
 
     class Meta:
         model = Recipient
         fields = [
+            'location',
             'size',
             'is_dog',
             'notes',
@@ -90,29 +92,30 @@ class RecipientForm(forms.ModelForm):
                     'placeholder': 'Anything else we should know? (Optional)',
                     'rows': 5,
                 }
-            )
+            ),
+            'location': AddressWidget(
+                # attrs={'style': "width: 600px;"}
+            ),
         }
         help_texts = {
         }
 
 
 class VolunteerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Overriding required fields in form
+        self.fields['size'].required = True
 
     class Meta:
         model = Volunteer
         fields = [
             'size',
-            'reference',
             'notes',
         ]
+        labels = {
+        }
         widgets = {
-            'reference': forms.Textarea(
-                attrs={
-                    'class': 'form-control h-25',
-                    'placeholder': 'How did you hear about us? (Optional)',
-                    'rows': 1,
-                }
-            ),
             'notes': forms.Textarea(
                 attrs={
                     'class': 'form-control h-25',
@@ -120,10 +123,8 @@ class VolunteerForm(forms.ModelForm):
                     'rows': 5,
                 }
             ),
-            # 'address': AddressWidget(),
         }
         help_texts = {
-            'size': 'The size of your group.  (Children of sufficient age can be combined as a "adult" for the purposes of this question.)',
         }
 
 

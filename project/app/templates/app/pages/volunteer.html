@@ -5,63 +5,41 @@
 
 {% block formmedia %}{{ form.media }}{% endblock formmedia %}
 
-{% block title %}Thank You!{% endblock title %}
+{% block title %}Volunteer Details{% endblock title %}
 
 {% block content %}
   <section class='my-5'>
     <h2>
-      Thank you!
+      Update Volunteer Details
     </h2>
   </section>
-  <section class='my-5'>
-    <p class='lead'>
-      Please update the information below as needed.  If you need to remove yourself as a volunteer please use that button.  Otherwise, we will let you know when assignments have been made via email.
-    </p>
-  </section>
-  <section class='my-5'>
+  <section class='my-5 col-lg-8'>
     <div class='card'>
-      <h4 class='card-header'>Volunteer Information</h4>
-      <div class="card-body">
-        <div class='card-text'>
-          <ul class='list-unstyled'>
-            <li><strong>Name:</strong>&nbsp;&nbsp;{{volunteer.name}}</li>
-            <li><strong>Email:</strong>&nbsp;&nbsp;{{volunteer.email}}</li>
-            <li><strong>Phone:</strong>&nbsp;&nbsp;{{volunteer.phone}}</li>
-            <li><strong>Size:</strong>&nbsp;&nbsp;{{volunteer.get_size_display}}</li>
-            <li><strong>Notes:</strong>&nbsp;&nbsp;{{volunteer.notes|default:"(No Notes)"}}</li>
-          </ul>
-        </div>
-      </div>
-      <div class='card-footer'>
-        {% bootstrap_button "Update this Information" button_type='link' href="/volunteer/update" size='large' %}
-        {% bootstrap_button "Remove me as Volunteer" button_type='link' href="/volunteer/delete" size='large' button_class='btn-danger' extra_classes='float-right'%}
-      </div>
-    </div>
-  </section>
-  {% if assignment %}
-    <section class='my-5'>
-      <div class='card'>
-        <h4 class='card-header'>Volunteer Assignment</h4>
-        <div class="card-body">
-          <div class='card-text'>
-            <p>
-              Here is your assignment:
-            </p>
-            <ul class='list-unstyled'>
-              <li><strong>Name:</strong>&nbsp;&nbsp;{{assignment.name}}</li>
-              <li><strong>Size:</strong>&nbsp;&nbsp;{{assignment.address}}</li>
-              <li><strong>Email:</strong>&nbsp;&nbsp;{{assignment.email}}</li>
-              <li><strong>Phone:</strong>&nbsp;&nbsp;{{assignment.phone}}</li>
-              <li><strong>Size:</strong>&nbsp;&nbsp;{{assignment.get_size_display}}</li>
-              <li><strong>Dog in Yard?</strong>&nbsp;&nbsp;{{assignment.is_dog|yesno|title}}</li>
-              <li><strong>Notes:</strong>&nbsp;&nbsp;{{assignment.notes|default:"(No Notes)"}}</li>
-            </ul>
-          </div>
+      <h4 class='card-header'>
+        Volunteer Details
+      </h4>
+      <form method='post'>
+        {% csrf_token %}
+        <div class='card-body'>
+          {% bootstrap_form_errors form %}
+          {% bootstrap_field form.size show_help=False show_label=False placeholder="Name" %}
+          {% bootstrap_field form.notes show_help=False show_label=False %}
         </div>
         <div class='card-footer'>
-          Please Note:  All recipients with dogs are required to remove waste before you arrive.  If you notice dog waste in the raking area please call the coordinator before proceeding.
+          <ul class='list-inline'>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Save" button_type='submit' size='large' %}
+            </li>
+            <li class='list-inline-item'>
+              {% url 'account' as account_url %}
+              {% bootstrap_button "Cancel" button_type='link' href=account_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+            </li>
+          </ul>
         </div>
-      </div>
-    </section>
-  {% endif %}
+      </form>
+    </div>
+    <p class='float-right'>
+      <a class='text-danger' href='{% url "volunteer-delete" %}'>Remove Me as Volunteer</a>
+    </p>
+  </section>
 {% endblock content %}

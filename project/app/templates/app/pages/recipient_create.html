@@ -3,17 +3,15 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
-{% block formmedia %}{{ form.media }}{% endblock formmedia %}
+{% block formmedia %}{{ recipient_form.media }}{% endblock formmedia %}
 
 {% block title %}Registration for Yard Rake{% endblock title %}
 
 {% block content %}
-  <section>
+  <section class='col-lg-8'>
     <p class='lead'>
       To qualify for Rake Up Eagle, registrants <strong>must</strong>:
     </p>
-  </section>
-  <section>
     <ul class='list-styled'>
       <li>Be at least 65 years old, disabled or a veteran</li>
       <li>Live within the city limits of Eagle</li>
@@ -30,36 +28,41 @@
       All raked leaf bags will be placed at your normal pickup location, or at the end of your driveway.
     </p>
   </section>
-  <section class='my-5'>
+  <section class='my-5 col-lg-8'>
     <div class='card'>
       <div class='card-header'>
         <h4>Recipient Information</h4>
       </div>
-      <div class="card-body">
-        <div class='card-text'>
-          <form method='post'>
-            {% csrf_token %}
-            {% bootstrap_form_errors form %}
-
-            {% bootstrap_field form.name show_help=False show_label=False placeholder="Name" %}
-            {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
-            {% bootstrap_field form.phone show_help=False show_label=False %}
-            {% bootstrap_field form.address show_help=True show_label=False  %}
-            {% bootstrap_field form.size show_help=True show_label=False  %}
-            {% bootstrap_field form.is_dog show_help=True show_label=False %}
-            {% bootstrap_field form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
-            {% bootstrap_button "Save" button_type='submit' size='large' %}
-            {% bootstrap_button "Cancel" button_type='link' href="/account" size='large' button_class='btn-light' extra_classes='ml-3'%}
-          </form>
+      <form method='post'>
+        {% csrf_token %}
+        <div class="card-body">
+          <div class='card-text'>
+            {% bootstrap_form_errors account_form %}
+            {% bootstrap_form_errors recipient_form %}
+            {% bootstrap_field account_form.name show_help=False show_label=False placeholder="Name" %}
+            {% bootstrap_field account_form.email show_help=False show_label=False placeholder='Email' %}
+            {% bootstrap_field account_form.phone show_help=False show_label=False %}
+            {% bootstrap_field recipient_form.location show_help=True show_label=False  %}
+            {% bootstrap_field recipient_form.size show_help=True show_label=False  %}
+            {% bootstrap_field recipient_form.is_dog show_help=True show_label=False %}
+            {% bootstrap_field recipient_form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
+          </div>
         </div>
-      </div>
-      <div class='card-footer'>
-        <p>
-          <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
-        </p>
-      </div>
+        <div class='card-footer'>
+          <div class='list-inline'>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Save" button_type='submit' size='large' %}
+            </li>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Cancel" button_type='link' href="/account" size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+            </li>
+          </div>
+        </div>
+      </form>
     </div>
+    <p>
+      <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
+    </p>
   </section>
 
 {% endblock content %}
-d

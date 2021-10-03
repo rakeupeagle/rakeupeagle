@@ -74,9 +74,10 @@ class Recipient(models.Model):
         (130, 'large', 'Large (31+ bags)'),
     )
     size = models.IntegerField(
-        blank=False,
+        blank=True,
         choices=SIZE,
         help_text='Yard Size',
+        null=True,
     )
     location = models.CharField(
         max_length=512,
@@ -100,7 +101,8 @@ class Recipient(models.Model):
         null=True,
     )
     is_dog = models.BooleanField(
-        blank=False,
+        blank=True,
+        default=False,
         help_text="""If you have a dog, it must be contained in your home for us to rake.  Also, you must clean up all animal waste before we arrive or our volunteer group will not be able to rake.""",
     )
     notes = models.TextField(
@@ -125,11 +127,11 @@ class Recipient(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    account = models.ForeignKey(
+    account = models.OneToOneField(
         'app.Account',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='raccount',
+        related_name='recipient',
         unique=True,
     )
 
@@ -168,11 +170,11 @@ class Volunteer(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    account = models.ForeignKey(
+    account = models.OneToOneField(
         'app.Account',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='vaccount',
+        related_name='volunteer',
         unique=True,
     )
 

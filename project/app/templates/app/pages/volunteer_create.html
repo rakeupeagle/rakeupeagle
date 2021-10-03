@@ -18,37 +18,45 @@
       Thanks for volunteering!  Here's what you need to know:
     </p>
     <ul class='list-styled'>
-      <li>The event date is November 13, 2021</li>
-      <li>We will coordinate with you by November 6, 2021</li>
-      <li>Check-in takes place from 8-10 AM at Eagle Middle School</li>
+      <li>The event date is November 13, 2021.</li>
+      <li>We will coordinate with you by November 8, 2021.</li>
+      <li>Check-in takes place from 8-10 AM at Eagle Middle School.</li>
       <li>We provide the lawn bags; you need to bring rakes, gloves, etc.</li>
-      <li>You must agree to our <a href='{% url "terms" %}'>terms and waiver</a></li>
+      <li>You must agree to our <a href='{% url "terms" %}'>terms and waiver.</a></li>
     </ul>
   </section>
-  <section class='my-5'>
+  <section class='my-5 col-lg-8'>
     <div class='card'>
-      <h4 class='card-header'>Volunteer Information</h4>
-      <div class="card-body">
-        <div class='card-text'>
-          <form method='post'>
-            {% csrf_token %}
-            {% bootstrap_form_errors form %}
-            {% bootstrap_field form.name show_help=False show_label=False placeholder="Your Name" %}
-            {% bootstrap_field form.email show_help=False show_label=False placeholder='Email' %}
-            {% bootstrap_field form.phone show_help=False show_label=False placeholder='Cell Phone' %}
-            {% bootstrap_field form.size show_help=True show_label=False  %}
-            {% bootstrap_field form.reference show_help=False show_label=False %}
-            {% bootstrap_field form.notes show_help=False show_label=False %}
-            {% bootstrap_button "Save" button_type='submit' size='large' %}
-            {% bootstrap_button "Cancel" button_type='link' href="/account" size='large' button_class='btn-light' extra_classes='ml-3'%}
-          </form>
+      <div class='card-header'>
+        <h4>Volunteer Information</h4>
+      </div>
+      <form method='post'>
+        {% csrf_token %}
+        <div class="card-body">
+          <div class='card-text'>
+            {% bootstrap_form_errors account_form %}
+            {% bootstrap_form_errors volunteer_form %}
+            {% bootstrap_field account_form.name show_help=False show_label=False placeholder="Name" %}
+            {% bootstrap_field account_form.email show_help=False show_label=False placeholder='Email' %}
+            {% bootstrap_field account_form.phone show_help=False show_label=False %}
+            {% bootstrap_field volunteer_form.size show_help=True show_label=False  %}
+            {% bootstrap_field volunteer_form.notes show_help=False show_label=False  placeholder='Any other notes? (optional)'%}
+          </div>
         </div>
-      </div>
-      <div class='card-footer'>
-        <p>
-          <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
-        </p>
-      </div>
+        <div class='card-footer'>
+          <div class='list-inline'>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Save" button_type='submit' size='large' %}
+            </li>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Cancel" button_type='link' href="/account" size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+            </li>
+          </div>
+        </div>
+      </form>
     </div>
+    <p>
+      <small class='text-muted'>Please contact <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> if you have any questions or need support.</small>
+    </p>
   </section>
 {% endblock content %}
