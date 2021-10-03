@@ -1,12 +1,14 @@
+{% load phonenumber %}
 {% autoescape off %}
 
 Your registration for Rake Up Eagle is confirmed!
 
 
 *Details*
-Name: {{recipient.name}}
-Email: {{recipient.email}}
-Address: {{recipient.address}}
+Name: {{recipient.account.name}}
+Email: {{recipient.account.email}}
+Phone: {{recipient.account.phone|phonenumber}}
+Address: {{recipient.location}}
 Size: {{recipient.get_size_display}}
 Dog in Yard? {{recipient.is_dog|yesno|title}}
 

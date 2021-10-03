@@ -152,7 +152,9 @@ def send_recipient_confirmation(recipient):
         template='app/emails/recipient_confirmation.txt',
         subject='Rake Up Eagle Recipient Confirmation',
         from_email='Rake Up Eagle <support@rakeupeagle.com>',
-        context={'recipient': recipient},
+        context={
+            'recipient': recipient,
+        },
         to=[recipient.account.email],
     )
     return email.send()
@@ -164,7 +166,9 @@ def send_volunteer_confirmation(volunteer):
         template='app/emails/volunteer_confirmation.txt',
         subject='Rake Up Eagle Volunteer Confirmation',
         from_email='Rake Up Eagle <support@rakeupeagle.com>',
-        context={'volunteer': volunteer},
+        context={
+            'volunteer': volunteer,
+        },
         to=[volunteer.account.email],
     )
     return email.send()

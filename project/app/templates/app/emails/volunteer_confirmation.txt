@@ -1,11 +1,13 @@
+{% load phonenumber %}
 {% autoescape off %}
 
 Your signup for Rake Up Eagle is confirmed!
 
 
 *Details*
-Name: {{volunteer.name}}
-Email: {{volunteer.email}}
+Name: {{volunteer.account.name}}
+Email: {{volunteer.account.email}}
+Phone: {{volunteer.account.phone|phonenumber}}
 Size: {{volunteer.get_size_display}}
 
 
