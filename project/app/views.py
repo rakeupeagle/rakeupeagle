@@ -2,6 +2,7 @@ import csv
 import datetime
 import logging
 
+import jwt
 import pydf
 import requests
 from django.conf import settings
