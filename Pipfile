@@ -40,6 +40,7 @@ django-fsm = "*"
 django-fsm-admin = "*"
 django-reversion = "*"
 geocoder = "*"
+twilio = "*"
 
 [requires]
 python_version = "3.9"

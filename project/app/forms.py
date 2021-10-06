@@ -18,13 +18,11 @@ class AccountForm(forms.ModelForm):
         model = Account
         fields = [
             'name',
-            'email',
             'phone',
         ]
 
         help_texts = {
             'name': mark_safe("Please enter your preferred name."),
-            'email': mark_safe("We do not sell, share, or spam you."),
             'phone': mark_safe("Please enter your mobile phone."),
         }
 

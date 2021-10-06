@@ -647,6 +647,13 @@
             "markers": "python_version >= '3.7'",
             "version": "==5.1.0"
         },
+        "twilio": {
+            "hashes": [
+                "sha256:6cff34d61c3fad9d41e21b4b59527996fb7f0c6eeb5f001b90040b630fbf8446"
+            ],
+            "index": "pypi",
+            "version": "==7.0.0"
+        },
         "urllib3": {
             "hashes": [
                 "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece",
