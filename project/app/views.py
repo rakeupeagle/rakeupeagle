@@ -137,7 +137,7 @@ def callback(request):
                 request,
                 "Next, please update your details below."
             )
-            return redirect(next_url)
+            return redirect('volunteer')
         # Otherwise, redirect to next_url, defaults to 'account'
         messages.success(
             request,
