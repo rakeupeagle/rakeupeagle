@@ -14,16 +14,19 @@ from .widgets import AddressWidget
 
 
 class AccountForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Overriding required fields in form
+        self.fields['name'].required = True
+
     class Meta:
         model = Account
         fields = [
             'name',
-            'phone',
         ]
 
         help_texts = {
-            'name': mark_safe("Please enter your preferred name."),
-            'phone': mark_safe("Please enter your mobile phone."),
+            'name': mark_safe("Please enter your name."),
         }
 
 
