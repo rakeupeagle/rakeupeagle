@@ -23,6 +23,7 @@ class AccountForm(forms.ModelForm):
         model = Account
         fields = [
             'name',
+            # 'phone',
         ]
 
         help_texts = {
