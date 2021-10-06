@@ -135,9 +135,9 @@ def callback(request):
             )
             messages.warning(
                 request,
-                "Next, please search update your details below."
+                "Next, please update your details below."
             )
-            return redirect('search')
+            return redirect(next_url)
         # Otherwise, redirect to next_url, defaults to 'account'
         messages.success(
             request,
