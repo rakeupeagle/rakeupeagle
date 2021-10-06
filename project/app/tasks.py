@@ -196,14 +196,14 @@ def send_text(to, body, media_url=None):
     if media_url:
         response = client.messages.create(
             to=to,
-            from_=settings.TWILIO_PHONE,
+            from_=settings.TWILIO_NUMBER,
             body=body,
             media_url=media_url,
         )
         return response
     response = client.messages.create(
         to=to,
-        from_=settings.TWILIO_PHONE,
+        from_=settings.TWILIO_NUMBER,
         body=body,
     )
     return response
