@@ -10,10 +10,12 @@ from reversion.admin import VersionAdmin
 from .forms import AccountAdminForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
+from .inlines import MessageInline
 from .inlines import RecipientInline
 # from .inlines import VolunteerInline
 from .models import Account
 from .models import Event
+from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import User
@@ -163,6 +165,78 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'total',
         # 'reps',
     ]
+
+
+
+@admin.register(Message)
+class MessageAdmin(VersionAdmin):
+
+    fields = [
+        'id',
+        'state',
+        'account',
+        'body',
+        'sid',
+        'to_phone',
+        'from_phone',
+        'direction',
+        'raw',
+        'created',
+        'updated',
+    ]
+    list_display = [
+        'id',
+        'account_link',
+        'body',
+        'direction',
+        'created',
+        'updated',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+        'direction',
+        'state',
+    ]
+    search_fields = [
+        'account',
+    ]
+    autocomplete_fields = [
+        'account',
+    ]
+    inlines = [
+        # StudentInline,
+        # CommentInline,
+    ]
+    ordering = [
+        '-created',
+    ]
+    readonly_fields = [
+        'id',
+        'sid',
+        'to_phone',
+        'from_phone',
+        'direction',
+        'created',
+        'updated',
+        'raw',
+        'account_link',
+    ]
+
+    def account_link(self, obj):
+        try:
+            name = obj.account.name if obj.account.name else 'Unknown'
+        except AttributeError:
+            name = 'Unknown'
+        try:
+            response = mark_safe('<a href="{}">{}</a>'.format(
+                reverse("admin:app_account_change", args=(obj.account.pk,)),
+                name,
+            ))
+        except AttributeError:
+            response = None
+        return response
+    account_link.short_description = 'account'
 
 
 

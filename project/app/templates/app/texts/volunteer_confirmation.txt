@@ -1,0 +1,10 @@
+{% autoescape off %}
+Your signup for Rake Up Eagle is confirmed!
+
+*Details*
+Name: {{volunteer.account.name}}
+Size: {{volunteer.get_size_display}}
+
+We will be in contact after November 8th with further instructions.  Please let us know if you have any questions.
+
+{% endautoescape %}

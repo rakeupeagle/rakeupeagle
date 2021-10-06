@@ -14,9 +14,11 @@ from django.db.models import Sum
 from django.http import FileResponse
 from django.template.loader import render_to_string
 from django_rq import job
+from twilio.rest import Client as TwilioClient
 
 # Local
 from .models import Account
+from .models import Message
 from .models import Picture
 from .models import Recipient
 
@@ -70,16 +72,11 @@ def update_user(user):
     return user
 
 
-def get_or_create_account_from_user(user):
-    defaults = {
-        'name': user.name,
-        'user': user,
-    }
-    account, created = Account.objects.update_or_create(
-        email=user.email,
-        defaults=defaults,
+def create_account_from_user(user):
+    account = Account.objects.create(
+        phone=user.phone,
     )
-    return account, created
+    return account
 
 # Utility
 def build_email(template, subject, from_email, context=None, to=[], cc=[], bcc=[], attachments=[], html_content=None):
@@ -148,30 +145,33 @@ def export_csv():
 
 @job
 def send_recipient_confirmation(recipient):
-    email = build_email(
-        template='app/emails/recipient_confirmation.txt',
-        subject='Rake Up Eagle Recipient Confirmation',
-        from_email='Rake Up Eagle <support@rakeupeagle.com>',
+    body = render_to_string(
+        'app/texts/recipient_confirmation.txt',
         context={
             'recipient': recipient,
         },
-        to=[recipient.account.email],
     )
-    return email.send()
-
+    message = Message.objects.create(
+        account=recipient.account,
+        direction=Message.DIRECTION.outbound,
+        body=body,
+    )
+    return message
 
 @job
 def send_volunteer_confirmation(volunteer):
-    email = build_email(
-        template='app/emails/volunteer_confirmation.txt',
-        subject='Rake Up Eagle Volunteer Confirmation',
-        from_email='Rake Up Eagle <support@rakeupeagle.com>',
+    body = render_to_string(
+        'app/texts/volunteer_confirmation.txt',
         context={
             'volunteer': volunteer,
         },
-        to=[volunteer.account.email],
     )
-    return email.send()
+    message = Message.objects.create(
+        account=volunteer.account,
+        direction=Message.DIRECTION.outbound,
+        body=body,
+    )
+    return message
 
 @job
 def create_and_upload_picture(path):
@@ -186,3 +186,39 @@ def delete_user(user_id):
     client = get_auth0_client()
     response = client.users.delete(user_id)
     return response
+
+
+
+@job
+def send_text(to, body, media_url=None):
+    client = TwilioClient()
+    if media_url:
+        response = client.messages.create(
+            to=to,
+            from_=settings.TWILIO_PHONE,
+            body=body,
+            media_url=media_url,
+        )
+        return response
+    response = client.messages.create(
+        to=to,
+        from_=settings.TWILIO_PHONE,
+        body=body,
+    )
+    return response
+
+@job
+def send_text_from_message(message):
+    if message.direction != message.DIRECTION.outbound:
+        return
+    response = send_text(
+        str(message.account.user.phone),
+        message.body,
+    )
+    message.state = message.STATE.sent
+    message.sid = response.sid
+    message.to = response.to
+    message.body = response.body
+    message.direction = message.DIRECTION.outbound
+    message.save()
+    return

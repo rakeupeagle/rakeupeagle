@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "71a94c9fd99a435e6134d53911f4aef757e546f031b07e4a9613585861afecca"
+            "sha256": "c0a9c53e1b87dd467135ac0ffdab47f2ba828b5dde3a1b3bfa3a956f7a730dc9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -221,11 +221,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:95b318319d6997bac3595517101ad9cc83fe5672ac498ba48d1a410f47afecd2",
-                "sha256:e93c93565005b37ddebf2396b4dc4b6913c1838baa82efdfb79acedd5816c240"
+                "sha256:42573831292029639b798fe4d3812996bfe4ff3275f04566da90764daec011a5",
+                "sha256:f6d2c4069c9b9bfac03bedff927ea1f9e0d29e34525cec8a68fd28eb2a8df7af"
             ],
             "index": "pypi",
-            "version": "==3.2.7"
+            "version": "==3.2.8"
         },
         "django-address": {
             "hashes": [
@@ -655,6 +655,13 @@
             "markers": "python_version >= '3.7'",
             "version": "==5.1.0"
         },
+        "twilio": {
+            "hashes": [
+                "sha256:6cff34d61c3fad9d41e21b4b59527996fb7f0c6eeb5f001b90040b630fbf8446"
+            ],
+            "index": "pypi",
+            "version": "==7.0.0"
+        },
         "urllib3": {
             "hashes": [
                 "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece",
@@ -706,11 +713,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:95b318319d6997bac3595517101ad9cc83fe5672ac498ba48d1a410f47afecd2",
-                "sha256:e93c93565005b37ddebf2396b4dc4b6913c1838baa82efdfb79acedd5816c240"
+                "sha256:42573831292029639b798fe4d3812996bfe4ff3275f04566da90764daec011a5",
+                "sha256:f6d2c4069c9b9bfac03bedff927ea1f9e0d29e34525cec8a68fd28eb2a8df7af"
             ],
             "index": "pypi",
-            "version": "==3.2.7"
+            "version": "==3.2.8"
         },
         "django-debug-toolbar": {
             "hashes": [
@@ -737,11 +744,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:17225e20fed6b958108ad278974b5eb63a797496e43d5c337366fa128473d94f",
-                "sha256:30e10d959191b30fd89f7a180940b930bafcaf371c41cfb740d9cefacfe3555f"
+                "sha256:bb10913b9d3ac2aa37180f816c82040e81f9e0c32cb08445533f293cec8930bf",
+                "sha256:d70b375d0af0e4c3abd594003691a1055a96281a414884e623d27bccc7d781da"
             ],
             "index": "pypi",
-            "version": "==8.14.1"
+            "version": "==8.16.0"
         },
         "iniconfig": {
             "hashes": [
