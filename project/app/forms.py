@@ -96,7 +96,9 @@ class RecipientForm(forms.ModelForm):
                 }
             ),
             'location': AddressWidget(
-                # attrs={'style': "width: 600px;"}
+                attrs={
+                    'placeholder': 'Location Address',
+                },
             ),
         }
         help_texts = {
@@ -113,6 +115,8 @@ class VolunteerForm(forms.ModelForm):
         model = Volunteer
         fields = [
             'size',
+            'team',
+            'reference',
             'notes',
         ]
         labels = {
@@ -123,6 +127,16 @@ class VolunteerForm(forms.ModelForm):
                     'class': 'form-control h-25',
                     'placeholder': 'Anything else we should know? (Optional)',
                     'rows': 5,
+                }
+            ),
+            'team': forms.TextInput(
+                attrs={
+                    'placeholder': 'Team Name (optional)',
+                }
+            ),
+            'reference': forms.TextInput(
+                attrs={
+                    'placeholder': 'Referred by (optional)',
                 }
             ),
         }

@@ -33,7 +33,7 @@
             <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
             <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
           </div>
-          {% bootstrap_field form.name show_help=True show_label=False placeholder="Name" %}
+          {% bootstrap_field form.name show_help=True show_label=False%}
         </div>
         <div class='card-footer'>
           <ul class='list-inline'>
@@ -87,6 +87,8 @@
         <div class='card-body'>
           <ul class='list-unstyled'>
             <li><strong>Size:&nbsp;&nbsp;</strong>{{volunteer.get_size_display}}</li>
+            <li><strong>Team Name:&nbsp;&nbsp;</strong>{{volunteer.team|default:'(Not provided)'}}</li>
+            <li><strong>Reference:&nbsp;&nbsp;</strong>{{volunteer.reference|default:'(Not provided)'}}</li>
             <li><strong>Notes:&nbsp;&nbsp;</strong>{{volunteer.notes|default:"(No Notes)"}}</li>
           </ul>
         </div>

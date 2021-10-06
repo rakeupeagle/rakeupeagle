@@ -23,9 +23,9 @@
         {% csrf_token %}
         <div class='card-body'>
           {% bootstrap_form_errors form %}
-          {% bootstrap_field form.location show_help=False show_label=False placeholder="Location" %}
-          {% bootstrap_field form.size show_help=False show_label=False placeholder="Name" %}
-          {% bootstrap_field form.is_dog show_help=False show_label=False placeholder='Email' %}
+          {% bootstrap_field form.location show_help=False show_label=False %}
+          {% bootstrap_field form.size show_help=False show_label=False %}
+          {% bootstrap_field form.is_dog show_help=False show_label=False %}
           {% bootstrap_field form.notes show_help=False show_label=False %}
         </div>
         <div class='card-footer'>

@@ -14,7 +14,7 @@ from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import MessageInline
 from .inlines import RecipientInline
-# from .inlines import VolunteerInline
+from .inlines import VolunteerInline
 from .models import Account
 from .models import Event
 from .models import Message
@@ -26,35 +26,6 @@ from .models import Volunteer
 # from .widgets import AddressWidget
 
 
-@admin.register(Event)
-class EventAdmin(VersionAdmin):
-    save_on_top = True
-    autocomplete_fields = [
-        # 'account',
-        # 'voter',
-    ]
-    fields = [
-        'name',
-        'state',
-        'description',
-        'date',
-    ]
-    list_display = [
-        'name',
-        'date',
-    ]
-    list_editable = [
-    ]
-    list_filter = [
-        'date',
-        'state',
-        # 'is_spouse',
-        # 'zone',
-    ]
-    search_fields = [
-    ]
-
-
 @admin.register(Account)
 class AccountAdmin(VersionAdmin):
     form = AccountAdminForm
@@ -62,7 +33,6 @@ class AccountAdmin(VersionAdmin):
     fields = [
         'state',
         'name',
-        'email',
         'phone',
         # 'picture',
         # 'user',
@@ -71,7 +41,7 @@ class AccountAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
-        'email',
+        # 'email',
         'phone',
 
         # 'is_spouse',
@@ -99,7 +69,9 @@ class AccountAdmin(VersionAdmin):
         'user',
     ]
     inlines = [
+        MessageInline,
         RecipientInline,
+        VolunteerInline,
     ]
     ordering = [
         '-created',
@@ -167,6 +139,36 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'total',
         # 'reps',
     ]
+
+@admin.register(Event)
+class EventAdmin(VersionAdmin):
+    save_on_top = True
+    autocomplete_fields = [
+        # 'account',
+        # 'voter',
+    ]
+    fields = [
+        'name',
+        'state',
+        'description',
+        'date',
+    ]
+    list_display = [
+        'name',
+        'date',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+        'date',
+        'state',
+        # 'is_spouse',
+        # 'zone',
+    ]
+    search_fields = [
+    ]
+
+
 
 
 

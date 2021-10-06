@@ -148,9 +148,15 @@ class Volunteer(models.Model):
     size = models.IntegerField(
         blank=False,
         choices=SIZE,
-        help_text='The size of your group.',
+        help_text='The size of your group. (Number of adults, or equivalent in children.)',
     )
-    reference = models.TextField(
+    team = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Whimsical Team Name (ie, Robert's Rakers, Covey Courters, etc.)""",
+    )
+    reference = models.CharField(
         max_length=512,
         blank=True,
         default='',

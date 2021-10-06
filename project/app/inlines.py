@@ -11,13 +11,11 @@ from .models import Volunteer
 class VolunteerInline(admin.TabularInline):
     model = Volunteer
     fields = [
-        # 'status',
-        'recipient',
-        'name',
-        'number',
+        'size',
+        'account',
     ]
     autocomplete_fields = [
-        # 'recipient',
+        'account',
     ]
     extra = 0
     show_change_link = True
@@ -49,13 +47,14 @@ class MessageInline(admin.TabularInline):
         'account',
     ]
 
+
 class RecipientInline(admin.TabularInline):
     model = Recipient
     fields = [
         # 'status',
         'size',
+        'location',
         'is_dog',
-        'notes',
         'account',
     ]
     autocomplete_fields = [
