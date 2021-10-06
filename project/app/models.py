@@ -7,6 +7,7 @@ import secrets
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
 from django.utils.deconstruct import deconstructible
+from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
 from hashid_field import HashidAutoField
 from model_utils import Choices
@@ -74,13 +75,13 @@ class Recipient(models.Model):
     size = models.IntegerField(
         blank=True,
         choices=SIZE,
-        help_text='Yard Size',
-        null=True,
+        help_text="""Please provide the approximate yard size."""
     )
     location = models.CharField(
         max_length=512,
         blank=True,
         default='',
+        help_text="""Please provide the location address to be raked."""
     )
     place = models.CharField(
         max_length=255,
@@ -101,7 +102,7 @@ class Recipient(models.Model):
     is_dog = models.BooleanField(
         blank=True,
         default=False,
-        help_text="""If you have a dog, it must be contained in your home for us to rake.  Also, you must clean up all animal waste before we arrive or our volunteer group will not be able to rake.""",
+        help_text=mark_safe("""If you have a dog, it must be contained in your home for us to rake. <em>Also, you must clean up all animal waste before we arrive or our volunteer group will not be able to rake.</em>"""),
     )
     notes = models.TextField(
         max_length=2000,
