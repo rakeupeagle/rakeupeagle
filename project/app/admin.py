@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from reversion.admin import VersionAdmin
 
 # Local

@@ -54,10 +54,8 @@ class Account(models.Model):
     )
     user = models.OneToOneField(
         'app.User',
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='account',
-        null=True,
-        blank=True,
     )
 
     def __str__(self):
