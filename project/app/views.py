@@ -86,7 +86,12 @@ def callback(request):
             "Sorry, there was a problem.  Please try again or contact support."
         )
         return redirect('index')
-    next_url = server_state.partition('|')[2]
+    # next_url = server_state.partition('|')[2]
+
+    # get initial
+    initial = browser_state.partition("|")[0]
+
+
     # Get Auth0 Code
     code = request.GET.get('code', None)
     if not code:
@@ -118,6 +123,12 @@ def callback(request):
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
+        if initial == 'recipient':
+            return redirect('recipient-create')
+        if initial == 'volunteer':
+            return redirect('volunteer-create')
+        if user.is_admin:
+            return redirect('admin:index')
         # cookies = request.COOKIES
         # gen = next(v for (k,v) in cookies.items() if k.startswith('ph'))
         # posthog_dict = json.loads(urllib.parse.unquote(gen))
@@ -128,22 +139,23 @@ def callback(request):
                 # distinct_id, {
                 # 'name': str(user.phone),
             # })
-        if (user.last_login - user.created) < datetime.timedelta(minutes=1):
-            messages.success(
-                request,
-                "Welcome! Thank you for joining!"
-            )
-            messages.warning(
-                request,
-                "Next, please update your details below."
-            )
-            return redirect('volunteer')
+        # if (user.last_login - user.created) < datetime.timedelta(minutes=1):
+        #     messages.success(
+        #         request,
+        #         "Welcome! Thank you for joining!"
+        #     )
+        #     messages.warning(
+        #         request,
+        #         "Next, please update your details below."
+        #     )
+        #     return redirect('volunteer')
         # Otherwise, redirect to next_url, defaults to 'account'
-        messages.success(
-            request,
-            "Welcome Back!"
-        )
-        return redirect(next_url)
+        # messages.success(
+        #     request,
+        #     "Welcome Back!"
+        # )
+        # return redirect(next_url)
+        return redirect('account')
     log.error('callback fallout')
     return HttpResponse(status=403)
 
