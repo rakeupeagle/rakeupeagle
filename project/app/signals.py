@@ -9,7 +9,6 @@ from .tasks import delete_user
 
 @receiver(post_save, sender=User)
 def user_post_save(sender, instance, created, **kwargs):
-    print(created)
     if created:
         create_account_from_user(instance)
     return

@@ -75,6 +75,7 @@ def update_user(user):
 def create_account_from_user(user):
     account = Account.objects.create(
         phone=user.phone,
+        user=user,
     )
     return account
 
