@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "92e5a06bb995ca3711a26b7e15bcd6f29dd339007530a3a18d57d4b9d5236f75"
+            "sha256": "e87dc44389f4164a09e90fcdf1a3056a3934fd27c9fa00c79ce6be00d2973486"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -537,7 +537,7 @@
                 "sha256:934d73fbba91b0483d3857d1aff50e96b2a892384ee2c17417ed3203f173fca1",
                 "sha256:fba44e7898bbca160a2b2b501f492824fc8382485d3a6f11ba5d0c1937ce6130"
             ],
-            "markers": "python_version >= '3.6'",
+            "index": "pypi",
             "version": "==2.1.0"
         },
         "python-http-client": {
@@ -736,11 +736,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:bb10913b9d3ac2aa37180f816c82040e81f9e0c32cb08445533f293cec8930bf",
-                "sha256:d70b375d0af0e4c3abd594003691a1055a96281a414884e623d27bccc7d781da"
+                "sha256:81c807d45b26d8f4916944621c8895d449b552f672267a01a3b0a90dc033fde0",
+                "sha256:eff29a0d71afe0c41d3f6a7d799c045e58c486d1d6621f386c2925b6cd1b6dff"
             ],
             "index": "pypi",
-            "version": "==8.16.0"
+            "version": "==9.0.0"
         },
         "iniconfig": {
             "hashes": [
