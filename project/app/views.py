@@ -1,4 +1,6 @@
 import csv
+import datetime
+import logging
 
 import pydf
 import requests
@@ -19,16 +21,20 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
+from .decorators import twilio
 from .forms import AccountForm
 from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import VolunteerForm
+from .models import Account
+from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import Volunteer
 from .tasks import send_recipient_confirmation
 from .tasks import send_volunteer_confirmation
 
+log = logging.getLogger(__name__)
 
 # Root
 def index(request):
@@ -55,10 +61,10 @@ def login(request):
     params = {
         'response_type': 'code',
         'client_id': settings.AUTH0_CLIENT_ID,
-        'scope': 'openid profile email',
+        'scope': 'openid phone',
         'redirect_uri': redirect_uri,
         'state': state,
-        'screen_hint': 'signup',
+        'initial_screen': 'login',
     }
     url = requests.Request(
         'GET',
@@ -72,52 +78,74 @@ def callback(request):
     browser_state = request.session.get('state')
     server_state = request.GET.get('state')
     if browser_state != server_state:
-        return HttpResponse(status=400)
-
-    # get initial
-    initial = browser_state.partition("|")[0]
-
+        del request.session['state']
+        log.error('state mismatch')
+        messages.error(
+            request,
+            "Sorry, there was a problem.  Please try again or contact support."
+        )
+        return redirect('index')
+    next_url = server_state.partition('|')[2]
     # Get Auth0 Code
     code = request.GET.get('code', None)
     if not code:
+        log.error('no code')
         return HttpResponse(status=400)
     token_url = f'https://{settings.AUTH0_DOMAIN}/oauth/token'
     redirect_uri = request.build_absolute_uri(reverse('callback'))
     token_payload = {
         'client_id': settings.AUTH0_CLIENT_ID,
         'client_secret': settings.AUTH0_CLIENT_SECRET,
-        'redirect_uri': redirect_uri,
         'code': code,
-        'grant_type': 'authorization_code'
+        'grant_type': 'authorization_code',
+        'redirect_uri': redirect_uri,
     }
     token = requests.post(
         token_url,
         json=token_payload,
     ).json()
-    access_token = token['access_token']
-    user_url = f'https://{settings.AUTH0_DOMAIN}/userinfo?access_token={access_token}'
-    payload = requests.get(user_url).json()
-    # format payload key
+    payload = jwt.decode(
+        token['id_token'],
+        audience=settings.AUTH0_CLIENT_ID,
+        options={
+            'verify_signature': False,
+        }
+    )
     payload['username'] = payload.pop('sub')
+    payload['phone'] = payload.pop('phone_number')
+    payload['name'] = ''
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        if initial == 'recipient':
-            return redirect('recipient-create')
-        if initial == 'volunteer':
-            return redirect('volunteer-create')
-        if user.is_admin:
-            return redirect('admin:index')
-        # recipient = getattr(user, 'recipient', None)
-        # volunteer = getattr(user, 'volunteer', None)
-        # if recipient and volunteer:
-        #     return redirect('account')
-        # if recipient:
-        #     return redirect('recipient')
-        # if volunteer:
-        #     return redirect('volunteer')
-        return redirect('account')
+        # cookies = request.COOKIES
+        # gen = next(v for (k,v) in cookies.items() if k.startswith('ph'))
+        # posthog_dict = json.loads(urllib.parse.unquote(gen))
+        # distinct_id =  posthog_dict.get('distinct_id')
+
+        # if distinct_id:
+            # posthog.identify(
+                # distinct_id, {
+                # 'name': str(user.phone),
+            # })
+        if (user.last_login - user.created) < datetime.timedelta(minutes=1):
+            messages.success(
+                request,
+                "Welcome! Thank you for joining!"
+            )
+            messages.warning(
+                request,
+                "Next, please search update your details below."
+            )
+            return redirect('search')
+        # Otherwise, redirect to next_url, defaults to 'account'
+        messages.success(
+            request,
+            "Welcome Back!"
+        )
+        return redirect(next_url)
+    log.error('callback fallout')
     return HttpResponse(status=403)
+
 
 def logout(request):
     log_out(request)
@@ -350,6 +378,33 @@ def dashboard_volunteer(request, volunteer_id):
         'app/pages/volunteer.html',
         {'volunteer': volunteer},
     )
+
+
+@twilio
+def sms(request):
+    defaults = {}
+    raw = request.POST.dict()
+    sid = raw['SmsSid']
+    # status = getattr(Message.STATUS, raw.get('SmsStatus', Message.STATUS.new))
+    direction = Message.DIRECTION.inbound
+    to_phone = raw['To']
+    from_phone = raw['From']
+    body = raw['Body']
+    account = Account.objects.filter(phone=from_phone).first()
+    defaults = {
+        # 'status': status,
+        'direction': direction,
+        'to_phone': to_phone,
+        'from_phone': from_phone,
+        'body': body,
+        'account': account,
+        'raw': raw,
+    }
+    Message.objects.update_or_create(
+        sid=sid,
+        defaults=defaults,
+    )
+    return HttpResponse(status=201)
 
 
 @staff_member_required

@@ -35,11 +35,11 @@ class Account(models.Model):
     phone = PhoneNumberField(
         blank=True,
         null=True,
+        unique=True,
     )
     email = models.EmailField(
-        blank=False,
-        null=False,
-        unique=True,
+        blank=True,
+        null=True,
     )
     notes = models.TextField(
         max_length=2000,
@@ -263,6 +263,64 @@ class Assignment(models.Model):
         return f"{self.id}"
 
 
+class Message(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+        (10, 'sent', 'Sent'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    sid = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+    to_phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    from_phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    body = models.TextField(
+        blank=True,
+    )
+    DIRECTION = Choices(
+        (10, 'inbound', 'Inbound'),
+        (20, 'outbound', 'Outbound'),
+    )
+    direction = models.IntegerField(
+        choices=DIRECTION,
+        null=True,
+        blank=True,
+    )
+    raw = models.JSONField(
+        blank=True,
+        null=True,
+    )
+    account = models.ForeignKey(
+        'app.Account',
+        on_delete=models.CASCADE,
+        related_name='messages',
+        null=True,
+        blank=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f"{self.id}"
+
+
 @deconstructible
 class UploadPath(object):
     def __init__(self, name):
@@ -302,19 +360,22 @@ class User(AbstractBaseUser):
         null=False,
         unique=True,
     )
-    data = models.JSONField(
-        null=True,
-        editable=False,
-    )
     name = models.CharField(
         max_length=100,
         blank=True,
-        default='(Unknown)',
-        verbose_name="Name",
-        editable=False,
+        default='',
+        null=True,
     )
     email = models.EmailField(
         blank=True,
+        null=True,
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+        unique=True,
+    )
+    data = models.JSONField(
         null=True,
         editable=False,
     )

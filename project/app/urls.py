@@ -36,6 +36,9 @@ urlpatterns = [
     path('volunteer/create', views.volunteer_create, name='volunteer-create',),
     path('volunteer/delete', views.volunteer_delete, name='volunteer-delete',),
 
+    # Twilio
+    path('sms', views.sms, name='sms',),
+
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
     path('dashboard/<volunteer_id>', views.dashboard_volunteer, name='dashboard-volunteer',),
