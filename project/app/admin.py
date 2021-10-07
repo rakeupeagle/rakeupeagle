@@ -94,12 +94,13 @@ class RecipientAdmin(admin.ModelAdmin):
     fields = [
         'size',
         'is_dog',
-        'is_verified',
-        'is_waiver',
+        # 'is_verified',
+        # 'is_waiver',
         'notes',
         'bags',
         'hours',
         'location',
+        'account',
     ]
     list_display = [
         'location',
@@ -124,7 +125,7 @@ class RecipientAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'account__name',
-        'account__email',
+        'account__phone',
     ]
     autocomplete_fields = [
         'account',
@@ -167,9 +168,6 @@ class EventAdmin(VersionAdmin):
     ]
     search_fields = [
     ]
-
-
-
 
 
 @admin.register(Message)
@@ -243,14 +241,13 @@ class MessageAdmin(VersionAdmin):
     account_link.short_description = 'account'
 
 
-
 @admin.register(Volunteer)
 class VolunteerAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
         'size',
         'notes',
-        'user',
+        'account',
     ]
     list_display = [
         'size',
