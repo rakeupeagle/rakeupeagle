@@ -1,0 +1,12 @@
+{% autoescape off %}
+
+Hello Again from Rake Up Eagle!
+
+Our email provider overwrote the link to our website, so just to make it
+a bit easier we wanted to send a quick followup with a more readable link.
+
+The website is:  https://www.rakeupeagle.com
+
+Thanks!
+
+{% endautoescape %}
