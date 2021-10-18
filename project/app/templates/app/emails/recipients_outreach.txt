@@ -1,0 +1,36 @@
+{% autoescape off %}
+
+Greetings from Rake Up Eagle!
+
+You're receiving this message because we show that last year you were
+a recipient in the Rake Up Eagle project, sponsored by the Eagle
+Middle School PTO.
+
+We're doing it again this year on November 13, and are inviting you to
+participate.  Our volunteers are ready to come to your house, rake
+your yard, and place the bags in your normal pickup area.
+
+The service is entirely *free*.  To qualify, you need only:
+
+- Be at least 65 years old, disabled or a veteran.
+- Live within the city limits of Eagle.
+- Reside at your stated residence.
+
+If this sounds good to you, then Register today.  The registration
+deadline is November 2nd.
+
+Register at
+
+https://www.rakeupeagle.com
+
+Or contact us with any questions.
+
+
+
+Hope to see you on November 13th!
+
+Rake Up Eagle
+Eagle Middle School PTO
+
+
+{% endautoescape %}
