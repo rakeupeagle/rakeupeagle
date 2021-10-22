@@ -106,7 +106,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'location',
         'size',
         'is_dog',
-        # 'notes',
+        'notes',
         # 'is_verified',
         # 'is_waiver',
         # 'created',
@@ -251,6 +251,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'size',
+        'notes',
     ]
     list_filter = [
         'created',
