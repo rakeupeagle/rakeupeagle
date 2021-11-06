@@ -289,7 +289,8 @@ class VolunteerAdmin(admin.ModelAdmin):
     list_display = [
         'team',
         'size',
-        'notes',
+        'reference',
+        'account',
     ]
     list_filter = [
         'created',
@@ -297,6 +298,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'account__name',
+        'account__id',
     ]
     list_editable = [
     ]
