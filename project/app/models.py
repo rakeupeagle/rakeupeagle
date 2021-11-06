@@ -135,7 +135,7 @@ class Recipient(models.Model):
         unique=True,
     )
     def __str__(self):
-        return str(self.location)
+        return f"{self.location} - {self.get_size_display()}"
 
 
 class Volunteer(models.Model):
@@ -187,7 +187,7 @@ class Volunteer(models.Model):
     )
 
     def __str__(self):
-        return str(self.account)
+        return f"{self.team} - {self.get_size_display()}"
 
 
 class Event(models.Model):
