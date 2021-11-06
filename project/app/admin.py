@@ -38,6 +38,10 @@ class AssignmentAdmin(VersionAdmin):
         'recipient',
         'volunteer',
     ]
+    list_filter = [
+        'recipient__size',
+    ]
+
     list_editable = [
         # 'recipient',
         # 'volunteer',
