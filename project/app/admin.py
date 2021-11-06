@@ -39,12 +39,12 @@ class AssignmentAdmin(VersionAdmin):
         'volunteer',
     ]
     list_editable = [
-        'recipient',
-        'volunteer',
+        # 'recipient',
+        # 'volunteer',
     ]
     autocomplete_fields = [
-        'recipient',
-        'volunteer',
+        # 'recipient',
+        # 'volunteer',
     ]
 
 
