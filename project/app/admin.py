@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from reversion.admin import VersionAdmin
 
@@ -127,17 +128,26 @@ class RecipientAdmin(admin.ModelAdmin):
             list(lst)
         )
 
+    def click_phone(self, obj):
+        return format_html('<a href="tel://{}">{}</a>', obj.account.phone, obj.account.phone.as_national)
+
+    click_phone.short_description = "Phone"
+
+
+
     save_on_top = True
     fields = [
+        'account',
+        'click_phone',
+        'location',
         'size',
         'is_dog',
         # 'is_verified',
         # 'is_waiver',
         'notes',
-        'bags',
-        'hours',
-        'location',
-        'account',
+        'admin_notes',
+        # 'bags',
+        # 'hours',
     ]
     list_display = [
         'location',
@@ -175,7 +185,9 @@ class RecipientAdmin(admin.ModelAdmin):
         'created',
     ]
     readonly_fields = [
-        # 'total',
+        'click_phone',
+        'account',
+        'notes',
         # 'reps',
     ]
 

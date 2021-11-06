@@ -110,6 +110,12 @@ class Recipient(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
+    admin_notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Administrator Notes (from calling).""",
+    )
     bags = models.IntegerField(
         blank=True,
         null=True,
