@@ -12,6 +12,7 @@ from reversion.admin import VersionAdmin
 from .forms import AccountAdminForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
+from .inlines import AssignmentInline
 from .inlines import MessageInline
 from .inlines import RecipientInline
 from .inlines import VolunteerInline
@@ -131,7 +132,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'account',
     ]
     inlines = [
-        # VolunteerInline,
+        AssignmentInline,
     ]
     ordering = [
         'created',
@@ -267,6 +268,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'account',
     ]
     inlines = [
+        AssignmentInline,
     ]
     ordering = [
     ]

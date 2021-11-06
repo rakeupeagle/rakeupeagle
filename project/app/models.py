@@ -241,14 +241,14 @@ class Assignment(models.Model):
     recipient = models.ForeignKey(
         'app.Recipient',
         on_delete=models.SET_NULL,
-        related_name='one',
+        related_name='assignments',
         null=True,
         blank=True,
     )
     volunteer = models.ForeignKey(
         'app.Volunteer',
         on_delete=models.SET_NULL,
-        related_name='two',
+        related_name='assignments',
         null=True,
         blank=True,
     )
