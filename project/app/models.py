@@ -134,6 +134,8 @@ class Recipient(models.Model):
         related_name='recipient',
         unique=True,
     )
+    def __str__(self):
+        return str(self.account)
 
 
 class Volunteer(models.Model):
@@ -184,6 +186,9 @@ class Volunteer(models.Model):
         unique=True,
     )
 
+    def __str__(self):
+        return str(self.account)
+
 
 class Event(models.Model):
     id = HashidAutoField(
@@ -227,6 +232,10 @@ class Event(models.Model):
         return f"{self.name}"
 
 
+def get_latest_event():
+    return Event.objects.latest('date')
+
+
 class Assignment(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -258,6 +267,7 @@ class Assignment(models.Model):
         related_name='assignments',
         null=False,
         blank=False,
+        default=get_latest_event,
     )
     created = models.DateTimeField(
         auto_now_add=True,
