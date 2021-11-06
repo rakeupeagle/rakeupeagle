@@ -17,6 +17,7 @@ from .inlines import MessageInline
 from .inlines import RecipientInline
 from .inlines import VolunteerInline
 from .models import Account
+from .models import Assignment
 from .models import Event
 from .models import Message
 from .models import Picture
@@ -24,7 +25,29 @@ from .models import Recipient
 from .models import User
 from .models import Volunteer
 
-# from .widgets import AddressWidget
+
+@admin.register(Assignment)
+class AssignmentAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'recipient',
+        'volunteer',
+    ]
+    list_display = [
+        'id',
+        'recipient',
+        'volunteer',
+    ]
+    list_editable = [
+        'recipient',
+        'volunteer',
+    ]
+    autocomplete_fields = [
+        'recipient',
+        'volunteer',
+    ]
+
+
 
 
 @admin.register(Account)
@@ -89,8 +112,17 @@ class PictureAdmin(admin.ModelAdmin):
         'image',
     ]
 
+
 @admin.register(Recipient)
 class RecipientAdmin(admin.ModelAdmin):
+
+    def volunteer_sizes(self, obj):
+        lst = [Volunteer.SIZE[x.volunteer.size] for x in obj.assignments.all()]
+
+        return "; ".join(
+            list(lst)
+        )
+
     save_on_top = True
     fields = [
         'size',
@@ -107,7 +139,8 @@ class RecipientAdmin(admin.ModelAdmin):
         'location',
         'size',
         'is_dog',
-        'notes',
+        'volunteer_sizes',
+        # 'notes',
         # 'is_verified',
         # 'is_waiver',
         # 'created',
@@ -141,6 +174,7 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'total',
         # 'reps',
     ]
+
 
 @admin.register(Event)
 class EventAdmin(VersionAdmin):
@@ -246,11 +280,14 @@ class MessageAdmin(VersionAdmin):
 class VolunteerAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = [
+        'team',
         'size',
+        'reference',
         'notes',
         'account',
     ]
     list_display = [
+        'team',
         'size',
         'notes',
     ]
@@ -262,7 +299,6 @@ class VolunteerAdmin(admin.ModelAdmin):
         'account__name',
     ]
     list_editable = [
-
     ]
     autocomplete_fields = [
         'account',
@@ -337,6 +373,7 @@ class UserAdmin(UserAdminBase):
         'name',
         'email',
     ]
+
 # Use Auth0 for login
 admin.site.login = staff_member_required(
     admin.site.login,

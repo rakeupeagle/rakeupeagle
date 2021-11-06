@@ -6,6 +6,7 @@ import secrets
 # First-Party
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
+from django.db.models.constraints import UniqueConstraint
 from django.utils.deconstruct import deconstructible
 from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
@@ -61,7 +62,6 @@ class Account(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
 
 class Recipient(models.Model):
     id = HashidAutoField(
@@ -135,7 +135,7 @@ class Recipient(models.Model):
         unique=True,
     )
     def __str__(self):
-        return str(self.account)
+        return str(self.location)
 
 
 class Volunteer(models.Model):
@@ -277,6 +277,19 @@ class Assignment(models.Model):
     )
     def __str__(self):
         return f"{self.id}"
+
+    class Meta():
+        constraints = [
+            UniqueConstraint(
+                fields=[
+                    'volunteer',
+                    'recipient',
+                    'event',
+                ],
+                name='unique_assignment'
+            ),
+        ]
+
 
 
 class Message(models.Model):
