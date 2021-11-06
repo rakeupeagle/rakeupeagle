@@ -3,9 +3,24 @@
 from django.contrib import admin
 
 # Local
+from .models import Assignment
 from .models import Message
 from .models import Recipient
 from .models import Volunteer
+
+
+class AssignmentInline(admin.TabularInline):
+    model = Assignment
+    fields = [
+        'recipient',
+        'volunteer',
+    ]
+    autocomplete_fields = [
+        'recipient',
+        'volunteer',
+    ]
+    extra = 0
+    show_change_link = True
 
 
 class VolunteerInline(admin.TabularInline):

@@ -13,7 +13,8 @@
           <strong>Rake Up Eagle</strong> connects volunteers with seniors, veterans, and disabled citizens in a day of public service on November 13th.
         </h2>
         <h3 class='my-3'>
-          Join today -- registration deadline is November 5th!
+          {# Join today -- registration deadline is November 5th! #}
+          Registration has closed for 2021 &mdash; see you on November 13th!
         </h3>
       </div>
     </section>
@@ -29,9 +30,14 @@
               <p class='card-text'>
                 Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
               </p>
+              <button class="btn btn-success btn-block btn-lg" disabled >
+                Signup!
+              </button>
+              {% comment %}
               <a href='{% url "login" %}?initial=volunteer' class="btn btn-success btn-block btn-lg">
                 Signup!
               </a>
+              {% endcomment %}
             </div>
           </div>
         </div>
@@ -45,9 +51,14 @@
               <p class='card-text'>
                 If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
               </p>
+              <button class="btn btn-success btn-block btn-lg" disabled >
+                Register!
+              </button>
+              {% comment %}
               <a href='{% url "login" %}?initial=recipient' class="btn btn-success btn-block btn-lg">
                 Register!
               </a>
+              {% endcomment %}
             </div>
           </div>
         </div>
