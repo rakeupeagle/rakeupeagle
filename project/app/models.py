@@ -180,6 +180,15 @@ class Volunteer(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
+    STATE = Choices(
+        (0, 'new', 'New'),
+        (10, 'pending', 'Pending'),
+        (20, 'confirmed', 'Confirmed'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
     SIZE = Choices(
         (110, 'xs', 'Extra-Small (1-5 Adults)'),
         (120, 'small', 'Small (6-10 Adults)'),
@@ -240,6 +249,14 @@ class Volunteer(models.Model):
 
     def __str__(self):
         return f"{self.team} - {self.get_size_display()}"
+
+    @transition(field=state, source=[STATE.new,], target=STATE.pending)
+    def pend(self):
+        return
+
+    @transition(field=state, source=[STATE.pending,], target=STATE.confirmed)
+    def confirm(self):
+        return
 
 
 class Event(models.Model):
