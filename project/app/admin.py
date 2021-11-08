@@ -329,6 +329,8 @@ class VolunteerAdmin(VersionAdmin):
     search_fields = [
         'account__name',
         'account__id',
+        'team',
+        'name',
     ]
     list_editable = [
     ]
