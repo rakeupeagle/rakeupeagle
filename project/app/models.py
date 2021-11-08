@@ -483,7 +483,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def __str__(self):
-        return str(self.username)
+        return str(self.name)
 
     def has_perm(self, perm, obj=None):
         return True

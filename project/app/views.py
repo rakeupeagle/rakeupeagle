@@ -21,6 +21,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from reversion.views import create_revision
 
 from .decorators import twilio
 from .forms import AccountForm
@@ -372,6 +373,7 @@ def volunteer_delete(request):
 
 
 # Admin
+@create_revision()
 def call(request):
     try:
         recipient = Recipient.objects.order_by(

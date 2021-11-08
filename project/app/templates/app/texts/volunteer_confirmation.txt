@@ -2,7 +2,7 @@
 Your signup for Rake Up Eagle is confirmed!
 
 *Details*
-Name: {{volunteer.account.name}}
+Team Leader: {{volunteer.name}}
 Group Size: {{volunteer.get_size_display}}
 Team Name: {{volunteer.team|default:'(None provided)'}}
 
