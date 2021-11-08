@@ -360,17 +360,15 @@ class UserAdmin(UserAdminBase):
         ),
         ('Data', {
             'fields': [
-                'name',
-                'email',
+                'phone',
             ]
         }
         ),
         ('Permissions', {'fields': ('is_admin', 'is_active')}),
     )
     list_display = [
-        # 'username',
-        'name',
-        'email',
+        'username',
+        'phone',
         'created',
         'last_login'
     ]
