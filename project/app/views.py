@@ -373,12 +373,19 @@ def volunteer_delete(request):
 
 # Admin
 def call(request):
-    recipient = Recipient.objects.order_by(
-        'created',
-    ).filter(
-        admin_notes='',
-        state=Recipient.STATE.new,
-    ).earliest('created')
+    try:
+        recipient = Recipient.objects.order_by(
+            'created',
+        ).filter(
+            admin_notes='',
+            state=Recipient.STATE.new,
+        ).earliest('created')
+    except Recipient.DoesNotExist:
+        messages.success(
+            request,
+            "All Recipients Called for Now!",
+        )
+        return redirect('account')
     recipient.pend()
     recipient.save()
     if request.POST:
