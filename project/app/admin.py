@@ -278,7 +278,7 @@ class MessageAdmin(VersionAdmin):
         'sid',
         'to_phone',
         'from_phone',
-        'direction',
+        # 'direction',
         'created',
         'updated',
         'raw',
