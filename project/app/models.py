@@ -88,6 +88,19 @@ class Recipient(models.Model):
         choices=SIZE,
         help_text="""Please provide the approximate yard size."""
     )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    email = models.EmailField(
+        blank=True,
+        null=True,
+    )
     location = models.CharField(
         max_length=512,
         blank=True,
@@ -178,6 +191,19 @@ class Volunteer(models.Model):
         blank=False,
         choices=SIZE,
         help_text='The size of your group. (Number of adults, or equivalent in children.)',
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    email = models.EmailField(
+        blank=True,
+        null=True,
     )
     team = models.CharField(
         max_length=100,

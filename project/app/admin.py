@@ -139,11 +139,14 @@ class RecipientAdmin(FSMTransitionMixin, VersionAdmin):
     save_on_top = True
     fields = [
         'state',
-        'account',
-        'click_phone',
+        'name',
+        'email',
+        'phone',
         'location',
         'size',
         'is_dog',
+        'account',
+        'click_phone',
         # 'is_verified',
         # 'is_waiver',
         'notes',
@@ -300,6 +303,9 @@ class MessageAdmin(VersionAdmin):
 class VolunteerAdmin(VersionAdmin):
     save_on_top = True
     fields = [
+        'name',
+        'email',
+        'phone',
         'team',
         'size',
         'reference',
