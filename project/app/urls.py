@@ -31,7 +31,9 @@ urlpatterns = [
     path('recipient/create', views.recipient_create, name='recipient-create',),
     path('recipient/delete', views.recipient_delete, name='recipient-delete',),
 
-    # Volunteer
+    # Teams
+    path('teams', views.teams, name='teams',),
+
     path('volunteer', views.volunteer, name='volunteer',),
     path('volunteer/create', views.volunteer_create, name='volunteer-create',),
     path('volunteer/delete', views.volunteer_delete, name='volunteer-delete',),

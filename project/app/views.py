@@ -300,6 +300,19 @@ def recipient_delete(request):
 
 # Volunteer
 @login_required
+def teams(request):
+    vs = Volunteer.objects.all()
+    teams = sorted(vs, key=lambda x: x.name.split()[-1])
+    return render(
+        request,
+        'app/pages/teams.html',
+        context={
+            'teams': teams,
+        }
+    )
+
+
+@login_required
 def volunteer(request):
     account = request.user.account
     volunteer = getattr(account, 'volunteer', None)
