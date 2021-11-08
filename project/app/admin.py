@@ -155,6 +155,8 @@ class RecipientAdmin(FSMTransitionMixin, VersionAdmin):
         # 'hours',
     ]
     list_display = [
+        'name',
+        'phone',
         'location',
         'size',
         'is_dog',
@@ -313,6 +315,8 @@ class VolunteerAdmin(VersionAdmin):
         'account',
     ]
     list_display = [
+        'name',
+        'phone',
         'team',
         'size',
         'reference',
