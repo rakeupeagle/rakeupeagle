@@ -24,6 +24,7 @@ from django.utils.crypto import get_random_string
 
 from .decorators import twilio
 from .forms import AccountForm
+from .forms import CallForm
 from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import VolunteerForm
@@ -371,6 +372,37 @@ def volunteer_delete(request):
 
 
 # Admin
+def call(request):
+    recipient = Recipient.objects.order_by(
+        'created',
+    ).filter(
+        admin_notes='',
+        state=Recipient.STATE.new,
+    ).earliest('created')
+    recipient.pend()
+    recipient.save()
+    if request.POST:
+        form = CallForm(request.POST, instance=recipient)
+        if form.is_valid():
+            recipient = form.save(commit=False)
+            recipient.confirm()
+            recipient.save()
+            messages.success(
+                request,
+                "Saved!",
+            )
+            return redirect('call')
+    else:
+        form = CallForm(instance=recipient)
+    return render(
+        request,
+        'app/pages/call.html',
+        context = {
+            'recipient': recipient,
+            'form': form,
+        },
+    )
+
 @staff_member_required
 def dashboard(request):
     volunteers = Volunteer.objects.order_by(

@@ -259,6 +259,7 @@ INSTALLED_APPS = [
     'reversion',
     'cloudinary_storage',
     'cloudinary',
+    'fsm_admin',
     'bootstrap4',
     'phonenumber_field',
     'app',

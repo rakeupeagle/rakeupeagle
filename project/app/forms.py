@@ -31,6 +31,15 @@ class AccountForm(forms.ModelForm):
         }
 
 
+class CallForm(forms.ModelForm):
+    class Meta:
+        model = Recipient
+        fields = [
+            'admin_notes',
+            # 'phone',
+        ]
+
+
 class AccountAdminForm(forms.ModelForm):
     class Meta:
         model = Account

@@ -7,6 +7,7 @@ from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from fsm_admin.mixins import FSMTransitionMixin
 from reversion.admin import VersionAdmin
 
 # Local
@@ -111,7 +112,7 @@ class AccountAdmin(VersionAdmin):
 
 
 @admin.register(Picture)
-class PictureAdmin(admin.ModelAdmin):
+class PictureAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'image',
@@ -119,7 +120,7 @@ class PictureAdmin(admin.ModelAdmin):
 
 
 @admin.register(Recipient)
-class RecipientAdmin(admin.ModelAdmin):
+class RecipientAdmin(FSMTransitionMixin, VersionAdmin):
 
     def volunteer_sizes(self, obj):
         lst = [Volunteer.SIZE[x.volunteer.size] for x in obj.assignments.all()]
@@ -137,6 +138,7 @@ class RecipientAdmin(admin.ModelAdmin):
 
     save_on_top = True
     fields = [
+        'state',
         'account',
         'click_phone',
         'location',
@@ -154,6 +156,7 @@ class RecipientAdmin(admin.ModelAdmin):
         'size',
         'is_dog',
         'volunteer_sizes',
+        'state',
         # 'notes',
         # 'is_verified',
         # 'is_waiver',
@@ -166,6 +169,7 @@ class RecipientAdmin(admin.ModelAdmin):
         # 'persons',
     ]
     list_filter = [
+        'state',
         'size',
         'is_dog',
         'created',
@@ -293,7 +297,7 @@ class MessageAdmin(VersionAdmin):
 
 
 @admin.register(Volunteer)
-class VolunteerAdmin(admin.ModelAdmin):
+class VolunteerAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'team',

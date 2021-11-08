@@ -40,6 +40,7 @@ urlpatterns = [
     path('sms', views.sms, name='sms',),
 
     # Admin
+    path('call/', views.call, name='call',),
     path('dashboard/', views.dashboard, name='dashboard',),
     path('dashboard/<volunteer_id>', views.dashboard_volunteer, name='dashboard-volunteer',),
     # path('handout/', views.handouts, name='handouts',),

@@ -1,0 +1,90 @@
+{% extends 'app/pages/base.html' %}
+
+{% load bootstrap4 %}
+{% load humanize %}
+{% load phonenumber %}
+
+{% block title %}Confirmation Calls{% endblock title %}
+
+{% block content %}
+  {% comment %}
+  <section class='my-5'>
+    <h2>
+      Your Account
+    </h2>
+  </section>
+  <section class='my-5'>
+    <p class='lead'>
+      Update your information below.
+    </p>
+  </section>
+  {% endcomment %}
+
+  <section class='my-5 col-lg-8'>
+    <div class='card'>
+      <h4 class='card-header'>
+        <a  data-toggle="collapse" href="#script" role="button" aria-expanded="true" aria-controls="collapseExample">
+          Show/Hide Calling Notes
+        </a>
+      </h4>
+      <div class='collapse show' id='script'>
+        <ul class='list-styled my-5'>
+          <li>
+            Confirm they have been selected to be raked.
+          </li>
+          <li>
+            Volunteers will arrive between 8:00 - 11:00 AM this Saturday, November 13. They will knock on the front door when they arrive but can't enter.
+          </li>
+          <li>
+            Volunteers will bring all necessary tools.
+          </li>
+          <li>
+            Ensure that all pet waste must be cleaned up prior to arrival or the volunteers must leave without raking.  Pets must stay inside during raking.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class='my-5 col-lg-8'>
+    <div class='card'>
+      <h4 class='card-header'>
+        Recipient Information
+      </h4>
+      <form method='post'>
+        {% csrf_token %}
+        <div class='card-body'>
+          <div class='form-group'>
+            {{recipient.account.name}}
+          </div>
+          <div class='form-group'>
+            <a href='tel:recipeint.account.phone'>{{recipient.account.phone.as_national}}</a>
+          </div>
+          <div class='form-group'>
+            {{recipient.location}}
+          </div>
+          <div class='form-group'>
+            {{recipient.is_dog|yesno|title}} Dog in Yard
+          </div>
+          <div class='form-group'>
+            {{recipient.notes}}
+          </div>
+          {% bootstrap_form_errors form %}
+          {% bootstrap_form form %}
+          {# {% bootstrap_field form.admin_notes show_help=True show_label=False%} #}
+        </div>
+        <div class='card-footer'>
+          <ul class='list-inline'>
+            <li class='list-inline-item'>
+              {% bootstrap_button "Save" button_type='submit' size='large' %}
+            </li>
+            <li class='list-inline-item'>
+              {% url 'call' as call_url %}
+              {% bootstrap_button "Cancel" button_type='link' href=call_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </section>
+
+{% endblock content %}

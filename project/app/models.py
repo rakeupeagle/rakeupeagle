@@ -10,6 +10,7 @@ from django.db.models.constraints import UniqueConstraint
 from django.utils.deconstruct import deconstructible
 from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
+from django_fsm import transition
 from hashid_field import HashidAutoField
 from model_utils import Choices
 from phonenumber_field.modelfields import PhoneNumberField
@@ -63,9 +64,19 @@ class Account(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+
 class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+        (10, 'pending', 'Pending'),
+        (20, 'confirmed', 'Confirmed'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
     )
     SIZE = Choices(
         (110, 'small', 'Small (1-15 bags)'),
@@ -142,6 +153,14 @@ class Recipient(models.Model):
     )
     def __str__(self):
         return f"{self.location} - {self.get_size_display()}"
+
+    @transition(field=state, source=[STATE.new,], target=STATE.pending)
+    def pend(self):
+        return
+
+    @transition(field=state, source=[STATE.pending,], target=STATE.confirmed)
+    def confirm(self):
+        return
 
 
 class Volunteer(models.Model):
