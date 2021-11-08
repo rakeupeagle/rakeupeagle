@@ -299,7 +299,7 @@ def recipient_delete(request):
 
 
 # Volunteer
-@login_required
+# @login_required
 def teams(request):
     vs = Volunteer.objects.all()
     teams = sorted(vs, key=lambda x: x.name.split()[-1])
