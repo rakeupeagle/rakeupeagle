@@ -233,6 +233,7 @@ class Volunteer(models.Model):
         'app.Account',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name='volunteer',
         unique=True,
     )
