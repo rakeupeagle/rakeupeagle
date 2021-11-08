@@ -140,7 +140,7 @@ class RecipientAdmin(FSMTransitionMixin, VersionAdmin):
     fields = [
         'state',
         'name',
-        'email',
+        # 'email',
         'phone',
         'location',
         'size',
@@ -304,7 +304,7 @@ class VolunteerAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'name',
-        'email',
+        # 'email',
         'phone',
         'team',
         'size',
