@@ -300,24 +300,18 @@ class Assignment(models.Model):
     )
     recipient = models.ForeignKey(
         'app.Recipient',
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='assignments',
-        null=True,
-        blank=True,
     )
     volunteer = models.ForeignKey(
         'app.Volunteer',
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='assignments',
-        null=True,
-        blank=True,
     )
     event = models.ForeignKey(
         'app.Event',
         on_delete=models.CASCADE,
         related_name='assignments',
-        null=False,
-        blank=False,
         default=get_latest_event,
     )
     created = models.DateTimeField(

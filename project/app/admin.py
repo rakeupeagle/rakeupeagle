@@ -305,22 +305,21 @@ class MessageAdmin(VersionAdmin):
 class VolunteerAdmin(VersionAdmin):
     save_on_top = True
     fields = [
+        'team',
         'name',
         # 'email',
         'phone',
-        'team',
         'size',
         'reference',
         'notes',
         'account',
     ]
     list_display = [
+        'team',
         'name',
         'phone',
-        'team',
         'size',
         'reference',
-        'account',
     ]
     list_filter = [
         'created',
