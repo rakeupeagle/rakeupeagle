@@ -1,0 +1,21 @@
+{% autoescape off %}
+Thank you for volunteering as a Team Leader for Rake Up Eagle!
+
+IMPORTANT: If you are receiving this message but are NOT your team's leader, please let us know.  If you ARE a team leader please review the team list and let us know if any of your team members signed up directly: https://www.rakeupeagle.com/teams
+
+Here are the final instructions:
+
+- Please arrive at Eagle Middle School this Saturday November 13 between 8:00 AM - 10:00 AM to pick up your bags and assignment.
+- Bring your own rakes, gloves, etc.
+- We'll have donuts available.
+- Check out the FAQ for more information: https://www.rakeupeagle.com/faq#volunteers
+
+Team Leader:  {{volunteer.name}}
+Team Name:  {{volunteer.team}}
+Team Size:  {{volunteer.get_size_display}}
+
+If anything has changed, or your team needs to cancel, please reply.
+
+Thanks again -- see you Saturday!
+Rake Up Eagle
+{% endautoescape %}

@@ -225,3 +225,15 @@ def send_text_from_message(message):
     message.direction = message.DIRECTION.outbound
     message.save()
     return
+
+
+@job
+def send_volunteer_final(volunteer):
+    body = render_to_string(
+        'app/texts/volunteer_final.txt',
+    )
+    response = send_text(
+        str(volunteer.phone),
+        body,
+    )
+    return response
