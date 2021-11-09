@@ -190,7 +190,8 @@ class Volunteer(models.Model):
         default=STATE.new,
     )
     SIZE = Choices(
-        (110, 'xs', 'Extra-Small (1-5 Adults)'),
+        (105, 'solo', 'Solo (1 Adult)'),
+        (110, 'xs', 'Extra-Small (2-5 Adults)'),
         (120, 'small', 'Small (6-10 Adults)'),
         (130, 'medium', 'Medium (11-15 Adults)'),
         (140, 'large', 'Large (16-20 Adults)'),
