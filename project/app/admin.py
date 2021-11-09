@@ -311,6 +311,7 @@ class VolunteerAdmin(VersionAdmin):
         'actual',
         'reference',
         'notes',
+        'admin_notes',
         'account',
     ]
     list_display = [

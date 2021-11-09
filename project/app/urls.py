@@ -43,6 +43,7 @@ urlpatterns = [
 
     # Admin
     path('call/', views.call, name='call',),
+    path('teamcall/', views.teamcall, name='teamcall',),
     path('dashboard/', views.dashboard, name='dashboard',),
     path('dashboard/<volunteer_id>', views.dashboard_volunteer, name='dashboard-volunteer',),
     # path('handout/', views.handouts, name='handouts',),

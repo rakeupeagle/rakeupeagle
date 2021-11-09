@@ -28,6 +28,7 @@ from .forms import AccountForm
 from .forms import CallForm
 from .forms import DeleteForm
 from .forms import RecipientForm
+from .forms import TeamcallForm
 from .forms import VolunteerForm
 from .models import Account
 from .models import Message
@@ -425,6 +426,45 @@ def call(request):
         },
     )
 
+@create_revision()
+def teamcall(request):
+    try:
+        volunteer = Volunteer.objects.order_by(
+            'created',
+        ).filter(
+            admin_notes='',
+            state=Volunteer.STATE.new,
+        ).earliest('created')
+    except Volunteer.DoesNotExist:
+        messages.success(
+            request,
+            "All Volunteers Called for Now!",
+        )
+        return redirect('account')
+    volunteer.pend()
+    volunteer.save()
+    if request.POST:
+        form = TeamcallForm(request.POST, instance=volunteer)
+        if form.is_valid():
+            volunteer = form.save(commit=False)
+            volunteer.confirm()
+            volunteer.save()
+            messages.success(
+                request,
+                "Saved!",
+            )
+            return redirect('teamcall')
+    else:
+        form = TeamcallForm(instance=volunteer)
+    return render(
+        request,
+        'app/pages/teamcall.html',
+        context = {
+            'volunteer': volunteer,
+            'form': form,
+        },
+    )
+
 @staff_member_required
 def dashboard(request):
     volunteers = Volunteer.objects.order_by(
@@ -445,7 +485,6 @@ def dashboard_volunteer(request, volunteer_id):
         'app/pages/volunteer.html',
         {'volunteer': volunteer},
     )
-
 
 @twilio
 def sms(request):
@@ -472,7 +511,6 @@ def sms(request):
         defaults=defaults,
     )
     return HttpResponse(status=201)
-
 
 @staff_member_required
 def handout_pdf(request, volunteer_id):

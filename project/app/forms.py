@@ -40,6 +40,16 @@ class CallForm(forms.ModelForm):
         ]
 
 
+class TeamcallForm(forms.ModelForm):
+    class Meta:
+        model = Volunteer
+        fields = [
+            'admin_notes',
+            'actual',
+            # 'phone',
+        ]
+
+
 class AccountAdminForm(forms.ModelForm):
     class Meta:
         model = Account

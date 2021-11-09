@@ -237,6 +237,12 @@ class Volunteer(models.Model):
         default='',
         help_text="""Notes.""",
     )
+    admin_notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Administrator Notes (from calling).""",
+    )
     created = models.DateTimeField(
         auto_now_add=True,
     )
