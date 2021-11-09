@@ -403,7 +403,6 @@ def call(request):
             "All Recipients Called for Now!",
         )
         return redirect('account')
-    recipient.pend()
     recipient.save()
     if request.POST:
         form = CallForm(request.POST, instance=recipient)
@@ -443,7 +442,6 @@ def teamcall(request):
             "All Volunteers Called for Now!",
         )
         return redirect('account')
-    volunteer.pend()
     volunteer.save()
     if request.POST:
         form = TeamcallForm(request.POST, instance=volunteer)

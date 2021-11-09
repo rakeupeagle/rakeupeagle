@@ -167,11 +167,7 @@ class Recipient(models.Model):
     def __str__(self):
         return f"{self.location} - {self.get_size_display()}"
 
-    @transition(field=state, source=[STATE.new,], target=STATE.pending)
-    def pend(self):
-        return
-
-    @transition(field=state, source=[STATE.pending,], target=STATE.confirmed)
+    @transition(field=state, source=[STATE.pending,STATE.new], target=STATE.confirmed)
     def confirm(self):
         return
 
@@ -262,11 +258,7 @@ class Volunteer(models.Model):
     def __str__(self):
         return f"{self.team} - {self.get_size_display()}"
 
-    @transition(field=state, source=[STATE.new,], target=STATE.pending)
-    def pend(self):
-        return
-
-    @transition(field=state, source=[STATE.pending,], target=STATE.confirmed)
+    @transition(field=state, source=[STATE.pending,STATE.new,], target=STATE.confirmed)
     def confirm(self):
         return
 
