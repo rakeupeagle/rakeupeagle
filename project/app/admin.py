@@ -54,8 +54,6 @@ class AssignmentAdmin(VersionAdmin):
     ]
 
 
-
-
 @admin.register(Account)
 class AccountAdmin(VersionAdmin):
     form = AccountAdminForm
@@ -310,6 +308,7 @@ class VolunteerAdmin(VersionAdmin):
         # 'email',
         'phone',
         'size',
+        'actual',
         'reference',
         'notes',
         'account',

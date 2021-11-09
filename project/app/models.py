@@ -226,6 +226,11 @@ class Volunteer(models.Model):
         default='',
         help_text="""How did you hear about us?""",
     )
+    actual = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='The actual number of adults, or adult-equivalent in children.',
+    )
     notes = models.TextField(
         max_length=512,
         blank=True,
