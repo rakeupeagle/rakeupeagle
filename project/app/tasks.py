@@ -231,6 +231,7 @@ def send_text_from_message(message):
 def send_volunteer_final(volunteer):
     body = render_to_string(
         'app/texts/volunteer_final.txt',
+        {'volunteer': volunteer},
     )
     response = send_text(
         str(volunteer.phone),
