@@ -303,6 +303,7 @@ class MessageAdmin(VersionAdmin):
 class VolunteerAdmin(VersionAdmin):
     save_on_top = True
     fields = [
+        'state',
         'team',
         'name',
         # 'email',
@@ -320,8 +321,11 @@ class VolunteerAdmin(VersionAdmin):
         'phone',
         'size',
         'reference',
+        'state',
     ]
     list_filter = [
+        'state',
+        'size',
         'created',
         'updated',
     ]
