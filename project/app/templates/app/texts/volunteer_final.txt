@@ -1,7 +1,7 @@
 {% autoescape off %}
 Thank you for volunteering as a Team Leader for Rake Up Eagle!
 
-IMPORTANT: If you are receiving this message but are NOT your team's leader, please let us know.  If you ARE a team leader please review the team list and let us know if any of your team members signed up directly: https://www.rakeupeagle.com/teams
+IMPORTANT: If you are receiving this message but are NOT your team's leader, please let us know.
 
 Here are the final instructions:
 
