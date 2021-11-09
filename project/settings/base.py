@@ -166,6 +166,15 @@ DJANGO_ICONS = {
     },
 }
 
+# Leaflet
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (6.0, 45.0),
+    'DEFAULT_ZOOM': 16,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 18,
+    'DEFAULT_PRECISION': 6,
+}
+
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -262,5 +271,7 @@ INSTALLED_APPS = [
     'fsm_admin',
     'bootstrap4',
     'phonenumber_field',
+    'leaflet',
+    'leaflet_admin_list',
     'app',
 ]

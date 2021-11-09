@@ -42,6 +42,7 @@ django-reversion = "*"
 geocoder = "*"
 twilio = "*"
 pyjwt = "*"
+django-leaflet-admin-list = "*"
 
 [requires]
 python_version = "3.9"

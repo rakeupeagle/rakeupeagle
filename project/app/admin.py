@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
+from leaflet.admin import LeafletGeoAdminMixin
+from leaflet_admin_list.admin import LeafletAdminListMixin
 from reversion.admin import VersionAdmin
 
 # Local
@@ -118,7 +120,31 @@ class PictureAdmin(VersionAdmin):
 
 
 @admin.register(Recipient)
-class RecipientAdmin(FSMTransitionMixin, VersionAdmin):
+class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminMixin, VersionAdmin):
+
+    def get_geojson_properties(self, request, name, o, queryset):
+        '''returns a `properties` member of the GeoJSON `Feature` instance representing the instance `o` geometry field `name`'''
+        r = {
+            'field': name,
+            'app_label': o._meta.app_label,
+            'model_name': o._meta.model_name,
+            'pk': str(o.pk),
+        }
+        popup = self.get_geojson_feature_popup(request, name, o, queryset)
+        tooltip = self.get_geojson_feature_tooltip(request, name, o, queryset)
+        point_style = self.get_geojson_feature_point_style(request, name, o, queryset)
+        line_style = self.get_geojson_feature_line_style(request, name, o, queryset)
+        if popup:
+            r['popup'] = popup
+        if tooltip:
+            r['tooltip'] = tooltip
+
+        if point_style:
+            r['point_style'] = point_style
+        if line_style:
+            r['line_style'] = line_style
+        return r
+
 
     def volunteer_sizes(self, obj):
         lst = [Volunteer.SIZE[x.volunteer.size] for x in obj.assignments.all()]

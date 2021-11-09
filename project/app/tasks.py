@@ -271,7 +271,6 @@ def get_precision(geocode):
 @job
 def geocode_recipient(recipient):
     result = geocoder.google(recipient.location)
-    print(result)
     geocode = result.json
     is_precise = get_precision(geocode)
     if is_precise:
