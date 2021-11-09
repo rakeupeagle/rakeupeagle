@@ -353,18 +353,6 @@ class Assignment(models.Model):
     def __str__(self):
         return f"{self.id}"
 
-    class Meta():
-        constraints = [
-            UniqueConstraint(
-                fields=[
-                    'volunteer',
-                    'recipient',
-                    'event',
-                ],
-                name='unique_assignment'
-            ),
-        ]
-
 
 
 class Message(models.Model):
