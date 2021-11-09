@@ -43,6 +43,7 @@ geocoder = "*"
 twilio = "*"
 pyjwt = "*"
 django-leaflet-admin-list = "*"
+django-leaflet = {git = "https://github.com/faaizajaz/django-leaflet.git"}
 
 [requires]
 python_version = "3.9"

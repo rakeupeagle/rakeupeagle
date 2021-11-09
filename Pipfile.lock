@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "974f7e0954f363ccbaa94fb64326b1754417ce43bc02bcf02fc895bb8ecfb400"
+            "sha256": "19a75d18ed9f0a06ac39ac3b85a45a90bad0f3ed6a2393edbc0bd679299c27c0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -281,11 +281,8 @@
             "version": "==3.3.3"
         },
         "django-leaflet": {
-            "hashes": [
-                "sha256:14b6b11cf81f40113f832cc77686a9b0c67b35d12d1f10d973f083997e6be8de",
-                "sha256:4f9e3147f438f4329b0f3bfd10d379ceaffe9267adf5cca05cb1a7c9e24e585b"
-            ],
-            "version": "==0.28.2"
+            "git": "https://github.com/faaizajaz/django-leaflet.git",
+            "ref": "b90f9e997094f44b698c1e7e1facb5df23d735da"
         },
         "django-leaflet-admin-list": {
             "hashes": [
