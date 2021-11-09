@@ -21,6 +21,7 @@ from .models import Account
 from .models import Message
 from .models import Picture
 from .models import Recipient
+from .models import Volunteer
 
 
 # Auth0
@@ -238,3 +239,17 @@ def send_volunteer_final(volunteer):
         body,
     )
     return response
+
+
+def assign_volunteer_from_recipient(recipient):
+    volunteer = Volunteer.objects.filter(
+        assignments__isnull=True,
+    ).order_by(
+        'size',
+    ).last()
+    if not volunteer:
+        raise Volunteer.DoesNotExist
+    recipient.assignments.create(
+        volunteer=volunteer,
+    )
+    return recipient
