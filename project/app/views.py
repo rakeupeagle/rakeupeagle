@@ -387,7 +387,7 @@ def volunteer_delete(request):
 
 
 # Admin
-@staff_member_required
+@login_required
 @create_revision()
 def call(request):
     try:
@@ -427,7 +427,7 @@ def call(request):
         },
     )
 
-@staff_member_required
+@login_required
 @create_revision()
 def teamcall(request):
     try:
