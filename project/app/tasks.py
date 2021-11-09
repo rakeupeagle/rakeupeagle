@@ -1,12 +1,14 @@
 # Standard Libary
 import csv
 
+import geocoder
 import requests
 # First-Party
 from auth0.v3.authentication import GetToken
 from auth0.v3.management import Auth0
 # Django
 from django.conf import settings
+from django.contrib.gis.geos import Point
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMultiAlternatives
@@ -252,4 +254,35 @@ def assign_volunteer_from_recipient(recipient):
     recipient.assignments.create(
         volunteer=volunteer,
     )
+    return recipient
+
+
+def get_precision(geocode):
+    return all([
+        geocode['accuracy'] == 'ROOFTOP',
+        any([
+            geocode['quality'] == 'premise',
+            geocode['quality'] == 'subpremise',
+            geocode['quality'] == 'street_address',
+        ])
+    ])
+
+
+@job
+def geocode_recipient(recipient):
+    result = geocoder.google(recipient.location)
+    print(result)
+    geocode = result.json
+    is_precise = get_precision(geocode)
+    if is_precise:
+        recipient.is_precise = True
+        recipient.point = Point(
+            geocode['lng'],
+            geocode['lat'],
+        )
+        recipient.place = geocode['place']
+    else:
+        geocode['status'] = 'IMPRECISE'
+        recipient.is_precise = False
+    recipient.geocode = geocode
     return recipient
