@@ -513,14 +513,15 @@ def sms(request):
     return HttpResponse(status=201)
 
 @staff_member_required
-def handout_pdf(request, volunteer_id):
-    volunteer = get_object_or_404(Volunteer, pk=volunteer_id)
+def handout_pdf(request, recipient_id):
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
+    volunteer = Volunteer.objects.get(assignments__recipient=recipient)
     context={
+        'recipient': recipient,
         'volunteer': volunteer,
-        'recipient': volunteer.recipient,
-        'map': map,
+        # 'map': map,
     }
-    rendered = render_to_string('app/pages/handout.html', context)
+    rendered = render_to_string('app/pdfs/handout.html', context)
     pdf = pydf.generate_pdf(
         rendered,
         enable_smart_shrinking=False,

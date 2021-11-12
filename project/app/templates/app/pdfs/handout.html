@@ -19,12 +19,18 @@
   </style>
 {% endblock customstyles %}
 
+{% block topnav %}
+{% endblock topnav %}
+
 {% block title %}Volunteer Handout for {{volunteer.name}}{% endblock title %}
 
 {% block content %}
-
+  <br>
+  <br>
+  <br>
   <section>
-    <h2>Rake Up Eagle Handout for {{volunteer.name}}</h2>
+    <h2>Rake Up Eagle Handout for {{volunteer.team}}</h2>
+    <h3>Team Leader: {{volunteer.name}}</h3>
   </section>
   <section>
     <div class='card'>
@@ -35,8 +41,8 @@
         <div class='card-text'>
           <ul class='list-unstyled'>
             <li>Name: {{recipient.name}}</li>
-            <li>Address: {{recipient.address}}</li>
-            <li>Phone: {{recipient.phone}}</li>
+            <li>Address: {{recipient.location}}</li>
+            <li>Phone: {{recipient.phone.as_national}}</li>
             <li>Has Dog? {{recipient.is_dog|yesno|title}}</li>
             <li>Notes: {{recipient.notes|default:"(No Notes Provided)"}}</li>
           </ul>
@@ -49,7 +55,7 @@
   </section>
   <section>
     <h3>Instructions</h3>
-    <ul class='list-styled'>
+    <ul class='list-styled col-10'>
     <li>
       Please have leader of group knock on door so they know you have arrived.   <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
     </li>
@@ -82,3 +88,6 @@
   </section>
 
 {% endblock content %}
+
+{% block bottomnav %}
+{% endblock bottomnav %}
