@@ -207,6 +207,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
     search_fields = [
         'account__name',
         'account__phone',
+        'location',
     ]
     autocomplete_fields = [
         'account',
