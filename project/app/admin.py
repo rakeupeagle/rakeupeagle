@@ -328,6 +328,13 @@ class MessageAdmin(VersionAdmin):
 
 @admin.register(Volunteer)
 class VolunteerAdmin(VersionAdmin):
+    def recipient_sizes(self, obj):
+        lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
+
+        return "; ".join(
+            list(lst)
+        )
+
     save_on_top = True
     fields = [
         'state',
@@ -347,7 +354,7 @@ class VolunteerAdmin(VersionAdmin):
         'name',
         'phone',
         'size',
-        'reference',
+        'recipient_sizes',
         'state',
     ]
     list_filter = [
