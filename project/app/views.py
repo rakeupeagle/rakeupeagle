@@ -36,6 +36,7 @@ from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import Volunteer
+from .tasks import get_assignments_csv
 from .tasks import send_recipient_confirmation
 from .tasks import send_volunteer_confirmation
 
@@ -566,35 +567,29 @@ def handout_pdfs(request):
 
 @staff_member_required
 def export_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="export.csv"'
-    vs = Volunteer.objects.order_by(
-        'last',
-        'first',
+    response = HttpResponse('text/csv')
+    response['Content-Disposition'] = 'attachment; filename=assignments.csv'
+    gs = Assignment.objects.order_by(
+        'volunteer__name',
     )
-
     writer = csv.writer(response)
     writer.writerow([
-        'Volunteer',
-        'Phone',
-        'Number',
-        'Recipient',
-        'Address',
-        'Phone',
-        'Email',
-        'Dog',
-        'Size',
+        'Team Leader',
+        'Team Phone',
+        'Team Size',
+        'Recipient Name',
+        'Recipient Phone',
+        'Recipient Size',
+        'Recipient Location',
     ])
-    for v in vs:
+    for g in gs:
         writer.writerow([
-            v.name,
-            v.phone,
-            v.number,
-            v.recipient.name,
-            v.recipient.address,
-            v.recipient.phone,
-            v.recipient.email,
-            v.recipient.is_dog,
-            v.recipient.get_size_display(),
+            g.volunteer.name,
+            g.volunteer.phone.as_national,
+            g.volunteer.get_size_display(),
+            g.recipient.name,
+            g.recipient.phone.as_national,
+            g.recipient.get_size_display(),
+            g.recipient.location,
         ])
     return response

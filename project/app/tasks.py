@@ -20,6 +20,7 @@ from twilio.rest import Client as TwilioClient
 
 # Local
 from .models import Account
+from .models import Assignment
 from .models import Message
 from .models import Picture
 from .models import Recipient
@@ -109,44 +110,32 @@ def send_email(email):
     return email.send()
 
 
-def export_csv():
-    rs = Recipient.objects.annotate(
-        total=Sum('assignments__volunteer__number')
-    ).order_by(
-        'size',
-        # 'total',
+def get_assignments_csv():
+    gs = Assignment.objects.order_by(
+        'volunteer__name',
     )
-    with open('export.csv', 'w') as f:
+    with open('export.csv', 'wb') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'Name',
-            'Address',
-            'Phone',
-            'Email',
-            'Dog',
-            'Size',
-            'Group(s)',
-            'Total',
+            'Team Leader',
+            'Team Phone',
+            'Team Size',
+            'Recipient Name',
+            'Recipient Phone',
+            'Recipient Size',
+            'Recipient Location',
         ])
-        for r in rs:
-            gs = r.assignments.values_list('volunteer__name', 'volunteer__number')
-            groups = "; ".join(["{0} - {1}".format(g[0], g[1]) for g in gs])
+        for g in gs:
             writer.writerow([
-                r.name,
-                r.address,
-                r.phone,
-                r.email,
-                r.is_dog,
-                r.get_size_display(),
-                groups,
-                r.total,
+                g.volunteer.name,
+                g.volunteer.phone.as_national,
+                g.volunteer.get_size_display(),
+                g.recipient.name,
+                g.recipient.phone.as_national,
+                g.recipient.get_size_display(),
+                g.recipient.location,
             ])
-        content = ContentFile(f)
-        return FileResponse(
-            content,
-            as_attachment=True,
-            filename='export.csv',
-        )
+        return ContentFile(f)
 
 
 @job

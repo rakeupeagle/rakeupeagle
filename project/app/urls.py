@@ -50,5 +50,5 @@ urlpatterns = [
     # path('handout/<volunteer_id>', views.handout, name='handout',),
     path('assignment/<assignment_id>/pdf', views.handout_pdf, name='handout_pdf',),
     path('handouts/', views.handout_pdfs, name='handouts',),
-    # path('csv/', views.export_csv, name='export_csv',),
+    path('csv/', views.export_csv, name='export_csv',),
 ]
