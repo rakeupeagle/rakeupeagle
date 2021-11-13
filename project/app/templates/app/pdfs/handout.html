@@ -45,7 +45,7 @@
             <li>Name: {{recipient.name}}</li>
             <li>Address: {{recipient.location}}</li>
             <li>Phone: {{recipient.phone.as_national}}</li>
-            <li>Has Dog? {{recipient.is_dog|yesno|title}}</li>
+            <li>Size: {{recipient.get_size_display}}</li>
             <li>Notes: {{recipient.notes|default:"(No Notes Provided)"}}</li>
           </ul>
           {# <div class='img-fluid'> #}
