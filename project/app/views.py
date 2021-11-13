@@ -521,7 +521,6 @@ def handout_pdf(request, assignment_id):
     context={
         'recipient': recipient,
         'volunteer': volunteer,
-        # 'map': map,
     }
     rendered = render_to_string('app/pdfs/handout.html', context)
     pdf = pydf.generate_pdf(
@@ -540,19 +539,17 @@ def handout_pdf(request, assignment_id):
 
 @staff_member_required
 def handout_pdfs(request):
-    volunteers = Volunteer.objects.order_by(
-        'last',
-        'first',
+    assignments = Assignment.objects.order_by(
+        'volunteer__name',
     )
     output = ''
-    for volunteer in volunteers:
+    for assignment in assignments:
         context={
-            'volunteer': volunteer,
-            'recipient': volunteer.recipient,
-            'map': map,
+            'recipient': assignment.recipient,
+            'volunteer': assignment.volunteer,
         }
-        rendered = render_to_string('app/pages/handout.html', context)
-        output += "<br>"+rendered
+        rendered = render_to_string('app/pdfs/handout.html', context)
+        output += '<div class="new-page"></div>'+rendered
     pdf = pydf.generate_pdf(
         output,
         enable_smart_shrinking=False,

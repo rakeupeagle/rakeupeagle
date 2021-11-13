@@ -5,7 +5,7 @@
 {% load static %}
 
 {% block customstyles %}
-  <style type="text/css">
+  <style type="text/css" media='screen,print'>
     section {
       margin-top: 50px;
       margin-bottom: 50px;
@@ -17,7 +17,11 @@
     .card {
       margin: 50px;
     }
+    .new-page{
+            page-break-before: always;
+        }
   </style>
+
 {% endblock customstyles %}
 
 {% block topnav %}
@@ -82,10 +86,6 @@
   <section>
     <p class='lead'>
       Thank you for volunteering today &mdash; <em>there is so much good in the world!</em>
-    </p>
-    <p>
-      Fondly, <br>
-      The EMS PTO
     </p>
   </section>
 
