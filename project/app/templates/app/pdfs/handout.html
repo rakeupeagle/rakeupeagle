@@ -2,6 +2,7 @@
 
 {% load bootstrap4 %}
 {% load humanize %}
+{% load static %}
 
 {% block customstyles %}
   <style type="text/css">
@@ -25,9 +26,6 @@
 {% block title %}Volunteer Handout for {{volunteer.name}}{% endblock title %}
 
 {% block content %}
-  <br>
-  <br>
-  <br>
   <section>
     <h2>Rake Up Eagle Handout for {{volunteer.team}}</h2>
     <h3>Team Leader: {{volunteer.name}}</h3>
@@ -55,7 +53,10 @@
   </section>
   <section>
     <h3>Instructions</h3>
-    <ul class='list-styled col-10'>
+    <ul class='list-styled'>
+    <li>
+      If you have any questions, needs, or concerns, please call <strong>(847) 347-1579</strong>.  In particular, call if you believe the yard is too big or too small for your group so we can adjust as necessary.
+    </li>
     <li>
       Please have leader of group knock on door so they know you have arrived.   <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
     </li>
@@ -66,16 +67,17 @@
       Need more lawn bags?   Head back to EMS or call for a delivery.    Please note that someone over 18 has to be at the residence the entire time of raking.  <strong>Do not leave youth alone at the recipient's home.</strong>
     </li>
     <li>
-      If you have any questions, needs, or concerns, please call <strong>319-541-1111</strong> or <strong>847-347-1579</strong>.
-    </li>
-    <li>
       If you take any group photos, please send them to <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> so we put them in our EMS yearbook, Facebook page, and perhaps in Eagle Life Magazine!
     </li>
-    {% if recipient.is_dog %}
-      <li>
-        The recipient's dog should be inside the entire time your group is there and all poop should be cleaned up.   If you see any animal waste, please leave and head back to EMS for a different assignment.
-      </li>
-    {% endif %}
+    <li>
+      If the recipient has a dog it needs to remain inside.  If you see any animal waste, please leave and head back to EMS for a different assignment.
+    </li>
+  </section>
+  <section>
+    <h3>Donations</h3>
+    <p>
+      Donations are not expected, but if recipients insist they can send a check to Eagle Middle PTO, 1000 W. Floating Feather, Eagle ID 83616, or via Venmo: @Eagle-Middle
+    </p>
   </section>
   <section>
     <p class='lead'>
