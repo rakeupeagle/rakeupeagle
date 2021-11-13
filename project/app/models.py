@@ -165,7 +165,7 @@ class Recipient(models.Model):
         unique=True,
     )
     def __str__(self):
-        return f"{self.location} - {self.get_size_display()}"
+        return f"{self.name}, {self.location} - {self.get_size_display()}"
 
     @transition(field=state, source=[STATE.pending,STATE.new], target=STATE.confirmed)
     def confirm(self):

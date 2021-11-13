@@ -39,8 +39,8 @@ class AssignmentAdmin(VersionAdmin):
     ]
     list_display = [
         'id',
-        'recipient',
         'volunteer',
+        'recipient',
     ]
     list_filter = [
         'recipient__size',

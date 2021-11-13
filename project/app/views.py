@@ -31,6 +31,7 @@ from .forms import RecipientForm
 from .forms import TeamcallForm
 from .forms import VolunteerForm
 from .models import Account
+from .models import Assignment
 from .models import Message
 from .models import Picture
 from .models import Recipient
@@ -513,9 +514,10 @@ def sms(request):
     return HttpResponse(status=201)
 
 @staff_member_required
-def handout_pdf(request, recipient_id):
-    recipient = get_object_or_404(Recipient, pk=recipient_id)
-    volunteer = Volunteer.objects.get(assignments__recipient=recipient)
+def handout_pdf(request, assignment_id):
+    assignment = get_object_or_404(Assignment, pk=assignment_id)
+    recipient = assignment.recipient
+    volunteer = assignment.volunteer
     context={
         'recipient': recipient,
         'volunteer': volunteer,
