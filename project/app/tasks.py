@@ -232,6 +232,18 @@ def send_volunteer_final(volunteer):
     return response
 
 @job
+def send_volunteer_extra(volunteer):
+    body = render_to_string(
+        'app/texts/volunteer_extra.txt',
+        {'volunteer': volunteer},
+    )
+    response = send_text(
+        str(volunteer.phone),
+        body,
+    )
+    return response
+
+@job
 def send_recipient_final(recipient):
     body = render_to_string(
         'app/texts/recipient_final.txt',
