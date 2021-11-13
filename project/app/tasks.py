@@ -269,6 +269,19 @@ def send_recipient_close(recipient):
     return response
 
 
+@job
+def send_volunteer_survey(volunteer):
+    body = render_to_string(
+        'app/texts/volunteer_survey.txt',
+        {'volunteer': volunteer},
+    )
+    response = send_text(
+        str(volunteer.phone),
+        body,
+    )
+    return response
+
+
 def assign_volunteer_from_recipient(recipient):
     volunteer = Volunteer.objects.filter(
         assignments__isnull=True,

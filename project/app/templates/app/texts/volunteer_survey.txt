@@ -1,0 +1,10 @@
+{% autoescape off %}
+Thank you so much for volunteering for Rake Up Eagle!  Our recipients were so grateful!
+
+Please let us know roughly how many bags you used because we need that information to help plan for next year.
+
+Also, if you have any photos from the event don't forget to send them to support@rakeupeagle.com.
+
+Thanks again for a great year!
+Eagle Middle School PTO
+{% endautoescape %}
