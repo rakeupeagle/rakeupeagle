@@ -294,19 +294,17 @@ class Event(models.Model):
         max_length=100,
         blank=False,
     )
-    description = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
+    year = models.IntegerField(
+        null=False,
+        blank=False,
+    )
+    deadline = models.DateField(
+        blank=False,
+        null=False,
     )
     date = models.DateField(
-        blank=True,
-        null=True,
-    )
-    notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
+        blank=False,
+        null=False,
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -316,7 +314,7 @@ class Event(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.year}"
 
 
 def get_latest_event():

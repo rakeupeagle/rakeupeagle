@@ -229,27 +229,22 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
 @admin.register(Event)
 class EventAdmin(VersionAdmin):
     save_on_top = True
-    autocomplete_fields = [
-        # 'account',
-        # 'voter',
-    ]
     fields = [
-        'name',
-        'state',
-        'description',
+        'year',
+        'deadline',
         'date',
+        'state',
     ]
     list_display = [
-        'name',
+        'year',
+        'deadline',
         'date',
     ]
     list_editable = [
     ]
     list_filter = [
-        'date',
         'state',
-        # 'is_spouse',
-        # 'zone',
+        'year',
     ]
     search_fields = [
     ]
