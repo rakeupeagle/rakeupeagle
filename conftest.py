@@ -1,9 +1,8 @@
 # Django
-from django.test.client import Client
-
 # First-Party
 import pytest
 from app.factories import UserFactory
+from django.test.client import Client
 
 
 @pytest.fixture
@@ -17,7 +16,7 @@ def user_client():
     user = UserFactory(
         username='user',
         name='User',
-        email='user@localhost',
+        phone='+15005551212',
         is_active=True,
         is_admin=False,
     )
@@ -31,7 +30,7 @@ def admin_client():
     admin = UserFactory(
         username='admin',
         name='Admin',
-        email='admin@localhost',
+        phone='+15005551212',
         is_active=True,
         is_admin=True,
     )

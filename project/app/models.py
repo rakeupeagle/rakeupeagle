@@ -22,6 +22,20 @@ from .managers import UserManager
 def get_latest_event():
     return Event.objects.latest('date')
 
+
+@deconstructible
+class UploadPath(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self, instance, filename):
+        short = secrets.token_urlsafe()[:8]
+        return os.path.join(
+            self.name,
+            short,
+        )
+
+
 class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -52,10 +66,6 @@ class Recipient(models.Model):
         default='',
     )
     phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
-    email = models.EmailField(
         blank=True,
         null=True,
     )
@@ -168,10 +178,6 @@ class Volunteer(models.Model):
         default='',
     )
     phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
-    email = models.EmailField(
         blank=True,
         null=True,
     )
@@ -359,19 +365,6 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.id}"
-
-
-@deconstructible
-class UploadPath(object):
-    def __init__(self, name):
-        self.name = name
-
-    def __call__(self, instance, filename):
-        short = secrets.token_urlsafe()[:8]
-        return os.path.join(
-            self.name,
-            short,
-        )
 
 
 class Picture(models.Model):

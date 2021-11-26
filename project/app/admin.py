@@ -107,7 +107,6 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
     fields = [
         'state',
         'name',
-        # 'email',
         'phone',
         'location',
         'size',
@@ -278,7 +277,6 @@ class VolunteerAdmin(VersionAdmin):
         'state',
         'team',
         'name',
-        # 'email',
         'phone',
         'size',
         'actual',

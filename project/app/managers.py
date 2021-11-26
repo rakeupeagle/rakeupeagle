@@ -9,12 +9,6 @@ class UserManager(BaseUserManager):
     for authentication instead of usernames.
     """
     def create_user(self, username, password, **extra_fields):
-        """
-        Create and save a User with the given email and password.
-        """
-        # if not email:
-        #     raise ValueError('The Email must be set')
-        # email = self.normalize_email(email)
         extra_fields.setdefault('is_active', True)
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
