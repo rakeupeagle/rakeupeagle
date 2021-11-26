@@ -164,6 +164,13 @@ class Recipient(models.Model):
         related_name='recipient',
         unique=True,
     )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='recipients',
+    )
     def __str__(self):
         return f"{self.name}, {self.location} - {self.get_size_display()}"
 
@@ -253,6 +260,13 @@ class Volunteer(models.Model):
         blank=True,
         related_name='volunteer',
         unique=True,
+    )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='volunteers',
     )
 
     def __str__(self):
@@ -393,6 +407,13 @@ class Message(models.Model):
         related_name='messages',
         null=True,
         blank=True,
+    )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='messages',
     )
     created = models.DateTimeField(
         auto_now_add=True,
