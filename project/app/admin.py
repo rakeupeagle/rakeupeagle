@@ -393,12 +393,8 @@ class UserAdmin(UserAdminBase):
         (None, {
             'fields': [
                 'username',
-            ]
-        }
-        ),
-        ('Data', {
-            'fields': [
                 'phone',
+                'name',
             ]
         }
         ),
@@ -407,6 +403,7 @@ class UserAdmin(UserAdminBase):
     list_display = [
         'username',
         'phone',
+        'name',
         'created',
         'last_login'
     ]
@@ -419,6 +416,7 @@ class UserAdmin(UserAdminBase):
     search_fields = [
         'username',
         'phone',
+        'name',
     ]
     ordering = [
         '-created',
@@ -438,6 +436,7 @@ class UserAdmin(UserAdminBase):
     inlines = [
     ]
     readonly_fields = [
+        'username',
     ]
 
 # Use Auth0 for login

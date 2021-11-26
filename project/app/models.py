@@ -465,6 +465,12 @@ class User(AbstractBaseUser):
         null=False,
         unique=True,
     )
+    name = models.CharField(
+        max_length=150,
+        blank=True,
+        null=False,
+        default='',
+    )
     phone = PhoneNumberField(
         blank=True,
         null=True,
