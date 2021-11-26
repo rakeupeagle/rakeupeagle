@@ -73,6 +73,7 @@ class Recipient(models.Model):
         primary_key=True,
     )
     STATE = Choices(
+        (-10, 'cancelled', 'Cancelled'),
         (0, 'new', 'New'),
         (10, 'pending', 'Pending'),
         (20, 'confirmed', 'Confirmed'),
@@ -171,7 +172,6 @@ class Recipient(models.Model):
         'app.Event',
         on_delete=models.CASCADE,
         related_name='recipients',
-        # default=get_latest_event,
         null=True,
     )
     user = models.ForeignKey(
@@ -194,6 +194,7 @@ class Volunteer(models.Model):
         primary_key=True,
     )
     STATE = Choices(
+        (-10, 'cancelled', 'Cancelled'),
         (0, 'new', 'New'),
         (10, 'pending', 'Pending'),
         (20, 'confirmed', 'Confirmed'),
@@ -275,7 +276,6 @@ class Volunteer(models.Model):
         'app.Event',
         on_delete=models.CASCADE,
         related_name='volunteers',
-        # default=get_latest_event,
         null=True,
     )
     user = models.ForeignKey(
@@ -354,12 +354,6 @@ class Assignment(models.Model):
         'app.Volunteer',
         on_delete=models.CASCADE,
         related_name='assignments',
-    )
-    event = models.ForeignKey(
-        'app.Event',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        default=get_latest_event,
     )
     created = models.DateTimeField(
         auto_now_add=True,
