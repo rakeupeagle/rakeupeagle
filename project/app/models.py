@@ -19,6 +19,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .managers import UserManager
 
 
+def get_latest_event():
+    return Event.objects.latest('date')
+
 class Account(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -164,6 +167,13 @@ class Recipient(models.Model):
         related_name='recipient',
         unique=True,
     )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='recipients',
+        # default=get_latest_event,
+        null=True,
+    )
     user = models.ForeignKey(
         'app.User',
         on_delete=models.SET_NULL,
@@ -261,6 +271,13 @@ class Volunteer(models.Model):
         related_name='volunteer',
         unique=True,
     )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='volunteers',
+        # default=get_latest_event,
+        null=True,
+    )
     user = models.ForeignKey(
         'app.User',
         on_delete=models.SET_NULL,
@@ -315,10 +332,6 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.year}"
-
-
-def get_latest_event():
-    return Event.objects.latest('date')
 
 
 class Assignment(models.Model):
