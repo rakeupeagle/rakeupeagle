@@ -10,12 +10,12 @@
 {% block content %}
   <section class='my-5'>
     <h2>
-      Volunteer Dashboard
+      Team Dashboard
     </h2>
   </section>
   <section class='my-5'>
     <p class='lead'>
-      Make changes to volunteer assignments here.
+      Make changes to team assignments here.
     </p>
   </section>
   <section class='my-5'>
@@ -40,19 +40,19 @@
         </tr>
       </thead>
       <tbody>
-        {% for volunteer in volunteers %}
+        {% for team in teams %}
           <tr>
             <td>
-              <a href='{% url "dashboard-volunteer" volunteer.id %}'>{{ volunteer.name }}</a>
+              <a href='{% url "dashboard-team" team.id %}'>{{ team.name }}</a>
             </td>
             <td>
-              <a href='tel:{{ volunteer.phone }}'>{{ volunteer.phone }}</a>
+              <a href='tel:{{ team.phone }}'>{{ team.phone }}</a>
             </td>
             <td>
-              {{ volunteer.get_size_display }}
+              {{ team.get_size_display }}
             </td>
             <td>
-              {{ volunteer.assignment.name|default:'(Not Assigned)' }}
+              {{ team.assignment.name|default:'(Not Assigned)' }}
             </td>
           </tr>
         {% endfor %}

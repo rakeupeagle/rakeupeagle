@@ -7,8 +7,8 @@ from django.utils.safestring import mark_safe
 
 # Local
 from .models import Recipient
+from .models import Team
 from .models import User
-from .models import Volunteer
 from .widgets import AddressWidget
 
 
@@ -23,7 +23,7 @@ class CallForm(forms.ModelForm):
 
 class TeamcallForm(forms.ModelForm):
     class Meta:
-        model = Volunteer
+        model = Team
         fields = [
             'admin_notes',
             'actual',
@@ -73,14 +73,14 @@ class RecipientForm(forms.ModelForm):
         }
 
 
-class VolunteerForm(forms.ModelForm):
+class TeamForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Overriding required fields in form
         self.fields['size'].required = True
 
     class Meta:
-        model = Volunteer
+        model = Team
         fields = [
             'size',
             'team',

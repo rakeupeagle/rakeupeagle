@@ -1,5 +1,5 @@
 {% autoescape off %}
-Thank you so much for volunteering for Rake Up Eagle!  Our recipients were so grateful!
+Thank you so much for teaming for Rake Up Eagle!  Our recipients were so grateful!
 
 Please let us know roughly how many bags you used because we need that information to help plan for next year.
 

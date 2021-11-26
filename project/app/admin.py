@@ -18,14 +18,14 @@ from .forms import UserCreationForm
 from .inlines import AssignmentInline
 from .inlines import MessageInline
 from .inlines import RecipientInline
-from .inlines import VolunteerInline
+from .inlines import TeamInline
 from .models import Assignment
 from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient
+from .models import Team
 from .models import User
-from .models import Volunteer
 
 
 @admin.register(Assignment)
@@ -33,11 +33,11 @@ class AssignmentAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'recipient',
-        'volunteer',
+        'team',
     ]
     list_display = [
         'id',
-        'volunteer',
+        'team',
         'recipient',
     ]
     list_filter = [
@@ -46,11 +46,11 @@ class AssignmentAdmin(VersionAdmin):
 
     list_editable = [
         # 'recipient',
-        # 'volunteer',
+        # 'team',
     ]
     autocomplete_fields = [
         # 'recipient',
-        # 'volunteer',
+        # 'team',
     ]
 
 
@@ -92,8 +92,8 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         return r
 
 
-    def volunteer_sizes(self, obj):
-        lst = [Volunteer.SIZE[x.volunteer.size] for x in obj.assignments.all()]
+    def team_sizes(self, obj):
+        lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
 
         return "; ".join(
             list(lst)
@@ -129,7 +129,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         'location',
         'size',
         'is_dog',
-        'volunteer_sizes',
+        'team_sizes',
         'state',
         # 'notes',
         # 'is_verified',
@@ -266,8 +266,8 @@ class MessageAdmin(VersionAdmin):
     user_link.short_description = 'user'
 
 
-@admin.register(Volunteer)
-class VolunteerAdmin(VersionAdmin):
+@admin.register(Team)
+class TeamAdmin(VersionAdmin):
     def recipient_sizes(self, obj):
         lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
 

@@ -6,25 +6,25 @@ from django.contrib import admin
 from .models import Assignment
 from .models import Message
 from .models import Recipient
-from .models import Volunteer
+from .models import Team
 
 
 class AssignmentInline(admin.TabularInline):
     model = Assignment
     fields = [
         'recipient',
-        'volunteer',
+        'team',
     ]
     autocomplete_fields = [
         'recipient',
-        'volunteer',
+        'team',
     ]
     extra = 0
     show_change_link = True
 
 
-class VolunteerInline(admin.TabularInline):
-    model = Volunteer
+class TeamInline(admin.TabularInline):
+    model = Team
     fields = [
         'size',
     ]

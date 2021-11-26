@@ -28,17 +28,17 @@ from .forms import CallForm
 from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import TeamcallForm
-from .forms import VolunteerForm
+from .forms import TeamForm
 from .models import Assignment
 from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient
+from .models import Team
 from .models import User
-from .models import Volunteer
 from .tasks import get_assignments_csv
 from .tasks import send_recipient_confirmation
-from .tasks import send_volunteer_confirmation
+from .tasks import send_team_confirmation
 
 log = logging.getLogger(__name__)
 
@@ -133,16 +133,16 @@ def callback(request):
                 event__state=Event.STATE.active,
             ),
         ]
-        is_volunteer = [
-            initial == 'volunteer',
-            user.volunteers.filter(
+        is_team = [
+            initial == 'team',
+            user.teams.filter(
                 event__state=Event.STATE.active,
             ),
         ]
         if any(is_recipient):
             return redirect('recipient')
-        if any(is_volunteer):
-            return redirect('volunteer')
+        if any(is_team):
+            return redirect('team')
     log.error('callback fallout')
     return HttpResponse(status=403)
 
@@ -220,7 +220,7 @@ def recipient(request):
     if form.is_valid():
         recipient = form.save()
         # if created:
-        #     send_volunteer_confirmation.delay(volunteer)
+        #     send_team_confirmation.delay(team)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
@@ -234,12 +234,12 @@ def recipient(request):
     )
 
 @login_required
-def volunteer(request):
+def team(request):
     user = request.user
-    volunteers = user.volunteers.all()
+    teams = user.teams.all()
     # Create recipient if new account
-    if not volunteers:
-        volunteer = Volunteer(
+    if not teams:
+        team = Team(
             user=user,
             phone=user.phone,
         )
@@ -248,12 +248,12 @@ def volunteer(request):
             state=Event.STATE.active,
         )
         try:
-            volunteer = volunteers.get(
+            team = teams.get(
                 event=event,
             )
-        except Volunteer.DoesNotExist:
-            prior = volunteers.latest('created')
-            volunteer = Volunteer(
+        except Team.DoesNotExist:
+            prior = teams.latest('created')
+            team = Team(
                 size=prior.size,
                 name=prior.name,
                 phone=prior.phone,
@@ -263,18 +263,18 @@ def volunteer(request):
                 event=event,
                 user=user,
             )
-    form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
+    form = TeamForm(request.POST, instance=team) if request.POST else TeamForm(instance=team)
     if form.is_valid():
-        volunteer = form.save()
+        team = form.save()
         # if created:
-        #     send_volunteer_confirmation.delay(volunteer)
+        #     send_team_confirmation.delay(team)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
         )
     return render(
         request,
-        'app/pages/volunteer.html',
+        'app/pages/team.html',
         context={
             'form': form,
         }
@@ -326,60 +326,60 @@ def call(request):
 @create_revision()
 def teamcall(request):
     try:
-        volunteer = Volunteer.objects.order_by(
+        team = Team.objects.order_by(
             'created',
         ).filter(
             admin_notes='',
-            state=Volunteer.STATE.new,
+            state=Team.STATE.new,
         ).earliest('created')
-    except Volunteer.DoesNotExist:
+    except Team.DoesNotExist:
         messages.success(
             request,
-            "All Volunteers Called for Now!",
+            "All Teams Called for Now!",
         )
         return redirect('index')
-    volunteer.save()
+    team.save()
     if request.POST:
-        form = TeamcallForm(request.POST, instance=volunteer)
+        form = TeamcallForm(request.POST, instance=team)
         if form.is_valid():
-            volunteer = form.save(commit=False)
-            volunteer.confirm()
-            volunteer.save()
+            team = form.save(commit=False)
+            team.confirm()
+            team.save()
             messages.success(
                 request,
                 "Saved!",
             )
             return redirect('teamcall')
     else:
-        form = TeamcallForm(instance=volunteer)
+        form = TeamcallForm(instance=team)
     return render(
         request,
         'app/pages/teamcall.html',
         context = {
-            'volunteer': volunteer,
+            'team': team,
             'form': form,
         },
     )
 
 @staff_member_required
 def dashboard(request):
-    volunteers = Volunteer.objects.order_by(
+    teams = Team.objects.order_by(
         # 'last_name',
         # 'first_name',
     )
     return render(
         request,
         'app/pages/dashboard.html',
-        {'volunteers': volunteers},
+        {'teams': teams},
     )
 
 @staff_member_required
-def dashboard_volunteer(request, volunteer_id):
-    volunteer = Volunteer.objects.get(pk=volunteer_id)
+def dashboard_team(request, team_id):
+    team = Team.objects.get(pk=team_id)
     return render(
         request,
-        'app/pages/volunteer.html',
-        {'volunteer': volunteer},
+        'app/pages/team.html',
+        {'team': team},
     )
 
 @twilio
@@ -412,10 +412,10 @@ def sms(request):
 def handout_pdf(request, assignment_id):
     assignment = get_object_or_404(Assignment, pk=assignment_id)
     recipient = assignment.recipient
-    volunteer = assignment.volunteer
+    team = assignment.team
     context={
         'recipient': recipient,
-        'volunteer': volunteer,
+        'team': team,
     }
     rendered = render_to_string('app/pdfs/handout.html', context)
     pdf = pydf.generate_pdf(
@@ -435,13 +435,13 @@ def handout_pdf(request, assignment_id):
 @staff_member_required
 def handout_pdfs(request):
     assignments = Assignment.objects.order_by(
-        'volunteer__name',
+        'team__name',
     )
     output = ''
     for assignment in assignments:
         context={
             'recipient': assignment.recipient,
-            'volunteer': assignment.volunteer,
+            'team': assignment.team,
         }
         rendered = render_to_string('app/pdfs/handout.html', context)
         output += '<div class="new-page"></div>'+rendered
@@ -464,7 +464,7 @@ def export_csv(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=assignments.csv'
     gs = Assignment.objects.order_by(
-        'volunteer__name',
+        'team__name',
     )
     writer = csv.writer(response)
     writer.writerow([
@@ -478,9 +478,9 @@ def export_csv(request):
     ])
     for g in gs:
         writer.writerow([
-            g.volunteer.name,
-            g.volunteer.phone.as_national,
-            g.volunteer.get_size_display(),
+            g.team.name,
+            g.team.phone.as_national,
+            g.team.get_size_display(),
             g.recipient.name,
             g.recipient.phone.as_national,
             g.recipient.get_size_display(),

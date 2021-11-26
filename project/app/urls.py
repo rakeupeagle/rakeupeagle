@@ -28,14 +28,14 @@ urlpatterns = [
     # Recipient
     path('recipient', views.recipient, name='recipient',),
 
-    path('volunteer', views.volunteer, name='volunteer',),
+    path('team', views.team, name='team',),
 
     # Twilio
     path('sms', views.sms, name='sms',),
 
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
-    path('dashboard/<volunteer_id>', views.dashboard_volunteer, name='dashboard-volunteer',),
+    path('dashboard/<team_id>', views.dashboard_team, name='dashboard-team',),
     path('assignment/<assignment_id>/pdf', views.handout_pdf, name='handout_pdf',),
     path('handouts/', views.handout_pdfs, name='handouts',),
     path('csv/', views.export_csv, name='export_csv',),

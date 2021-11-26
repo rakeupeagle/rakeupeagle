@@ -3,19 +3,19 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
-{% block title %}Volunteer Handouts{% endblock title %}
+{% block title %}Team Handouts{% endblock title %}
 
 {% block content %}
 
   <section>
     <p class='lead'>
-      Volunteer Handouts
+      Team Handouts
     </p>
   </section>
   <section>
     <ul class='list-styled'>
-      {% for volunteer in volunteers %}
-        <li><a href='{% url "handout" volunteer.id %}'>{{volunteer}}</a></li>
+      {% for team in teams %}
+        <li><a href='{% url "handout" team.id %}'>{{team}}</a></li>
       {% endfor %}
     </ul>
   </section>

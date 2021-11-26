@@ -23,7 +23,7 @@ from .models import Assignment
 from .models import Message
 from .models import Picture
 from .models import Recipient
-from .models import Volunteer
+from .models import Team
 
 
 # Auth0
@@ -102,7 +102,7 @@ def send_email(email):
 
 def get_assignments_csv():
     gs = Assignment.objects.order_by(
-        'volunteer__name',
+        'team__name',
     )
     with open('export.csv', 'wb') as f:
         writer = csv.writer(f)
@@ -117,9 +117,9 @@ def get_assignments_csv():
         ])
         for g in gs:
             writer.writerow([
-                g.volunteer.name,
-                g.volunteer.phone.as_national,
-                g.volunteer.get_size_display(),
+                g.team.name,
+                g.team.phone.as_national,
+                g.team.get_size_display(),
                 g.recipient.name,
                 g.recipient.phone.as_national,
                 g.recipient.get_size_display(),
@@ -144,15 +144,15 @@ def send_recipient_confirmation(recipient):
     return message
 
 @job
-def send_volunteer_confirmation(volunteer):
+def send_team_confirmation(team):
     body = render_to_string(
-        'app/texts/volunteer_confirmation.txt',
+        'app/texts/team_confirmation.txt',
         context={
-            'volunteer': volunteer,
+            'team': team,
         },
     )
     message = Message.objects.create(
-        user=volunteer.user,
+        user=team.user,
         direction=Message.DIRECTION.outbound,
         body=body,
     )
@@ -210,25 +210,25 @@ def send_text_from_message(message):
 
 
 @job
-def send_volunteer_final(volunteer):
+def send_team_final(team):
     body = render_to_string(
-        'app/texts/volunteer_final.txt',
-        {'volunteer': volunteer},
+        'app/texts/team_final.txt',
+        {'team': team},
     )
     response = send_text(
-        str(volunteer.phone),
+        str(team.phone),
         body,
     )
     return response
 
 @job
-def send_volunteer_extra(volunteer):
+def send_team_extra(team):
     body = render_to_string(
-        'app/texts/volunteer_extra.txt',
-        {'volunteer': volunteer},
+        'app/texts/team_extra.txt',
+        {'team': team},
     )
     response = send_text(
-        str(volunteer.phone),
+        str(team.phone),
         body,
     )
     return response
@@ -260,28 +260,28 @@ def send_recipient_close(recipient):
 
 
 @job
-def send_volunteer_survey(volunteer):
+def send_team_survey(team):
     body = render_to_string(
-        'app/texts/volunteer_survey.txt',
-        {'volunteer': volunteer},
+        'app/texts/team_survey.txt',
+        {'team': team},
     )
     response = send_text(
-        str(volunteer.phone),
+        str(team.phone),
         body,
     )
     return response
 
 
-def assign_volunteer_from_recipient(recipient):
-    volunteer = Volunteer.objects.filter(
+def assign_team_from_recipient(recipient):
+    team = Team.objects.filter(
         assignments__isnull=True,
     ).order_by(
         'size',
     ).last()
-    if not volunteer:
-        raise Volunteer.DoesNotExist
+    if not team:
+        raise Team.DoesNotExist
     recipient.assignments.create(
-        volunteer=volunteer,
+        team=team,
     )
     return recipient
 

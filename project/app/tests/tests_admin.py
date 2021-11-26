@@ -21,8 +21,8 @@ def test_recipients(admin_client):
     assert response.status_code == 200
 
 @pytest.mark.django_db
-def test_volunteers(admin_client):
-    path = reverse('admin:app_volunteer_changelist')
+def test_teams(admin_client):
+    path = reverse('admin:app_team_changelist')
     response = admin_client.get(path)
     assert response.status_code == 200
 

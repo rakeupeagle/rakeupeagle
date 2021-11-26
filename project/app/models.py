@@ -94,7 +94,7 @@ class Recipient(models.Model):
     is_dog = models.BooleanField(
         blank=True,
         default=False,
-        help_text=mark_safe("""If you have a dog, it must be contained in your home for us to rake. <em>Also, you must clean up all animal waste before we arrive or our volunteer group will not be able to rake.</em>"""),
+        help_text=mark_safe("""If you have a dog, it must be contained in your home for us to rake. <em>Also, you must clean up all animal waste before we arrive or our team group will not be able to rake.</em>"""),
     )
     notes = models.TextField(
         max_length=2000,
@@ -145,7 +145,7 @@ class Recipient(models.Model):
         return
 
 
-class Volunteer(models.Model):
+class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
@@ -219,7 +219,7 @@ class Volunteer(models.Model):
     event = models.ForeignKey(
         'app.Event',
         on_delete=models.CASCADE,
-        related_name='volunteers',
+        related_name='teams',
         null=False,
     )
     user = models.ForeignKey(
@@ -227,7 +227,7 @@ class Volunteer(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='volunteers',
+        related_name='teams',
     )
 
     def __str__(self):
@@ -294,8 +294,8 @@ class Assignment(models.Model):
         on_delete=models.CASCADE,
         related_name='assignments',
     )
-    volunteer = models.ForeignKey(
-        'app.Volunteer',
+    team = models.ForeignKey(
+        'app.Team',
         on_delete=models.CASCADE,
         related_name='assignments',
     )

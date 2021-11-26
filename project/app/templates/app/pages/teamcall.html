@@ -4,7 +4,7 @@
 {% load humanize %}
 {% load phonenumber %}
 
-{% block title %}Volunteer Confirmation Calls{% endblock title %}
+{% block title %}Team Confirmation Calls{% endblock title %}
 
 {% block content %}
   <section class='my-5 col-lg-8'>
@@ -41,25 +41,25 @@
   <section class='my-5 col-lg-8'>
     <div class='card'>
       <h4 class='card-header'>
-        Volunteer Information
+        Team Information
       </h4>
       <form method='post'>
         {% csrf_token %}
         <div class='card-body'>
           <div class='form-group'>
-            {{volunteer.name}}
+            {{team.name}}
           </div>
           <div class='form-group'>
-            <a href='tel:{{volunteer.phone}}'>{{volunteer.phone.as_national}}</a>
+            <a href='tel:{{team.phone}}'>{{team.phone.as_national}}</a>
           </div>
           <div class='form-group'>
-            {{volunteer.team}}
+            {{team.team}}
           </div>
           <div class='form-group'>
-            {{volunteer.get_size_display}}
+            {{team.get_size_display}}
           </div>
           <div class='form-group'>
-            {{volunteer.notes}}
+            {{team.notes}}
           </div>
           {% bootstrap_form_errors form %}
           {% bootstrap_form form %}
