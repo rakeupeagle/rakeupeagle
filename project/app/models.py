@@ -375,6 +375,12 @@ class Picture(models.Model):
         upload_to=UploadPath('image'),
         blank=True,
     )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='pictures',
+        null=True,
+    )
     created = models.DateTimeField(
         auto_now_add=True,
     )
