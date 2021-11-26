@@ -172,7 +172,7 @@ class Recipient(models.Model):
         'app.Event',
         on_delete=models.CASCADE,
         related_name='recipients',
-        null=True,
+        null=False,
     )
     user = models.ForeignKey(
         'app.User',
@@ -276,7 +276,7 @@ class Volunteer(models.Model):
         'app.Event',
         on_delete=models.CASCADE,
         related_name='volunteers',
-        null=True,
+        null=False,
     )
     user = models.ForeignKey(
         'app.User',
