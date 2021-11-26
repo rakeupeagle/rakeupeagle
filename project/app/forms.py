@@ -185,6 +185,7 @@ class UserCreationForm(UserCreationFormBase):
         model = User
         fields = [
             'username',
+            'phone',
         ]
 
 
@@ -197,4 +198,5 @@ class UserChangeForm(UserChangeFormBase):
         model = User
         fields = [
             'username',
+            'phone',
         ]

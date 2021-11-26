@@ -418,8 +418,7 @@ class UserAdmin(UserAdminBase):
     ]
     search_fields = [
         'username',
-        'name',
-        'email',
+        'phone',
     ]
     ordering = [
         '-created',
@@ -439,8 +438,6 @@ class UserAdmin(UserAdminBase):
     inlines = [
     ]
     readonly_fields = [
-        'name',
-        'email',
     ]
 
 # Use Auth0 for login

@@ -444,16 +444,6 @@ class User(AbstractBaseUser):
         null=False,
         unique=True,
     )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        null=True,
-    )
-    email = models.EmailField(
-        blank=True,
-        null=True,
-    )
     phone = PhoneNumberField(
         blank=True,
         null=True,
