@@ -185,15 +185,36 @@ def delete(request):
 @login_required
 def recipient(request):
     user = request.user
-    recipient, created = Recipient.objects.get_or_create(
-        event__state=Event.STATE.active,
-        user=user,
-    )
+    recipients = user.recipients.all()
+    # Create recipient if new account
+    if not recipients:
+        recipient = Recipient(
+            user=user,
+            phone=user.phone,
+        )
+    else:
+        try:
+            recipient = recipients.get(
+                event__state=Event.STATE.active,
+            )
+        except Recipient.DoesNotExist:
+            prior = recipients.latest('created')
+            recipient = Recipient(
+                size=prior.size,
+                name=prior.name,
+                phone=prior.phone,
+                location=prior.location,
+                place=prior.place,
+                is_precise=prior.is_precise,
+                point=prior.point,
+                geocode=prior.geocode,
+                is_dog=prior.is_dog,
+                notes=prior.notes,
+                user=user,
+            )
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
         recipient = form.save()
-        if created:
-            send_recipient_confirmation.delay(recipient)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
