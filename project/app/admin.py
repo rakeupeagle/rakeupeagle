@@ -60,6 +60,9 @@ class PictureAdmin(VersionAdmin):
     fields = [
         'image',
     ]
+    list_filter = [
+        'event',
+    ]
 
 
 @admin.register(Recipient)
