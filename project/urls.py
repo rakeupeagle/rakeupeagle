@@ -16,11 +16,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('django-rq/', include('django_rq.urls')),
     path('robots.txt', TemplateView.as_view(
-        template_name='robots.txt',
+        template_name='app/root/robots.txt',
         content_type='text/plain"',
     )),
     path('sitemap.txt', TemplateView.as_view(
-        template_name='sitemap.txt',
+        template_name='app/root/sitemap.txt',
         content_type='text/plain"',
     )),
 ]
@@ -36,10 +36,18 @@ if settings.DEBUG:
         path('500/', server_error),
     ]
 else:
+    def handler404(request, *args, **argv):
+        return render(
+            request,
+            'app/root/404.html',
+            context={},
+            status=404,
+        )
+
     def handler500(request, *args, **argv):
         return render(
             request,
-            '500.html',
+            'app/root/500.html',
             {
                 'sentry_dsn': settings.SENTRY_DSN,
                 'sentry_event_id': last_event_id(),

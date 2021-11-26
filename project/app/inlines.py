@@ -27,10 +27,8 @@ class VolunteerInline(admin.TabularInline):
     model = Volunteer
     fields = [
         'size',
-        'account',
     ]
     autocomplete_fields = [
-        'account',
     ]
     extra = 0
     show_change_link = True
@@ -59,7 +57,6 @@ class MessageInline(admin.TabularInline):
         # 'collapse',
     ]
     autocomplete_fields = [
-        'account',
     ]
 
 
@@ -70,10 +67,8 @@ class RecipientInline(admin.TabularInline):
         'size',
         'location',
         'is_dog',
-        'account',
     ]
     autocomplete_fields = [
-        'account',
     ]
     extra = 0
     show_change_link = True

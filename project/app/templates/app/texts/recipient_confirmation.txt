@@ -2,7 +2,7 @@
 Your registration for Rake Up Eagle is confirmed!
 
 *Details*
-Name: {{recipient.account.name}}
+Name: {{recipient.name}}
 Address: {{recipient.location}}
 Yard Size: {{recipient.get_size_display}}
 Dog in Yard? {{recipient.is_dog|yesno|title}}

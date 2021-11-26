@@ -35,9 +35,6 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             {% if request.user.is_authenticated %}
-              <li class='nav-item mt-1'>
-                <a href="{% url 'account' %}" class='align-bottom bi-gear mr-3'>&nbsp;Account</a>
-              </li>
               {% if request.user.is_admin %}
                 <li class='nav-item mt-1'>
                   <a href="{% url 'admin:index' %}" class='align-bottom bi-layout-text-window mr-3'>&nbsp;Admin</a>

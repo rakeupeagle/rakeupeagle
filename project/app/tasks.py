@@ -19,7 +19,6 @@ from django_rq import job
 from twilio.rest import Client as TwilioClient
 
 # Local
-from .models import Account
 from .models import Assignment
 from .models import Message
 from .models import Picture
@@ -75,15 +74,6 @@ def update_user(user):
     user.save()
     return user
 
-
-def create_account_from_user(user):
-    account = Account.objects.create(
-        name=user.name,
-        email=user.email,
-        phone=user.phone,
-        user=user,
-    )
-    return account
 
 # Utility
 def build_email(template, subject, from_email, context=None, to=[], cc=[], bcc=[], attachments=[], html_content=None):
@@ -147,7 +137,7 @@ def send_recipient_confirmation(recipient):
         },
     )
     message = Message.objects.create(
-        account=recipient.account,
+        user=recipient.user,
         direction=Message.DIRECTION.outbound,
         body=body,
     )
@@ -162,7 +152,7 @@ def send_volunteer_confirmation(volunteer):
         },
     )
     message = Message.objects.create(
-        account=volunteer.account,
+        user=volunteer.user,
         direction=Message.DIRECTION.outbound,
         body=body,
     )
@@ -207,7 +197,7 @@ def send_text_from_message(message):
     if message.direction != message.DIRECTION.outbound:
         return
     response = send_text(
-        str(message.account.user.phone),
+        str(message.user.phone),
         message.body,
     )
     message.state = message.STATE.sent

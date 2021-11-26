@@ -24,17 +24,17 @@ from django.utils.crypto import get_random_string
 from reversion.views import create_revision
 
 from .decorators import twilio
-from .forms import AccountForm
 from .forms import CallForm
 from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import TeamcallForm
 from .forms import VolunteerForm
-from .models import Account
 from .models import Assignment
+from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient
+from .models import User
 from .models import Volunteer
 from .tasks import get_assignments_csv
 from .tasks import send_recipient_confirmation
@@ -44,8 +44,6 @@ log = logging.getLogger(__name__)
 
 # Root
 def index(request):
-    if request.user.is_authenticated:
-        return redirect('account')
     pictures = Picture.objects.all()
     return render(
         request,
@@ -79,6 +77,7 @@ def login(request):
     ).prepare().url
     return redirect(url)
 
+
 def callback(request):
     # Reject if state doesn't match
     browser_state = request.session.get('state')
@@ -91,11 +90,9 @@ def callback(request):
             "Sorry, there was a problem.  Please try again or contact support."
         )
         return redirect('index')
-    # next_url = server_state.partition('|')[2]
 
     # get initial
     initial = browser_state.partition("|")[0]
-
 
     # Get Auth0 Code
     code = request.GET.get('code', None)
@@ -128,39 +125,24 @@ def callback(request):
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        if initial == 'recipient':
-            return redirect('recipient-create')
-        if initial == 'volunteer':
-            return redirect('volunteer-create')
         if user.is_admin:
             return redirect('admin:index')
-        # cookies = request.COOKIES
-        # gen = next(v for (k,v) in cookies.items() if k.startswith('ph'))
-        # posthog_dict = json.loads(urllib.parse.unquote(gen))
-        # distinct_id =  posthog_dict.get('distinct_id')
-
-        # if distinct_id:
-            # posthog.identify(
-                # distinct_id, {
-                # 'name': str(user.phone),
-            # })
-        # if (user.last_login - user.created) < datetime.timedelta(minutes=1):
-        #     messages.success(
-        #         request,
-        #         "Welcome! Thank you for joining!"
-        #     )
-        #     messages.warning(
-        #         request,
-        #         "Next, please update your details below."
-        #     )
-        #     return redirect('volunteer')
-        # Otherwise, redirect to next_url, defaults to 'account'
-        # messages.success(
-        #     request,
-        #     "Welcome Back!"
-        # )
-        # return redirect(next_url)
-        return redirect('account')
+        is_recipient = [
+            initial == 'recipient',
+            user.recipients.filter(
+                event__state=Event.STATE.active,
+            ),
+        ]
+        is_volunteer = [
+            initial == 'volunteer',
+            user.volunteers.filter(
+                event__state=Event.STATE.active,
+            ),
+        ]
+        if any(is_recipient):
+            return redirect('recipient')
+        if any(is_volunteer):
+            return redirect('volunteer')
     log.error('callback fallout')
     return HttpResponse(status=403)
 
@@ -182,67 +164,40 @@ def logout(request):
     )
     return redirect(logout_url)
 
-#Account
 @login_required
-def account(request):
-    account = request.user.account
-    recipient = getattr(account, 'recipient', None)
-    volunteer = getattr(account, 'volunteer', None)
-    form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
+def delete(request):
+    form = DeleteForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        messages.success(
+        user = request.user
+        user.delete()
+        messages.error(
             request,
-            "Saved!",
+            "Account Deleted!",
         )
-        return redirect('account')
+        return redirect('index')
     return render(
         request,
-        'app/pages/account.html',
-        context={
-            'account': account,
-            'recipient': recipient,
-            'volunteer': volunteer,
-            'form': form,
-        }
-    )
-
-@login_required
-def account_delete(request):
-    if request.method == "POST":
-        form = DeleteForm(request.POST)
-        if form.is_valid():
-            user = request.user
-            user.delete()
-            messages.error(
-                request,
-                "Account Deleted!",
-            )
-            return redirect('index')
-    else:
-        form = DeleteForm()
-    return render(
-        request,
-        'app/pages/account_delete.html',
+        'app/pages/delete.html',
         {'form': form,},
     )
 
 # Recipient
 @login_required
 def recipient(request):
-    account = request.user.account
-    recipient = getattr(account, 'recipient', None)
+    user = request.user
+    recipient, created = Recipient.objects.get_or_create(
+        event__state=Event.STATE.active,
+        user=user,
+    )
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
-        recipient = form.save(commit=False)
-        recipient.account = account
-        recipient.save()
-        send_recipient_confirmation.delay(recipient)
+        recipient = form.save()
+        if created:
+            send_recipient_confirmation.delay(recipient)
         messages.success(
             request,
-            "Saved!",
+            "Registration complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('account')
     return render(
         request,
         'app/pages/recipient.html',
@@ -252,84 +207,21 @@ def recipient(request):
     )
 
 @login_required
-def recipient_create(request):
-    account = request.user.account
-    recipient = getattr(account, 'recipient', None)
-    if recipient:
-        return redirect('account')
-    account_form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
-    recipient_form = RecipientForm(request.POST) if request.POST else RecipientForm(instance=recipient)
-    if account_form.is_valid() and recipient_form.is_valid():
-        account_form.save()
-        recipient = recipient_form.save(commit=False)
-        recipient.account = account
-        recipient.save()
-        send_recipient_confirmation.delay(recipient)
+def volunteer(request):
+    user = request.user
+    volunteer, created = Volunteer.objects.get_or_create(
+        event__state=Event.STATE.active,
+        user=user,
+    )
+    form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
+    if form.is_valid():
+        volunteer = form.save()
+        if created:
+            send_volunteer_confirmation.delay(volunteer)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
         )
-        return redirect('account')
-    return render(
-        request,
-        'app/pages/recipient_create.html',
-        context={
-            'account_form': account_form,
-            'recipient_form': recipient_form,
-        }
-    )
-
-@login_required
-def recipient_delete(request):
-    if request.method == "POST":
-        form = DeleteForm(request.POST)
-        if form.is_valid():
-            recipient = getattr(request.user.account, 'recipient', None)
-            if recipient:
-                recipient.delete()
-            messages.error(
-                request,
-                "Removed!",
-            )
-            return redirect('account')
-    else:
-        form = DeleteForm()
-    return render(
-        request,
-        'app/pages/recipient_delete.html',
-        {'form': form,},
-    )
-
-
-# Volunteer
-# @login_required
-def teams(request):
-    vs = Volunteer.objects.all()
-    teams = sorted(vs, key=lambda x: x.name.split()[-1])
-    return render(
-        request,
-        'app/pages/teams.html',
-        context={
-            'teams': teams,
-        }
-    )
-
-
-@login_required
-def volunteer(request):
-    account = request.user.account
-    volunteer = getattr(account, 'volunteer', None)
-    form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
-    if form.is_valid():
-        volunteer = form.save(commit=False)
-        volunteer.account = account
-        volunteer.save()
-        send_volunteer_confirmation.delay(volunteer)
-        messages.success(
-            request,
-            "Saved!",
-        )
-        return redirect('account')
     return render(
         request,
         'app/pages/volunteer.html',
@@ -338,54 +230,6 @@ def volunteer(request):
         }
     )
 
-@login_required
-def volunteer_create(request):
-    account = request.user.account
-    volunteer = getattr(account, 'volunteer', None)
-    if volunteer:
-        return redirect('account')
-    account_form = AccountForm(request.POST, instance=account) if request.POST else AccountForm(instance=account)
-    volunteer_form = VolunteerForm(request.POST) if request.POST else VolunteerForm(instance=volunteer)
-    if account_form.is_valid() and volunteer_form.is_valid():
-        account_form.save()
-        volunteer = volunteer_form.save(commit=False)
-        volunteer.account = account
-        volunteer.save()
-        send_volunteer_confirmation.delay(volunteer)
-        messages.success(
-            request,
-            "Registration complete!  We will reach out before November 8th with futher details.",
-        )
-        return redirect('account')
-    return render(
-        request,
-        'app/pages/volunteer_create.html',
-        context={
-            'account_form': account_form,
-            'volunteer_form': volunteer_form,
-        }
-    )
-
-@login_required
-def volunteer_delete(request):
-    if request.method == "POST":
-        form = DeleteForm(request.POST)
-        if form.is_valid():
-            volunteer = getattr(request.user.account, 'volunteer', None)
-            if volunteer:
-                volunteer.delete()
-            messages.error(
-                request,
-                "You have been removed as a Volunteer!",
-            )
-            return redirect('account')
-    else:
-        form = DeleteForm()
-    return render(
-        request,
-        'app/pages/volunteer_delete.html',
-        {'form': form,},
-    )
 
 
 # Admin
@@ -404,7 +248,7 @@ def call(request):
             request,
             "All Recipients Called for Now!",
         )
-        return redirect('account')
+        return redirect('index')
     recipient.save()
     if request.POST:
         form = CallForm(request.POST, instance=recipient)
@@ -443,7 +287,7 @@ def teamcall(request):
             request,
             "All Volunteers Called for Now!",
         )
-        return redirect('account')
+        return redirect('index')
     volunteer.save()
     if request.POST:
         form = TeamcallForm(request.POST, instance=volunteer)
@@ -498,14 +342,14 @@ def sms(request):
     to_phone = raw['To']
     from_phone = raw['From']
     body = raw['Body']
-    account = Account.objects.filter(phone=from_phone).first()
+    user = User.objects.filter(phone=from_phone).first()
     defaults = {
         # 'status': status,
         'direction': direction,
         'to_phone': to_phone,
         'from_phone': from_phone,
         'body': body,
-        'account': account,
+        'user': user,
         'raw': raw,
     }
     Message.objects.update_or_create(

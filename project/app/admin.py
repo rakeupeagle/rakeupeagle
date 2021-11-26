@@ -13,14 +13,12 @@ from leaflet_admin_list.admin import LeafletAdminListMixin
 from reversion.admin import VersionAdmin
 
 # Local
-from .forms import AccountAdminForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
 from .inlines import MessageInline
 from .inlines import RecipientInline
 from .inlines import VolunteerInline
-from .models import Account
 from .models import Assignment
 from .models import Event
 from .models import Message
@@ -53,61 +51,6 @@ class AssignmentAdmin(VersionAdmin):
     autocomplete_fields = [
         # 'recipient',
         # 'volunteer',
-    ]
-
-
-@admin.register(Account)
-class AccountAdmin(VersionAdmin):
-    form = AccountAdminForm
-    save_on_top = True
-    fields = [
-        'state',
-        'name',
-        'phone',
-        # 'picture',
-        # 'user',
-        # 'is_steering',
-        'notes',
-    ]
-    list_display = [
-        'name',
-        # 'email',
-        'phone',
-
-        # 'is_spouse',
-        # 'is_steering',
-        # 'zone',
-        'state',
-        'created',
-        'updated',
-    ]
-    list_editable = [
-    ]
-    list_filter = [
-        'state',
-        # 'is_steering',
-        # 'is_spouse',
-        # 'zone',
-        'created',
-        'updated',
-    ]
-    search_fields = [
-        'name',
-        'email',
-    ]
-    autocomplete_fields = [
-        'user',
-    ]
-    inlines = [
-        MessageInline,
-        RecipientInline,
-        VolunteerInline,
-    ]
-    ordering = [
-        '-created',
-    ]
-    readonly_fields = [
-        'created',
     ]
 
 
@@ -154,7 +97,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         )
 
     def click_phone(self, obj):
-        return format_html('<a href="tel://{}">{}</a>', obj.account.phone, obj.account.phone.as_national)
+        return format_html('<a href="tel://{}">{}</a>', obj.phone, obj.phone.as_national)
 
     click_phone.short_description = "Phone"
 
@@ -169,7 +112,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         'location',
         'size',
         'is_dog',
-        'account',
+        'user',
         'click_phone',
         # 'is_verified',
         # 'is_waiver',
@@ -205,12 +148,12 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         'updated',
     ]
     search_fields = [
-        'account__name',
-        'account__phone',
+        'user__name',
+        'user__phone',
         'location',
     ]
     autocomplete_fields = [
-        'account',
+        'user',
     ]
     inlines = [
         AssignmentInline,
@@ -220,7 +163,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
     ]
     readonly_fields = [
         'click_phone',
-        'account',
+        'user',
         'notes',
         # 'reps',
     ]
@@ -256,7 +199,7 @@ class MessageAdmin(VersionAdmin):
     fields = [
         'id',
         'state',
-        'account',
+        'user',
         'body',
         'sid',
         'to_phone',
@@ -268,7 +211,7 @@ class MessageAdmin(VersionAdmin):
     ]
     list_display = [
         'id',
-        'account_link',
+        'user_link',
         'body',
         'direction',
         'created',
@@ -281,10 +224,10 @@ class MessageAdmin(VersionAdmin):
         'state',
     ]
     search_fields = [
-        'account',
+        'user',
     ]
     autocomplete_fields = [
-        'account',
+        'user',
     ]
     inlines = [
         # StudentInline,
@@ -302,23 +245,23 @@ class MessageAdmin(VersionAdmin):
         'created',
         'updated',
         'raw',
-        'account_link',
+        'user_link',
     ]
 
-    def account_link(self, obj):
+    def user_link(self, obj):
         try:
-            name = obj.account.name if obj.account.name else 'Unknown'
+            name = obj.user.name if obj.user.name else 'Unknown'
         except AttributeError:
             name = 'Unknown'
         try:
             response = mark_safe('<a href="{}">{}</a>'.format(
-                reverse("admin:app_account_change", args=(obj.account.pk,)),
+                reverse("admin:app_user_change", args=(obj.user.pk,)),
                 name,
             ))
         except AttributeError:
             response = None
         return response
-    account_link.short_description = 'account'
+    user_link.short_description = 'user'
 
 
 @admin.register(Volunteer)
@@ -342,7 +285,7 @@ class VolunteerAdmin(VersionAdmin):
         'reference',
         'notes',
         'admin_notes',
-        'account',
+        'user',
     ]
     list_display = [
         'team',
@@ -359,15 +302,15 @@ class VolunteerAdmin(VersionAdmin):
         'updated',
     ]
     search_fields = [
-        'account__name',
-        'account__id',
+        'user__name',
+        'user__id',
         'team',
         'name',
     ]
     list_editable = [
     ]
     autocomplete_fields = [
-        'account',
+        'user',
     ]
     inlines = [
         AssignmentInline,

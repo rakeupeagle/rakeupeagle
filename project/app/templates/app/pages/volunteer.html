@@ -1,4 +1,4 @@
-{% extends 'app/pages/base.html' %}
+{% extends 'app/_base.html' %}
 
 {% load phonenumber %}
 {% load bootstrap4 %}
@@ -6,43 +6,58 @@
 
 {% block formmedia %}{{ form.media }}{% endblock formmedia %}
 
-{% block title %}Volunteer Details{% endblock title %}
+{% block title %}Thank You!{% endblock title %}
 
 {% block content %}
   <section class='my-5'>
     <h2>
-      Update Volunteer Details
+      Thank you!
     </h2>
+  </section>
+  <section class='my-5'>
+    <p class='lead'>
+      Thanks for volunteering!  Here's what you need to know:
+    </p>
+    <ul class='list-styled'>
+      <li>The event date is November 13, 2021.</li>
+      <li>We will coordinate with you by November 8, 2021.</li>
+      <li>Check-in takes place from 8-10 AM at Eagle Middle School.</li>
+      <li>We provide the lawn bags; you need to bring rakes, gloves, etc.</li>
+      <li>You must agree to our <a href='{% url "terms" %}'>terms and waiver.</a></li>
+    </ul>
   </section>
   <section class='my-5 col-lg-8'>
     <div class='card'>
-      <h4 class='card-header'>
-        Volunteer Details
-      </h4>
+      <div class='card-header'>
+        <h4>Volunteer Information</h4>
+      </div>
       <form method='post'>
         {% csrf_token %}
-        <div class='card-body'>
-          {% bootstrap_form_errors form %}
-          {% bootstrap_field form.size show_help=True show_label=False %}
-          {% bootstrap_field form.team show_help=True show_label=False %}
-          {% bootstrap_field form.reference show_help=True show_label=False %}
-          {% bootstrap_field form.notes show_help=False show_label=False %}
+        <div class="card-body">
+          <div class='card-text'>
+            {% bootstrap_form_errors form %}
+            <div class='form-group'>
+              <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
+              <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
+            </div>
+            {% bootstrap_field form.size show_help=True show_label=False %}
+            {% bootstrap_field form.team show_help=True show_label=False %}
+            {% bootstrap_field form.reference show_help=True show_label=False %}
+            {% bootstrap_field form.notes show_help=False show_label=False %}
+          </div>
         </div>
         <div class='card-footer'>
-          <ul class='list-inline'>
+          <div class='list-inline'>
             <li class='list-inline-item'>
               {% bootstrap_button "Save" button_type='submit' size='large' %}
             </li>
             <li class='list-inline-item'>
-              {% url 'account' as account_url %}
-              {% bootstrap_button "Cancel" button_type='link' href=account_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+              {% url "volunteer" as volunteer_url %}
+              {% bootstrap_button "Cancel" button_type='link' href=volunteer_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
             </li>
-          </ul>
+          </div>
         </div>
       </form>
     </div>
-    <p class='float-right'>
-      <a class='text-danger' href='{% url "volunteer-delete" %}'>Remove Me as Volunteer</a>
-    </p>
   </section>
 {% endblock content %}

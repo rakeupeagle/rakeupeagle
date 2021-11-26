@@ -1,4 +1,4 @@
-{% extends 'app/pages/base.html' %}
+{% extends 'app/_base.html' %}
 {% load cloudinary %}
 {% load static %}
 
@@ -30,14 +30,14 @@
               <p class='card-text'>
                 Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
               </p>
+              {% comment %}
               <button class="btn btn-success btn-block btn-lg" disabled >
                 Signup!
               </button>
-              {% comment %}
+              {% endcomment %}
               <a href='{% url "login" %}?initial=volunteer' class="btn btn-success btn-block btn-lg">
                 Signup!
               </a>
-              {% endcomment %}
             </div>
           </div>
         </div>
@@ -51,14 +51,14 @@
               <p class='card-text'>
                 If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
               </p>
+              {% comment %}
               <button class="btn btn-success btn-block btn-lg" disabled >
                 Register!
               </button>
-              {% comment %}
+              {% endcomment %}
               <a href='{% url "login" %}?initial=recipient' class="btn btn-success btn-block btn-lg">
                 Register!
               </a>
-              {% endcomment %}
             </div>
           </div>
         </div>
