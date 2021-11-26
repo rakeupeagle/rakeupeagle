@@ -365,7 +365,6 @@ class Assignment(models.Model):
         return f"{self.id}"
 
 
-
 class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -509,7 +508,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def __str__(self):
-        return str(self.name)
+        return str(self.phone)
 
     def has_perm(self, perm, obj=None):
         return True

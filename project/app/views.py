@@ -193,9 +193,12 @@ def recipient(request):
             phone=user.phone,
         )
     else:
+        event = Event.objects.get(
+            state=Event.STATE.active,
+        )
         try:
             recipient = recipients.get(
-                event__state=Event.STATE.active,
+                event=event,
             )
         except Recipient.DoesNotExist:
             prior = recipients.latest('created')
@@ -209,12 +212,15 @@ def recipient(request):
                 point=prior.point,
                 geocode=prior.geocode,
                 is_dog=prior.is_dog,
+                event=event,
                 notes=prior.notes,
                 user=user,
             )
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
         recipient = form.save()
+        # if created:
+        #     send_volunteer_confirmation.delay(volunteer)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
@@ -230,15 +236,38 @@ def recipient(request):
 @login_required
 def volunteer(request):
     user = request.user
-    volunteer, created = Volunteer.objects.get_or_create(
-        event__state=Event.STATE.active,
-        user=user,
-    )
+    volunteers = user.volunteers.all()
+    # Create recipient if new account
+    if not volunteers:
+        volunteer = Volunteer(
+            user=user,
+            phone=user.phone,
+        )
+    else:
+        event = Event.objects.get(
+            state=Event.STATE.active,
+        )
+        try:
+            volunteer = volunteers.get(
+                event=event,
+            )
+        except Volunteer.DoesNotExist:
+            prior = volunteers.latest('created')
+            volunteer = Volunteer(
+                size=prior.size,
+                name=prior.name,
+                phone=prior.phone,
+                team=prior.team,
+                reference=prior.reference,
+                notes=prior.notes,
+                event=event,
+                user=user,
+            )
     form = VolunteerForm(request.POST, instance=volunteer) if request.POST else VolunteerForm(instance=volunteer)
     if form.is_valid():
         volunteer = form.save()
-        if created:
-            send_volunteer_confirmation.delay(volunteer)
+        # if created:
+        #     send_volunteer_confirmation.delay(volunteer)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
