@@ -22,52 +22,6 @@ from .managers import UserManager
 def get_latest_event():
     return Event.objects.latest('date')
 
-class Account(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (0, 'new', 'New'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-    )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-        unique=True,
-    )
-    email = models.EmailField(
-        blank=True,
-        null=True,
-    )
-    notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    user = models.OneToOneField(
-        'app.User',
-        on_delete=models.CASCADE,
-        related_name='account',
-    )
-
-    def __str__(self):
-        return f"{self.name}"
-
-
 class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -159,14 +113,6 @@ class Recipient(models.Model):
     )
     updated = models.DateTimeField(
         auto_now=True,
-    )
-    account = models.OneToOneField(
-        'app.Account',
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name='recipient',
-        unique=True,
     )
     event = models.ForeignKey(
         'app.Event',
@@ -263,14 +209,6 @@ class Volunteer(models.Model):
     )
     updated = models.DateTimeField(
         auto_now=True,
-    )
-    account = models.OneToOneField(
-        'app.Account',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='volunteer',
-        unique=True,
     )
     event = models.ForeignKey(
         'app.Event',
@@ -404,13 +342,6 @@ class Message(models.Model):
     raw = models.JSONField(
         blank=True,
         null=True,
-    )
-    account = models.ForeignKey(
-        'app.Account',
-        on_delete=models.CASCADE,
-        related_name='messages',
-        null=True,
-        blank=True,
     )
     user = models.ForeignKey(
         'app.User',
