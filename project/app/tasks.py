@@ -44,6 +44,11 @@ def get_auth0_client():
     )
     return client
 
+def get_twilio_client():
+    client = TwilioClient()
+    return client
+
+
 def get_user_data(user_id):
     client = get_auth0_client()
     data = client.users.get(user_id)
