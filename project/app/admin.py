@@ -20,8 +20,10 @@ from .inlines import MessageInline
 from .inlines import RecipientInline
 from .inlines import TeamInline
 from .models import Assignment
+from .models import Conversation
 from .models import Event
 from .models import Message
+from .models import Participant
 from .models import Picture
 from .models import Recipient
 from .models import Team
@@ -62,6 +64,35 @@ class PictureAdmin(VersionAdmin):
     ]
     list_filter = [
         'event',
+    ]
+
+
+@admin.register(Conversation)
+class ConversationAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'state',
+        'friendly_name',
+        'sid',
+        'account',
+    ]
+    list_filter = [
+        'state',
+    ]
+
+
+@admin.register(Participant)
+class ParticipantAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'sid',
+        'conversation',
+        'account',
+        'messaging_binding',
+        'last_read_message_index',
+        'last_read_timestamp',
+    ]
+    list_filter = [
     ]
 
 
@@ -358,7 +389,7 @@ class UserAdmin(UserAdminBase):
         'name',
     ]
     ordering = [
-        '-created',
+        'phone',
     ]
     add_fieldsets = (
         (None, {
