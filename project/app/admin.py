@@ -10,6 +10,8 @@ from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
 from leaflet.admin import LeafletGeoAdminMixin
 from leaflet_admin_list.admin import LeafletAdminListMixin
+from polymorphic.admin import PolymorphicChildModelAdmin
+from polymorphic.admin import PolymorphicParentModelAdmin
 from reversion.admin import VersionAdmin
 
 # Local
@@ -19,6 +21,7 @@ from .inlines import AssignmentInline
 # from .inlines import MessageInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
+from .models import Account
 from .models import Assignment
 from .models import Event
 from .models import Message
@@ -36,12 +39,10 @@ class AssignmentAdmin(VersionAdmin):
         'team',
     ]
     list_display = [
-        'id',
-        'team',
         'recipient',
+        'team',
     ]
     list_filter = [
-        'recipient__size',
     ]
 
     list_editable = [
@@ -49,8 +50,8 @@ class AssignmentAdmin(VersionAdmin):
         # 'team',
     ]
     autocomplete_fields = [
-        # 'recipient',
-        # 'team',
+        'recipient',
+        'team',
     ]
 
 
@@ -74,53 +75,59 @@ class PictureAdmin(VersionAdmin):
 #     ]
 
 
-# @admin.register(Thread)
-# class ThreadAdmin(VersionAdmin):
-#     save_on_top = True
-#     fields = [
-#     ]
-#     list_filter = [
-#     ]
+@admin.register(Account)
+class AccountAdmin(PolymorphicParentModelAdmin):
+    save_on_top = True
+    fields = [
+        'name',
+        'phone',
+    ]
+    child_models = [
+        Recipient,
+        Team,
+    ]
+    list_filter = [
+    ]
 
 
 @admin.register(Recipient)
-class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminMixin, VersionAdmin):
+class RecipientAdmin(PolymorphicChildModelAdmin):
 
-    def get_geojson_properties(self, request, name, o, queryset):
-        '''returns a `properties` member of the GeoJSON `Feature` instance representing the instance `o` geometry field `name`'''
-        r = {
-            'field': name,
-            'app_label': o._meta.app_label,
-            'model_name': o._meta.model_name,
-            'pk': str(o.pk),
-        }
-        popup = self.get_geojson_feature_popup(request, name, o, queryset)
-        tooltip = self.get_geojson_feature_tooltip(request, name, o, queryset)
-        point_style = self.get_geojson_feature_point_style(request, name, o, queryset)
-        line_style = self.get_geojson_feature_line_style(request, name, o, queryset)
-        if popup:
-            r['popup'] = popup
-        if tooltip:
-            r['tooltip'] = tooltip
+    # def get_geojson_properties(self, request, name, o, queryset):
+    #     '''returns a `properties` member of the GeoJSON `Feature` instance representing the instance `o` geometry field `name`'''
+    #     r = {
+    #         'field': name,
+    #         'app_label': o._meta.app_label,
+    #         'model_name': o._meta.model_name,
+    #         'pk': str(o.pk),
+    #     }
+    #     popup = self.get_geojson_feature_popup(request, name, o, queryset)
+    #     tooltip = self.get_geojson_feature_tooltip(request, name, o, queryset)
+    #     point_style = self.get_geojson_feature_point_style(request, name, o, queryset)
+    #     line_style = self.get_geojson_feature_line_style(request, name, o, queryset)
+    #     if popup:
+    #         r['popup'] = popup
+    #     if tooltip:
+    #         r['tooltip'] = tooltip
 
-        if point_style:
-            r['point_style'] = point_style
-        if line_style:
-            r['line_style'] = line_style
-        return r
+    #     if point_style:
+    #         r['point_style'] = point_style
+    #     if line_style:
+    #         r['line_style'] = line_style
+    #     return r
 
 
-    def team_sizes(self, obj):
-        lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
+    # def team_sizes(self, obj):
+    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
 
-        return "; ".join(
-            list(lst)
-        )
+    #     return "; ".join(
+    #         list(lst)
+    #     )
 
-    def click_phone(self, obj):
-        return format_html('<a href="tel://{}">{}</a>', obj.phone, obj.phone.as_national)
+    # def click_phone(self, obj):
+    #     return format_html('<a href="tel://{}">{}</a>', obj.phone, obj.phone.as_national)
 
-    click_phone.short_description = "Phone"
+    # click_phone.short_description = "Phone"
 
 
 
@@ -133,7 +140,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         'size',
         'is_dog',
         'user',
-        'click_phone',
+        # 'click_phone',
         # 'is_verified',
         # 'is_waiver',
         'notes',
@@ -147,7 +154,7 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         'location',
         'size',
         'is_dog',
-        'team_sizes',
+        # 'team_sizes',
         'state',
         # 'notes',
         # 'is_verified',
@@ -168,21 +175,21 @@ class RecipientAdmin(FSMTransitionMixin, LeafletAdminListMixin, LeafletGeoAdminM
         'updated',
     ]
     search_fields = [
-        'user__name',
-        'user__phone',
+        # 'user__name',
+        # 'user__phone',
         'location',
     ]
     autocomplete_fields = [
         'user',
     ]
     inlines = [
-        AssignmentInline,
+        # AssignmentInline,
     ]
     ordering = [
         'created',
     ]
     readonly_fields = [
-        'click_phone',
+        # 'click_phone',
         'user',
         'notes',
         # 'reps',
@@ -285,18 +292,18 @@ class MessageAdmin(VersionAdmin):
 
 
 @admin.register(Team)
-class TeamAdmin(VersionAdmin):
-    def recipient_sizes(self, obj):
-        lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
+class TeamAdmin(PolymorphicChildModelAdmin):
+    # def recipient_sizes(self, obj):
+    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
 
-        return "; ".join(
-            list(lst)
-        )
+    #     return "; ".join(
+    #         list(lst)
+    #     )
 
     save_on_top = True
     fields = [
         'state',
-        'team',
+        'nickname',
         'name',
         'phone',
         'size',
@@ -307,11 +314,11 @@ class TeamAdmin(VersionAdmin):
         'user',
     ]
     list_display = [
-        'team',
+        'nickname',
         'name',
         'phone',
         'size',
-        'recipient_sizes',
+        # 'recipient_sizes',
         'state',
     ]
     list_filter = [
@@ -321,18 +328,18 @@ class TeamAdmin(VersionAdmin):
         'updated',
     ]
     search_fields = [
-        'user__name',
-        'user__id',
-        'team',
+        # 'user__name',
+        # 'user__id',
+        'nickname',
         'name',
     ]
     list_editable = [
     ]
     autocomplete_fields = [
-        'user',
+        # 'user',
     ]
     inlines = [
-        AssignmentInline,
+        # AssignmentInline,
     ]
     ordering = [
     ]

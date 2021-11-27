@@ -127,22 +127,23 @@ def callback(request):
         log_in(request, user)
         if user.is_admin:
             return redirect('admin:index')
-        is_recipient = [
-            initial == 'recipient',
-            user.recipients.filter(
-                event__state=Event.STATE.active,
-            ),
-        ]
-        is_team = [
-            initial == 'team',
-            user.teams.filter(
-                event__state=Event.STATE.active,
-            ),
-        ]
-        if any(is_recipient):
-            return redirect('recipient')
-        if any(is_team):
-            return redirect('team')
+        # is_recipient = [
+        #     initial == 'recipient',
+        #     user.recipients.filter(
+        #         event__state=Event.STATE.active,
+        #     ),
+        # ]
+        # is_team = [
+        #     initial == 'team',
+        #     user.teams.filter(
+        #         event__state=Event.STATE.active,
+        #     ),
+        # ]
+        # if any(is_recipient):
+        #     return redirect('recipient')
+        # if any(is_team):
+        #     return redirect('team')
+        return redirect('index')
     log.error('callback fallout')
     return HttpResponse(status=403)
 

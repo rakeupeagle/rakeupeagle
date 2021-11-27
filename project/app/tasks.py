@@ -106,31 +106,168 @@ def send_email(email):
 
 
 def get_assignments_csv():
-    gs = Assignment.objects.order_by(
-        'team__name',
-    )
-    with open('export.csv', 'wb') as f:
+    gs = Assignment.objects.all()
+    with open('assignments.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'Team Leader',
-            'Team Phone',
-            'Team Size',
-            'Recipient Name',
-            'Recipient Phone',
-            'Recipient Size',
-            'Recipient Location',
+            'Recipient',
+            'Team',
         ])
         for g in gs:
             writer.writerow([
-                g.team.name,
-                g.team.phone.as_national,
-                g.team.get_size_display(),
-                g.recipient.name,
-                g.recipient.phone.as_national,
-                g.recipient.get_size_display(),
-                g.recipient.location,
+                g.recipient.phone,
+                g.team.phone,
             ])
-        return ContentFile(f)
+
+
+def import_assignments_csv():
+    with open('assignments.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            recipient = Recipient.objects.get(
+                phone=row[0],
+            )
+            team = Team.objects.get(
+                phone=row[1],
+            )
+            Assignment.objects.create(
+                recipient=recipient,
+                team=team,
+            )
+
+
+def get_teams_csv():
+    ts = Team.objects.all()
+    with open('teams.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'Team',
+            'Name',
+            'Phone',
+            'Size',
+            'Reference',
+            'Actual',
+            'Notes',
+            'Admin Notes',
+        ])
+        for t in ts:
+            writer.writerow([
+                t.team,
+                t.name,
+                t.phone,
+                t.size,
+                t.reference,
+                t.actual,
+                t.notes,
+                t.admin_notes,
+            ])
+
+
+def get_recipients_csv():
+    rs = Recipient.objects.all()
+    with open('recipients.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'Name',
+            'Phone',
+            'Size',
+            'Location',
+            'Place',
+            'Is Precise',
+            'Point',
+            'Geocode',
+            'Is Dog',
+            'Notes',
+            'Admin Notes',
+            'Bags',
+            'Hours',
+        ])
+        for r in rs:
+            writer.writerow([
+                r.name,
+                r.phone,
+                r.size,
+                r.location,
+                r.place,
+                r.is_precise,
+                r.point,
+                r.geocode,
+                r.is_dog,
+                r.notes,
+                r.admin_notes,
+                r.bags,
+                r.hours,
+            ])
+
+def import_recipients_csv():
+    with open('recipients.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            Recipient.objects.create(
+                name = row[0],
+                phone = row[1],
+                size = row[2],
+                location = row[3],
+                place = row[4],
+                is_precise = row[5],
+                point = row[6],
+                geocode = row[7],
+                is_dog = bool(row[8]),
+                notes = row[9],
+                admin_notes = row[10],
+                bags = 0,
+                hours = 0,
+            )
+
+
+
+def import_teams_csv():
+    with open('teams.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            Team.objects.create(
+                nickname = row[0],
+                name = row[1],
+                phone = row[2],
+                size = row[3],
+                reference = row[4],
+                actual = 0,
+                notes = row[6],
+                admin_notes = row[7],
+            )
+
+
+
+
+def get_messages_csv():
+    ms = Message.objects.all()
+    with open('messages.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'SID',
+            'To Phone',
+            'From Phone',
+            'Body',
+            'Direction',
+            'Raw',
+            'Created',
+        ])
+        for m in ms:
+            writer.writerow([
+                m.sid,
+                m.to_phone,
+                m.from_phone,
+                m.body,
+                m.direction,
+                m.raw,
+                m.created,
+            ])
 
 
 @job

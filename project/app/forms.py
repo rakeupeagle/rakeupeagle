@@ -83,7 +83,7 @@ class TeamForm(forms.ModelForm):
         model = Team
         fields = [
             'size',
-            'team',
+            'nickname',
             'reference',
             'notes',
         ]
@@ -97,9 +97,9 @@ class TeamForm(forms.ModelForm):
                     'rows': 5,
                 }
             ),
-            'team': forms.TextInput(
+            'nickname': forms.TextInput(
                 attrs={
-                    'placeholder': 'Team Name (optional)',
+                    'placeholder': 'Nick Name (optional)',
                 }
             ),
             'reference': forms.TextInput(
