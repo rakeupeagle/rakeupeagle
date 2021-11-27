@@ -44,6 +44,7 @@ twilio = "*"
 pyjwt = "*"
 django-leaflet-admin-list = "*"
 django-leaflet = {git = "https://github.com/faaizajaz/django-leaflet.git"}
+django-polymorphic = "*"
 
 [requires]
 python_version = "3.9"

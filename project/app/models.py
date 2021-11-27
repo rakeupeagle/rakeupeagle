@@ -3,6 +3,7 @@
 import os
 import secrets
 
+import reversion
 # First-Party
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
@@ -13,6 +14,7 @@ from django_fsm import transition
 from hashid_field import HashidAutoField
 from model_utils import Choices
 from phonenumber_field.modelfields import PhoneNumberField
+from polymorphic.models import PolymorphicModel
 
 # Local
 from .managers import UserManager
@@ -35,6 +37,49 @@ class UploadPath(object):
         )
 
 
+# @reversion.register()
+class Account(PolymorphicModel):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (-20, 'cancelled', 'Cancelled'),
+        (-10, 'exclude', 'Excluded'),
+        (0, 'new', 'New'),
+        (10, 'include', 'Included'),
+        (20, 'confirmed', 'Confirmed'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='accounts',
+    )
+    def __str__(self):
+        return f"{self.id}"
+
+
+# @reversion.register()
 class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -144,6 +189,7 @@ class Recipient(models.Model):
         return
 
 
+# @reversion.register()
 class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
