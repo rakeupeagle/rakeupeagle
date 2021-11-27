@@ -29,6 +29,7 @@ from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import TeamcallForm
 from .forms import TeamForm
+from .models import Account
 from .models import Assignment
 from .models import Event
 from .models import Message
@@ -57,7 +58,7 @@ def index(request):
 # Authentication
 def login(request):
     # Set landing page depending on initial button
-    initial = request.GET.get('initial', 'None')
+    initial = request.GET.get('initial', 'account')
     redirect_uri = request.build_absolute_uri(reverse('callback'))
     state = f"{initial}|{get_random_string()}"
     request.session['state'] = state
@@ -125,25 +126,13 @@ def callback(request):
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        if user.is_admin:
-            return redirect('admin:index')
-        # is_recipient = [
-        #     initial == 'recipient',
-        #     user.recipients.filter(
-        #         event__state=Event.STATE.active,
-        #     ),
-        # ]
-        # is_team = [
-        #     initial == 'team',
-        #     user.teams.filter(
-        #         event__state=Event.STATE.active,
-        #     ),
-        # ]
-        # if any(is_recipient):
-        #     return redirect('recipient')
-        # if any(is_team):
-        #     return redirect('team')
-        return redirect('index')
+        # if user.is_admin:
+        #     return redirect('admin:index')
+        try:
+            destination = user.account.polymorphic_ctype.name
+        except Account.DoesNotExist:
+            destination = initial
+        return redirect(destination)
     log.error('callback fallout')
     return HttpResponse(status=403)
 
@@ -182,46 +171,33 @@ def delete(request):
         {'form': form,},
     )
 
+@login_required
+def account(request):
+    try:
+        dest = request.user.account.polymorphic_ctype.name
+        return redirect(dest)
+    except Account.DoesNotExist:
+        return render(
+            request,
+            'app/pages/account.html',
+        )
+
+
 # Recipient
 @login_required
 def recipient(request):
-    user = request.user
-    recipients = user.recipients.all()
-    # Create recipient if new account
-    if not recipients:
+    try:
+        recipient = request.user.account
+        if recipient.polymorphic_ctype.name == 'team':
+            return redirect('team')
+    except Account.DoesNotExist:
         recipient = Recipient(
-            user=user,
-            phone=user.phone,
+            user=request.user,
+            phone=request.user.phone,
         )
-    else:
-        event = Event.objects.get(
-            state=Event.STATE.active,
-        )
-        try:
-            recipient = recipients.get(
-                event=event,
-            )
-        except Recipient.DoesNotExist:
-            prior = recipients.latest('created')
-            recipient = Recipient(
-                size=prior.size,
-                name=prior.name,
-                phone=prior.phone,
-                location=prior.location,
-                place=prior.place,
-                is_precise=prior.is_precise,
-                point=prior.point,
-                geocode=prior.geocode,
-                is_dog=prior.is_dog,
-                event=event,
-                notes=prior.notes,
-                user=user,
-            )
     form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
     if form.is_valid():
         recipient = form.save()
-        # if created:
-        #     send_team_confirmation.delay(team)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
@@ -236,39 +212,18 @@ def recipient(request):
 
 @login_required
 def team(request):
-    user = request.user
-    teams = user.teams.all()
-    # Create recipient if new account
-    if not teams:
+    try:
+        team = request.user.account
+        if team.polymorphic_ctype.name == 'recipient':
+            return redirect('recipient')
+    except Account.DoesNotExist:
         team = Team(
-            user=user,
-            phone=user.phone,
+            user=request.user,
+            phone=request.user.phone,
         )
-    else:
-        event = Event.objects.get(
-            state=Event.STATE.active,
-        )
-        try:
-            team = teams.get(
-                event=event,
-            )
-        except Team.DoesNotExist:
-            prior = teams.latest('created')
-            team = Team(
-                size=prior.size,
-                name=prior.name,
-                phone=prior.phone,
-                team=prior.team,
-                reference=prior.reference,
-                notes=prior.notes,
-                event=event,
-                user=user,
-            )
     form = TeamForm(request.POST, instance=team) if request.POST else TeamForm(instance=team)
     if form.is_valid():
         team = form.save()
-        # if created:
-        #     send_team_confirmation.delay(team)
         messages.success(
             request,
             "Registration complete!  We will reach out before November 8th with futher details.",
@@ -280,8 +235,6 @@ def team(request):
             'form': form,
         }
     )
-
-
 
 # Admin
 @login_required
@@ -393,7 +346,11 @@ def sms(request):
     to_phone = raw['To']
     from_phone = raw['From']
     body = raw['Body']
-    user = User.objects.filter(phone=from_phone).first()
+    try:
+        user = User.objects.get(phone=from_phone)
+    except User.DoesNotExist:
+        log.error('no user')
+        return HttpResponse(status=404)
     defaults = {
         # 'status': status,
         'direction': direction,

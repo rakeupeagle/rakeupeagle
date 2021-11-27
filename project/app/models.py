@@ -32,12 +32,12 @@ class Account(PolymorphicModel):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         'app.User',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='accounts',
+        related_name='account',
     )
 
 
