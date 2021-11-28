@@ -254,6 +254,71 @@ class Assignment(models.Model):
         return f"{self.id}"
 
 
+class Topic(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=False,
+    )
+    body = models.TextField(
+        max_length=1600,
+        blank=False,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Thread(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    account = models.ForeignKey(
+        'app.Account',
+        on_delete=models.SET_NULL,
+        related_name='threads',
+        null=True,
+    )
+    topic = models.ForeignKey(
+        'app.Topic',
+        on_delete=models.SET_NULL,
+        related_name='threads',
+        null=True,
+        blank=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -292,6 +357,12 @@ class Message(models.Model):
     )
     raw = models.JSONField(
         blank=True,
+        null=True,
+    )
+    thread = models.ForeignKey(
+        'app.Thread',
+        on_delete=models.SET_NULL,
+        related_name='messages',
         null=True,
     )
     created = models.DateTimeField(

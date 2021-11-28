@@ -28,6 +28,8 @@ from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import Team
+from .models import Thread
+from .models import Topic
 from .models import User
 
 
@@ -88,7 +90,10 @@ class AccountAdmin(PolymorphicParentModelAdmin):
     ]
     list_filter = [
     ]
-
+    search_fields = [
+        'name',
+        'phone',
+    ]
 
 @admin.register(Recipient)
 class RecipientAdmin(PolymorphicChildModelAdmin):
@@ -219,6 +224,47 @@ class EventAdmin(VersionAdmin):
     search_fields = [
     ]
 
+
+@admin.register(Topic)
+class TopicAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'name',
+        'body',
+    ]
+    list_display = [
+        'name',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+    ]
+    search_fields = [
+        'name',
+    ]
+
+
+@admin.register(Thread)
+class ThreadAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'topic',
+        'account',
+    ]
+    list_display = [
+        'topic',
+        'account',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+    ]
+    search_fields = [
+    ]
+    autocomplete_fields = [
+        'topic',
+        'account',
+    ]
 
 @admin.register(Message)
 class MessageAdmin(VersionAdmin):

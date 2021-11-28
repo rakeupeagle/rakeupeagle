@@ -243,8 +243,6 @@ def import_teams_csv():
             )
 
 
-
-
 def get_messages_csv():
     ms = Message.objects.all()
     with open('messages.csv', 'w') as f:
@@ -268,6 +266,22 @@ def get_messages_csv():
                 m.raw,
                 m.created,
             ])
+
+def import_messages_csv():
+    with open('messages.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            Message.objects.create(
+                sid=row[0],
+                to_phone=row[1],
+                from_phone=row[2],
+                body=row[3],
+                direction=row[4],
+                raw=row[5],
+                created=row[6],
+            )
 
 
 @job
