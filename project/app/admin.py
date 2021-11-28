@@ -18,7 +18,7 @@ from reversion.admin import VersionAdmin
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
-# from .inlines import MessageInline
+from .inlines import MessageInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
 from .models import Account
@@ -248,18 +248,21 @@ class TopicAdmin(VersionAdmin):
 class ThreadAdmin(VersionAdmin):
     save_on_top = True
     fields = [
-        'topic',
         'account',
+        'topic',
     ]
     list_display = [
-        'topic',
         'account',
+        'topic',
     ]
     list_editable = [
     ]
     list_filter = [
     ]
     search_fields = [
+    ]
+    inlines = [
+        MessageInline,
     ]
     autocomplete_fields = [
         'topic',
