@@ -226,7 +226,6 @@ class MessageAdmin(VersionAdmin):
     fields = [
         'id',
         'state',
-        'user',
         'body',
         'sid',
         'to_phone',
@@ -238,7 +237,6 @@ class MessageAdmin(VersionAdmin):
     ]
     list_display = [
         'id',
-        'user_link',
         'body',
         'direction',
         'created',
@@ -251,10 +249,8 @@ class MessageAdmin(VersionAdmin):
         'state',
     ]
     search_fields = [
-        'user',
     ]
     autocomplete_fields = [
-        'user',
     ]
     inlines = [
         # StudentInline,
@@ -272,23 +268,22 @@ class MessageAdmin(VersionAdmin):
         'created',
         'updated',
         'raw',
-        'user_link',
     ]
 
-    def user_link(self, obj):
-        try:
-            name = obj.user.name if obj.user.name else 'Unknown'
-        except AttributeError:
-            name = 'Unknown'
-        try:
-            response = mark_safe('<a href="{}">{}</a>'.format(
-                reverse("admin:app_user_change", args=(obj.user.pk,)),
-                name,
-            ))
-        except AttributeError:
-            response = None
-        return response
-    user_link.short_description = 'user'
+    # def user_link(self, obj):
+    #     try:
+    #         name = obj.user.name if obj.user.name else 'Unknown'
+    #     except AttributeError:
+    #         name = 'Unknown'
+    #     try:
+    #         response = mark_safe('<a href="{}">{}</a>'.format(
+    #             reverse("admin:app_user_change", args=(obj.user.pk,)),
+    #             name,
+    #         ))
+    #     except AttributeError:
+    #         response = None
+    #     return response
+    # user_link.short_description = 'user'
 
 
 @admin.register(Team)

@@ -294,13 +294,6 @@ class Message(models.Model):
         blank=True,
         null=True,
     )
-    user = models.ForeignKey(
-        'app.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='messages',
-    )
     created = models.DateTimeField(
         auto_now_add=True,
     )
