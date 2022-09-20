@@ -183,46 +183,6 @@ class Team(Account):
         return
 
 
-class Event(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (0, 'new', 'New'),
-        (10, 'active', 'Active'),
-        (20, 'archived', 'Archived'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    name = models.CharField(
-        max_length=100,
-        blank=False,
-    )
-    year = models.IntegerField(
-        null=False,
-        blank=False,
-    )
-    deadline = models.DateField(
-        blank=False,
-        null=False,
-    )
-    date = models.DateField(
-        blank=False,
-        null=False,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-
-    def __str__(self):
-        return f"{self.year}"
-
-
 class Assignment(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -382,12 +342,6 @@ class Picture(models.Model):
     )
     image = models.ImageField(
         blank=True,
-    )
-    event = models.ForeignKey(
-        'app.Event',
-        on_delete=models.CASCADE,
-        related_name='pictures',
-        null=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,

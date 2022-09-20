@@ -31,7 +31,6 @@ from .forms import TeamcallForm
 from .forms import TeamForm
 from .models import Account
 from .models import Assignment
-from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient

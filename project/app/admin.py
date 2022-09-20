@@ -23,7 +23,6 @@ from .inlines import MessageInline
 # from .inlines import TeamInline
 from .models import Account
 from .models import Assignment
-from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient
@@ -63,10 +62,6 @@ class PictureAdmin(VersionAdmin):
     fields = [
         'image',
     ]
-    list_filter = [
-        'event',
-    ]
-
 
 # @admin.register(Topic)
 # class TopicAdmin(VersionAdmin):
@@ -198,30 +193,6 @@ class RecipientAdmin(PolymorphicChildModelAdmin):
         'user',
         'notes',
         # 'reps',
-    ]
-
-
-@admin.register(Event)
-class EventAdmin(VersionAdmin):
-    save_on_top = True
-    fields = [
-        'year',
-        'deadline',
-        'date',
-        'state',
-    ]
-    list_display = [
-        'year',
-        'deadline',
-        'date',
-    ]
-    list_editable = [
-    ]
-    list_filter = [
-        'state',
-        'year',
-    ]
-    search_fields = [
     ]
 
 
