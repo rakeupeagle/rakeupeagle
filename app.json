@@ -63,9 +63,6 @@
         "AUTH0_DOMAIN": {
           "value": "foo.com"
         },
-        "SENDGRID_API_KEY": {
-          "generator": "secret"
-        },
         "GOOGLE_API_KEY": {
           "generator": "secret"
         },
