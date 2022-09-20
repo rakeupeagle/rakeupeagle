@@ -60,7 +60,7 @@ def login(request):
     # Set landing page depending on initial button
     initial = request.GET.get('initial', 'account')
     redirect_uri = request.build_absolute_uri(reverse('callback'))
-    state = f"{initial}|{get_random_string()}"
+    state = f"{initial}|{get_random_string(length=8)}"
     request.session['state'] = state
 
     params = {
@@ -418,7 +418,7 @@ def handout_pdfs(request):
     )
 
 @staff_member_required
-def export_csv(request):
+def export_assignments(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=assignments.csv'
     gs = Assignment.objects.order_by(
@@ -443,5 +443,61 @@ def export_csv(request):
             g.recipient.phone.as_national,
             g.recipient.get_size_display(),
             g.recipient.location,
+        ])
+    return response
+
+
+@staff_member_required
+def export_recipients(request):
+    response = HttpResponse('text/csv')
+    response['Content-Disposition'] = 'attachment; filename=recipients.csv'
+    recipients = Recipient.objects.order_by(
+        'name',
+    )
+    writer = csv.writer(response)
+    writer.writerow([
+        'Name',
+        'Phone',
+        'Location',
+        'Size',
+        'Notes',
+        'Admin',
+    ])
+    for recipient in recipients:
+        writer.writerow([
+            recipient.name,
+            recipient.phone.as_national,
+            recipient.location,
+            recipient.get_size_display(),
+            recipient.notes,
+            recipient.admin_notes,
+        ])
+    return response
+
+
+@staff_member_required
+def export_teams(request):
+    response = HttpResponse('text/csv')
+    response['Content-Disposition'] = 'attachment; filename=teams.csv'
+    teams = Team.objects.order_by(
+        'name',
+    )
+    writer = csv.writer(response)
+    writer.writerow([
+        'Name',
+        'Phone',
+        'Nickname',
+        'Size',
+        'Notes',
+        'Admin',
+    ])
+    for team in teams:
+        writer.writerow([
+            team.name,
+            team.phone.as_national,
+            team.nickname,
+            team.get_size_display(),
+            team.notes,
+            team.admin_notes,
         ])
     return response
