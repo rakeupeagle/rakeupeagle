@@ -27,7 +27,6 @@ from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import Team
-from .models import Topic
 from .models import User
 
 
@@ -61,15 +60,6 @@ class PictureAdmin(VersionAdmin):
     fields = [
         'image',
     ]
-
-# @admin.register(Topic)
-# class TopicAdmin(VersionAdmin):
-#     save_on_top = True
-#     fields = [
-#     ]
-#     list_filter = [
-#     ]
-
 
 @admin.register(Account)
 class AccountAdmin(PolymorphicParentModelAdmin):
@@ -192,25 +182,6 @@ class RecipientAdmin(PolymorphicChildModelAdmin):
         'user',
         'notes',
         # 'reps',
-    ]
-
-
-@admin.register(Topic)
-class TopicAdmin(VersionAdmin):
-    save_on_top = True
-    fields = [
-        'name',
-        'body',
-    ]
-    list_display = [
-        'name',
-    ]
-    list_editable = [
-    ]
-    list_filter = [
-    ]
-    search_fields = [
-        'name',
     ]
 
 
