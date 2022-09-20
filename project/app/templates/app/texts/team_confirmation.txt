@@ -6,6 +6,6 @@ Team Leader: {{team.name}}
 Group Size: {{team.get_size_display}}
 Team Name: {{team.team|default:'(None provided)'}}
 
-We will be in contact after November 8th with further instructions.  Please let us know if you have any questions.
+We will be in contact after November 1st with further instructions.  Please let us know if you have any questions.
 
 {% endautoescape %}

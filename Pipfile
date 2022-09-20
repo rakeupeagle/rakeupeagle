@@ -37,14 +37,14 @@ nameparser = "*"
 pillow = "*"
 django-cloudinary-storage = "*"
 django-fsm = "*"
-django-fsm-admin = "*"
+django-fsm-admin = {editable = true, ref = "prosehair-dev", git = "https://github.com/prosehair/django-fsm-admin"}
 django-reversion = "*"
 geocoder = "*"
 twilio = "*"
 pyjwt = "*"
 django-leaflet-admin-list = "*"
-django-leaflet = {git = "https://github.com/faaizajaz/django-leaflet.git"}
+django-leaflet = "*"
 django-polymorphic = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
