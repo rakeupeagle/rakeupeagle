@@ -42,8 +42,6 @@ django-reversion = "*"
 geocoder = "*"
 twilio = "*"
 pyjwt = "*"
-django-leaflet-admin-list = "*"
-django-leaflet = "*"
 django-polymorphic = "*"
 
 [requires]

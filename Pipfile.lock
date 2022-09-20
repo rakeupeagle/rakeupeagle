@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ddcf24b838906ad5f98a4f86d3c5e490bc4bf17f5c62cc20243c3dc9a0fcdb1a"
+            "sha256": "34630a3e012cf08475e81dcc91b7d1eadbb522a120cf03b299da70e89677fedc"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -336,22 +336,6 @@
             ],
             "index": "pypi",
             "version": "==3.3.5"
-        },
-        "django-leaflet": {
-            "hashes": [
-                "sha256:073c10c1629b9427a54f7259468c76ad4bbf3295bc37f4c33fe6a9d871b63692",
-                "sha256:529b88f149c81bd8dda1e34692dcb7c86597483f2e8b86353bf56ebc0f5e01d9"
-            ],
-            "index": "pypi",
-            "version": "==0.28.3"
-        },
-        "django-leaflet-admin-list": {
-            "hashes": [
-                "sha256:61d430a9116380bf6a186d897abd90e2e05dbffab58bd83bee69e588ef329655",
-                "sha256:949ecc18effa08d2a68bb871f4baf758563b6b57777b0dcbe02a04a01e1f910d"
-            ],
-            "index": "pypi",
-            "version": "==0.0.5"
         },
         "django-model-utils": {
             "hashes": [
@@ -772,9 +756,9 @@
         },
         "starkbank-ecdsa": {
             "hashes": [
-                "sha256:73b62b1b3de54bbaa05dedb1a2d951c033432bb074de899e19d4a96a36b21df6"
+                "sha256:24422395e8682ac22a5b20ba3d7418d62e1a927aef29e8ddb5e678662be6b643"
             ],
-            "version": "==2.0.3"
+            "version": "==2.1.0"
         },
         "traitlets": {
             "hashes": [

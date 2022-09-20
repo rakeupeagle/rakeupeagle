@@ -12,7 +12,6 @@ from polymorphic.models import PolymorphicModel
 from .managers import UserManager
 
 
-# @reversion.register()
 class Account(PolymorphicModel):
     id = HashidAutoField(
         primary_key=True,

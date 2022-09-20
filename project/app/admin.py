@@ -8,8 +8,6 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
-from leaflet.admin import LeafletGeoAdminMixin
-from leaflet_admin_list.admin import LeafletAdminListMixin
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
 from reversion.admin import VersionAdmin
