@@ -38,7 +38,6 @@ class MessageInline(admin.TabularInline):
     model = Message
     fields = [
         'id',
-        'thread',
         'direction',
         'body',
         # 'to_phone',

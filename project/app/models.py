@@ -244,41 +244,6 @@ class Topic(models.Model):
         return f"{self.name}"
 
 
-class Thread(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (0, 'new', 'New'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    account = models.ForeignKey(
-        'app.Account',
-        on_delete=models.SET_NULL,
-        related_name='threads',
-        null=True,
-    )
-    topic = models.ForeignKey(
-        'app.Topic',
-        on_delete=models.SET_NULL,
-        related_name='threads',
-        null=True,
-        blank=True,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-
-    def __str__(self):
-        return f"{self.id}"
-
-
 class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -317,12 +282,6 @@ class Message(models.Model):
     )
     raw = models.JSONField(
         blank=True,
-        null=True,
-    )
-    thread = models.ForeignKey(
-        'app.Thread',
-        on_delete=models.SET_NULL,
-        related_name='messages',
         null=True,
     )
     created = models.DateTimeField(
