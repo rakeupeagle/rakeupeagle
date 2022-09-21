@@ -38,6 +38,7 @@ django-reversion = "*"
 geocoder = "*"
 twilio = "*"
 pyjwt = "*"
+pillow = "*"
 django-polymorphic = "*"
 
 [requires]
