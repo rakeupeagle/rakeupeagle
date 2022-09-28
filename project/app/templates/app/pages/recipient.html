@@ -43,6 +43,7 @@
               <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
               <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
             </div>
+            {% bootstrap_field form.name show_help=True show_label=False  %}
             {% bootstrap_field form.location show_help=True show_label=False  %}
             {% bootstrap_field form.size show_help=True show_label=False  %}
             {% bootstrap_field form.is_dog show_help=True show_label=False %}

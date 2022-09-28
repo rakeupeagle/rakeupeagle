@@ -20,6 +20,7 @@ class Account(PolymorphicModel):
         max_length=100,
         blank=True,
         default='',
+        help_text="""Your full name."""
     )
     phone = PhoneNumberField(
         blank=True,

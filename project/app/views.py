@@ -157,8 +157,8 @@ def logout(request):
 def delete(request):
     form = DeleteForm(request.POST or None)
     if form.is_valid():
-        user = request.user
-        user.delete()
+        account = request.user.account
+        account.delete()
         messages.error(
             request,
             "Account Deleted!",
