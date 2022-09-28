@@ -67,7 +67,7 @@ class Recipient(Account):
         max_length=512,
         blank=True,
         default='',
-        help_text="""Please provide the location address to be raked."""
+        help_text="""Please provide the street address to be raked (City of Eagle is assumed)."""
     )
     place = models.CharField(
         max_length=255,

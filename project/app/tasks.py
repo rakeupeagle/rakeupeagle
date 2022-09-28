@@ -469,4 +469,4 @@ def geocode_recipient(recipient):
         geocode['status'] = 'IMPRECISE'
         recipient.is_precise = False
     recipient.geocode = geocode
-    return recipient
+    return recipient.save()
