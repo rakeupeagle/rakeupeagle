@@ -261,6 +261,13 @@ class Message(models.Model):
         auto_now=True,
     )
 
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='messages',
+    )
     def __str__(self):
         return f"{self.id}"
 

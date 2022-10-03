@@ -65,11 +65,6 @@ class RecipientForm(forms.ModelForm):
                     'rows': 5,
                 }
             ),
-            'location': AddressWidget(
-                attrs={
-                    'placeholder': 'Location Address',
-                },
-            ),
         }
         help_texts = {
         }

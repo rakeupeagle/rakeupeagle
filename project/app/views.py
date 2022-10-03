@@ -201,6 +201,7 @@ def recipient(request):
             request,
             "Registration complete!  We will reach out before November 1st with futher details.",
         )
+        send_recipient_confirmation(recipient)
     return render(
         request,
         'app/pages/recipient.html',
@@ -227,6 +228,7 @@ def team(request):
             request,
             "Registration complete!  We will reach out before November 1st with futher details.",
         )
+        send_team_confirmation(team)
     return render(
         request,
         'app/pages/team.html',
