@@ -50,7 +50,7 @@ def index(request):
         'app/pages/index.html',
         context={
             'pictures': pictures,
-            'is_active': settings.ACTIVE,
+            'is_active': True,
         }
     )
 
