@@ -272,8 +272,8 @@ class TeamAdmin(PolymorphicChildModelAdmin):
         'user',
     ]
     list_display = [
-        'nickname',
         'name',
+        'nickname',
         'phone',
         'size',
         # 'recipient_sizes',
