@@ -39,6 +39,8 @@ class Account(PolymorphicModel):
         blank=True,
         related_name='account',
     )
+    def __str__(self):
+        return f"{self.name}, {self.location} - {self.get_size_display()}"
 
 
 class Recipient(Account):
@@ -113,7 +115,7 @@ class Recipient(Account):
         help_text='Actual Hours Worked',
     )
     def __str__(self):
-        return f"{self.name}, {self.location} - {self.get_size_display()}"
+        return f"{self.polymorphic_ctype.name} - {self.name}"
 
     @transition(field=state, source=[STATE.new], target=STATE.confirmed)
     def confirm(self):
