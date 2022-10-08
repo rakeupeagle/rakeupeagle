@@ -1,0 +1,9 @@
+{% autoescape off %}
+You are receiving this message because you participated in last year's Rake Up Eagle event.
+
+If you need your lawn raked again this year, please register at:
+
+https://www.rakeupeagle.com
+
+We look forward to serving you again this year!
+{% endautoescape %}

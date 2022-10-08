@@ -1,0 +1,11 @@
+{% autoescape off %}
+You are receiving this message because you volunteered for last year's Rake Up Eagle event.
+
+We wanted to let you know the website for Rake Up Eagle 2022 is now accepting volunteers!
+
+If you would like to participate in this worthy event again this year, or wish to learn more, visit:
+
+https://www.rakeupeagle.com
+
+Thank you!
+{% endautoescape %}
