@@ -216,6 +216,8 @@ class MessageAdmin(VersionAdmin):
     autocomplete_fields = [
     ]
     inlines = [
+        # StudentInline,
+        # CommentInline,
     ]
     ordering = [
         '-created',
@@ -354,7 +356,6 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        MessageInline,
     ]
     readonly_fields = [
         'username',

@@ -404,30 +404,6 @@ def send_team_survey(team):
     return response
 
 
-@job
-def send_recipient_invite(phone):
-    body = render_to_string(
-        'app/texts/recipient_invite.txt',
-    )
-    response = send_text(
-        str(phone),
-        body,
-    )
-    return response
-
-
-@job
-def send_team_invite(phone):
-    body = render_to_string(
-        'app/texts/team_invite.txt',
-    )
-    response = send_text(
-        str(phone),
-        body,
-    )
-    return response
-
-
 def assign_team_from_recipient(recipient):
     team = Team.objects.filter(
         assignments__isnull=True,
