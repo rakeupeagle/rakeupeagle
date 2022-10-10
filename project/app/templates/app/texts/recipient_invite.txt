@@ -5,5 +5,5 @@ If you need your lawn raked again this year, please register at:
 
 https://www.rakeupeagle.com
 
-We look forward to serving you again this year!
+This year's event is on November 5th, and we look forward to serving you again this year!
 {% endautoescape %}
