@@ -216,8 +216,6 @@ class MessageAdmin(VersionAdmin):
     autocomplete_fields = [
     ]
     inlines = [
-        # StudentInline,
-        # CommentInline,
     ]
     ordering = [
         '-created',
@@ -307,6 +305,9 @@ class TeamAdmin(PolymorphicChildModelAdmin):
 
 @admin.register(User)
 class UserAdmin(UserAdminBase):
+    def myfield(self, instance):
+        return f"{instance.account.polymorphic_ctype.name} - {instance.account.name}" if instance.account else None
+
     save_on_top = True
     add_form = UserCreationForm
     form = UserChangeForm
@@ -316,7 +317,7 @@ class UserAdmin(UserAdminBase):
             'fields': [
                 'username',
                 'phone',
-                'name',
+                'myfield',
             ]
         }
         ),
@@ -325,7 +326,7 @@ class UserAdmin(UserAdminBase):
     list_display = [
         'username',
         'phone',
-        'name',
+        'myfield',
         'created',
         'last_login'
     ]
@@ -356,9 +357,11 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
+        MessageInline,
     ]
     readonly_fields = [
         'username',
+        'myfield',
     ]
 
 # Use Auth0 for login
