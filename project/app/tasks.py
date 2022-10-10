@@ -379,6 +379,18 @@ def send_recipient_final(recipient):
 
 
 @job
+def send_fix(phone):
+    body = render_to_string(
+        'app/texts/fix.txt',
+    )
+    response = send_text(
+        str(phone),
+        body,
+    )
+    return response
+
+
+@job
 def send_recipient_close(recipient):
     body = render_to_string(
         'app/texts/recipient_close.txt',

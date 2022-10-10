@@ -1,0 +1,7 @@
+{% autoescape off %}
+Rake Up Eagle -- glitch fixed!
+
+We had a major software glitch that we fixed.  Please try signing up again at https://www.rakeupeagle.com.
+
+So sorry for the trouble!
+{% endautoescape %}
