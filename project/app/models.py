@@ -299,12 +299,12 @@ class User(AbstractBaseUser):
         null=False,
         unique=True,
     )
-    name = models.CharField(
-        max_length=150,
-        blank=True,
-        null=False,
-        default='',
-    )
+    # name = models.CharField(
+    #     max_length=150,
+    #     blank=True,
+    #     null=False,
+    #     default='',
+    # )
     phone = PhoneNumberField(
         blank=True,
         null=True,
@@ -326,6 +326,10 @@ class User(AbstractBaseUser):
     updated = models.DateTimeField(
         auto_now=True,
     )
+
+    @property
+    def name(self):
+        return f"{self.account.polymorphic_ctype.name} - {self.account.name}" if self.account else None
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [

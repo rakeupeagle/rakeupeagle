@@ -134,7 +134,6 @@ class UserCreationForm(UserCreationFormBase):
         fields = [
             'username',
             'phone',
-            'name',
         ]
 
 
@@ -148,5 +147,4 @@ class UserChangeForm(UserChangeFormBase):
         fields = [
             'username',
             'phone',
-            'name',
         ]
