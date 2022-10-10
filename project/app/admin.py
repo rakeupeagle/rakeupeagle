@@ -305,8 +305,15 @@ class TeamAdmin(PolymorphicChildModelAdmin):
 
 @admin.register(User)
 class UserAdmin(UserAdminBase):
+
+
     def myfield(self, instance):
-        return f"{instance.account.polymorphic_ctype.name} - {instance.account.name}" if instance.account else None
+        try:
+            foo = f"{instance.account.polymorphic_ctype.name} - {instance.account.name}" if instance.account else None
+        except KeyError:
+            foo = None
+        return foo
+
 
     save_on_top = True
     add_form = UserCreationForm
