@@ -7,11 +7,10 @@ from .models import User
 from .tasks import delete_user
 from .tasks import send_text_from_message
 
-
-@receiver(pre_delete, sender=User)
-def pre_delete_user(sender, instance, **kwargs):
-    delete_user(instance.username)
-    return
+# @receiver(pre_delete, sender=User)
+# def pre_delete_user(sender, instance, **kwargs):
+#     delete_user(instance.username)
+#     return
 
 @receiver(post_save, sender=Message)
 def message_post_save(sender, instance, created, **kwargs):
