@@ -1,7 +1,9 @@
 {% autoescape off %}
 Rake Up Eagle -- glitch fixed!
 
-We had a major software glitch that we fixed.  Please try signing up again at https://www.rakeupeagle.com.
+We had glitch that prevented completing your signup.
 
-So sorry for the trouble!
+Please try again at https://www.rakeupeagle.com.
+
+So sorry for the trouble, and call Dave at 208.713.4599 if you need further assistance.
 {% endautoescape %}
