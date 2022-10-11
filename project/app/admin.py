@@ -177,8 +177,8 @@ class RecipientAdmin(PolymorphicChildModelAdmin):
     ]
     readonly_fields = [
         # 'click_phone',
-        'user',
-        'notes',
+        # 'user',
+        # 'notes',
         # 'reps',
     ]
 
