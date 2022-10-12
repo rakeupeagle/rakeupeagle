@@ -24,6 +24,7 @@ from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import Team
+from .models import User
 
 
 # Auth0
@@ -48,12 +49,6 @@ def get_twilio_client():
     client = TwilioClient()
     return client
 
-
-def get_user_data(user_id):
-    client = get_auth0_client()
-    data = client.users.get(user_id)
-    return data
-
 def put_auth0_payload(endpoint, payload):
     token = get_auth0_token()
     access_token = token['access_token']
@@ -68,17 +63,77 @@ def put_auth0_payload(endpoint, payload):
     return response
 
 @job
-def update_user(user):
-    data = get_user_data(user.username)
-    user.data = data
-    user.name = data.get('name', '')
-    user.first_name = data.get('given_name', '')
-    user.last_name = data.get('family_name', '')
-    user.email = data.get('email', None)
-    user.phone = data.get('phone_number', None)
-    user.save()
-    return user
+def archive_auth0_recipient(recipient):
+    client = get_auth0_client()
+    data = {
+        "name": recipient.name,
+        "user_metadata": {
+            "address": recipient.location,
+            "size": recipient.get_size_display(),
+        }
+    }
+    response = client.users.update(
+        id=recipient.user.username,
+        body=data,
+    )
+    return response
 
+
+@job
+def archive_auth0_team(team):
+    client = get_auth0_client()
+    data = {
+        "name": team.name,
+        "user_metadata": {
+            "nickname": team.nickname,
+            "size": team.get_size_display(),
+        }
+    }
+    response = client.users.update(
+        id=team.user.username,
+        body=data,
+    )
+    return response
+
+
+@job
+def import_auth0_recipient(recipient):
+    client = get_auth0_client()
+    data = {
+        "name": recipient[0],
+        "user_metadata": {
+            "address": recipient[2],
+            "size": recipient[3],
+        }
+    }
+    user = User.objects.get(
+        phone=recipient[1],
+    )
+    response = client.users.update(
+        id=user.username,
+        body=data,
+    )
+    return response
+
+
+@job
+def import_auth0_team(team):
+    client = get_auth0_client()
+    data = {
+        "name": team[0],
+        "user_metadata": {
+            "nickname": team[2],
+            "size": team[3],
+        }
+    }
+    user = User.objects.get(
+        phone=team[1],
+    )
+    response = client.users.update(
+        id=user.username,
+        body=data,
+    )
+    return response
 
 # Utility
 def get_assignments_csv():
