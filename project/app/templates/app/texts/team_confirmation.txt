@@ -5,6 +5,7 @@ Your signup for Rake Up Eagle is confirmed!
 Team Leader: {{team.name}}
 Group Size: {{team.get_size_display}}
 Team Name: {{team.nickname|default:'(None provided)'}}
+Notes: {{team.notes|default:'(No Notes)'}}
 
 We will be in contact after November 1st with further instructions.  Please let us know if you have any questions.
 

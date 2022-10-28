@@ -342,6 +342,12 @@ def send_recipient_confirmation(recipient):
             'recipient': recipient,
         },
     )
+    admin = User.objects.get(is_admin=True)
+    message = Message.objects.create(
+        user=admin,
+        direction=Message.DIRECTION.outbound,
+        body=body,
+    )
     message = Message.objects.create(
         user=recipient.user,
         direction=Message.DIRECTION.outbound,
@@ -356,6 +362,12 @@ def send_team_confirmation(team):
         context={
             'team': team,
         },
+    )
+    admin = User.objects.get(is_admin=True)
+    message = Message.objects.create(
+        user=admin,
+        direction=Message.DIRECTION.outbound,
+        body=body,
     )
     message = Message.objects.create(
         user=team.user,
