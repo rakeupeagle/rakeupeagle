@@ -117,6 +117,24 @@ def import_auth0_recipient(recipient):
 
 
 @job
+def create_user_from_phone(phone, name=None):
+    client = get_auth0_client()
+    data = {
+        "phone_number": phone,
+        "name": name,
+    }
+    response = client.users.create(
+        body=data,
+    )
+    user = User.objects.create(
+        username=response['user_id'],
+        name=name,
+        phone=phone,
+    )
+    return user
+
+
+@job
 def import_auth0_team(team):
     client = get_auth0_client()
     data = {
