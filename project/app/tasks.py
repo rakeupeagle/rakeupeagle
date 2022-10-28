@@ -377,6 +377,36 @@ def send_team_confirmation(team):
     return message
 
 @job
+def send_recipient_deadline(recipient):
+    body = render_to_string(
+        'app/texts/recipient_deadline.txt',
+        context={
+            'recipient': recipient,
+        },
+    )
+    message = Message.objects.create(
+        user=recipient.user,
+        direction=Message.DIRECTION.outbound,
+        body=body,
+    )
+    return message
+
+@job
+def send_team_deadline(team):
+    body = render_to_string(
+        'app/texts/team_deadline.txt',
+        context={
+            'team': team,
+        },
+    )
+    message = Message.objects.create(
+        user=team.user,
+        direction=Message.DIRECTION.outbound,
+        body=body,
+    )
+    return message
+
+@job
 def create_and_upload_picture(path):
     with open(path, 'rb') as f:
         imagefile = File(f)
@@ -424,6 +454,18 @@ def send_text_from_message(message):
     message.body = response.body
     message.direction = message.DIRECTION.outbound
     message.save()
+    return
+
+
+@job
+def send_copy_from_message(message):
+    if message.direction != message.DIRECTION.inbound:
+        return
+    admin = User.objects.get(is_admin=True)
+    response = send_text(
+        str(admin.phone),
+        message.body,
+    )
     return
 
 
