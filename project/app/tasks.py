@@ -122,6 +122,7 @@ def create_user_from_phone(phone, name=None):
     data = {
         "phone_number": phone,
         "name": name,
+        "connection": "sms"
     }
     response = client.users.create(
         body=data,
