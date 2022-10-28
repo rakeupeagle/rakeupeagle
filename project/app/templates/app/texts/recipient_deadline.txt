@@ -1,7 +1,7 @@
 {% autoescape off %}
 Thank you for signing up to have your yard raked by the Rake Up Eagle community service project!
 
-We're making our final arrangements and just wanted to check if anything has changed.  If the information below is current then no need to do anyting -- we'll reach out after we make our assignments early next week.  If things have changed then please let us know by responding to this text.
+We're making our final arrangements and just wanted to check if anything has changed.  If the information below is current then no need to do anything -- we'll reach out after we make our assignments early next week.  If things have changed then please let us know by responding to this text.
 
 Thank you again!  We look forward to raking your lawn on November 5th!
 
