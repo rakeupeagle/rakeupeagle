@@ -146,7 +146,7 @@ class RecipientAdmin(PolymorphicChildModelAdmin):
         # 'notes',
         # 'is_verified',
         # 'is_waiver',
-        # 'created',
+        'created',
         # 'total',
     ]
     list_editable = [
@@ -276,6 +276,7 @@ class TeamAdmin(PolymorphicChildModelAdmin):
         'size',
         # 'recipient_sizes',
         'state',
+        'created',
     ]
     list_filter = [
         'state',
