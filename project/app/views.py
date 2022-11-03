@@ -29,7 +29,6 @@ from .forms import DeleteForm
 from .forms import RecipientForm
 from .forms import TeamcallForm
 from .forms import TeamForm
-from .models import Account
 from .models import Assignment
 from .models import Message
 from .models import Picture
@@ -57,7 +56,7 @@ def index(request):
 # Authentication
 def login(request):
     # Set landing page depending on initial button
-    initial = request.GET.get('initial', 'account')
+    initial = request.GET.get('initial', 'user')
     redirect_uri = request.build_absolute_uri(reverse('callback'))
     state = f"{initial}|{get_random_string(length=8)}"
     request.session['state'] = state
@@ -127,11 +126,7 @@ def callback(request):
         log_in(request, user)
         # if user.is_admin:
         #     return redirect('admin:index')
-        try:
-            destination = user.account.polymorphic_ctype.name
-        except Account.DoesNotExist:
-            destination = initial
-        return redirect(destination)
+        return redirect(initial)
     log.error('callback fallout')
     return HttpResponse(status=403)
 
@@ -170,31 +165,10 @@ def delete(request):
         {'form': form,},
     )
 
-@login_required
-def account(request):
-    try:
-        dest = request.user.account.polymorphic_ctype.name
-        return redirect(dest)
-    except Account.DoesNotExist:
-        return render(
-            request,
-            'app/pages/account.html',
-        )
-
-
 # Recipient
 @login_required
 def recipient(request):
-    try:
-        recipient = request.user.account
-        if recipient.polymorphic_ctype.name == 'team':
-            return redirect('team')
-    except Account.DoesNotExist:
-        recipient = Recipient(
-            user=request.user,
-            phone=request.user.phone,
-        )
-    form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=recipient)
+    form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=None)
     if form.is_valid():
         recipient = form.save()
         messages.success(
@@ -212,16 +186,7 @@ def recipient(request):
 
 @login_required
 def team(request):
-    try:
-        team = request.user.account
-        if team.polymorphic_ctype.name == 'recipient':
-            return redirect('recipient')
-    except Account.DoesNotExist:
-        team = Team(
-            user=request.user,
-            phone=request.user.phone,
-        )
-    form = TeamForm(request.POST, instance=team) if request.POST else TeamForm(instance=team)
+    form = TeamForm(request.POST, instance=team) if request.POST else TeamForm(instance=None)
     if form.is_valid():
         team = form.save()
         messages.success(

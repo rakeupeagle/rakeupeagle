@@ -262,7 +262,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'fsm_admin',
     'bootstrap4',
-    'polymorphic',
     'phonenumber_field',
     'app',
 ]

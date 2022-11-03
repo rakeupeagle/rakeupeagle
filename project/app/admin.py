@@ -8,8 +8,6 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
-from polymorphic.admin import PolymorphicChildModelAdmin
-from polymorphic.admin import PolymorphicParentModelAdmin
 from reversion.admin import VersionAdmin
 
 # Local
@@ -19,13 +17,121 @@ from .inlines import AssignmentInline
 from .inlines import MessageInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
-from .models import Account
 from .models import Assignment
 from .models import Message
 from .models import Picture
 from .models import Recipient
 from .models import Team
 from .models import User
+
+
+@admin.register(Recipient)
+class RecipientAdmin(VersionAdmin):
+    # def team_sizes(self, obj):
+    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
+    #     return "; ".join(
+    #         list(lst)
+    #     )
+
+
+    save_on_top = True
+    fields = [
+        'state',
+        'name',
+        'phone',
+        'location',
+        'size',
+        'is_dog',
+        'user',
+        'notes',
+        'admin_notes',
+    ]
+    list_display = [
+        'name',
+        'phone',
+        'location',
+        'size',
+        'is_dog',
+        # 'team_sizes',
+        'state',
+        'created',
+        'user',
+    ]
+    list_filter = [
+        'state',
+        'size',
+        'is_dog',
+        'created',
+        'updated',
+    ]
+    search_fields = [
+        'name',
+        'location',
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+    inlines = [
+        AssignmentInline,
+    ]
+    ordering = [
+        'created',
+    ]
+    readonly_fields = [
+    ]
+
+
+@admin.register(Team)
+class TeamAdmin(VersionAdmin):
+    # def recipient_sizes(self, obj):
+    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
+
+    #     return "; ".join(
+    #         list(lst)
+    #     )
+
+    save_on_top = True
+    fields = [
+        'state',
+        'name',
+        'phone',
+        'nickname',
+        'size',
+        'notes',
+        'admin_notes',
+        'user',
+    ]
+    list_display = [
+        'name',
+        'phone',
+        'size',
+        'nickname',
+        # 'recipient_sizes',
+        'state',
+        'created',
+    ]
+    list_filter = [
+        'state',
+        'size',
+        'created',
+        'updated',
+    ]
+    search_fields = [
+        'nickname',
+        'name',
+    ]
+    list_editable = [
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+    inlines = [
+        AssignmentInline,
+    ]
+    ordering = [
+    ]
+    readonly_fields = [
+    ]
 
 
 @admin.register(Assignment)
@@ -49,137 +155,6 @@ class AssignmentAdmin(VersionAdmin):
     autocomplete_fields = [
         'recipient',
         'team',
-    ]
-
-
-@admin.register(Picture)
-class PictureAdmin(VersionAdmin):
-    save_on_top = True
-    fields = [
-        'image',
-    ]
-
-@admin.register(Account)
-class AccountAdmin(PolymorphicParentModelAdmin):
-    save_on_top = True
-    fields = [
-        'name',
-        'phone',
-    ]
-    child_models = [
-        Recipient,
-        Team,
-    ]
-    list_filter = [
-    ]
-    search_fields = [
-        'name',
-        'phone',
-    ]
-
-@admin.register(Recipient)
-class RecipientAdmin(PolymorphicChildModelAdmin):
-
-    # def get_geojson_properties(self, request, name, o, queryset):
-    #     '''returns a `properties` member of the GeoJSON `Feature` instance representing the instance `o` geometry field `name`'''
-    #     r = {
-    #         'field': name,
-    #         'app_label': o._meta.app_label,
-    #         'model_name': o._meta.model_name,
-    #         'pk': str(o.pk),
-    #     }
-    #     popup = self.get_geojson_feature_popup(request, name, o, queryset)
-    #     tooltip = self.get_geojson_feature_tooltip(request, name, o, queryset)
-    #     point_style = self.get_geojson_feature_point_style(request, name, o, queryset)
-    #     line_style = self.get_geojson_feature_line_style(request, name, o, queryset)
-    #     if popup:
-    #         r['popup'] = popup
-    #     if tooltip:
-    #         r['tooltip'] = tooltip
-
-    #     if point_style:
-    #         r['point_style'] = point_style
-    #     if line_style:
-    #         r['line_style'] = line_style
-    #     return r
-
-
-    # def team_sizes(self, obj):
-    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
-
-    #     return "; ".join(
-    #         list(lst)
-    #     )
-
-    # def click_phone(self, obj):
-    #     return format_html('<a href="tel://{}">{}</a>', obj.phone, obj.phone.as_national)
-
-    # click_phone.short_description = "Phone"
-
-
-
-    save_on_top = True
-    fields = [
-        'state',
-        'name',
-        'phone',
-        'location',
-        'size',
-        'is_dog',
-        'user',
-        # 'click_phone',
-        # 'is_verified',
-        # 'is_waiver',
-        'notes',
-        'admin_notes',
-        # 'bags',
-        # 'hours',
-    ]
-    list_display = [
-        'name',
-        'phone',
-        'location',
-        'size',
-        'is_dog',
-        # 'team_sizes',
-        'state',
-        # 'notes',
-        # 'is_verified',
-        # 'is_waiver',
-        'created',
-        # 'total',
-    ]
-    list_editable = [
-        # 'bags',
-        # 'hours',
-        # 'persons',
-    ]
-    list_filter = [
-        'state',
-        'size',
-        'is_dog',
-        'created',
-        'updated',
-    ]
-    search_fields = [
-        # 'user__name',
-        # 'user__phone',
-        'location',
-    ]
-    autocomplete_fields = [
-        'user',
-    ]
-    inlines = [
-        # AssignmentInline,
-    ]
-    ordering = [
-        'created',
-    ]
-    readonly_fields = [
-        # 'click_phone',
-        # 'user',
-        # 'notes',
-        # 'reps',
     ]
 
 
@@ -247,73 +222,17 @@ class MessageAdmin(VersionAdmin):
     # user_link.short_description = 'user'
 
 
-@admin.register(Team)
-class TeamAdmin(PolymorphicChildModelAdmin):
-    # def recipient_sizes(self, obj):
-    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
-
-    #     return "; ".join(
-    #         list(lst)
-    #     )
-
+@admin.register(Picture)
+class PictureAdmin(VersionAdmin):
     save_on_top = True
     fields = [
-        'state',
-        'nickname',
-        'name',
-        'phone',
-        'size',
-        'actual',
-        'reference',
-        'notes',
-        'admin_notes',
-        'user',
-    ]
-    list_display = [
-        'name',
-        'nickname',
-        'phone',
-        'size',
-        # 'recipient_sizes',
-        'state',
-        'created',
-    ]
-    list_filter = [
-        'state',
-        'size',
-        'created',
-        'updated',
-    ]
-    search_fields = [
-        # 'user__name',
-        # 'user__id',
-        'nickname',
-        'name',
-    ]
-    list_editable = [
-    ]
-    autocomplete_fields = [
-        # 'user',
-    ]
-    inlines = [
-        # AssignmentInline,
-    ]
-    ordering = [
-    ]
-    readonly_fields = [
+        'image',
     ]
 
 
 @admin.register(User)
 class UserAdmin(UserAdminBase):
 
-
-    def myfield(self, instance):
-        try:
-            foo = f"{instance.account.polymorphic_ctype.name} - {instance.account.name}" if instance.account else None
-        except KeyError:
-            foo = None
-        return foo
 
 
     save_on_top = True
@@ -325,7 +244,6 @@ class UserAdmin(UserAdminBase):
             'fields': [
                 'username',
                 'phone',
-                'myfield',
             ]
         }
         ),
@@ -334,7 +252,6 @@ class UserAdmin(UserAdminBase):
     list_display = [
         'username',
         'phone',
-        'myfield',
         'created',
         'last_login'
     ]
@@ -369,7 +286,6 @@ class UserAdmin(UserAdminBase):
     ]
     readonly_fields = [
         'username',
-        'myfield',
     ]
 
 # Use Auth0 for login

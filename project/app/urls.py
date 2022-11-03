@@ -26,7 +26,6 @@ urlpatterns = [
     path('delete', views.delete, name='delete',),
 
     # Recipient
-    path('account', views.account, name='account',),
     path('recipient', views.recipient, name='recipient',),
     path('team', views.team, name='team',),
 

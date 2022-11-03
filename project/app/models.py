@@ -6,13 +6,12 @@ from django_fsm import transition
 from hashid_field import HashidAutoField
 from model_utils import Choices
 from phonenumber_field.modelfields import PhoneNumberField
-from polymorphic.models import PolymorphicModel
 
 # Local
 from .managers import UserManager
 
 
-class Account(PolymorphicModel):
+class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
@@ -26,24 +25,6 @@ class Account(PolymorphicModel):
         blank=True,
         null=True,
     )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    user = models.ForeignKey(
-        'app.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='account',
-    )
-    def __str__(self):
-        return f"{self.polymorphic_ctype.name} - {self.name}"
-
-
-class Recipient(Account):
     STATE = Choices(
         (-20, 'cancelled', 'Cancelled'),
         (-10, 'exclude', 'Excluded'),
@@ -114,6 +95,19 @@ class Recipient(Account):
         null=True,
         help_text='Actual Hours Worked',
     )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='recipients',
+    )
     def __str__(self):
         return f"{self.name}, {self.location} - {self.get_size_display()}"
 
@@ -122,7 +116,20 @@ class Recipient(Account):
         return
 
 
-class Team(Account):
+class Team(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Your full name."""
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
     STATE = Choices(
         (-20, 'cancelled', 'Cancelled'),
         (-10, 'exclude', 'Excluded'),
@@ -176,9 +183,21 @@ class Team(Account):
         default='',
         help_text="""Administrator Notes (from calling).""",
     )
-
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='teams',
+    )
     def __str__(self):
-        return f"{self.nickname} - {self.get_size_display()}"
+        return f"{self.name} - {self.get_size_display()}"
 
     @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     def confirm(self):
