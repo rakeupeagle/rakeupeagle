@@ -21,6 +21,10 @@ class AssignmentInline(admin.TabularInline):
     ]
     extra = 0
     show_change_link = True
+    autocomplete_fields = [
+        'recipient',
+        'team',
+    ]
 
 
 class TeamInline(admin.TabularInline):

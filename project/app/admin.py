@@ -27,11 +27,11 @@ from .models import User
 
 @admin.register(Recipient)
 class RecipientAdmin(VersionAdmin):
-    # def team_sizes(self, obj):
-    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
-    #     return "; ".join(
-    #         list(lst)
-    #     )
+    def team_sizes(self, obj):
+        lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
+        return "; ".join(
+            list(lst)
+        )
 
 
     save_on_top = True
@@ -52,7 +52,7 @@ class RecipientAdmin(VersionAdmin):
         'location',
         'size',
         'is_dog',
-        # 'team_sizes',
+        'team_sizes',
         'state',
         'created',
         'user',
@@ -83,12 +83,12 @@ class RecipientAdmin(VersionAdmin):
 
 @admin.register(Team)
 class TeamAdmin(VersionAdmin):
-    # def recipient_sizes(self, obj):
-    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
+    def recipient_sizes(self, obj):
+        lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
 
-    #     return "; ".join(
-    #         list(lst)
-    #     )
+        return "; ".join(
+            list(lst)
+        )
 
     save_on_top = True
     fields = [
@@ -106,7 +106,7 @@ class TeamAdmin(VersionAdmin):
         'phone',
         'size',
         'nickname',
-        # 'recipient_sizes',
+        'recipient_sizes',
         'state',
         'created',
     ]

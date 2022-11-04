@@ -108,8 +108,8 @@ class Recipient(models.Model):
         blank=True,
         related_name='recipients',
     )
-    # def __str__(self):
-    #     return f"{self.name}, {self.location} - {self.get_size_display()}"
+    def __str__(self):
+        return f"{self.name}, {self.location} - {self.get_size_display()}"
 
     # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
     # def confirm(self):
@@ -196,8 +196,8 @@ class Team(models.Model):
         blank=True,
         related_name='teams',
     )
-    # def __str__(self):
-    #     return f"{self.name} - {self.get_size_display()}"
+    def __str__(self):
+        return f"{self.name} - {self.get_size_display()}"
 
     # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     # def confirm(self):
