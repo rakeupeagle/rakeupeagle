@@ -56,7 +56,7 @@ def index(request):
 # Authentication
 def login(request):
     # Set landing page depending on initial button
-    initial = request.GET.get('initial', 'user')
+    initial = request.GET.get('initial', 'dashboard')
     redirect_uri = request.build_absolute_uri(reverse('callback'))
     state = f"{initial}|{get_random_string(length=8)}"
     request.session['state'] = state
@@ -124,8 +124,8 @@ def callback(request):
     user = authenticate(request, **payload)
     if user:
         log_in(request, user)
-        # if user.is_admin:
-        #     return redirect('admin:index')
+        if user.is_admin:
+            return redirect('admin:index')
         return redirect(initial)
     log.error('callback fallout')
     return HttpResponse(status=403)
@@ -283,14 +283,9 @@ def teamcall(request):
 
 @staff_member_required
 def dashboard(request):
-    teams = Team.objects.order_by(
-        # 'last_name',
-        # 'first_name',
-    )
     return render(
         request,
         'app/pages/dashboard.html',
-        {'teams': teams},
     )
 
 @staff_member_required
