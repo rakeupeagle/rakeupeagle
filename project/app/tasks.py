@@ -607,7 +607,10 @@ def geocode_recipient(recipient):
     address = f"{recipient.location}, Eagle ID  83616"
     result = geocoder.google(address)
     geocode = result.json
-    is_precise = get_precision(geocode)
+    try:
+        is_precise = get_precision(geocode)
+    except TypeError:
+        return
     if is_precise:
         recipient.is_precise = True
         # recipient.point = Point(
