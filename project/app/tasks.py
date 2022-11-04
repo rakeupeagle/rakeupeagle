@@ -237,7 +237,7 @@ def get_recipients_csv():
             'Location',
             'Place',
             'Is Precise',
-            'Point',
+            # 'Point',
             'Geocode',
             'Is Dog',
             'Notes',
@@ -253,7 +253,7 @@ def get_recipients_csv():
                 r.location,
                 r.place,
                 r.is_precise,
-                r.point,
+                # r.point,
                 r.geocode,
                 r.is_dog,
                 r.notes,
@@ -604,15 +604,16 @@ def get_precision(geocode):
 
 @job
 def geocode_recipient(recipient):
-    result = geocoder.google(recipient.location)
+    address = f"{recipient.location}, Eagle ID  83616"
+    result = geocoder.google(address)
     geocode = result.json
     is_precise = get_precision(geocode)
     if is_precise:
         recipient.is_precise = True
-        recipient.point = Point(
-            geocode['lng'],
-            geocode['lat'],
-        )
+        # recipient.point = Point(
+        #     geocode['lng'],
+        #     geocode['lat'],
+        # )
         recipient.place = geocode['place']
     else:
         geocode['status'] = 'IMPRECISE'

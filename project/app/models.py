@@ -60,10 +60,10 @@ class Recipient(models.Model):
     is_precise = models.BooleanField(
         default=False,
     )
-    point = models.PointField(
-        null=True,
-        blank=True,
-    )
+    # point = models.PointField(
+    #     null=True,
+    #     blank=True,
+    # )
     geocode = models.JSONField(
         blank=True,
         null=True,
@@ -108,12 +108,12 @@ class Recipient(models.Model):
         blank=True,
         related_name='recipients',
     )
-    def __str__(self):
-        return f"{self.name}, {self.location} - {self.get_size_display()}"
+    # def __str__(self):
+    #     return f"{self.name}, {self.location} - {self.get_size_display()}"
 
-    @transition(field=state, source=[STATE.new], target=STATE.confirmed)
-    def confirm(self):
-        return
+    # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
+    # def confirm(self):
+    #     return
 
 
 class Team(models.Model):
@@ -196,12 +196,12 @@ class Team(models.Model):
         blank=True,
         related_name='teams',
     )
-    def __str__(self):
-        return f"{self.name} - {self.get_size_display()}"
+    # def __str__(self):
+    #     return f"{self.name} - {self.get_size_display()}"
 
-    @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
-    def confirm(self):
-        return
+    # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
+    # def confirm(self):
+    #     return
 
 
 class Assignment(models.Model):
