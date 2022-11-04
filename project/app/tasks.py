@@ -6,6 +6,7 @@ import requests
 # First-Party
 from auth0.v3.authentication import GetToken
 from auth0.v3.management import Auth0
+from dateutil import parser
 # Django
 from django.conf import settings
 from django.contrib.gis.geos import Point
@@ -283,6 +284,40 @@ def import_recipients_csv():
                 user=user,
             )
 
+def import_messages_csv():
+    with open('messages.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            status = row[3]
+            if status == 'delivered':
+                direction = Message.DIRECTION.outbound
+                phone = row[1]
+            elif status == 'received':
+                direction = Message.DIRECTION.inbound
+                phone = row[0]
+            else:
+                raise Exception
+            if phone == '14157132126':
+                continue
+            try:
+                user = User.objects.get(
+                    phone=phone,
+                )
+            except User.DoesNotExist:
+                user = None
+            created = parser.parse(row[4])
+            Message.objects.create(
+                to_phone=row[1],
+                from_phone=row[0],
+                sid=row[9],
+                body=row[2],
+                direction=direction,
+                created=created,
+                user=user,
+            )
+
 
 
 def import_teams_csv():
@@ -331,23 +366,6 @@ def get_messages_csv():
                 m.raw,
                 m.created,
             ])
-
-def import_messages_csv():
-    with open('messages.csv', 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        rows = [row for row in reader]
-        for row in rows:
-            Message.objects.create(
-                sid=row[0],
-                to_phone=row[1],
-                from_phone=row[2],
-                body=row[3],
-                direction=row[4],
-                raw=row[5],
-                created=row[6],
-            )
-
 
 @job
 def send_recipient_confirmation(recipient):
