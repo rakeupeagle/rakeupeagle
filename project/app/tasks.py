@@ -136,6 +136,16 @@ def create_user_from_phone(phone, name=None):
 
 
 @job
+def create_user_from_auth0(auth0):
+    user = User.objects.create(
+        username=auth0['user_id'],
+        name=auth0['name'],
+        phone=auth0['phone_number'],
+    )
+    return user
+
+
+@job
 def import_auth0_team(team):
     client = get_auth0_client()
     data = {
@@ -257,20 +267,20 @@ def import_recipients_csv():
         next(reader)
         rows = [row for row in reader]
         for row in rows:
+            try:
+                user = User.objects.get(
+                    phone=row[1],
+                )
+            except User.DoesNotExist:
+                user = None
             Recipient.objects.create(
                 name = row[0],
                 phone = row[1],
                 size = row[2],
                 location = row[3],
-                place = row[4],
-                is_precise = row[5],
-                point = row[6],
-                geocode = row[7],
-                is_dog = bool(row[8]),
-                notes = row[9],
-                admin_notes = row[10],
-                bags = 0,
-                hours = 0,
+                is_dog = bool(row[4]),
+                notes = row[5],
+                user=user,
             )
 
 
@@ -281,15 +291,20 @@ def import_teams_csv():
         next(reader)
         rows = [row for row in reader]
         for row in rows:
+            try:
+                user = User.objects.get(
+                    phone=row[1],
+                )
+            except User.DoesNotExist:
+                user = None
             Team.objects.create(
-                nickname = row[0],
-                name = row[1],
-                phone = row[2],
+                name = row[0],
+                phone = row[1],
+                nickname = row[2],
                 size = row[3],
                 reference = row[4],
-                actual = 0,
-                notes = row[6],
-                admin_notes = row[7],
+                notes = row[5],
+                user=user,
             )
 
 
