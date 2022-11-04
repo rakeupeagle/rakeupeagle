@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7d25148ac63a829b456e50467ab665bc6e739a237c6b081e8b2210495b6a7891"
+            "sha256": "c1ad833141c6dc2c204543b60ca558f6e9113248f78543b159547f80651207f3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -622,6 +622,14 @@
             "markers": "python_full_version >= '3.6.8'",
             "version": "==3.0.9"
         },
+        "python-dateutil": {
+            "hashes": [
+                "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86",
+                "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"
+            ],
+            "index": "pypi",
+            "version": "==2.8.2"
+        },
         "python-pdf": {
             "hashes": [
                 "sha256:3385a992ecc10a7261ae7df7175c675ff010d3486634dfa7ad4bc69de20849fb",
@@ -1014,7 +1022,7 @@
                 "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86",
                 "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "index": "pypi",
             "version": "==2.8.2"
         },
         "six": {
