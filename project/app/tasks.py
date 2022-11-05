@@ -642,6 +642,24 @@ def send_recipient_close(recipient):
 
 
 @job
+def send_assignment_pairs(recipient):
+    assignments = recipient.assignments.all()
+    for assignment in assignments:
+        body = render_to_string(
+            'app/texts/team_pair.txt',
+            {
+                'recipient': assignment.recipient,
+                'assignments': assignments,
+            },
+        )
+        response = send_text(
+            str(assignment.team.phone),
+            body,
+        )
+        return response
+
+
+@job
 def send_team_survey(team):
     body = render_to_string(
         'app/texts/team_survey.txt',
