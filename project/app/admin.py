@@ -97,6 +97,12 @@ class TeamAdmin(VersionAdmin):
             list(lst)
         )
 
+    def latest_message(self, obj):
+        latest_message = obj.user.messages.filter(
+            direction=Message.DIRECTION.inbound,
+        ).latest('created').body
+        return latest_message
+
     save_on_top = True
     fields = [
         'state',
@@ -118,6 +124,7 @@ class TeamAdmin(VersionAdmin):
         # 'created',
         'notes',
         'admin_notes',
+        'latest_message',
     ]
     list_filter = [
         'state',
@@ -143,6 +150,7 @@ class TeamAdmin(VersionAdmin):
         'name',
     ]
     readonly_fields = [
+        'latest_message',
     ]
 
 
