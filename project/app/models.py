@@ -31,6 +31,9 @@ class Recipient(models.Model):
         (0, 'new', 'New'),
         (10, 'include', 'Included'),
         (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
+        (40, 'missed', 'Missed'),
+        (50, 'complete', 'Complete'),
     )
     state = FSMIntegerField(
         choices=STATE,
