@@ -289,8 +289,8 @@ def export_assignments_csv():
         ])
         for g in gs:
             writer.writerow([
-                str(g.recipient.id),
-                str(g.team.id),
+                g.recipient.name,
+                g.team.name,
             ])
 
 
@@ -301,10 +301,10 @@ def import_assignments_csv():
         rows = [row for row in reader]
         for row in rows:
             recipient = Recipient.objects.get(
-                id=row[0],
+                name=row[0],
             )
             team = Team.objects.get(
-                id=row[1],
+                name=row[1],
             )
             Assignment.objects.create(
                 recipient=recipient,
