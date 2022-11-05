@@ -647,6 +647,19 @@ def send_recipient_final(recipient):
 
 
 @job
+def send_recipient_final(recipient):
+    body = render_to_string(
+        'app/texts/recipient_checkin.txt',
+        {'recipient': recipient},
+    )
+    response = send_text(
+        str(recipient.phone),
+        body,
+    )
+    return response
+
+
+@job
 def send_fix(phone):
     body = render_to_string(
         'app/texts/fix.txt',
