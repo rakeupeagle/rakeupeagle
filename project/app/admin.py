@@ -75,6 +75,7 @@ class RecipientAdmin(VersionAdmin):
         AssignmentInline,
     ]
     ordering = [
+        'name',
         'created',
     ]
     readonly_fields = [
@@ -129,6 +130,7 @@ class TeamAdmin(VersionAdmin):
         AssignmentInline,
     ]
     ordering = [
+        'name',
     ]
     readonly_fields = [
     ]
