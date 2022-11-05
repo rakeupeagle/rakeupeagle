@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
+from django.template.defaultfilters import escape
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -170,6 +171,13 @@ class AssignmentAdmin(VersionAdmin):
 @admin.register(Message)
 class MessageAdmin(VersionAdmin):
 
+    def user_link(self, obj):
+        return mark_safe('<a href="{}">{}</a>'.format(
+            reverse("admin:auth_user_change", args=(obj.user.pk,)),
+            obj.user.phone
+        ))
+    user_link.short_description = 'user'
+
     fields = [
         'id',
         'state',
@@ -188,6 +196,7 @@ class MessageAdmin(VersionAdmin):
         'direction',
         'created',
         'updated',
+        'user_link',
     ]
     list_editable = [
     ]
@@ -213,6 +222,7 @@ class MessageAdmin(VersionAdmin):
         'created',
         'updated',
         'raw',
+        'user_link',
     ]
 
     # def user_link(self, obj):

@@ -568,6 +568,42 @@ def send_team_extra(team):
     return response
 
 @job
+def send_team_rain(team):
+    body = render_to_string(
+        'app/texts/team_rain.txt',
+        {'team': team},
+    )
+    response = send_text(
+        str(team.phone),
+        body,
+    )
+    return response
+
+@job
+def send_team_assignment(assignment):
+    body = render_to_string(
+        'app/texts/team_assignment.txt',
+        {'assignment': assignment},
+    )
+    response = send_text(
+        str(assignment.team.phone),
+        body,
+    )
+    return response
+
+@job
+def send_recipient_rain(recipient):
+    body = render_to_string(
+        'app/texts/recipient_rain.txt',
+        {'recipient': recipient},
+    )
+    response = send_text(
+        str(recipient.phone),
+        body,
+    )
+    return response
+
+@job
 def send_recipient_final(recipient):
     body = render_to_string(
         'app/texts/recipient_final.txt',
