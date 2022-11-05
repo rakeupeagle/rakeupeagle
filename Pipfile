@@ -40,6 +40,7 @@ twilio = "*"
 pyjwt = "*"
 pillow = "*"
 python-dateutil = "*"
+wkhtmltopdf = "*"
 
 [requires]
 python_version = "3.10"

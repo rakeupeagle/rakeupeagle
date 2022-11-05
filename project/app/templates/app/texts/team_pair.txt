@@ -1,0 +1,21 @@
+{% autoescape off %}
+Rake Up Eagle -- Paired Assignment
+
+Please be aware that your team has been paired with another team for your assignment tomorrow.  You may wish to coordinately direclty with one another to avoid confusion.
+
+Recipient:
+{{recipient.name}}
+{{recipient.address}}
+{{recipient.phone.as_national}}
+
+Teams:
+{% for assignment in assignments %}
+    {{assignment.team.name}}, {{assignment.team.phone}}
+{% endfor %}
+
+
+Thank you for volunteering!
+
+Rake Up Eagle
+
+{% endautoescape %}

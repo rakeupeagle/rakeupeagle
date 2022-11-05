@@ -35,7 +35,7 @@ from .models import Picture
 from .models import Recipient
 from .models import Team
 from .models import User
-from .tasks import get_assignments_csv
+# from .tasks import get_assignments_csv
 from .tasks import send_recipient_confirmation
 from .tasks import send_team_confirmation
 

@@ -1,0 +1,14 @@
+{% autoescape off %}
+Here is your assignment for Rake Up Eagle
+
+*Assignment*
+Name: {{assignment.recipient.name}}
+Address: {{assignment.recipient.location}}
+Phone:  {{assignment.recipient.phone.as_national}}
+Notes: {{assignment.recipient.notes|default:'(No Notes)'}}
+
+Please arrive at Eagle Middle School between 8-10AM to pick up your bags.
+
+Thank you!
+
+{% endautoescape %}

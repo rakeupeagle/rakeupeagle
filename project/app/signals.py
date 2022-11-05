@@ -13,10 +13,10 @@ from .tasks import send_text_from_message
 #     delete_user(instance.username)
 #     return
 
-# @receiver(post_save, sender=Message)
-# def message_post_save(sender, instance, created, **kwargs):
-#     if created and instance.direction == instance.DIRECTION.outbound:
-#         send_text_from_message.delay(instance)
-#     if created and instance.direction == instance.DIRECTION.inbound:
-#         send_copy_from_message.delay(instance)
-#     return
+@receiver(post_save, sender=Message)
+def message_post_save(sender, instance, created, **kwargs):
+    if created and instance.direction == instance.DIRECTION.outbound:
+        send_text_from_message.delay(instance)
+    if created and instance.direction == instance.DIRECTION.inbound:
+        send_copy_from_message.delay(instance)
+    return

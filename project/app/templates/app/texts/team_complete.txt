@@ -1,0 +1,14 @@
+{% autoescape off %}
+Rake Up Eagle Followup
+
+We show your team as having checked-in, which means you have your bags and assignment.
+
+If you are working on/finished your assignment today, please let us know how many bags you used.  Also please let us know if your workload was too much, too little, or just right.
+
+If you are working on your assignment later this week/next weekend, please let us know that you've confirmed that with your recipient.
+
+Any other questions?  Need help?  Let us know!
+
+Thank you so much!
+
+{% endautoescape %}

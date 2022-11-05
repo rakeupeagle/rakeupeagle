@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
+from django.template.defaultfilters import escape
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -27,11 +28,11 @@ from .models import User
 
 @admin.register(Recipient)
 class RecipientAdmin(VersionAdmin):
-    # def team_sizes(self, obj):
-    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
-    #     return "; ".join(
-    #         list(lst)
-    #     )
+    def team_sizes(self, obj):
+        lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
+        return "; ".join(
+            list(lst)
+        )
 
 
     save_on_top = True
@@ -48,14 +49,16 @@ class RecipientAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
-        'phone',
-        'location',
+        # 'phone',
+        # 'location',
         'size',
-        'is_dog',
-        # 'team_sizes',
+        # 'is_dog',
+        'team_sizes',
         'state',
-        'created',
-        'user',
+        # 'created',
+        # 'user',
+        'notes',
+        'admin_notes',
     ]
     list_filter = [
         'state',
@@ -67,6 +70,9 @@ class RecipientAdmin(VersionAdmin):
     search_fields = [
         'name',
         'location',
+    ]
+    list_editable = [
+        'state',
     ]
     autocomplete_fields = [
         'user',
@@ -84,12 +90,12 @@ class RecipientAdmin(VersionAdmin):
 
 @admin.register(Team)
 class TeamAdmin(VersionAdmin):
-    # def recipient_sizes(self, obj):
-    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
+    def recipient_sizes(self, obj):
+        lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
 
-    #     return "; ".join(
-    #         list(lst)
-    #     )
+        return "; ".join(
+            list(lst)
+        )
 
     save_on_top = True
     fields = [
@@ -104,12 +110,14 @@ class TeamAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
-        'phone',
+        # 'phone',
         'size',
-        'nickname',
-        # 'recipient_sizes',
+        # 'nickname',
+        'recipient_sizes',
         'state',
-        'created',
+        # 'created',
+        'notes',
+        'admin_notes',
     ]
     list_filter = [
         'state',
@@ -120,8 +128,10 @@ class TeamAdmin(VersionAdmin):
     search_fields = [
         'nickname',
         'name',
+        'user__phone',
     ]
     list_editable = [
+        'state',
     ]
     autocomplete_fields = [
         'user',
@@ -144,6 +154,7 @@ class AssignmentAdmin(VersionAdmin):
         'team',
     ]
     list_display = [
+        'id',
         'recipient',
         'team',
     ]
@@ -162,6 +173,7 @@ class AssignmentAdmin(VersionAdmin):
 
 @admin.register(Message)
 class MessageAdmin(VersionAdmin):
+
 
     fields = [
         'id',
@@ -245,6 +257,7 @@ class UserAdmin(UserAdminBase):
         (None, {
             'fields': [
                 'username',
+                'name',
                 'phone',
             ]
         }
@@ -253,6 +266,7 @@ class UserAdmin(UserAdminBase):
     )
     list_display = [
         'username',
+        'name',
         'phone',
         'created',
         'last_login'
