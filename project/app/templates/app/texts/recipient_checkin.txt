@@ -1,12 +1,10 @@
 {% autoescape off %}
 Rake Up Eagle -- Status Check
 
-We're closing the check-in counter and haven't heard back from you.  Are you still planning on volunteering with Rake Up Eagle, perhaps later in the week?
+Thank you for signing up to be a Rake Up Eagle recipient.  At this point you should either have had a team rake your leaves OR contacted you to schedule a raking for later this week.
 
-We have other teams ready to go if your plans have changed -- just please let us know one way or another.
+If neither of these happened, please reply to this text and we'll do everything we can to get your yard scheduled.
 
-Thanks!
-
-Rake Up Eagle
+Thank you!
 
 {% endautoescape %}
