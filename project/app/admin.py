@@ -254,6 +254,7 @@ class UserAdmin(UserAdminBase):
         (None, {
             'fields': [
                 'username',
+                'name',
                 'phone',
             ]
         }
@@ -262,6 +263,7 @@ class UserAdmin(UserAdminBase):
     )
     list_display = [
         'username',
+        'name',
         'phone',
         'created',
         'last_login'
