@@ -136,6 +136,7 @@ class Team(models.Model):
         (0, 'new', 'New'),
         (10, 'include', 'Included'),
         (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
     )
     state = FSMIntegerField(
         choices=STATE,
