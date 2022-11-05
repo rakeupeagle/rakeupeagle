@@ -481,6 +481,21 @@ def send_team_checkin(team):
     return message
 
 @job
+def send_team_complete(team):
+    body = render_to_string(
+        'app/texts/team_complete.txt',
+        context={
+            'team': team,
+        },
+    )
+    message = Message.objects.create(
+        user=team.user,
+        direction=Message.DIRECTION.outbound,
+        body=body,
+    )
+    return message
+
+@job
 def send_team_deadline(team):
     body = render_to_string(
         'app/texts/team_deadline.txt',
