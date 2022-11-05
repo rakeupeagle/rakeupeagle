@@ -647,7 +647,7 @@ def send_recipient_final(recipient):
 
 
 @job
-def send_recipient_final(recipient):
+def send_recipient_checkin(recipient):
     body = render_to_string(
         'app/texts/recipient_checkin.txt',
         {'recipient': recipient},
