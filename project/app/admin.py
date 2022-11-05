@@ -127,6 +127,7 @@ class TeamAdmin(VersionAdmin):
     search_fields = [
         'nickname',
         'name',
+        'user__phone',
     ]
     list_editable = [
         'state',
