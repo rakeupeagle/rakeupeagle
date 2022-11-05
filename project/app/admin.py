@@ -48,14 +48,16 @@ class RecipientAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
-        'phone',
-        'location',
+        # 'phone',
+        # 'location',
         'size',
-        'is_dog',
+        # 'is_dog',
         'team_sizes',
         'state',
-        'created',
-        'user',
+        # 'created',
+        # 'user',
+        'notes',
+        'admin_notes',
     ]
     list_filter = [
         'state',
@@ -67,6 +69,9 @@ class RecipientAdmin(VersionAdmin):
     search_fields = [
         'name',
         'location',
+    ]
+    list_editable = [
+        'state',
     ]
     autocomplete_fields = [
         'user',
@@ -103,12 +108,14 @@ class TeamAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
-        'phone',
+        # 'phone',
         'size',
-        'nickname',
+        # 'nickname',
         'recipient_sizes',
         'state',
-        'created',
+        # 'created',
+        'notes',
+        'admin_notes',
     ]
     list_filter = [
         'state',
@@ -121,6 +128,7 @@ class TeamAdmin(VersionAdmin):
         'name',
     ]
     list_editable = [
+        'state',
     ]
     autocomplete_fields = [
         'user',
@@ -142,6 +150,7 @@ class AssignmentAdmin(VersionAdmin):
         'team',
     ]
     list_display = [
+        'id',
         'recipient',
         'team',
     ]

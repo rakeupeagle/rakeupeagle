@@ -166,73 +166,66 @@ def import_auth0_team(team):
     return response
 
 # Utility
-def get_assignments_csv():
-    gs = Assignment.objects.all()
-    with open('assignments.csv', 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            'Recipient',
-            'Team',
-        ])
-        for g in gs:
-            writer.writerow([
-                g.recipient.phone,
-                g.team.phone,
-            ])
-
-
-def import_assignments_csv():
-    with open('assignments.csv', 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        rows = [row for row in reader]
-        for row in rows:
-            recipient = Recipient.objects.get(
-                phone=row[0],
-            )
-            team = Team.objects.get(
-                phone=row[1],
-            )
-            Assignment.objects.create(
-                recipient=recipient,
-                team=team,
-            )
-
-
-def get_teams_csv():
+def export_teams_csv():
     ts = Team.objects.all()
     with open('teams.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'Team',
             'Name',
             'Phone',
+            'State',
             'Size',
+            'Nickname',
             'Reference',
-            'Actual',
             'Notes',
             'Admin Notes',
         ])
         for t in ts:
             writer.writerow([
-                t.team,
                 t.name,
                 t.phone,
+                t.state,
                 t.size,
+                t.nickname,
                 t.reference,
-                t.actual,
                 t.notes,
                 t.admin_notes,
             ])
 
 
-def get_recipients_csv():
+def import_teams_csv():
+    with open('teams.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            try:
+                user = User.objects.get(
+                    phone=row[1],
+                )
+            except User.DoesNotExist:
+                user = None
+            Team.objects.create(
+                name = row[0],
+                phone = row[1],
+                state = row[2],
+                size = row[3],
+                nickname = row[4],
+                reference = row[5],
+                notes = row[6],
+                admin_notes = row[7],
+                user=user,
+            )
+
+
+def export_recipients_csv():
     rs = Recipient.objects.all()
     with open('recipients.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow([
             'Name',
             'Phone',
+            'State',
             'Size',
             'Location',
             'Place',
@@ -242,13 +235,12 @@ def get_recipients_csv():
             'Is Dog',
             'Notes',
             'Admin Notes',
-            'Bags',
-            'Hours',
         ])
         for r in rs:
             writer.writerow([
                 r.name,
                 r.phone,
+                r.state,
                 r.size,
                 r.location,
                 r.place,
@@ -258,8 +250,6 @@ def get_recipients_csv():
                 r.is_dog,
                 r.notes,
                 r.admin_notes,
-                r.bags,
-                r.hours,
             ])
 
 def import_recipients_csv():
@@ -277,12 +267,50 @@ def import_recipients_csv():
             Recipient.objects.create(
                 name = row[0],
                 phone = row[1],
-                size = row[2],
-                location = row[3],
-                is_dog = bool(row[4]),
-                notes = row[5],
+                state = row[2],
+                size = row[3],
+                location = row[4],
+                place = row[5],
+                is_precise = bool(row[6]),
+                geocode = row[7],
+                is_dog = bool(row[8]),
+                notes = row[9],
+                admin_notes = row[10],
                 user=user,
             )
+
+def export_assignments_csv():
+    gs = Assignment.objects.all()
+    with open('assignments.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'Recipient',
+            'Team',
+        ])
+        for g in gs:
+            writer.writerow([
+                str(g.recipient.id),
+                str(g.team.id),
+            ])
+
+
+def import_assignments_csv():
+    with open('assignments.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            recipient = Recipient.objects.get(
+                id=row[0],
+            )
+            team = Team.objects.get(
+                id=row[1],
+            )
+            Assignment.objects.create(
+                recipient=recipient,
+                team=team,
+            )
+
 
 def import_messages_csv():
     with open('messages.csv', 'r') as f:
@@ -320,27 +348,40 @@ def import_messages_csv():
 
 
 
-def import_teams_csv():
-    with open('teams.csv', 'r') as f:
+def import_r_calls_csv():
+    with open('r.csv', 'r') as f:
         reader = csv.reader(f)
         next(reader)
         rows = [row for row in reader]
         for row in rows:
+            name = row[0]
+            notes = row[5]
             try:
-                user = User.objects.get(
-                    phone=row[1],
+                recipient = Recipient.objects.get(
+                    name=name,
                 )
-            except User.DoesNotExist:
-                user = None
-            Team.objects.create(
-                name = row[0],
-                phone = row[1],
-                nickname = row[2],
-                size = row[3],
-                reference = row[4],
-                notes = row[5],
-                user=user,
-            )
+            except Recipient.DoesNotExist:
+                print(row[0])
+            recipient.admin_notes = notes
+            recipient.save()
+
+
+def import_t_calls_csv():
+    with open('t.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        rows = [row for row in reader]
+        for row in rows:
+            name = row[0]
+            notes = row[4]
+            try:
+                team = Team.objects.get(
+                    name=name,
+                )
+            except Team.DoesNotExist:
+                print(row[0])
+            team.admin_notes = notes
+            team.save()
 
 
 def get_messages_csv():
