@@ -100,6 +100,7 @@ class RecipientAdmin(VersionAdmin):
     ]
     readonly_fields = [
         'latest_message',
+        'user_url',
     ]
 
 
@@ -172,6 +173,7 @@ class TeamAdmin(VersionAdmin):
     ]
     readonly_fields = [
         'latest_message',
+        'user_url',
     ]
 
 
