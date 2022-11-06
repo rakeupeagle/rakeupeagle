@@ -54,8 +54,8 @@ class RecipientAdmin(VersionAdmin):
         'size',
         'is_dog',
         'user',
-        # 'notes',
-        # 'admin_notes',
+        'notes',
+        'admin_notes',
         'bags',
     ]
     list_display = [
