@@ -34,6 +34,11 @@ class RecipientAdmin(VersionAdmin):
             list(lst)
         )
 
+    def latest_message(self, obj):
+        latest_message = obj.user.messages.filter(
+            direction=Message.DIRECTION.inbound,
+        ).latest('created').body
+        return latest_message
 
     save_on_top = True
     fields = [
@@ -44,8 +49,8 @@ class RecipientAdmin(VersionAdmin):
         'size',
         'is_dog',
         'user',
-        'notes',
-        'admin_notes',
+        # 'notes',
+        # 'admin_notes',
         'bags',
     ]
     list_display = [
@@ -58,8 +63,9 @@ class RecipientAdmin(VersionAdmin):
         'state',
         # 'created',
         # 'user',
-        'notes',
-        'admin_notes',
+        # 'notes',
+        # 'admin_notes',
+        'latest_message',
     ]
     list_filter = [
         'state',
@@ -86,6 +92,7 @@ class RecipientAdmin(VersionAdmin):
         'created',
     ]
     readonly_fields = [
+        'latest_message',
     ]
 
 
@@ -123,8 +130,8 @@ class TeamAdmin(VersionAdmin):
         'recipient_sizes',
         'state',
         # 'created',
-        'notes',
-        'admin_notes',
+        # 'notes',
+        # 'admin_notes',
         'latest_message',
     ]
     list_filter = [
