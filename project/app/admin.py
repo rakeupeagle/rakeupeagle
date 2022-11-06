@@ -49,6 +49,7 @@ class RecipientAdmin(VersionAdmin):
     fields = [
         'state',
         'name',
+        'user_url',
         'phone',
         'location',
         'size',
@@ -125,6 +126,7 @@ class TeamAdmin(VersionAdmin):
     fields = [
         'state',
         'name',
+        'user_url',
         'phone',
         'nickname',
         'size',
