@@ -205,6 +205,9 @@ class AssignmentAdmin(VersionAdmin):
 @admin.register(Message)
 class MessageAdmin(VersionAdmin):
 
+    def user_url(self, obj):
+        user_url = reverse('admin:app_user_change', args=[obj.user.id])
+        return format_html("<a href='{url}'>User</a>", url=user_url)
 
     fields = [
         'id',
@@ -220,6 +223,7 @@ class MessageAdmin(VersionAdmin):
     ]
     list_display = [
         'id',
+        'user_url',
         'body',
         'direction',
         'created',
@@ -245,27 +249,12 @@ class MessageAdmin(VersionAdmin):
         'sid',
         'to_phone',
         'from_phone',
+        'user_id',
         # 'direction',
         'created',
         'updated',
         'raw',
     ]
-
-    # def user_link(self, obj):
-    #     try:
-    #         name = obj.user.name if obj.user.name else 'Unknown'
-    #     except AttributeError:
-    #         name = 'Unknown'
-    #     try:
-    #         response = mark_safe('<a href="{}">{}</a>'.format(
-    #             reverse("admin:app_user_change", args=(obj.user.pk,)),
-    #             name,
-    #         ))
-    #     except AttributeError:
-    #         response = None
-    #     return response
-    # user_link.short_description = 'user'
-
 
 @admin.register(Picture)
 class PictureAdmin(VersionAdmin):
