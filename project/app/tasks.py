@@ -761,3 +761,29 @@ def geocode_recipient(recipient):
         recipient.is_precise = False
     recipient.geocode = geocode
     return recipient.save()
+
+
+def create_or_update(message):
+    if message.direction.startswith("outbound"):
+        phone = message.to
+        direction = Message.DIRECTION.outbound
+    elif message.direction.startswith('inbound'):
+        phone = message.from_
+        direction = Message.DIRECTION.inbound
+    else:
+        raise Exception('direction')
+    user = User.objects.get(phone=phone)
+    if user.is_admin:
+        return None, None
+    defaults = {
+        'to_phone': message.to,
+        'from_phone': message.from_,
+        'body': message.body,
+        'direction': direction,
+        'user': user,
+    }
+    message, created = Message.objects.update_or_create(
+        sid=message.sid,
+        defaults=defaults,
+    )
+    return message, created
