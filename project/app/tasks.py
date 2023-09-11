@@ -4,8 +4,8 @@ import csv
 import geocoder
 import requests
 # First-Party
-from auth0.v3.authentication import GetToken
-from auth0.v3.management import Auth0
+from auth0.authentication import GetToken
+from auth0.management import Auth0
 from dateutil import parser
 # Django
 from django.conf import settings
@@ -30,10 +30,12 @@ from .models import User
 
 # Auth0
 def get_auth0_token():
-    get_token = GetToken(settings.AUTH0_DOMAIN)
-    token = get_token.client_credentials(
+    get_token = GetToken(
+        settings.AUTH0_DOMAIN,
         settings.AUTH0_CLIENT_ID,
         settings.AUTH0_CLIENT_SECRET,
+    )
+    token = get_token.client_credentials(
         f'https://{settings.AUTH0_DOMAIN}/api/v2/',
     )
     return token
