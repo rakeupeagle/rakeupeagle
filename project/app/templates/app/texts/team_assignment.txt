@@ -7,7 +7,7 @@ Address: {{assignment.recipient.location}}
 Phone:  {{assignment.recipient.phone.as_national}}
 Notes: {{assignment.recipient.notes|default:'(No Notes)'}}
 
-Please arrive at Eagle Middle School between 8-10AM to pick up your bags.
+Please arrive at Eagle Middle School between 8-9AM to pick up your bags.
 
 Thank you!
 
