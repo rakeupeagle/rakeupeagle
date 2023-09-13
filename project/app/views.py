@@ -173,7 +173,7 @@ def recipient(request):
         recipient = form.save()
         messages.success(
             request,
-            "Registration complete!  We will reach out before November 1st with futher details.",
+            "Registration complete!  We will reach out before November 7th with futher details.",
         )
         send_recipient_confirmation(recipient)
     return render(
@@ -191,7 +191,7 @@ def team(request):
         team = form.save()
         messages.success(
             request,
-            "Registration complete!  We will reach out before November 1st with futher details.",
+            "Registration complete!  We will reach out before November 7th with futher details.",
         )
         send_team_confirmation(team)
     return render(

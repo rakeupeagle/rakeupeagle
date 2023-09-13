@@ -8,5 +8,5 @@ Yard Size: {{recipient.get_size_display}}
 Dog in Yard? {{recipient.is_dog|yesno|title}}
 Notes: {{recipient.notes|default:'(No Notes)'}}
 
-We will be in contact after November 1st with further instructions.  Please let us know if you have any questions.
+We will be in contact after November 7th with further instructions.  Please let us know if you have any questions.
 {% endautoescape %}
