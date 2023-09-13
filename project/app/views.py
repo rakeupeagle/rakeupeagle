@@ -126,6 +126,10 @@ def callback(request):
         log_in(request, user)
         if user.is_admin:
             return redirect('admin:index')
+        if user.recipients.first():
+            return redirect('recipient')
+        if user.teams.first():
+            return redirect('team')
         return redirect(initial)
     log.error('callback fallout')
     return HttpResponse(status=403)
@@ -168,9 +172,16 @@ def delete(request):
 # Recipient
 @login_required
 def recipient(request):
-    form = RecipientForm(request.POST, instance=recipient) if request.POST else RecipientForm(instance=None)
+    recipient = request.user.recipients.first()
+    if request.POST:
+        form = RecipientForm(request.POST, instance=recipient)
+    else:
+        form = RecipientForm(instance=recipient)
     if form.is_valid():
-        recipient = form.save()
+        user = request.user
+        recipient = form.save(commit=False)
+        recipient.user = user
+        recipient.save()
         messages.success(
             request,
             "Registration complete!  We will reach out before November 7th with futher details.",
@@ -186,14 +197,23 @@ def recipient(request):
 
 @login_required
 def team(request):
-    form = TeamForm(request.POST, instance=team) if request.POST else TeamForm(instance=None)
+    team = request.user.teams.first()
+    if request.POST:
+        form = TeamForm(request.POST, instance=team)
+    else:
+        form = TeamForm(instance=team)
     if form.is_valid():
-        team = form.save()
+        user = request.user
+        team = form.save(commit=False)
+        team.user = user
+        team.save()
         messages.success(
             request,
             "Registration complete!  We will reach out before November 7th with futher details.",
         )
         send_team_confirmation(team)
+    else:
+        print(form.errors)
     return render(
         request,
         'app/pages/team.html',
