@@ -63,6 +63,15 @@ class Recipient(models.Model):
     is_precise = models.BooleanField(
         default=False,
     )
+    is_senior = models.BooleanField(
+        default=False,
+    )
+    is_disabled = models.BooleanField(
+        default=False,
+    )
+    is_veteran = models.BooleanField(
+        default=False,
+    )
     # point = models.PointField(
     #     null=True,
     #     blank=True,

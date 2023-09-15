@@ -9,6 +9,9 @@ Thank you again!  We look forward to raking your lawn on November 11th!
 Name: {{recipient.name}}
 Address: {{recipient.location}}
 Yard Size: {{recipient.get_size_display}}
+Veteran? {{recipient.is_veteran|yesno|title}}
+Senior? {{recipient.is_senior|yesno|title}}
+Disabled? {{recipient.is_disabled|yesno|title}}
 Dog in Yard? {{recipient.is_dog|yesno|title}}
 Notes: {{recipient.notes|default:'(No Notes)'}}
 

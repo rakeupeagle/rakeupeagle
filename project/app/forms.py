@@ -51,11 +51,17 @@ class RecipientForm(forms.ModelForm):
             'name',
             'location',
             'size',
+            'is_veteran',
+            'is_senior',
+            'is_disabled',
             'is_dog',
             'notes',
         ]
         labels = {
             "is_dog": "I Have a Dog",
+            "is_veteran": "I Am a Veteran",
+            "is_senior": "I Am a Senior",
+            "is_disabled": "I Am Disabled",
         }
         widgets = {
             'notes': forms.Textarea(
