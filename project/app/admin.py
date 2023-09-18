@@ -75,7 +75,7 @@ class RecipientAdmin(VersionAdmin):
         # 'user',
         # 'notes',
         # 'admin_notes',
-        'latest_message',
+        # 'latest_message',
     ]
     list_filter = [
         'state',
@@ -105,7 +105,7 @@ class RecipientAdmin(VersionAdmin):
         'created',
     ]
     readonly_fields = [
-        'latest_message',
+        # 'latest_message',
         'user_url',
     ]
 
@@ -152,7 +152,7 @@ class TeamAdmin(VersionAdmin):
         # 'created',
         # 'notes',
         # 'admin_notes',
-        'latest_message',
+        # 'latest_message',
     ]
     list_filter = [
         'state',
@@ -178,7 +178,7 @@ class TeamAdmin(VersionAdmin):
         'name',
     ]
     readonly_fields = [
-        'latest_message',
+        # 'latest_message',
         'user_url',
     ]
 
