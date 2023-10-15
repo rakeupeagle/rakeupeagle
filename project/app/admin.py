@@ -65,6 +65,9 @@ class RecipientAdmin(VersionAdmin):
     list_display = [
         'name',
         'user_url',
+        'is_senior',
+        'is_disabled',
+        'is_veteran',
         # 'phone',
         # 'location',
         'size',
@@ -261,6 +264,7 @@ class MessageAdmin(VersionAdmin):
         'updated',
         'raw',
     ]
+
 
 @admin.register(Picture)
 class PictureAdmin(VersionAdmin):
