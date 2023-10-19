@@ -40,16 +40,16 @@ class RecipientAdmin(VersionAdmin):
         ).latest('created').body
         return latest_message
 
-    def user_url(self, obj):
-        user_url = reverse('admin:app_user_change', args=[obj.user.id])
-        return format_html("<a href='{url}'>User</a>", url=user_url)
+    # def user_url(self, obj):
+    #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
+    #     return format_html("<a href='{url}'>User</a>", url=user_url)
 
 
     save_on_top = True
     fields = [
         'state',
         'name',
-        'user_url',
+        # 'user_url',
         'phone',
         'location',
         'size',
@@ -109,7 +109,7 @@ class RecipientAdmin(VersionAdmin):
     ]
     readonly_fields = [
         # 'latest_message',
-        'user_url',
+        # 'user_url',
     ]
 
 
