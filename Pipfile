@@ -41,6 +41,9 @@ pyjwt = "*"
 pillow = "*"
 python-dateutil = "*"
 wkhtmltopdf = "*"
+pandas = "*"
+django-pandas = "*"
+geopandas = "*"
 
 [requires]
 python_version = "3.11"
