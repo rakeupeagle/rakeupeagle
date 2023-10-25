@@ -64,6 +64,7 @@ class RecipientAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
+        'phone',
         # 'user_url',
         'is_senior',
         'is_disabled',
