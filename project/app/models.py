@@ -26,6 +26,7 @@ class Recipient(models.Model):
         null=True,
     )
     STATE = Choices(
+        (-40, 'blocked', 'Blocked'),
         (-30, 'archived', 'Archived'),
         (-20, 'cancelled', 'Cancelled'),
         (-10, 'exclude', 'Excluded'),
