@@ -180,6 +180,7 @@ def recipient(request):
     if form.is_valid():
         user = request.user
         recipient = form.save(commit=False)
+        recipient.state = 0
         recipient.user = user
         recipient.save()
         messages.success(
