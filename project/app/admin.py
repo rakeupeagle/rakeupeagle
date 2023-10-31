@@ -148,6 +148,7 @@ class TeamAdmin(VersionAdmin):
     ]
     list_display = [
         'name',
+        'nickname',
         'user',
         'phone',
         'size',
