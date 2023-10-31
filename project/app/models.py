@@ -145,6 +145,7 @@ class Team(models.Model):
         null=True,
     )
     STATE = Choices(
+        (-30, 'archived', 'Archived'),
         (-20, 'cancelled', 'Cancelled'),
         (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),

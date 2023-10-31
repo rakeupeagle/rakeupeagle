@@ -149,7 +149,7 @@ class TeamAdmin(VersionAdmin):
     list_display = [
         'name',
         'user',
-        # 'phone',
+        'phone',
         'size',
         # 'nickname',
         'recipient_sizes',
@@ -172,6 +172,7 @@ class TeamAdmin(VersionAdmin):
     ]
     list_editable = [
         'state',
+        'user',
     ]
     autocomplete_fields = [
         'user',
@@ -335,6 +336,7 @@ class UserAdmin(UserAdminBase):
     readonly_fields = [
         'username',
     ]
+
 
 # Use Auth0 for login
 admin.site.login = staff_member_required(
