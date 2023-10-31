@@ -206,6 +206,7 @@ def team(request):
     if form.is_valid():
         user = request.user
         team = form.save(commit=False)
+        team.state = 0
         team.user = user
         team.save()
         messages.success(
