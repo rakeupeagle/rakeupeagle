@@ -12,12 +12,12 @@
         <h2>
           <strong>Rake Up Eagle</strong> connects volunteer teams with seniors, veterans, and disabled citizens in a day of public service.
         </h2>
-        {% comment %}
+
         <h3 class='my-3'>
           <strike>Join today -- registration deadline is November 7th!</strike><br><br>
-          <span class='text-danger'>Registration has closed for 2022 &mdash; see you on November 11th!</span>
+          <span class='text-danger'>Registration has closed for 2023 &mdash; see you on November 11th!</span>
         </h3>
-        {% endcomment %}
+
       </div>
     </section>
     <section class='mt-3'>
@@ -32,14 +32,14 @@
               <p class='card-text'>
                 Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
               </p>
-              {% comment %}
               <button class="btn btn-success btn-block btn-lg" disabled >
                 Signup!
               </button>
-              {% endcomment %}
+              {% comment %}
               <a href='{% url "login" %}?initial=team' class="btn btn-success btn-block btn-lg">
                 Signup!
               </a>
+              {% endcomment %}
             </div>
           </div>
         </div>
@@ -53,14 +53,14 @@
               <p class='card-text'>
                 If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
               </p>
-              {% comment %}
               <button class="btn btn-success btn-block btn-lg" disabled >
                 Register!
               </button>
-              {% endcomment %}
+              {% comment %}
               <a href='{% url "login" %}?initial=recipient' class="btn btn-success btn-block btn-lg">
                 Register!
               </a>
+              {% endcomment %}
             </div>
           </div>
         </div>
