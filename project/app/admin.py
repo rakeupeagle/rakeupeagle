@@ -240,8 +240,8 @@ class TeamAdmin(VersionAdmin):
     list_display = [
         'name',
         'nickname',
-        'user',
         'phone',
+        'user',
         'size',
         # 'nickname',
         # 'recipient_sizes',
@@ -264,6 +264,7 @@ class TeamAdmin(VersionAdmin):
     ]
     list_editable = [
         'state',
+        'phone',
         'user',
     ]
     autocomplete_fields = [

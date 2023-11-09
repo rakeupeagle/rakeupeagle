@@ -483,16 +483,12 @@ def export_teams(request):
         'Admin',
     ])
     for team in teams:
-        try:
-            phone = team.phone.as_national
-        except AttributeError:
-            phone = None
-            writer.writerow([
-            team.name,
-            phone,
-            team.nickname,
-            team.get_size_display(),
-            team.notes,
-            # team.admin_notes,
-        ])
+        writer.writerow([
+        team.name,
+        team.phone,
+        team.nickname,
+        team.get_size_display(),
+        team.notes,
+        # team.admin_notes,
+    ])
     return response
