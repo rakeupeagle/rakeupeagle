@@ -26,9 +26,9 @@ class Recipient(models.Model):
         null=True,
     )
     STATE = Choices(
-        (-10, 'blocked', 'Blocked'),
+        (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),
-        (10, 'good', 'Good'),
+        (10, 'include', 'Included'),
     )
     state = FSMIntegerField(
         choices=STATE,
@@ -185,15 +185,9 @@ class Team(models.Model):
         null=True,
     )
     STATE = Choices(
-        (-30, 'archived', 'Archived'),
-        (-20, 'cancelled', 'Cancelled'),
         (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),
         (10, 'include', 'Included'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'checked', 'Checked-In'),
-        (40, 'missed', 'Missed'),
-        (50, 'complete', 'Complete'),
     )
     state = FSMIntegerField(
         choices=STATE,
