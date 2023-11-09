@@ -434,7 +434,9 @@ def export_assignments(request):
 def export_recipients(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=recipients.csv'
-    recipients = Recipient.objects.order_by(
+    recipients = Recipient.objects.filter(
+        state=Recipient.STATE.new,
+    ).order_by(
         'name',
     )
     writer = csv.writer(response)
@@ -447,13 +449,17 @@ def export_recipients(request):
         'Admin',
     ])
     for recipient in recipients:
+        try:
+            phone = recipient.phone.as_national
+        except AttributeError:
+            phone = None
         writer.writerow([
             recipient.name,
-            recipient.phone.as_national,
+            phone,
             recipient.location,
             recipient.get_size_display(),
             recipient.notes,
-            recipient.admin_notes,
+            # recipient.admin_notes,
         ])
     return response
 
@@ -462,7 +468,9 @@ def export_recipients(request):
 def export_teams(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=teams.csv'
-    teams = Team.objects.order_by(
+    teams = Team.objects.filter(
+        state=Team.STATE.new,
+    ).order_by(
         'name',
     )
     writer = csv.writer(response)
@@ -475,12 +483,16 @@ def export_teams(request):
         'Admin',
     ])
     for team in teams:
-        writer.writerow([
+        try:
+            phone = team.phone.as_national
+        except AttributeError:
+            phone = None
+            writer.writerow([
             team.name,
-            team.phone.as_national,
+            phone,
             team.nickname,
             team.get_size_display(),
             team.notes,
-            team.admin_notes,
+            # team.admin_notes,
         ])
     return response
