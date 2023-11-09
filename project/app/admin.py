@@ -360,9 +360,9 @@ class EventAdmin(VersionAdmin):
 @admin.register(Message)
 class MessageAdmin(VersionAdmin):
 
-    def user_url(self, obj):
-        user_url = reverse('admin:app_user_change', args=[obj.user.id])
-        return format_html("<a href='{url}'>User</a>", url=user_url)
+    # def user_url(self, obj):
+    #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
+    #     return format_html("<a href='{url}'>User</a>", url=user_url)
 
     fields = [
         'id',
@@ -378,7 +378,7 @@ class MessageAdmin(VersionAdmin):
     ]
     list_display = [
         'id',
-        'user_url',
+        # 'user_url',
         'body',
         'direction',
         'created',
