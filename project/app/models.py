@@ -342,14 +342,14 @@ class Assignment(models.Model):
         default='',
         help_text="""Internal (private) notes.""",
     )
-    recipient_event = models.ForeignKey(
-        'app.RecipientEvent',
+    yard = models.ForeignKey(
+        'app.Yard',
         on_delete=models.CASCADE,
         related_name='assignments',
         null=True,
     )
-    team_event = models.ForeignKey(
-        'app.TeamEvent',
+    rake = models.ForeignKey(
+        'app.Rake',
         on_delete=models.CASCADE,
         related_name='assignments',
         null=True,
@@ -369,7 +369,7 @@ class Assignment(models.Model):
         return f"{self.id}"
 
 
-class RecipientEvent(models.Model):
+class Yard(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
@@ -404,12 +404,12 @@ class RecipientEvent(models.Model):
     recipient = models.ForeignKey(
         'app.Recipient',
         on_delete=models.CASCADE,
-        related_name='recipient_events',
+        related_name='yards',
     )
     event = models.ForeignKey(
         'app.Event',
         on_delete=models.CASCADE,
-        related_name='recipient_events',
+        related_name='yards',
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -421,7 +421,7 @@ class RecipientEvent(models.Model):
         return f"{self.recipient}"
 
 
-class TeamEvent(models.Model):
+class Rake(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
@@ -456,12 +456,12 @@ class TeamEvent(models.Model):
     team = models.ForeignKey(
         'app.Team',
         on_delete=models.CASCADE,
-        related_name='team_events',
+        related_name='rakes',
     )
     event = models.ForeignKey(
         'app.Event',
         on_delete=models.CASCADE,
-        related_name='team_events',
+        related_name='rakes',
     )
     created = models.DateTimeField(
         auto_now_add=True,

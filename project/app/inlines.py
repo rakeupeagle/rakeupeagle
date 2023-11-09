@@ -5,19 +5,21 @@ from django.contrib import admin
 # Local
 from .models import Assignment
 from .models import Message
+from .models import Rake
 from .models import Recipient
 from .models import Team
+from .models import Yard
 
 
 class AssignmentInline(admin.TabularInline):
     model = Assignment
     fields = [
-        'recipient_event',
-        'team_event',
+        'yard',
+        'rake',
     ]
     autocomplete_fields = [
-        'recipient_event',
-        'team_event',
+        'yard',
+        'rake',
     ]
     extra = 0
     show_change_link = True
@@ -28,6 +30,31 @@ class TeamInline(admin.TabularInline):
     model = Team
     fields = [
         'size',
+    ]
+    autocomplete_fields = [
+    ]
+    extra = 0
+    show_change_link = True
+
+
+class YardInline(admin.TabularInline):
+    model = Yard
+    fields = [
+        'recipient',
+        'state',
+    ]
+    autocomplete_fields = [
+    ]
+    extra = 0
+    show_change_link = True
+
+
+class RakeInline(admin.TabularInline):
+    model = Rake
+    fields = [
+        'team',
+        'state',
+
     ]
     autocomplete_fields = [
     ]

@@ -16,36 +16,38 @@ from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
 from .inlines import MessageInline
+from .inlines import RakeInline
+from .inlines import YardInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
 from .models import Assignment
 from .models import Event
 from .models import Message
 from .models import Picture
+from .models import Rake
 from .models import Recipient
-from .models import RecipientEvent
 from .models import Team
-from .models import TeamEvent
 from .models import User
+from .models import Yard
 
 
 @admin.register(Recipient)
 class RecipientAdmin(VersionAdmin):
-    def team_sizes(self, obj):
-        lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
-        return "; ".join(
-            list(lst)
-        )
+    # def team_sizes(self, obj):
+    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
+    #     return "; ".join(
+    #         list(lst)
+    #     )
 
-    def latest_message(self, obj):
-        latest_message = obj.user.messages.filter(
-            direction=Message.DIRECTION.inbound,
-        ).latest('created').body
-        return latest_message
+    # def latest_message(self, obj):
+    #     latest_message = obj.user.messages.filter(
+    #         direction=Message.DIRECTION.inbound,
+    #     ).latest('created').body
+    #     return latest_message
 
-    # def user_url(self, obj):
-    #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
-    #     return format_html("<a href='{url}'>User</a>", url=user_url)
+    # # def user_url(self, obj):
+    # #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
+    # #     return format_html("<a href='{url}'>User</a>", url=user_url)
 
 
     save_on_top = True
@@ -77,7 +79,7 @@ class RecipientAdmin(VersionAdmin):
         # 'location',
         'size',
         # 'is_dog',
-        'team_sizes',
+        # 'team_sizes',
         'state',
         # 'created',
         # 'user',
@@ -107,6 +109,7 @@ class RecipientAdmin(VersionAdmin):
     ]
     inlines = [
         # AssignmentInline,
+        YardInline,
     ]
     ordering = [
         'name',
@@ -118,8 +121,8 @@ class RecipientAdmin(VersionAdmin):
     ]
 
 
-@admin.register(RecipientEvent)
-class RecipientEventAdmin(VersionAdmin):
+@admin.register(Yard)
+class YardAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
@@ -149,7 +152,7 @@ class RecipientEventAdmin(VersionAdmin):
         'event',
     ]
     inlines = [
-        # AssignmentInline,
+        AssignmentInline,
     ]
     ordering = [
         'recipient__name',
@@ -158,8 +161,8 @@ class RecipientEventAdmin(VersionAdmin):
     ]
 
 
-@admin.register(TeamEvent)
-class TeamEventAdmin(VersionAdmin):
+@admin.register(Rake)
+class RakeAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
@@ -189,7 +192,7 @@ class TeamEventAdmin(VersionAdmin):
         'event',
     ]
     inlines = [
-        # AssignmentInline,
+        AssignmentInline,
     ]
     ordering = [
         'team__name',
@@ -200,28 +203,28 @@ class TeamEventAdmin(VersionAdmin):
 
 @admin.register(Team)
 class TeamAdmin(VersionAdmin):
-    def recipient_sizes(self, obj):
-        lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
+    # def recipient_sizes(self, obj):
+    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
 
-        return "; ".join(
-            list(lst)
-        )
+    #     return "; ".join(
+    #         list(lst)
+    #     )
 
-    def latest_message(self, obj):
-        latest_message = obj.user.messages.filter(
-            direction=Message.DIRECTION.inbound,
-        ).latest('created').body
-        return latest_message
+    # def latest_message(self, obj):
+    #     latest_message = obj.user.messages.filter(
+    #         direction=Message.DIRECTION.inbound,
+    #     ).latest('created').body
+    #     return latest_message
 
-    def user_url(self, obj):
-        user_url = reverse('admin:app_user_change', args=[obj.user.id])
-        return format_html("<a href='{url}'>User</a>", url=user_url)
+    # def user_url(self, obj):
+    #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
+    #     return format_html("<a href='{url}'>User</a>", url=user_url)
 
     save_on_top = True
     fields = [
         'state',
         'name',
-        'user_url',
+        # 'user_url',
         'phone',
         'nickname',
         'size',
@@ -236,7 +239,7 @@ class TeamAdmin(VersionAdmin):
         'phone',
         'size',
         # 'nickname',
-        'recipient_sizes',
+        # 'recipient_sizes',
         'state',
         # 'created',
         # 'notes',
@@ -263,13 +266,14 @@ class TeamAdmin(VersionAdmin):
     ]
     inlines = [
         # AssignmentInline,
+        RakeInline,
     ]
     ordering = [
         'name',
     ]
     readonly_fields = [
         # 'latest_message',
-        'user_url',
+        # 'user_url',
     ]
 
 
@@ -279,8 +283,8 @@ class AssignmentAdmin(VersionAdmin):
     fields = [
         'state',
         'event',
-        ('recipient_event',),
-        ('team_event',),
+        ('yard',),
+        ('rake',),
         'comments',
         'notes',
     ]
@@ -288,9 +292,9 @@ class AssignmentAdmin(VersionAdmin):
         'id',
         'event',
         'state',
-        'recipient_event',
+        'yard',
         # 'recipient_state',
-        'team_event',
+        'rake',
         # 'team_state',
     ]
     list_filter = [
@@ -305,8 +309,8 @@ class AssignmentAdmin(VersionAdmin):
         # 'team',
     ]
     autocomplete_fields = [
-        'recipient_event',
-        'team_event',
+        'yard',
+        'rake',
         'event',
     ]
 
