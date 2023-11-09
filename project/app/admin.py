@@ -142,9 +142,9 @@ class YardAdmin(VersionAdmin):
         'event',
     ]
     list_filter = [
+        'event__year',
         'state',
         'recipient__size',
-        'event',
     ]
     search_fields = [
         'recipient__name',
@@ -183,9 +183,9 @@ class RakeAdmin(VersionAdmin):
         'event',
     ]
     list_filter = [
+        'event__year',
         'state',
         'team__size',
-        'event',
     ]
     search_fields = [
         'team__name',
@@ -304,8 +304,8 @@ class AssignmentAdmin(VersionAdmin):
         'event',
     ]
     list_filter = [
-        'state',
         'event__year',
+        'state',
         'yard__recipient__size',
         'rake__team__size',
         # 'team_state',
