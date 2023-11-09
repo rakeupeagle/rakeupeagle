@@ -432,16 +432,14 @@ class UserAdmin(UserAdminBase):
     fieldsets = (
         (None, {
             'fields': [
-                'username',
                 'name',
                 'phone',
             ]
         }
         ),
-        ('Permissions', {'fields': ('is_admin', 'is_active')}),
+        ('Permissions', {'fields': ('is_admin', 'is_active', 'is_verified',)}),
     )
     list_display = [
-        'username',
         'name',
         'phone',
         'created',
@@ -450,11 +448,11 @@ class UserAdmin(UserAdminBase):
     list_filter = [
         'is_active',
         'is_admin',
+        'is_verified',
         'created',
         'last_login',
     ]
     search_fields = [
-        'username',
         'phone',
         'name',
     ]
@@ -465,9 +463,9 @@ class UserAdmin(UserAdminBase):
         (None, {
             'classes': ('wide',),
             'fields': [
-                'username',
                 'is_admin',
                 'is_active',
+                'is_verified',
             ]
         }
         ),
@@ -477,11 +475,10 @@ class UserAdmin(UserAdminBase):
         MessageInline,
     ]
     readonly_fields = [
-        'username',
     ]
 
 
-# Use Auth0 for login
+# Use Passwordless for login
 admin.site.login = staff_member_required(
     admin.site.login,
     login_url=settings.LOGIN_URL,

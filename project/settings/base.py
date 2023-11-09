@@ -43,17 +43,12 @@ ACTIVE = env("ACTIVE")
 # Authentication
 AUTH_USER_MODEL = 'app.User'
 AUTHENTICATION_BACKENDS = [
-    'app.backends.Auth0Backend',
+    'app.backends.AppBackend',
 ]
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
-
-#Auth0
-AUTH0_CLIENT_ID = env("AUTH0_CLIENT_ID")
-AUTH0_CLIENT_SECRET = env("AUTH0_CLIENT_SECRET")
-AUTH0_DOMAIN = env("AUTH0_DOMAIN")
 
 # Database
 DATABASES = {

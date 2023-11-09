@@ -5,28 +5,21 @@ from django.contrib.auth.backends import ModelBackend
 from .models import User
 
 
-class Auth0Backend(ModelBackend):
+class AppBackend(ModelBackend):
 
     def authenticate(self, request, **kwargs):
-        username = kwargs.get('username', None)
-        name = kwargs.get('name', None)
-        phone = kwargs.get('phone', None)
+        phone = kwargs.get('phone')
+        name = kwargs.get('name', '')
         try:
             user = User.objects.get(
-                username=username,
-            )
-            user.name = name
-            user.phone = phone
-            user.data = kwargs
-        except User.DoesNotExist:
-            user = User(
-                username=username,
-                name=name,
                 phone=phone,
-                data=kwargs,
             )
-            user.set_unusable_password()
-        user.save()
+        except User.DoesNotExist:
+            user = User.objects.create_user(
+                phone=phone,
+                name=name,
+            )
+            user.save()
         return user
 
     def get_user(self, user_id):
