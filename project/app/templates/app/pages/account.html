@@ -16,5 +16,13 @@
     <p class='lead'>
       Select Either Recipient or Volunteer
     </p>
+    <p>
+      {% if request.user.is_verified %}
+        <p>Verified</p>
+      {% else %}
+        <a href='{% url "verify-send" %}'>Verify</a>
+      {% endif %}
+    </p>
+
   </section>
 {% endblock content %}

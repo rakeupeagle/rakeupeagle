@@ -23,10 +23,10 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('account/', views.account, name='account'),
 
-    # Verification
-    # path('login', views.login, name='login'),
-    # path('logout', views.logout, name='logout'),
-    # path('register', views.register, name='register'),
+    # Authentication
+    path('verify/send/', views.verify_send, name='verify-send',),
+    path('verify/code/', views.verify_code, name='verify-code',),
+
 
     # Account
     path('delete', views.delete, name='delete',),

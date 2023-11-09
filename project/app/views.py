@@ -21,9 +21,11 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from reversion.views import create_revision
 
-from .decorators import twilio
+from .decorators import validate_twilio_request
 from .forms import CallForm
 from .forms import DeleteForm
 from .forms import LoginForm
@@ -31,6 +33,7 @@ from .forms import RecipientForm
 from .forms import RegisterForm
 from .forms import TeamcallForm
 from .forms import TeamForm
+from .forms import VerifyCodeForm
 from .models import Assignment
 from .models import Message
 from .models import Picture
@@ -38,6 +41,8 @@ from .models import Recipient
 from .models import Team
 from .models import User
 # from .tasks import get_assignments_csv
+from .tasks import check
+from .tasks import send
 from .tasks import send_recipient_confirmation
 from .tasks import send_team_confirmation
 
@@ -163,6 +168,42 @@ def delete(request):
         },
     )
 
+@login_required
+def verification(request):
+    return render(
+        request,
+        'app/pages/verification.html',
+        context={
+        },
+    )
+
+@login_required
+def verify_send(request):
+    send(
+        request.user.phone.as_e164,
+    )
+    return redirect('verify-code')
+
+@login_required
+def verify_code(request):
+    form = VerifyCodeForm(request.POST or None)
+    if form.is_valid():
+        code = form.cleaned_data.get('code')
+        if check(request.user.phone.as_e164, code):
+            request.user.is_verified = True
+            request.user.save()
+            messages.success(
+                request,
+                "Your account has been verified!",
+            )
+            return redirect('account')
+    return render(
+        request,
+        'app/pages/verify_code.html',
+        context={
+            'form': form
+        },
+    )
 
 # Recipient
 @login_required
@@ -314,7 +355,9 @@ def dashboard_team(request, team_id):
         {'team': team},
     )
 
-@twilio
+@validate_twilio_request
+@csrf_exempt
+@require_POST
 def sms(request):
     defaults = {}
     raw = request.POST.dict()

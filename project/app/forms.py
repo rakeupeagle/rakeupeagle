@@ -11,6 +11,7 @@ from .models import Recipient
 from .models import Team
 from .models import User
 from .widgets import AddressWidget
+from .widgets import CodeWidget
 
 
 class CallForm(forms.ModelForm):
@@ -31,6 +32,18 @@ class TeamcallForm(forms.ModelForm):
             # 'phone',
         ]
 
+
+class VerifyCodeForm(forms.Form):
+    code = forms.CharField(
+        max_length=4,
+        required=True,
+        help_text='Enter Code',
+        widget=CodeWidget(
+            attrs={
+                'class': 'form-control form-control-lg',
+            }
+        )
+    )
 
 class DeleteForm(forms.Form):
     confirm = forms.BooleanField(

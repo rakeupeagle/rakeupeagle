@@ -1,5 +1,6 @@
 # Standard Libary
 import csv
+import logging
 
 import geocoder
 import requests
@@ -15,6 +16,7 @@ from django.db.models import Sum
 from django.http import FileResponse
 from django.template.loader import render_to_string
 from django_rq import job
+from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client as TwilioClient
 
 # Local
@@ -26,9 +28,28 @@ from .models import Team
 from .models import User
 
 
-def get_twilio_client():
+def send(number):
     client = TwilioClient()
-    return client
+    client.verify.services(
+        settings.TWILIO_VERIFY_SID,
+    ).verifications.create(
+        to=number,
+        channel='sms',
+    )
+
+def check(number, code):
+    client = TwilioClient()
+    try:
+        result = client.verify.services(
+            settings.TWILIO_VERIFY_SID,
+        ).verification_checks.create(
+            to=number,
+            code=code,
+        )
+    except TwilioRestException as e:
+        # log.error(e)
+        return False
+    return result.status == 'approved'
 
 
 # Utility
