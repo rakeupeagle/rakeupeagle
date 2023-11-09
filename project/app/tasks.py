@@ -551,7 +551,7 @@ def send_text_from_message(message):
     if message.direction != message.DIRECTION.outbound:
         return
     response = send_text(
-        message.to_phone,
+        message.to_phone.as_e164,
         message.body,
     )
     message.state = message.STATE.sent
