@@ -283,30 +283,28 @@ class AssignmentAdmin(VersionAdmin):
     fields = [
         'state',
         'event',
-        ('yard',),
-        ('rake',),
+        'yard',
+        'rake',
         'comments',
         'notes',
     ]
     list_display = [
         'id',
-        'event',
         'state',
         'yard',
-        # 'recipient_state',
         'rake',
-        # 'team_state',
+        'event',
     ]
     list_filter = [
         'state',
-        'event',
+        'event__year',
         # 'recipient_state',
         # 'team_state',
     ]
 
     list_editable = [
-        # 'recipient',
-        # 'team',
+        'yard',
+        'rake',
     ]
     autocomplete_fields = [
         'yard',
