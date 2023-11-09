@@ -551,12 +551,13 @@ def send_text_from_message(message):
     if message.direction != message.DIRECTION.outbound:
         return
     response = send_text(
-        str(message.user.phone),
+        message.to_phone,
         message.body,
     )
     message.state = message.STATE.sent
     message.sid = response.sid
-    message.to = response.to
+    message.to_phone = response.to
+    # message.from_phone = response.from
     message.body = response.body
     message.direction = message.DIRECTION.outbound
     message.save()

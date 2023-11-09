@@ -402,7 +402,7 @@ class MessageAdmin(VersionAdmin):
     readonly_fields = [
         'id',
         'sid',
-        'to_phone',
+        # 'to_phone',
         'from_phone',
         'user_id',
         # 'direction',
