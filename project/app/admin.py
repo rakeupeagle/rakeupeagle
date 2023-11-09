@@ -126,6 +126,7 @@ class YardAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
+        # 'size',
         'comments',
         'notes',
         'recipient',
@@ -133,6 +134,7 @@ class YardAdmin(VersionAdmin):
     ]
     list_display = [
         'state',
+        # 'size',
         'comments',
         'notes',
         'recipient',
@@ -140,6 +142,7 @@ class YardAdmin(VersionAdmin):
     ]
     list_filter = [
         'state',
+        # 'recipient__size',
         'event',
     ]
     search_fields = [
@@ -166,6 +169,7 @@ class RakeAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
+        # 'size',
         'comments',
         'notes',
         'team',
@@ -173,6 +177,7 @@ class RakeAdmin(VersionAdmin):
     ]
     list_display = [
         'state',
+        # 'size',
         'comments',
         'notes',
         'team',
@@ -180,6 +185,7 @@ class RakeAdmin(VersionAdmin):
     ]
     list_filter = [
         'state',
+        # 'team__size',
         'event',
     ]
     search_fields = [
@@ -292,13 +298,16 @@ class AssignmentAdmin(VersionAdmin):
         'id',
         'state',
         'yard',
+        # 'yard__size',
         'rake',
+        # 'rake__size',
         'event',
     ]
     list_filter = [
         'state',
         'event__year',
-        # 'recipient_state',
+        'yard__recipient__size',
+        'rake__team__size',
         # 'team_state',
     ]
 
@@ -310,6 +319,10 @@ class AssignmentAdmin(VersionAdmin):
         'yard',
         'rake',
         'event',
+    ]
+    readonly_fields = [
+        # 'yard__size',
+        # 'rake__size',
     ]
 
 

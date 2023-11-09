@@ -123,7 +123,7 @@ class Recipient(models.Model):
         related_name='recipients',
     )
     def __str__(self):
-        return f"{self.name}, {self.location} - {self.get_size_display()}"
+        return f"{self.name} - {self.get_size_display()}"
 
     # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
     # def confirm(self):
@@ -262,7 +262,7 @@ class Team(models.Model):
         related_name='teams',
     )
     def __str__(self):
-        return f"{self.name} - {self.get_size_display()}"
+        return f"{self.name}"
 
     # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     # def confirm(self):
@@ -391,6 +391,16 @@ class Yard(models.Model):
         choices=STATE,
         default=STATE.new,
     )
+    # SIZE = Choices(
+    #     (110, 'small', 'Small (1-15 bags)'),
+    #     (120, 'medium', 'Medium (16-30 bags)'),
+    #     (130, 'large', 'Large (31+ bags)'),
+    # )
+    # size = models.IntegerField(
+    #     blank=True,
+    #     choices=SIZE,
+    #     help_text="""Please provide the approximate yard size."""
+    # )
     comments = models.TextField(
         max_length=2000,
         blank=True,
@@ -420,7 +430,7 @@ class Yard(models.Model):
         auto_now=True,
     )
     def __str__(self):
-        return f"{self.recipient}"
+        return f"{self.recipient.name} - {self.recipient.get_size_display()}"
 
 
 class Rake(models.Model):
@@ -443,6 +453,19 @@ class Rake(models.Model):
         choices=STATE,
         default=STATE.new,
     )
+    # SIZE = Choices(
+    #     (105, 'solo', 'Solo (1 Adult)'),
+    #     (110, 'xs', 'Extra-Small (2-5 Adults)'),
+    #     (120, 'small', 'Small (6-10 Adults)'),
+    #     (130, 'medium', 'Medium (11-15 Adults)'),
+    #     (140, 'large', 'Large (16-20 Adults)'),
+    #     (150, 'xl', 'Extra-Large (21+ Adults)'),
+    # )
+    # size = models.IntegerField(
+    #     choices=SIZE,
+    #     blank=True,
+    #     null=True,
+    # )
     comments = models.TextField(
         max_length=2000,
         blank=True,
@@ -472,7 +495,7 @@ class Rake(models.Model):
         auto_now=True,
     )
     def __str__(self):
-        return f"{self.team}"
+        return f"{self.team.name} - {self.team.get_size_display()}"
 
 
 class Message(models.Model):
