@@ -142,7 +142,7 @@ class YardAdmin(VersionAdmin):
     ]
     list_filter = [
         'state',
-        # 'recipient__size',
+        'recipient__size',
         'event',
     ]
     search_fields = [
@@ -185,7 +185,7 @@ class RakeAdmin(VersionAdmin):
     ]
     list_filter = [
         'state',
-        # 'team__size',
+        'team__size',
         'event',
     ]
     search_fields = [
