@@ -347,12 +347,14 @@ class Assignment(models.Model):
         on_delete=models.CASCADE,
         related_name='assignments',
         null=True,
+        blank=True,
     )
     rake = models.ForeignKey(
         'app.Rake',
         on_delete=models.CASCADE,
         related_name='assignments',
         null=True,
+        blank=True,
     )
     event = models.ForeignKey(
         'app.Event',
