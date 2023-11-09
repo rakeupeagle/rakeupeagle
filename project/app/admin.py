@@ -19,6 +19,7 @@ from .inlines import MessageInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
 from .models import Assignment
+from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient
@@ -212,6 +213,34 @@ class AssignmentAdmin(VersionAdmin):
     autocomplete_fields = [
         'recipient',
         'team',
+    ]
+
+
+@admin.register(Event)
+class EventAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'year',
+        'state',
+        'deadline',
+        'date',
+        # 'created',
+        # 'updated',
+    ]
+    list_display = [
+        'year',
+        'state',
+        'deadline',
+        'date',
+        'created',
+        'updated',
+    ]
+    list_filter = [
+    ]
+
+    list_editable = [
+    ]
+    autocomplete_fields = [
     ]
 
 
