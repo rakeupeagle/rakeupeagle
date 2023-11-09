@@ -123,53 +123,6 @@ class Recipient(models.Model):
     #     return
 
 
-class Event(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Your full name."""
-    )
-    STATE = Choices(
-        (-10, 'archive', 'Archive'),
-        (0, 'new', 'New'),
-        (10, 'current', 'Current'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    year = models.IntegerField(
-        blank=True,
-        null=True
-    )
-    notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    deadline =  models.DateField(
-        null=True,
-        blank=True,
-    )
-    date =  models.DateField(
-        null=True,
-        blank=True,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.year}"
-
-
 class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -471,6 +424,53 @@ class Rake(models.Model):
     )
     def __str__(self):
         return f"{self.team.name} - {self.team.get_size_display()}"
+
+
+class Event(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Your full name."""
+    )
+    STATE = Choices(
+        (-10, 'archive', 'Archive'),
+        (0, 'new', 'New'),
+        (10, 'current', 'Current'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    year = models.IntegerField(
+        blank=True,
+        null=True
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    deadline =  models.DateField(
+        null=True,
+        blank=True,
+    )
+    date =  models.DateField(
+        null=True,
+        blank=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    def __str__(self):
+        return f"{self.year}"
 
 
 class Message(models.Model):
