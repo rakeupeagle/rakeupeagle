@@ -195,15 +195,27 @@ class TeamAdmin(VersionAdmin):
 class AssignmentAdmin(VersionAdmin):
     save_on_top = True
     fields = [
-        'recipient',
-        'team',
+        'state',
+        'event',
+        ('recipient', 'recipient_state',),
+        ('team', 'team_state',),
+        'comments',
+        'notes',
     ]
     list_display = [
         'id',
+        'event',
+        'state',
         'recipient',
+        'recipient_state',
         'team',
+        'team_state',
     ]
     list_filter = [
+        'state',
+        'event',
+        'recipient_state',
+        'team_state',
     ]
 
     list_editable = [
@@ -213,6 +225,7 @@ class AssignmentAdmin(VersionAdmin):
     autocomplete_fields = [
         'recipient',
         'team',
+        'event',
     ]
 
 
@@ -241,6 +254,9 @@ class EventAdmin(VersionAdmin):
     list_editable = [
     ]
     autocomplete_fields = [
+    ]
+    search_fields = [
+        'year',
     ]
 
 

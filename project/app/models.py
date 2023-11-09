@@ -356,8 +356,6 @@ class Assignment(models.Model):
         'app.Event',
         on_delete=models.CASCADE,
         related_name='assignments',
-        null=True,
-        blank=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,
