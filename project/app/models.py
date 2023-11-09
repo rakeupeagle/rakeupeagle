@@ -123,53 +123,6 @@ class Recipient(models.Model):
     #     return
 
 
-class Event(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Your full name."""
-    )
-    STATE = Choices(
-        (-10, 'archive', 'Archive'),
-        (0, 'new', 'New'),
-        (10, 'current', 'Current'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    year = models.IntegerField(
-        blank=True,
-        null=True
-    )
-    notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    deadline =  models.DateField(
-        null=True,
-        blank=True,
-    )
-    date =  models.DateField(
-        null=True,
-        blank=True,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.year}"
-
-
 class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -254,106 +207,6 @@ class Team(models.Model):
     # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     # def confirm(self):
     #     return
-
-
-class Assignment(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (-30, 'incomplete', 'Incompleted'),
-        (-20, 'fail', 'Failed'),
-        (-10, 'cancel', 'Cancelled'),
-        (0, 'new', 'New'),
-        (20, 'confirm', 'Confirmed'),
-        (30, 'checkin', 'Checked-In'),
-        (40, 'start', 'Started'),
-        (50, 'finish', 'Finished'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    TEAM_STATE = Choices(
-        (-30, 'archived', 'Archived'),
-        (-20, 'cancelled', 'Cancelled'),
-        (-10, 'exclude', 'Excluded'),
-        (0, 'new', 'New'),
-        (10, 'include', 'Included'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'checked', 'Checked-In'),
-        (40, 'missed', 'Missed'),
-        (50, 'complete', 'Complete'),
-    )
-    team_state = FSMIntegerField(
-        choices=TEAM_STATE,
-        default=TEAM_STATE.new,
-    )
-    RECIPIENT_STATE = Choices(
-        (-40, 'blocked', 'Blocked'),
-        (-30, 'archived', 'Archived'),
-        (-20, 'cancelled', 'Cancelled'),
-        (-10, 'exclude', 'Excluded'),
-        (0, 'new', 'New'),
-        (10, 'include', 'Included'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'checked', 'Checked-In'),
-        (40, 'missed', 'Missed'),
-        (50, 'complete', 'Complete'),
-    )
-    recipient_state = FSMIntegerField(
-        choices=RECIPIENT_STATE,
-        default=RECIPIENT_STATE.new,
-    )
-    bags = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='Actual Bags Used',
-    )
-    hours = models.FloatField(
-        blank=True,
-        null=True,
-        help_text='Actual Hours Worked',
-    )
-    comments = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Internal (private) notes.""",
-    )
-    yard = models.ForeignKey(
-        'app.Yard',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        null=True,
-        blank=True,
-    )
-    rake = models.ForeignKey(
-        'app.Rake',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        null=True,
-        blank=True,
-    )
-    event = models.ForeignKey(
-        'app.Event',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.id}"
 
 
 class Yard(models.Model):
@@ -471,6 +324,106 @@ class Rake(models.Model):
     )
     def __str__(self):
         return f"{self.team.name} - {self.team.get_size_display()}"
+
+
+class Assignment(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (-30, 'exception', 'Excepted'),
+        (-20, 'fail', 'Failed'),
+        (-10, 'cancel', 'Cancelled'),
+        (0, 'new', 'New'),
+        (20, 'confirm', 'Confirmed'),
+        (30, 'checkin', 'Checked-In'),
+        (40, 'start', 'Started'),
+        (50, 'finish', 'Finished'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    TEAM_STATE = Choices(
+        (-30, 'archived', 'Archived'),
+        (-20, 'cancelled', 'Cancelled'),
+        (-10, 'exclude', 'Excluded'),
+        (0, 'new', 'New'),
+        (10, 'include', 'Included'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
+        (40, 'missed', 'Missed'),
+        (50, 'complete', 'Complete'),
+    )
+    team_state = FSMIntegerField(
+        choices=TEAM_STATE,
+        default=TEAM_STATE.new,
+    )
+    RECIPIENT_STATE = Choices(
+        (-40, 'blocked', 'Blocked'),
+        (-30, 'archived', 'Archived'),
+        (-20, 'cancelled', 'Cancelled'),
+        (-10, 'exclude', 'Excluded'),
+        (0, 'new', 'New'),
+        (10, 'include', 'Included'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
+        (40, 'missed', 'Missed'),
+        (50, 'complete', 'Complete'),
+    )
+    recipient_state = FSMIntegerField(
+        choices=RECIPIENT_STATE,
+        default=RECIPIENT_STATE.new,
+    )
+    bags = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='Actual Bags Used',
+    )
+    hours = models.FloatField(
+        blank=True,
+        null=True,
+        help_text='Actual Hours Worked',
+    )
+    comments = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Internal (private) notes.""",
+    )
+    yard = models.ForeignKey(
+        'app.Yard',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=True,
+        blank=True,
+    )
+    rake = models.ForeignKey(
+        'app.Rake',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=True,
+        blank=True,
+    )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    def __str__(self):
+        return f"{self.id}"
 
 
 class Message(models.Model):
