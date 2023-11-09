@@ -126,18 +126,16 @@ class YardAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
-        # 'size',
+        'recipient',
         'comments',
         'notes',
-        'recipient',
         'event',
     ]
     list_display = [
         'state',
-        # 'size',
+        'recipient',
         'comments',
         'notes',
-        'recipient',
         'event',
     ]
     list_filter = [
@@ -169,18 +167,16 @@ class RakeAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
-        # 'size',
+        'team',
         'comments',
         'notes',
-        'team',
         'event',
     ]
     list_display = [
         'state',
-        # 'size',
+        'team',
         'comments',
         'notes',
-        'team',
         'event',
     ]
     list_filter = [
