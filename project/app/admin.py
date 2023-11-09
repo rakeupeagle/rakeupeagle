@@ -70,6 +70,7 @@ class RecipientAdmin(VersionAdmin):
     list_display = [
         'name',
         'phone',
+        'user',
         'location',
         # 'user_url',
         # 'is_senior',
@@ -103,6 +104,8 @@ class RecipientAdmin(VersionAdmin):
     ]
     list_editable = [
         'state',
+        'phone',
+        'user',
     ]
     autocomplete_fields = [
         'user',
