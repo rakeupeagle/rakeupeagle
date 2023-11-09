@@ -342,15 +342,17 @@ class Assignment(models.Model):
         default='',
         help_text="""Internal (private) notes.""",
     )
-    recipient = models.ForeignKey(
-        'app.Recipient',
+    recipient_event = models.ForeignKey(
+        'app.RecipientEvent',
         on_delete=models.CASCADE,
         related_name='assignments',
+        null=True,
     )
-    team = models.ForeignKey(
-        'app.Team',
+    team_event = models.ForeignKey(
+        'app.TeamEvent',
         on_delete=models.CASCADE,
         related_name='assignments',
+        null=True,
     )
     event = models.ForeignKey(
         'app.Event',
@@ -365,6 +367,110 @@ class Assignment(models.Model):
     )
     def __str__(self):
         return f"{self.id}"
+
+
+class RecipientEvent(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (-40, 'blocked', 'Blocked'),
+        (-30, 'archived', 'Archived'),
+        (-20, 'cancelled', 'Cancelled'),
+        (-10, 'exclude', 'Excluded'),
+        (0, 'new', 'New'),
+        (10, 'include', 'Included'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
+        (40, 'missed', 'Missed'),
+        (50, 'complete', 'Complete'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    comments = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Internal (private) notes.""",
+    )
+    recipient = models.ForeignKey(
+        'app.Recipient',
+        on_delete=models.CASCADE,
+        related_name='recipient_events',
+    )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='recipient_events',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    def __str__(self):
+        return f"{self.recipient}"
+
+
+class TeamEvent(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (-40, 'blocked', 'Blocked'),
+        (-30, 'archived', 'Archived'),
+        (-20, 'cancelled', 'Cancelled'),
+        (-10, 'exclude', 'Excluded'),
+        (0, 'new', 'New'),
+        (10, 'include', 'Included'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
+        (40, 'missed', 'Missed'),
+        (50, 'complete', 'Complete'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    comments = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Internal (private) notes.""",
+    )
+    team = models.ForeignKey(
+        'app.Team',
+        on_delete=models.CASCADE,
+        related_name='team_events',
+    )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='team_events',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    def __str__(self):
+        return f"{self.team}"
 
 
 class Message(models.Model):

@@ -23,7 +23,9 @@ from .models import Event
 from .models import Message
 from .models import Picture
 from .models import Recipient
+from .models import RecipientEvent
 from .models import Team
+from .models import TeamEvent
 from .models import User
 
 
@@ -104,7 +106,7 @@ class RecipientAdmin(VersionAdmin):
         'user',
     ]
     inlines = [
-        AssignmentInline,
+        # AssignmentInline,
     ]
     ordering = [
         'name',
@@ -113,6 +115,86 @@ class RecipientAdmin(VersionAdmin):
     readonly_fields = [
         # 'latest_message',
         # 'user_url',
+    ]
+
+
+@admin.register(RecipientEvent)
+class RecipientEventAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'state',
+        'comments',
+        'notes',
+        'recipient',
+        'event',
+    ]
+    list_display = [
+        'state',
+        'comments',
+        'notes',
+        'recipient',
+        'event',
+    ]
+    list_filter = [
+        'state',
+        'event',
+    ]
+    search_fields = [
+        'recipient__name',
+    ]
+    list_editable = [
+    ]
+    autocomplete_fields = [
+        'recipient',
+        'event',
+    ]
+    inlines = [
+        # AssignmentInline,
+    ]
+    ordering = [
+        'recipient__name',
+    ]
+    readonly_fields = [
+    ]
+
+
+@admin.register(TeamEvent)
+class TeamEventAdmin(VersionAdmin):
+    save_on_top = True
+    fields = [
+        'state',
+        'comments',
+        'notes',
+        'team',
+        'event',
+    ]
+    list_display = [
+        'state',
+        'comments',
+        'notes',
+        'team',
+        'event',
+    ]
+    list_filter = [
+        'state',
+        'event',
+    ]
+    search_fields = [
+        'team__name',
+    ]
+    list_editable = [
+    ]
+    autocomplete_fields = [
+        'team',
+        'event',
+    ]
+    inlines = [
+        # AssignmentInline,
+    ]
+    ordering = [
+        'team__name',
+    ]
+    readonly_fields = [
     ]
 
 
@@ -180,7 +262,7 @@ class TeamAdmin(VersionAdmin):
         'user',
     ]
     inlines = [
-        AssignmentInline,
+        # AssignmentInline,
     ]
     ordering = [
         'name',
@@ -197,8 +279,8 @@ class AssignmentAdmin(VersionAdmin):
     fields = [
         'state',
         'event',
-        ('recipient', 'recipient_state',),
-        ('team', 'team_state',),
+        ('recipient_event',),
+        ('team_event',),
         'comments',
         'notes',
     ]
@@ -206,16 +288,16 @@ class AssignmentAdmin(VersionAdmin):
         'id',
         'event',
         'state',
-        'recipient',
-        'recipient_state',
-        'team',
-        'team_state',
+        'recipient_event',
+        # 'recipient_state',
+        'team_event',
+        # 'team_state',
     ]
     list_filter = [
         'state',
         'event',
-        'recipient_state',
-        'team_state',
+        # 'recipient_state',
+        # 'team_state',
     ]
 
     list_editable = [
@@ -223,8 +305,8 @@ class AssignmentAdmin(VersionAdmin):
         # 'team',
     ]
     autocomplete_fields = [
-        'recipient',
-        'team',
+        'recipient_event',
+        'team_event',
         'event',
     ]
 

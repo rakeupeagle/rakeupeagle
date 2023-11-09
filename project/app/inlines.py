@@ -12,19 +12,16 @@ from .models import Team
 class AssignmentInline(admin.TabularInline):
     model = Assignment
     fields = [
-        'recipient',
-        'team',
+        'recipient_event',
+        'team_event',
     ]
     autocomplete_fields = [
-        'recipient',
-        'team',
+        'recipient_event',
+        'team_event',
     ]
     extra = 0
     show_change_link = True
-    autocomplete_fields = [
-        'recipient',
-        'team',
-    ]
+
 
 
 class TeamInline(admin.TabularInline):
