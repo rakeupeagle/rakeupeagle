@@ -33,29 +33,9 @@ from .models import Yard
 
 @admin.register(Recipient)
 class RecipientAdmin(VersionAdmin):
-    # def team_sizes(self, obj):
-    #     lst = [Team.SIZE[x.team.size] for x in obj.assignments.all()]
-    #     return "; ".join(
-    #         list(lst)
-    #     )
-
-    # def latest_message(self, obj):
-    #     latest_message = obj.user.messages.filter(
-    #         direction=Message.DIRECTION.inbound,
-    #     ).latest('created').body
-    #     return latest_message
-
-    # # def user_url(self, obj):
-    # #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
-    # #     return format_html("<a href='{url}'>User</a>", url=user_url)
-
-
     save_on_top = True
     fields = [
         'state',
-        'name',
-        # 'user_url',
-        'phone',
         'location',
         'size',
         'is_veteran',
@@ -68,25 +48,11 @@ class RecipientAdmin(VersionAdmin):
         'bags',
     ]
     list_display = [
-        'name',
-        'phone',
+        'id',
         'user',
         'location',
-        # 'user_url',
-        # 'is_senior',
-        # 'is_disabled',
-        # 'is_veteran',
-        # 'phone',
-        # 'location',
         'size',
-        # 'is_dog',
-        # 'team_sizes',
         'state',
-        # 'created',
-        # 'user',
-        # 'public_notes',
-        # 'admin_notes',
-        # 'latest_message',
     ]
     list_filter = [
         'state',
@@ -99,12 +65,12 @@ class RecipientAdmin(VersionAdmin):
         'updated',
     ]
     search_fields = [
-        'name',
+        'user__name',
+        'user__phone',
         'location',
     ]
     list_editable = [
         'state',
-        'phone',
         'user',
     ]
     autocomplete_fields = [
@@ -115,7 +81,6 @@ class RecipientAdmin(VersionAdmin):
         YardInline,
     ]
     ordering = [
-        'name',
         'created',
     ]
     readonly_fields = [

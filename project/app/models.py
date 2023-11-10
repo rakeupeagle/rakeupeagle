@@ -15,16 +15,16 @@ class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Your full name."""
-    )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
+    # name = models.CharField(
+    #     max_length=100,
+    #     blank=True,
+    #     default='',
+    #     help_text="""Your full name."""
+    # )
+    # phone = PhoneNumberField(
+    #     blank=True,
+    #     null=True,
+    # )
     STATE = Choices(
         (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),
@@ -101,15 +101,13 @@ class Recipient(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         'app.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='recipients',
+        on_delete=models.CASCADE,
+        related_name='recipient',
     )
     def __str__(self):
-        return f"{self.name} - {self.get_size_display()}"
+        return f"{self.user.name} - {self.get_size_display()}"
 
     # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
     # def confirm(self):
@@ -317,16 +315,16 @@ class Yard(models.Model):
         choices=STATE,
         default=STATE.new,
     )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Your full name."""
-    )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
+    # name = models.CharField(
+    #     max_length=100,
+    #     blank=True,
+    #     default='',
+    #     help_text="""Your full name."""
+    # )
+    # phone = PhoneNumberField(
+    #     blank=True,
+    #     null=True,
+    # )
     public_notes = models.TextField(
         max_length=2000,
         blank=True,
