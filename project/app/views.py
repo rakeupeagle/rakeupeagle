@@ -26,6 +26,7 @@ from django.views.decorators.http import require_POST
 from reversion.views import create_revision
 
 from .decorators import validate_twilio_request
+from .forms import AccountForm
 from .forms import CallForm
 from .forms import DeleteForm
 from .forms import LoginForm
@@ -140,11 +141,30 @@ def logout(request):
 @login_required
 def account(request):
     user = request.user
+    if request.POST:
+        form = AccountForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Saved!',
+            )
+            return redirect('account')
+    form = AccountForm(instance=user)
+    recipients = Recipient.objects.filter(
+        user=request.user,
+    )
+    teams = Team.objects.filter(
+        user=request.user,
+    )
     return render(
         request,
         'app/pages/account.html',
         context={
             'user': user,
+            'form': form,
+            'recipients': recipients,
+            'teams': teams,
         }
     )
 

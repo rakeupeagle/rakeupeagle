@@ -14,7 +14,16 @@
   </section>
   <section class='my-5'>
     <p class='lead'>
-      Select Either Recipient or Volunteer
+      Here is your account information
+    </p>
+    <p>
+      <form method='post' role='form'>
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        {% bootstrap_field form.phone %}
+        {% bootstrap_field form.name %}
+        {% bootstrap_button "Save" button_type='submit' button_class='btn btn-success btn-lg btn-block' %}
+      </form>
     </p>
     <p>
       {% if request.user.is_verified %}
@@ -22,6 +31,20 @@
       {% else %}
         <a href='{% url "verify-send" %}'>Verify</a>
       {% endif %}
+    </p>
+    <p>
+      {% for recipient in recipients %}
+        {{recipient}}
+      {% empty %}
+        No Recipients Associated with This Account
+      {% endfor %}
+    </p>
+    <p>
+      {% for team in teams %}
+        {{team}}
+      {% empty %}
+        No Teams Associated with This Account
+      {% endfor %}
     </p>
 
   </section>

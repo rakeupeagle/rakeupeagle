@@ -74,6 +74,16 @@ class RegisterForm(forms.Form):
     )
 
 
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'phone',
+            'name',
+        ]
+
+
+
 class RecipientForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
