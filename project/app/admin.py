@@ -347,7 +347,9 @@ class EventAdmin(VersionAdmin):
     ]
     list_filter = [
     ]
-
+    inlines = [
+        AssignmentInline,
+    ]
     list_editable = [
     ]
     autocomplete_fields = [
