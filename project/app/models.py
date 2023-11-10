@@ -193,7 +193,7 @@ class Team(models.Model):
         related_name='teams',
     )
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.user.name} - {self.nickname}"
 
     # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     # def confirm(self):
@@ -436,7 +436,7 @@ class Rake(models.Model):
         auto_now=True,
     )
     def __str__(self):
-        return f"{self.team.name} - {self.team.get_size_display()}"
+        return f"{self.team.user.name} - {self.team.get_size_display()}"
 
 
 class Event(models.Model):
