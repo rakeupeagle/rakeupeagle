@@ -54,7 +54,7 @@ class RakeInline(admin.TabularInline):
     fields = [
         'team',
         'state',
-
+        'event',
     ]
     autocomplete_fields = [
     ]
