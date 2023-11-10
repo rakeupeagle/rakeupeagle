@@ -68,7 +68,7 @@ class Recipient(models.Model):
         default=False,
         help_text=mark_safe("""If you have a dog, it must be contained in your home for us to rake. <em>Also, you must clean up all animal waste before we arrive or our team group will not be able to rake.</em>"""),
     )
-    comments = models.TextField(
+    public_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -256,7 +256,7 @@ class Assignment(models.Model):
         null=True,
         help_text='Actual Hours Worked',
     )
-    comments = models.TextField(
+    public_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -322,7 +322,7 @@ class Yard(models.Model):
         blank=True,
         null=True,
     )
-    comments = models.TextField(
+    public_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -403,7 +403,7 @@ class Rake(models.Model):
         null=True,
         help_text='The actual number of adults, or adult-equivalent in children.',
     )
-    comments = models.TextField(
+    public_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',

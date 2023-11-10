@@ -130,14 +130,14 @@ class YardAdmin(VersionAdmin):
     fields = [
         'state',
         'recipient',
-        'comments',
+        'public_notes',
         'notes',
         'event',
     ]
     list_display = [
         'state',
         'recipient',
-        'comments',
+        'public_notes',
         'notes',
         'event',
     ]
@@ -171,14 +171,14 @@ class RakeAdmin(VersionAdmin):
     fields = [
         'state',
         'team',
-        'comments',
+        'public_notes',
         'notes',
         'event',
     ]
     list_display = [
         'state',
         'team',
-        'comments',
+        'public_notes',
         'notes',
         'event',
     ]
@@ -291,7 +291,7 @@ class AssignmentAdmin(VersionAdmin):
         'event',
         'yard',
         'rake',
-        'comments',
+        'public_notes',
         'notes',
     ]
     list_display = [
