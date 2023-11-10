@@ -185,12 +185,10 @@ class Team(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         'app.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='teams',
+        on_delete=models.CASCADE,
+        related_name='team',
     )
     def __str__(self):
         return f"{self.user.name} - {self.nickname}"
