@@ -50,13 +50,9 @@ class Recipient(models.Model):
         default='',
         help_text="""Please provide the street address to be raked (City of Eagle is assumed)."""
     )
-    place = models.CharField(
-        max_length=255,
+    point = models.PointField(
+        null=True,
         blank=True,
-        default='',
-    )
-    is_precise = models.BooleanField(
-        default=False,
     )
     is_senior = models.BooleanField(
         default=False,
@@ -67,20 +63,12 @@ class Recipient(models.Model):
     is_veteran = models.BooleanField(
         default=False,
     )
-    # point = models.PointField(
-    #     null=True,
-    #     blank=True,
-    # )
-    geocode = models.JSONField(
-        blank=True,
-        null=True,
-    )
     is_dog = models.BooleanField(
         blank=True,
         default=False,
         help_text=mark_safe("""If you have a dog, it must be contained in your home for us to rake. <em>Also, you must clean up all animal waste before we arrive or our team group will not be able to rake.</em>"""),
     )
-    notes = models.TextField(
+    comments = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -320,13 +308,19 @@ class Yard(models.Model):
         (10, 'include', 'Included'),
         (20, 'confirm', 'Confirmed'),
     )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
     state = FSMIntegerField(
         choices=STATE,
         default=STATE.new,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Your full name."""
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
     )
     comments = models.TextField(
         max_length=2000,

@@ -102,7 +102,7 @@ class RecipientForm(forms.ModelForm):
             'is_senior',
             'is_disabled',
             'is_dog',
-            'notes',
+            'comments',
         ]
         labels = {
             "is_dog": "I Have a Dog",
@@ -111,7 +111,7 @@ class RecipientForm(forms.ModelForm):
             "is_disabled": "I Am Disabled",
         }
         widgets = {
-            'notes': forms.Textarea(
+            'comments': forms.Textarea(
                 attrs={
                     'class': 'form-control h-25',
                     'placeholder': 'Anything else we should know? (Optional)',
