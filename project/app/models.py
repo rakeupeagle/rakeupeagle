@@ -320,6 +320,10 @@ class Yard(models.Model):
         (10, 'include', 'Included'),
         (20, 'confirm', 'Confirmed'),
     )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
     state = FSMIntegerField(
         choices=STATE,
         default=STATE.new,
