@@ -42,8 +42,10 @@ class YardInline(admin.TabularInline):
     fields = [
         'recipient',
         'state',
+        'event',
     ]
     autocomplete_fields = [
+
     ]
     extra = 0
     show_change_link = True
