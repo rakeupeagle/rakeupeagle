@@ -176,6 +176,7 @@ class RakeAdmin(VersionAdmin):
         'event',
     ]
     list_display = [
+        'id',
         'state',
         'team',
         'public_notes',
