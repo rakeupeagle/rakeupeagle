@@ -324,16 +324,6 @@ class Yard(models.Model):
         choices=STATE,
         default=STATE.new,
     )
-    # SIZE = Choices(
-    #     (110, 'small', 'Small (1-15 bags)'),
-    #     (120, 'medium', 'Medium (16-30 bags)'),
-    #     (130, 'large', 'Large (31+ bags)'),
-    # )
-    # size = models.IntegerField(
-    #     blank=True,
-    #     choices=SIZE,
-    #     help_text="""Please provide the approximate yard size."""
-    # )
     comments = models.TextField(
         max_length=2000,
         blank=True,
