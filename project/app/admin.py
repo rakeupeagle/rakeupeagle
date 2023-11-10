@@ -443,6 +443,12 @@ class UserAdmin(UserAdminBase):
     ]
     readonly_fields = [
     ]
+    def get_search_results(self, request, queryset, search_term):
+        queryset, may_have_duplicates = super().get_search_results(
+            request, queryset, search_term
+        )
+        queryset |= self.model.objects.filter(phone=search_term)
+        return queryset, may_have_duplicates
 
 
 # Use Passwordless for login
