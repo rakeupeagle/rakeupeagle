@@ -36,7 +36,7 @@ from .forms import TeamcallForm
 from .forms import TeamForm
 from .forms import VerifyCodeForm
 from .models import Assignment
-from .models import Message
+from .models import MessageArchive
 from .models import Picture
 from .models import Recipient
 from .models import Team
@@ -44,8 +44,9 @@ from .models import User
 # from .tasks import get_assignments_csv
 from .tasks import check
 from .tasks import send
-from .tasks import send_recipient_confirmation
-from .tasks import send_team_confirmation
+
+# from .tasks import send_recipient_confirmation
+# from .tasks import send_team_confirmation
 
 log = logging.getLogger(__name__)
 
@@ -375,37 +376,37 @@ def dashboard_team(request, team_id):
         {'team': team},
     )
 
-@validate_twilio_request
-@csrf_exempt
-@require_POST
-def sms(request):
-    defaults = {}
-    raw = request.POST.dict()
-    sid = raw['SmsSid']
-    # status = getattr(Message.STATUS, raw.get('SmsStatus', Message.STATUS.new))
-    direction = Message.DIRECTION.inbound
-    to_phone = raw['To']
-    from_phone = raw['From']
-    body = raw['Body']
-    try:
-        user = User.objects.get(phone=from_phone)
-    except User.DoesNotExist:
-        log.error('no user')
-        return HttpResponse(status=404)
-    defaults = {
-        # 'status': status,
-        'direction': direction,
-        'to_phone': to_phone,
-        'from_phone': from_phone,
-        'body': body,
-        'user': user,
-        'raw': raw,
-    }
-    Message.objects.update_or_create(
-        sid=sid,
-        defaults=defaults,
-    )
-    return HttpResponse(status=201)
+# @validate_twilio_request
+# @csrf_exempt
+# @require_POST
+# def sms(request):
+#     defaults = {}
+#     raw = request.POST.dict()
+#     sid = raw['SmsSid']
+#     # status = getattr(Message.STATUS, raw.get('SmsStatus', Message.STATUS.new))
+#     direction = Message.DIRECTION.inbound
+#     to_phone = raw['To']
+#     from_phone = raw['From']
+#     body = raw['Body']
+#     try:
+#         user = User.objects.get(phone=from_phone)
+#     except User.DoesNotExist:
+#         log.error('no user')
+#         return HttpResponse(status=404)
+#     defaults = {
+#         # 'status': status,
+#         'direction': direction,
+#         'to_phone': to_phone,
+#         'from_phone': from_phone,
+#         'body': body,
+#         'user': user,
+#         'raw': raw,
+#     }
+#     Message.objects.update_or_create(
+#         sid=sid,
+#         defaults=defaults,
+#     )
+#     return HttpResponse(status=201)
 
 @staff_member_required
 def handout_pdf(request, assignment_id):

@@ -420,7 +420,7 @@ class Event(models.Model):
         return f"{self.year}"
 
 
-class Message(models.Model):
+class MessageArchive(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
@@ -472,7 +472,7 @@ class Message(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='messages',
+        # related_name='messages',
     )
     def __str__(self):
         return f"{self.id}"

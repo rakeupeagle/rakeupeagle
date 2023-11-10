@@ -4,7 +4,7 @@ from django.contrib import admin
 
 # Local
 from .models import Assignment
-from .models import Message
+from .models import MessageArchive
 from .models import Rake
 from .models import Recipient
 from .models import Team
@@ -64,8 +64,8 @@ class RakeInline(admin.TabularInline):
     show_change_link = True
 
 
-class MessageInline(admin.TabularInline):
-    model = Message
+class MessageArchiveInline(admin.TabularInline):
+    model = MessageArchive
     fields = [
         'id',
         'direction',

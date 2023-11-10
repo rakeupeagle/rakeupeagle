@@ -15,14 +15,14 @@ from reversion.admin import VersionAdmin
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
-from .inlines import MessageInline
+from .inlines import MessageArchiveInline
 from .inlines import RakeInline
 from .inlines import YardInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
 from .models import Assignment
 from .models import Event
-from .models import Message
+from .models import MessageArchive
 from .models import Picture
 from .models import Rake
 from .models import Recipient
@@ -314,8 +314,8 @@ class EventAdmin(VersionAdmin):
     ]
 
 
-@admin.register(Message)
-class MessageAdmin(VersionAdmin):
+@admin.register(MessageArchive)
+class MessageArchiveAdmin(VersionAdmin):
 
     # def user_url(self, obj):
     #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
