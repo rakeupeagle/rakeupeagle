@@ -18,9 +18,15 @@ urlpatterns = [
     path('faq/', TemplateView.as_view(template_name='app/pages/faq.html'), name='faq',),
 
     # Authentication
-    path('login', views.login, name='login'),
-    path('callback', views.callback, name='callback'),
-    path('logout', views.logout, name='logout'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+    path('register/', views.register, name='register'),
+    path('account/', views.account, name='account'),
+
+    # Authentication
+    path('verify/send/', views.verify_send, name='verify-send',),
+    path('verify/code/', views.verify_code, name='verify-code',),
+
 
     # Account
     path('delete', views.delete, name='delete',),

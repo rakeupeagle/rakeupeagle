@@ -550,10 +550,9 @@ class User(AbstractBaseUser):
     id = HashidAutoField(
         primary_key=True,
     )
-    username = models.CharField(
-        max_length=150,
-        blank=False,
-        null=False,
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
         unique=True,
     )
     name = models.CharField(
@@ -562,17 +561,11 @@ class User(AbstractBaseUser):
         null=False,
         default='',
     )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-        unique=True,
-    )
-    data = models.JSONField(
-        null=True,
-        editable=False,
-    )
     is_active = models.BooleanField(
         default=True,
+    )
+    is_verified = models.BooleanField(
+        default=False,
     )
     is_admin = models.BooleanField(
         default=False,
@@ -584,8 +577,9 @@ class User(AbstractBaseUser):
         auto_now=True,
     )
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'id'
     REQUIRED_FIELDS = [
+        'phone',
     ]
 
     objects = UserManager()

@@ -21,14 +21,20 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from reversion.views import create_revision
 
-from .decorators import twilio
+from .decorators import validate_twilio_request
+from .forms import AccountForm
 from .forms import CallForm
 from .forms import DeleteForm
+from .forms import LoginForm
 from .forms import RecipientForm
+from .forms import RegisterForm
 from .forms import TeamcallForm
 from .forms import TeamForm
+from .forms import VerifyCodeForm
 from .models import Assignment
 from .models import Message
 from .models import Picture
@@ -36,6 +42,8 @@ from .models import Recipient
 from .models import Team
 from .models import User
 # from .tasks import get_assignments_csv
+from .tasks import check
+from .tasks import send
 from .tasks import send_recipient_confirmation
 from .tasks import send_team_confirmation
 
@@ -53,104 +61,113 @@ def index(request):
         }
     )
 
+
 # Authentication
 def login(request):
-    # Set landing page depending on initial button
-    initial = request.GET.get('initial', 'dashboard')
-    redirect_uri = request.build_absolute_uri(reverse('callback'))
-    state = f"{initial}|{get_random_string(length=8)}"
-    request.session['state'] = state
-
-    params = {
-        'response_type': 'code',
-        'client_id': settings.AUTH0_CLIENT_ID,
-        'scope': 'openid phone',
-        'redirect_uri': redirect_uri,
-        'state': state,
-        'initial_screen': 'login',
-    }
-    url = requests.Request(
-        'GET',
-        f'https://{settings.AUTH0_DOMAIN}/authorize',
-        params=params,
-    ).prepare().url
-    return redirect(url)
-
-
-def callback(request):
-    # Reject if state doesn't match
-    browser_state = request.session.get('state')
-    server_state = request.GET.get('state')
-    if browser_state != server_state:
-        del request.session['state']
-        log.error('state mismatch')
-        messages.error(
+    form = LoginForm(request.POST or None)
+    if form.is_valid():
+        number = form.cleaned_data['phone'].as_e164
+        try:
+            user = User.objects.get(
+                phone=number,
+            )
+        except User.DoesNotExist:
+            request.session['number'] = number
+            return redirect('register')
+        user = authenticate(
             request,
-            "Sorry, there was a problem.  Please try again or contact support."
+            phone=number,
         )
-        return redirect('index')
-
-    # get initial
-    initial = browser_state.partition("|")[0]
-
-    # Get Auth0 Code
-    code = request.GET.get('code', None)
-    if not code:
-        log.error('no code')
-        return HttpResponse(status=400)
-    token_url = f'https://{settings.AUTH0_DOMAIN}/oauth/token'
-    redirect_uri = request.build_absolute_uri(reverse('callback'))
-    token_payload = {
-        'client_id': settings.AUTH0_CLIENT_ID,
-        'client_secret': settings.AUTH0_CLIENT_SECRET,
-        'code': code,
-        'grant_type': 'authorization_code',
-        'redirect_uri': redirect_uri,
-    }
-    token = requests.post(
-        token_url,
-        json=token_payload,
-    ).json()
-    payload = jwt.decode(
-        token['id_token'],
-        audience=settings.AUTH0_CLIENT_ID,
-        options={
-            'verify_signature': False,
+        log_in(
+            request,
+            user,
+            backend='app.backends.AppBackend',
+        )
+        messages.success(
+            request,
+            f"Welcome, {user.name}!",
+        )
+        return redirect('account')
+    return render(
+        request,
+        'app/pages/login.html',
+        context={
+            'form': form,
         }
     )
-    payload['username'] = payload.pop('sub')
-    payload['phone'] = payload.pop('phone_number')
-    payload['name'] = ''
-    user = authenticate(request, **payload)
-    if user:
-        log_in(request, user)
-        if user.is_admin:
-            return redirect('admin:index')
-        if user.recipients.first():
-            return redirect('recipient')
-        if user.teams.first():
-            return redirect('team')
-        return redirect(initial)
-    log.error('callback fallout')
-    return HttpResponse(status=403)
+
+def register(request):
+    number = request.session.get('number', '')
+    initial = {
+        'phone': number,
+    }
+    form = RegisterForm(request.POST or None, initial=initial)
+    if form.is_valid():
+        number = form.cleaned_data['phone'].as_e164
+        name = form.cleaned_data['name']
+        user = authenticate(
+            request,
+            phone=number,
+            name=name,
+        )
+        log_in(
+            request,
+            user,
+            backend='app.backends.AppBackend',
+        )
+        messages.success(
+            request,
+            f"Welcome, {user.name}!",
+        )
+        return redirect('account')
+    return render(
+        request,
+        'app/pages/register.html',
+        context={
+            'form': form,
+        }
+    )
 
 
 def logout(request):
     log_out(request)
-    params = {
-        'client_id': settings.AUTH0_CLIENT_ID,
-        'return_to': request.build_absolute_uri(reverse('index')),
-    }
-    logout_url = requests.Request(
-        'GET',
-        f'https://{settings.AUTH0_DOMAIN}/v2/logout',
-        params=params,
-    ).prepare().url
     messages.success(
         request,
         "You Have Been Logged Out!",
     )
-    return redirect(logout_url)
+    return redirect('index')
+
+
+@login_required
+def account(request):
+    user = request.user
+    if request.POST:
+        form = AccountForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Saved!',
+            )
+            return redirect('account')
+    form = AccountForm(instance=user)
+    recipients = Recipient.objects.filter(
+        user=request.user,
+    )
+    teams = Team.objects.filter(
+        user=request.user,
+    )
+    return render(
+        request,
+        'app/pages/account.html',
+        context={
+            'user': user,
+            'form': form,
+            'recipients': recipients,
+            'teams': teams,
+        }
+    )
+
 
 @login_required
 def delete(request):
@@ -166,7 +183,46 @@ def delete(request):
     return render(
         request,
         'app/pages/delete.html',
-        {'form': form,},
+        context={
+            'form': form,
+        },
+    )
+
+@login_required
+def verification(request):
+    return render(
+        request,
+        'app/pages/verification.html',
+        context={
+        },
+    )
+
+@login_required
+def verify_send(request):
+    send(
+        request.user.phone.as_e164,
+    )
+    return redirect('verify-code')
+
+@login_required
+def verify_code(request):
+    form = VerifyCodeForm(request.POST or None)
+    if form.is_valid():
+        code = form.cleaned_data.get('code')
+        if check(request.user.phone.as_e164, code):
+            request.user.is_verified = True
+            request.user.save()
+            messages.success(
+                request,
+                "Your account has been verified!",
+            )
+            return redirect('account')
+    return render(
+        request,
+        'app/pages/verify_code.html',
+        context={
+            'form': form
+        },
     )
 
 # Recipient
@@ -319,7 +375,9 @@ def dashboard_team(request, team_id):
         {'team': team},
     )
 
-@twilio
+@validate_twilio_request
+@csrf_exempt
+@require_POST
 def sms(request):
     defaults = {}
     raw = request.POST.dict()

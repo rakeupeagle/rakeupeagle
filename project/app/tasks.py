@@ -1,11 +1,10 @@
 # Standard Libary
 import csv
+import logging
 
 import geocoder
 import requests
 # First-Party
-from auth0.authentication import GetToken
-from auth0.management import Auth0
 from dateutil import parser
 # Django
 from django.conf import settings
@@ -17,6 +16,7 @@ from django.db.models import Sum
 from django.http import FileResponse
 from django.template.loader import render_to_string
 from django_rq import job
+from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client as TwilioClient
 
 # Local
@@ -28,144 +28,29 @@ from .models import Team
 from .models import User
 
 
-# Auth0
-def get_auth0_token():
-    get_token = GetToken(
-        settings.AUTH0_DOMAIN,
-        settings.AUTH0_CLIENT_ID,
-        settings.AUTH0_CLIENT_SECRET,
-    )
-    token = get_token.client_credentials(
-        f'https://{settings.AUTH0_DOMAIN}/api/v2/',
-    )
-    return token
-
-def get_auth0_client():
-    token = get_auth0_token()
-    client = Auth0(
-        settings.AUTH0_DOMAIN,
-        token['access_token'],
-    )
-    return client
-
-def get_twilio_client():
+def send(number):
     client = TwilioClient()
-    return client
-
-def put_auth0_payload(endpoint, payload):
-    token = get_auth0_token()
-    access_token = token['access_token']
-    headers = {
-        'Authorization': f'Bearer {access_token}',
-    }
-    response = requests.put(
-        f'https://{settings.AUTH0_DOMAIN}/api/v2/{endpoint}',
-        headers=headers,
-        json=payload,
+    client.verify.services(
+        settings.TWILIO_VERIFY_SID,
+    ).verifications.create(
+        to=number,
+        channel='sms',
     )
-    return response
 
-@job
-def archive_auth0_recipient(recipient):
-    client = get_auth0_client()
-    data = {
-        "name": recipient.name,
-        "user_metadata": {
-            "address": recipient.location,
-            "size": recipient.get_size_display(),
-        }
-    }
-    response = client.users.update(
-        id=recipient.user.username,
-        body=data,
-    )
-    return response
+def check(number, code):
+    client = TwilioClient()
+    try:
+        result = client.verify.services(
+            settings.TWILIO_VERIFY_SID,
+        ).verification_checks.create(
+            to=number,
+            code=code,
+        )
+    except TwilioRestException as e:
+        # log.error(e)
+        return False
+    return result.status == 'approved'
 
-
-@job
-def archive_auth0_team(team):
-    client = get_auth0_client()
-    data = {
-        "name": team.name,
-        "user_metadata": {
-            "nickname": team.nickname,
-            "size": team.get_size_display(),
-        }
-    }
-    response = client.users.update(
-        id=team.user.username,
-        body=data,
-    )
-    return response
-
-
-@job
-def import_auth0_recipient(recipient):
-    client = get_auth0_client()
-    data = {
-        "name": recipient[0],
-        "user_metadata": {
-            "address": recipient[2],
-            "size": recipient[3],
-        }
-    }
-    user = User.objects.get(
-        phone=recipient[1],
-    )
-    response = client.users.update(
-        id=user.username,
-        body=data,
-    )
-    return response
-
-
-@job
-def create_user_from_phone(phone, name=None):
-    client = get_auth0_client()
-    data = {
-        "phone_number": phone,
-        "name": name,
-        "connection": "sms"
-    }
-    response = client.users.create(
-        body=data,
-    )
-    user = User.objects.create(
-        username=response['user_id'],
-        name=name,
-        phone=phone,
-    )
-    return user
-
-
-@job
-def create_user_from_auth0(auth0):
-    user = User.objects.create(
-        username=auth0['user_id'],
-        name=auth0['name'],
-        phone=auth0['phone_number'],
-    )
-    return user
-
-
-@job
-def import_auth0_team(team):
-    client = get_auth0_client()
-    data = {
-        "name": team[0],
-        "user_metadata": {
-            "nickname": team[2],
-            "size": team[3],
-        }
-    }
-    user = User.objects.get(
-        phone=team[1],
-    )
-    response = client.users.update(
-        id=user.username,
-        body=data,
-    )
-    return response
 
 # Utility
 def export_teams_csv():
@@ -518,14 +403,6 @@ def create_and_upload_picture(path):
         imagefile = File(f)
         picture = Picture.objects.create()
         picture.image.save('null', imagefile)
-
-
-@job
-def delete_user(user_id):
-    client = get_auth0_client()
-    response = client.users.delete(user_id)
-    return response
-
 
 
 @job

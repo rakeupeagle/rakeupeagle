@@ -3,6 +3,7 @@ import re
 
 from django import forms
 from django.conf import settings
+from django.forms.widgets import Input
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
@@ -67,3 +68,7 @@ class AddressWidget(forms.TextInput):
     def value_from_datadict(self, data, files, name):
         raw = data.get(name, "")
         return raw
+
+
+class CodeWidget(Input):
+    input_type = 'tel'

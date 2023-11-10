@@ -4,12 +4,14 @@ from django.contrib.auth.forms import UserChangeForm as UserChangeFormBase
 from django.contrib.auth.forms import UserCreationForm as UserCreationFormBase
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
+from phonenumber_field.formfields import PhoneNumberField
 
 # Local
 from .models import Recipient
 from .models import Team
 from .models import User
 from .widgets import AddressWidget
+from .widgets import CodeWidget
 
 
 class CallForm(forms.ModelForm):
@@ -31,10 +33,55 @@ class TeamcallForm(forms.ModelForm):
         ]
 
 
+class VerifyCodeForm(forms.Form):
+    code = forms.CharField(
+        max_length=4,
+        required=True,
+        help_text='Enter Code',
+        widget=CodeWidget(
+            attrs={
+                'class': 'form-control form-control-lg',
+            }
+        )
+    )
+
 class DeleteForm(forms.Form):
     confirm = forms.BooleanField(
         required=True,
     )
+
+
+class LoginForm(forms.Form):
+    phone = PhoneNumberField(
+        required=True,
+    )
+
+
+class RegisterForm(forms.Form):
+    phone = PhoneNumberField(
+        required=True,
+    )
+    name = forms.CharField(
+        max_length=40,
+        required=True,
+        help_text='Your Name',
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control form-control-lg",
+                'placeholder': "Name",
+            },
+        ),
+    )
+
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'phone',
+            'name',
+        ]
+
 
 
 class RecipientForm(forms.ModelForm):
@@ -119,7 +166,7 @@ class TeamForm(forms.ModelForm):
 
 class UserCreationForm(UserCreationFormBase):
     """
-    Custom user creation form for Auth0
+    Custom user creation form
     """
 
     # Bypass password requirement
@@ -138,7 +185,6 @@ class UserCreationForm(UserCreationFormBase):
     class Meta:
         model = User
         fields = [
-            'username',
             'phone',
             'name',
         ]
@@ -146,13 +192,12 @@ class UserCreationForm(UserCreationFormBase):
 
 class UserChangeForm(UserChangeFormBase):
     """
-    Custom user change form for Auth0
+    Custom user change form
     """
 
     class Meta:
         model = User
         fields = [
-            'username',
             'phone',
             'name',
         ]

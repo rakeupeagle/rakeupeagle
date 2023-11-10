@@ -14,7 +14,6 @@ def anon_client():
 @pytest.fixture
 def user_client():
     user = UserFactory(
-        username='user',
         name='User',
         phone='+15005551212',
         is_active=True,
@@ -28,7 +27,6 @@ def user_client():
 @pytest.fixture
 def admin_client():
     admin = UserFactory(
-        username='admin',
         name='Admin',
         phone='+15005551212',
         is_active=True,

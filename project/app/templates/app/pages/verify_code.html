@@ -1,0 +1,35 @@
+{% extends 'app/_base.html' %}
+
+{% block title %}
+  Verify
+{% endblock title %}
+
+{% block content %}
+  <header class='my-3'>
+    <h2>
+      Verify
+    </h2>
+    <p class='lead'>
+      Please wait ten seconds for your 4-digit code to arrive, then enter it below.
+    </p>
+  </header>
+  <main class='col-lg-4'>
+    <div class='card'>
+      <form action='{% url "verify-code" %}' method='post'>
+        {% csrf_token %}
+        <div class='card-header'>
+          <h4>
+            Enter Code
+          </h4>
+        </div>
+        <div class='card-body'>
+          {{form.code}}
+        </div>
+        <div class='card-footer'>
+          <a href='{% url "verify-send" %}' role='button' class='btn btn-lg btn-outline-dark'>Send Again</a>
+          <button type='submit' class='btn btn-lg btn-success float-end'>Verify</button>
+        </div>
+      </form>
+    </div>
+  </main>
+{% endblock content %}
