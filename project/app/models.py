@@ -15,16 +15,6 @@ class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    # name = models.CharField(
-    #     max_length=100,
-    #     blank=True,
-    #     default='',
-    #     help_text="""Your full name."""
-    # )
-    # phone = PhoneNumberField(
-    #     blank=True,
-    #     null=True,
-    # )
     STATE = Choices(
         (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),
@@ -118,16 +108,6 @@ class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    # name = models.CharField(
-    #     max_length=100,
-    #     blank=True,
-    #     default='',
-    #     help_text="""Your full name."""
-    # )
-    # phone = PhoneNumberField(
-    #     blank=True,
-    #     null=True,
-    # )
     STATE = Choices(
         (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),
@@ -313,16 +293,6 @@ class Yard(models.Model):
         choices=STATE,
         default=STATE.new,
     )
-    # name = models.CharField(
-    #     max_length=100,
-    #     blank=True,
-    #     default='',
-    #     help_text="""Your full name."""
-    # )
-    # phone = PhoneNumberField(
-    #     blank=True,
-    #     null=True,
-    # )
     public_notes = models.TextField(
         max_length=2000,
         blank=True,
@@ -369,40 +339,6 @@ class Rake(models.Model):
     state = FSMIntegerField(
         choices=STATE,
         default=STATE.new,
-    )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Whimsical Team Name (ie, Robert's Rakers, Covey Courters, etc.)""",
-    )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
-    SIZE = Choices(
-        (105, 'solo', 'Solo (1 Adult)'),
-        (110, 'xs', 'Extra-Small (2-5 Adults)'),
-        (120, 'small', 'Small (6-10 Adults)'),
-        (130, 'medium', 'Medium (11-15 Adults)'),
-        (140, 'large', 'Large (16-20 Adults)'),
-        (150, 'xl', 'Extra-Large (21+ Adults)'),
-    )
-    size = models.IntegerField(
-        choices=SIZE,
-        blank=True,
-        null=True,
-    )
-    nickname = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Whimsical Team Name (ie, Robert's Rakers, Covey Courters, etc.)""",
-    )
-    actual = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='The actual number of adults, or adult-equivalent in children.',
     )
     public_notes = models.TextField(
         max_length=2000,

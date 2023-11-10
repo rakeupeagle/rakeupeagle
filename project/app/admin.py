@@ -142,19 +142,17 @@ class RakeAdmin(VersionAdmin):
     save_on_top = True
     fields = [
         'state',
-        'team',
-        'size',
         'public_notes',
         'admin_notes',
+        'team',
         'event',
     ]
     list_display = [
         'id',
         'state',
-        'team',
-        'size',
         'public_notes',
         'admin_notes',
+        'team',
         'event',
     ]
     list_filter = [
