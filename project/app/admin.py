@@ -424,9 +424,6 @@ class PictureAdmin(VersionAdmin):
 
 @admin.register(User)
 class UserAdmin(UserAdminBase):
-
-
-
     save_on_top = True
     add_form = UserCreationForm
     form = UserChangeForm
@@ -474,7 +471,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        MessageInline,
+        # MessageInline,
     ]
     readonly_fields = [
     ]

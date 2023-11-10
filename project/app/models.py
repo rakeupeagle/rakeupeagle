@@ -610,7 +610,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def __str__(self):
-        return str(self.phone)
+        return f"{self.phone} - {self.name}"
 
     def has_perm(self, perm, obj=None):
         return True
