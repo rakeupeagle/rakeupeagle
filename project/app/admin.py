@@ -171,6 +171,7 @@ class RakeAdmin(VersionAdmin):
     fields = [
         'state',
         'team',
+        'size',
         'public_notes',
         'admin_notes',
         'event',
@@ -179,6 +180,7 @@ class RakeAdmin(VersionAdmin):
         'id',
         'state',
         'team',
+        'size',
         'public_notes',
         'admin_notes',
         'event',
