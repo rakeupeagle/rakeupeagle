@@ -164,7 +164,7 @@ class Team(models.Model):
         null=True,
         help_text='The actual number of adults, or adult-equivalent in children.',
     )
-    notes = models.TextField(
+    public_notes = models.TextField(
         max_length=512,
         blank=True,
         default='',
@@ -262,7 +262,7 @@ class Assignment(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
-    notes = models.TextField(
+    admin_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -328,7 +328,7 @@ class Yard(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
-    notes = models.TextField(
+    admin_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -409,7 +409,7 @@ class Rake(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
-    notes = models.TextField(
+    admin_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -459,7 +459,7 @@ class Event(models.Model):
         blank=True,
         null=True
     )
-    notes = models.TextField(
+    admin_notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',

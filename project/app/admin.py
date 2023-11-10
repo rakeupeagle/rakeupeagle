@@ -131,14 +131,14 @@ class YardAdmin(VersionAdmin):
         'state',
         'recipient',
         'public_notes',
-        'public_notes',
+        'admin_notes',
         'event',
     ]
     list_display = [
         'state',
         'recipient',
         'public_notes',
-        'public_notes',
+        'admin_notes',
         'event',
     ]
     list_filter = [
@@ -172,14 +172,14 @@ class RakeAdmin(VersionAdmin):
         'state',
         'team',
         'public_notes',
-        'public_notes',
+        'admin_notes',
         'event',
     ]
     list_display = [
         'state',
         'team',
         'public_notes',
-        'public_notes',
+        'admin_notes',
         'event',
     ]
     list_filter = [
@@ -292,7 +292,7 @@ class AssignmentAdmin(VersionAdmin):
         'yard',
         'rake',
         'public_notes',
-        'public_notes',
+        'admin_notes',
     ]
     list_display = [
         'id',
