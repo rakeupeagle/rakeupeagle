@@ -88,6 +88,13 @@ class RecipientAdmin(VersionAdmin):
         # 'user_url',
     ]
 
+    def get_search_results(self, request, queryset, search_term):
+        queryset, may_have_duplicates = super().get_search_results(
+            request, queryset, search_term
+        )
+        queryset |= self.model.objects.filter(user__phone=search_term)
+        return queryset, may_have_duplicates
+
 
 @admin.register(Yard)
 class YardAdmin(VersionAdmin):
@@ -176,29 +183,10 @@ class RakeAdmin(VersionAdmin):
 
 @admin.register(Team)
 class TeamAdmin(VersionAdmin):
-    # def recipient_sizes(self, obj):
-    #     lst = [Recipient.SIZE[x.recipient.size] for x in obj.assignments.all()]
-
-    #     return "; ".join(
-    #         list(lst)
-    #     )
-
-    # def latest_message(self, obj):
-    #     latest_message = obj.user.messages.filter(
-    #         direction=Message.DIRECTION.inbound,
-    #     ).latest('created').body
-    #     return latest_message
-
-    # def user_url(self, obj):
-    #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
-    #     return format_html("<a href='{url}'>User</a>", url=user_url)
 
     save_on_top = True
     fields = [
         'state',
-        'name',
-        # 'user_url',
-        'phone',
         'nickname',
         'size',
         'public_notes',
@@ -206,9 +194,7 @@ class TeamAdmin(VersionAdmin):
         'user',
     ]
     list_display = [
-        'name',
         'nickname',
-        'phone',
         'user',
         'size',
         # 'nickname',
@@ -227,13 +213,11 @@ class TeamAdmin(VersionAdmin):
     ]
     search_fields = [
         'nickname',
-        'name',
+        'user__name',
         'user__phone',
     ]
     list_editable = [
         'state',
-        'phone',
-        'user',
     ]
     autocomplete_fields = [
         'user',
@@ -243,13 +227,18 @@ class TeamAdmin(VersionAdmin):
         RakeInline,
     ]
     ordering = [
-        'name',
     ]
     readonly_fields = [
         # 'latest_message',
         # 'user_url',
     ]
 
+    def get_search_results(self, request, queryset, search_term):
+        queryset, may_have_duplicates = super().get_search_results(
+            request, queryset, search_term
+        )
+        queryset |= self.model.objects.filter(user__phone=search_term)
+        return queryset, may_have_duplicates
 
 @admin.register(Assignment)
 class AssignmentAdmin(VersionAdmin):
@@ -443,6 +432,7 @@ class UserAdmin(UserAdminBase):
     ]
     readonly_fields = [
     ]
+
     def get_search_results(self, request, queryset, search_term):
         queryset, may_have_duplicates = super().get_search_results(
             request, queryset, search_term

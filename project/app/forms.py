@@ -116,16 +116,15 @@ class RecipientForm(forms.ModelForm):
 
 
 class TeamForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Overriding required fields in form
-        self.fields['name'].required = True
-        self.fields['size'].required = True
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     # Overriding required fields in form
+    #     self.fields['name'].required = True
+    #     self.fields['size'].required = True
 
     class Meta:
         model = Team
         fields = [
-            'name',
             'size',
             'nickname',
             'reference',

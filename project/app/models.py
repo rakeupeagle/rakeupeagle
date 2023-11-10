@@ -118,16 +118,16 @@ class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Your full name."""
-    )
-    phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
+    # name = models.CharField(
+    #     max_length=100,
+    #     blank=True,
+    #     default='',
+    #     help_text="""Your full name."""
+    # )
+    # phone = PhoneNumberField(
+    #     blank=True,
+    #     null=True,
+    # )
     STATE = Choices(
         (-10, 'exclude', 'Excluded'),
         (0, 'new', 'New'),
