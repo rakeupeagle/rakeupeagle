@@ -9,7 +9,7 @@ Veteran? {{recipient.is_veteran|yesno|title}}
 Senior? {{recipient.is_senior|yesno|title}}
 Disabled? {{recipient.is_disabled|yesno|title}}
 Dog in Yard? {{recipient.is_dog|yesno|title}}
-Notes: {{recipient.notes|default:'(No Notes)'}}
+Notes: {{recipient.public_notes|default:'(No Notes)'}}
 
 We will be in contact after November 7th with further instructions.  Please let us know if you have any questions.
 {% endautoescape %}

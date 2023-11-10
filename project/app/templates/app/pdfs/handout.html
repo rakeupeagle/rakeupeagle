@@ -46,7 +46,7 @@
             <li>Address: {{recipient.location}}</li>
             <li>Phone: {{recipient.phone.as_national}}</li>
             <li>Size: {{recipient.get_size_display}}</li>
-            <li>Notes: {{recipient.notes|default:"(No Notes Provided)"}}</li>
+            <li>Notes: {{recipient.public_notes|default:"(No Notes Provided)"}}</li>
           </ul>
           {# <div class='img-fluid'> #}
             {# <img src={{mapurl}}> #}

@@ -63,7 +63,7 @@ class RecipientAdmin(VersionAdmin):
         'is_disabled',
         'is_dog',
         'user',
-        'notes',
+        'public_notes',
         'admin_notes',
         'bags',
     ]
@@ -84,7 +84,7 @@ class RecipientAdmin(VersionAdmin):
         'state',
         # 'created',
         # 'user',
-        # 'notes',
+        # 'public_notes',
         # 'admin_notes',
         # 'latest_message',
     ]
@@ -131,14 +131,14 @@ class YardAdmin(VersionAdmin):
         'state',
         'recipient',
         'public_notes',
-        'notes',
+        'public_notes',
         'event',
     ]
     list_display = [
         'state',
         'recipient',
         'public_notes',
-        'notes',
+        'public_notes',
         'event',
     ]
     list_filter = [
@@ -172,14 +172,14 @@ class RakeAdmin(VersionAdmin):
         'state',
         'team',
         'public_notes',
-        'notes',
+        'public_notes',
         'event',
     ]
     list_display = [
         'state',
         'team',
         'public_notes',
-        'notes',
+        'public_notes',
         'event',
     ]
     list_filter = [
@@ -233,7 +233,7 @@ class TeamAdmin(VersionAdmin):
         'phone',
         'nickname',
         'size',
-        'notes',
+        'public_notes',
         'admin_notes',
         'user',
     ]
@@ -247,7 +247,7 @@ class TeamAdmin(VersionAdmin):
         # 'recipient_sizes',
         'state',
         # 'created',
-        # 'notes',
+        # 'public_notes',
         # 'admin_notes',
         # 'latest_message',
     ]
@@ -292,7 +292,7 @@ class AssignmentAdmin(VersionAdmin):
         'yard',
         'rake',
         'public_notes',
-        'notes',
+        'public_notes',
     ]
     list_display = [
         'id',

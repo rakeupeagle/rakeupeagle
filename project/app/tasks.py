@@ -75,7 +75,7 @@ def export_teams_csv():
                 t.size,
                 t.nickname,
                 t.reference,
-                t.notes,
+                t.public_notes,
                 t.admin_notes,
             ])
 
@@ -135,7 +135,7 @@ def export_recipients_csv():
                 # r.point,
                 r.geocode,
                 r.is_dog,
-                r.notes,
+                r.public_notes,
                 r.admin_notes,
             ])
 

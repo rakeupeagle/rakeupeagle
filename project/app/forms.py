@@ -137,12 +137,12 @@ class TeamForm(forms.ModelForm):
             'size',
             'nickname',
             'reference',
-            'notes',
+            'public_notes',
         ]
         labels = {
         }
         widgets = {
-            'notes': forms.Textarea(
+            'public_notes': forms.Textarea(
                 attrs={
                     'class': 'form-control h-25',
                     'placeholder': 'Anything else we should know? (Optional)',

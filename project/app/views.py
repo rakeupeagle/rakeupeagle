@@ -516,7 +516,7 @@ def export_recipients(request):
             phone,
             recipient.location,
             recipient.get_size_display(),
-            recipient.notes,
+            recipient.public_notes,
             # recipient.admin_notes,
         ])
     return response
@@ -546,7 +546,7 @@ def export_teams(request):
         team.phone,
         team.nickname,
         team.get_size_display(),
-        team.notes,
+        team.public_notes,
         # team.admin_notes,
     ])
     return response

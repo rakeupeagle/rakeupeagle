@@ -9,6 +9,6 @@ Thank you again!
 Team Leader: {{team.name}}
 Group Size: {{team.get_size_display}}
 Team Name: {{team.nickname|default:'(None provided)'}}
-Notes: {{team.notes|default:'(No Notes)'}}
+Notes: {{team.public_notes|default:'(No Notes)'}}
 
 {% endautoescape %}
