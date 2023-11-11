@@ -119,7 +119,7 @@ class YardAdmin(VersionAdmin):
         'recipient__size',
     ]
     search_fields = [
-        'recipient__name',
+        'recipient__user__name',
     ]
     list_editable = [
     ]
@@ -131,7 +131,7 @@ class YardAdmin(VersionAdmin):
         AssignmentInline,
     ]
     ordering = [
-        'recipient__name',
+        'recipient__user__name',
     ]
     readonly_fields = [
     ]
@@ -161,7 +161,8 @@ class RakeAdmin(VersionAdmin):
         'team__size',
     ]
     search_fields = [
-        'team__name',
+        'team__nickname',
+        'team__user__name',
     ]
     list_editable = [
     ]
@@ -173,7 +174,8 @@ class RakeAdmin(VersionAdmin):
         AssignmentInline,
     ]
     ordering = [
-        'team__name',
+        'team__nickname',
+        'team__user__name',
     ]
     readonly_fields = [
     ]
