@@ -159,14 +159,14 @@ def process_webhook(data):
             body = data.get('Body', None)
             media = data.get('Media', None)
             author = data.get('Author', None)
-            conversation_sid = data.get('ConversationSid', None)
+            conversation = data.get('ConversationSid', None)
             Message.objects.create(
                 sid=sid,
                 index=index,
                 date_created=date_created,
                 body=body,
                 author=author,
-                conversation=conversation_sid,
+                conversation=conversation,
                 media=media,
             )
         # case 'onParticipantUpdated':
