@@ -178,6 +178,7 @@ class YardAdmin(VersionAdmin):
     ]
     search_fields = [
         'recipient__user__name',
+        'recipient__location',
     ]
     list_editable = [
     ]
