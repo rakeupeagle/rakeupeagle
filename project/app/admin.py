@@ -374,7 +374,7 @@ class ConversationAdmin(admin.ModelAdmin):
     fields = [
         'sid',
         'state',
-        'friendly_name',
+        'name',
         'date_created',
         'date_updated',
         'user',
@@ -389,7 +389,7 @@ class ConversationAdmin(admin.ModelAdmin):
         # 'url',
         # 'links',
         # 'bindings',
-        # 'friendly_name',
+        # 'name',
         # 'unique_name',
         # 'attributes',
         # 'origination',

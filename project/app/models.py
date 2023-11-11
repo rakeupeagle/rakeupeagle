@@ -511,7 +511,7 @@ class Conversation(models.Model):
         choices=STATE,
         default=STATE.active,
     )
-    friendly_name = models.CharField(
+    name = models.CharField(
         max_length=100,
         unique=True,
         null=True,
@@ -530,7 +530,7 @@ class Conversation(models.Model):
         related_name='conversation',
     )
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.user.name}"
 
 
 class Participant(models.Model):

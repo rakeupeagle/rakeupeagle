@@ -27,7 +27,7 @@ def create_conversation(conversation):
         return
     client = get_twilio_client()
     result = client.conversations.v1.conversations.create(
-        friendly_name=conversation.friendly_name,
+        name=conversation.name,
     )
     conversation.sid = result.sid
     conversation.date_created = result.date_created
@@ -40,7 +40,7 @@ def create_conversation(conversation):
 #     client.conversations.v1.conversations(
 #         conversation.conversation_sid
 #     ).update(
-#         friendly_name=conversation.friendly_name,
+#         name=conversation.name,
 #         state=conversation.get_state_display(),
 #         date_updated=conversation.date_updated,
 #     )
@@ -124,7 +124,7 @@ def delete_message(message):
 # def save_content(content_sid):
 #     result = get_content(content_sid)
 #     defaults = {
-#         'name': result.friendly_name,
+#         'name': result.name,
 #         'components': result.types,
 #         'variables': result.variables,
 #     }
