@@ -622,7 +622,7 @@ def get_precision(geocode):
 
 @job
 def geocode_recipient(recipient):
-    address = f"{recipient.location}, Eagle ID  83616"
+    address = f"{recipient.location}, Eagle, ID"
     result = geocoder.google(address)
     geocode = result.json
     try:
@@ -630,17 +630,12 @@ def geocode_recipient(recipient):
     except TypeError:
         return
     if is_precise:
-        recipient.is_precise = True
-        # recipient.point = Point(
-        #     geocode['lng'],
-        #     geocode['lat'],
-        # )
-        recipient.place = geocode['place']
-    else:
-        geocode['status'] = 'IMPRECISE'
-        recipient.is_precise = False
-    recipient.geocode = geocode
-    return recipient.save()
+        recipient.point = Point(
+            geocode['lng'],
+            geocode['lat'],
+        )
+        recipient.save()
+    return
 
 
 # def create_or_update(message):
