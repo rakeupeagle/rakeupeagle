@@ -2,6 +2,7 @@
 # First-Party
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.template.defaultfilters import escape
@@ -15,8 +16,12 @@ from reversion.admin import VersionAdmin
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
+from .inlines import ConversationInline
 from .inlines import MessageArchiveInline
+from .inlines import MessageInline
+from .inlines import ParticipantInline
 from .inlines import RakeInline
+from .inlines import ReceiptInline
 from .inlines import YardInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
@@ -33,6 +38,48 @@ from .models import Recipient
 from .models import Team
 from .models import User
 from .models import Yard
+
+
+class DirectionListFilter(SimpleListFilter):
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'Direction'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = "direction"
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        values = [
+            ('inbound', 'Inbound'),
+            ('outbound', 'Outbound'),
+        ]
+
+        return values
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '80s' or '90s')
+        # to decide how to filter the queryset.
+        if self.value() == 'outbound':
+            return queryset.filter(
+                author__isnull=True,
+            )
+        elif self.value() == 'inbound':
+            return queryset.filter(
+                author__isnull=False,
+            )
+
 
 
 @admin.register(Recipient)
@@ -320,6 +367,235 @@ class EventAdmin(VersionAdmin):
     ]
 
 
+# Twilio
+@admin.register(Conversation)
+class ConversationAdmin(admin.ModelAdmin):
+    save_on_top = True
+    fields = [
+        'sid',
+        'state',
+        'friendly_name',
+        'date_created',
+        'date_updated',
+        'user',
+    ]
+
+    list_display = [
+        'sid',
+        'state',
+        'date_created',
+        'date_updated',
+        # 'timers',
+        # 'url',
+        # 'links',
+        # 'bindings',
+        # 'friendly_name',
+        # 'unique_name',
+        # 'attributes',
+        # 'origination',
+    ]
+    ordering = [
+    ]
+    search_fields = [
+        'sid',
+        'user__name',
+    ]
+    list_filter = [
+        'state',
+    ]
+    readonly_fields = [
+        'sid',
+        # 'state',
+        'date_created',
+        'date_updated',
+    ]
+    inlines = [
+        ParticipantInline,
+        MessageInline,
+    ]
+    list_editable = [
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+
+
+@admin.register(Participant)
+class ParticipantAdmin(admin.ModelAdmin):
+    save_on_top = True
+    fields = [
+        'sid',
+        # 'attributes',
+        # 'messaging_binding',
+        'last_read_message_index',
+        'last_read_timestamp',
+        'date_created',
+        'date_updated',
+        # 'url',
+        # 'conversation_sid',
+        # 'origination',
+        'conversation',
+        'phone',
+    ]
+
+    list_display = [
+        'sid',
+        # 'messaging_binding',
+        'date_created',
+        'date_updated',
+        'last_read_message_index',
+        'last_read_timestamp',
+        # 'conversation_sid',
+        # 'origination',
+        'conversation',
+        'phone',
+    ]
+    ordering = [
+    ]
+    search_fields = [
+        'sid',
+    ]
+    list_filter = [
+    ]
+    inlines = [
+        # ReceiptInline,
+    ]
+    list_editable = [
+    ]
+    readonly_fields = [
+        'sid',
+        'date_created',
+        'date_updated',
+        'last_read_message_index',
+        'last_read_timestamp',
+        'conversation',
+    ]
+    autocomplete_fields = [
+        'conversation',
+    ]
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    save_on_top = True
+
+    actions = [
+        # block_message,
+    ]
+    fields = [
+        'sid',
+        'index',
+        'author',
+        'body',
+        'media',
+        # 'attributes',
+        'date_created',
+        'date_updated',
+        # 'url',
+        # 'delivery',
+        # 'links',
+        'conversation',
+        'content',
+    ]
+
+    list_display = [
+        'sid',
+        'index',
+        'author',
+        'body',
+        # 'body',
+        'media',
+        # 'attributes',
+        # 'delivery',
+        'date_created',
+        'date_updated',
+        # 'url',
+        # 'links',
+        'conversation',
+        # 'content'
+    ]
+    ordering = [
+    ]
+    search_fields = [
+        'author',
+        'sid',
+        'body',
+    ]
+    list_filter = [
+        DirectionListFilter,
+        # 'delivery',
+    ]
+    readonly_fields = [
+        'sid',
+        'index',
+        'date_created',
+        'date_updated',
+    ]
+    inlines = [
+        ReceiptInline,
+    ]
+    list_editable = [
+    ]
+    autocomplete_fields = [
+        'conversation',
+        # 'content',
+    ]
+
+@admin.register(Receipt)
+class ReceiptAdmin(admin.ModelAdmin):
+    save_on_top = True
+    fields = [
+        'sid',
+        'status',
+        'error_code',
+        'date_created',
+        'date_updated',
+        'conversation',
+        'participant',
+        'message',
+    ]
+
+    list_display = [
+        'sid',
+        'status',
+        'error_code',
+        'date_created',
+        'date_updated',
+        'conversation',
+        'participant',
+        'message',
+    ]
+    ordering = [
+    ]
+    search_fields = [
+    ]
+    list_filter = [
+        'status',
+    ]
+    inlines = [
+    ]
+    list_editable = [
+    ]
+    readonly_fields = [
+        'sid',
+        'status',
+        'error_code',
+        'date_created',
+        'date_updated',
+        'participant',
+        'message',
+        'conversation',
+    ]
+    autocomplete_fields = [
+        'participant',
+        'message',
+        'conversation',
+    ]
+
+
+
+
+
 @admin.register(MessageArchive)
 class MessageArchiveAdmin(VersionAdmin):
 
@@ -432,7 +708,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        # MessageInline,
+        ConversationInline,
     ]
     readonly_fields = [
     ]
