@@ -101,6 +101,7 @@ class Recipient(models.Model):
         on_delete=models.CASCADE,
         related_name='recipient',
         null=True,
+        blank=True,
     )
     def __str__(self):
         return f"{self.user.name} - {self.get_size_display()}"
@@ -181,6 +182,7 @@ class Team(models.Model):
         on_delete=models.CASCADE,
         related_name='team',
         null=True,
+        blank=True,
     )
     def __str__(self):
         return f"{self.user.name} - {self.nickname}"
@@ -285,6 +287,7 @@ class Assignment(models.Model):
         on_delete=models.CASCADE,
         related_name='assignment',
         null=True,
+        blank=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,
