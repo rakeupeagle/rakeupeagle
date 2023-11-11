@@ -530,10 +530,10 @@ class MessageAdmin(admin.ModelAdmin):
 
     list_display = [
         'id',
+        'body',
         'sid',
         'index',
         'author',
-        'body',
         # 'body',
         'media',
         # 'attributes',
