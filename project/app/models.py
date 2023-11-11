@@ -343,7 +343,7 @@ class Yard(models.Model):
         auto_now=True,
     )
     def __str__(self):
-        return f"{self.recipient.user.name} - {self.recipient.get_size_display()}"
+        return f"{self.event.year} - {self.recipient.user.name} - {self.recipient.get_size_display()}"
 
 
 class Rake(models.Model):
@@ -391,7 +391,7 @@ class Rake(models.Model):
         auto_now=True,
     )
     def __str__(self):
-        return f"{self.team.user.name} - {self.team.get_size_display()}"
+        return f"{self.year} - {self.team.user.name} - {self.team.get_size_display()}"
 
 
 class Event(models.Model):
