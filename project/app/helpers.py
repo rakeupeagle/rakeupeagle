@@ -23,6 +23,7 @@ def get_twilio_client():
 
 @job('default')
 def create_conversation(conversation):
+    client = get_twilio_client()
     if conversation.sid:
         return
     client = get_twilio_client()

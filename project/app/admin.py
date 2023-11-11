@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
+from django.contrib.gis.admin.options import GISModelAdmin
 from django.template.defaultfilters import escape
 from django.urls import reverse
 from django.utils.html import format_html
@@ -83,25 +84,29 @@ class DirectionListFilter(SimpleListFilter):
 
 
 @admin.register(Recipient)
-class RecipientAdmin(VersionAdmin):
+class RecipientAdmin(GISModelAdmin):
     save_on_top = True
     fields = [
         'state',
         'location',
+        'address',
+        'point',
         'size',
         'is_veteran',
         'is_senior',
         'is_disabled',
         'is_dog',
-        'user',
+        'bags',
         'public_notes',
         'admin_notes',
-        'bags',
+        'user',
+        'conversation',
     ]
     list_display = [
         'id',
         'user',
         'location',
+        'address',
         'size',
         'state',
     ]
@@ -158,6 +163,7 @@ class YardAdmin(VersionAdmin):
         'event',
     ]
     list_display = [
+        'id',
         'state',
         'recipient',
         'public_notes',
@@ -201,9 +207,9 @@ class RakeAdmin(VersionAdmin):
     list_display = [
         'id',
         'state',
+        'team',
         'public_notes',
         'admin_notes',
-        'team',
         'event',
     ]
     list_filter = [
@@ -243,8 +249,10 @@ class TeamAdmin(VersionAdmin):
         'public_notes',
         'admin_notes',
         'user',
+        'conversation',
     ]
     list_display = [
+        'id',
         'nickname',
         'user',
         'size',
@@ -291,6 +299,7 @@ class TeamAdmin(VersionAdmin):
         queryset |= self.model.objects.filter(user__phone=search_term)
         return queryset, may_have_duplicates
 
+
 @admin.register(Assignment)
 class AssignmentAdmin(VersionAdmin):
     save_on_top = True
@@ -301,6 +310,7 @@ class AssignmentAdmin(VersionAdmin):
         'rake',
         'public_notes',
         'admin_notes',
+        'conversation',
     ]
     list_display = [
         'id',
@@ -346,6 +356,7 @@ class EventAdmin(VersionAdmin):
         # 'updated',
     ]
     list_display = [
+        'id',
         'year',
         'state',
         'deadline',
@@ -377,10 +388,10 @@ class ConversationAdmin(admin.ModelAdmin):
         'name',
         'date_created',
         'date_updated',
-        'user',
     ]
 
     list_display = [
+        'id',
         'sid',
         'state',
         'date_created',
@@ -398,7 +409,6 @@ class ConversationAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'sid',
-        'user__name',
     ]
     list_filter = [
         'state',
@@ -416,7 +426,7 @@ class ConversationAdmin(admin.ModelAdmin):
     list_editable = [
     ]
     autocomplete_fields = [
-        'user',
+        # 'user',
     ]
 
 
@@ -439,6 +449,7 @@ class ParticipantAdmin(admin.ModelAdmin):
     ]
 
     list_display = [
+        'id',
         'sid',
         # 'messaging_binding',
         'date_created',
@@ -499,6 +510,7 @@ class MessageAdmin(admin.ModelAdmin):
     ]
 
     list_display = [
+        'id',
         'sid',
         'index',
         'author',
@@ -556,6 +568,7 @@ class ReceiptAdmin(admin.ModelAdmin):
     ]
 
     list_display = [
+        'id',
         'sid',
         'status',
         'error_code',
@@ -591,9 +604,6 @@ class ReceiptAdmin(admin.ModelAdmin):
         'message',
         'conversation',
     ]
-
-
-
 
 
 @admin.register(MessageArchive)
@@ -676,6 +686,7 @@ class UserAdmin(UserAdminBase):
         ('Permissions', {'fields': ('is_admin', 'is_active', 'is_verified',)}),
     )
     list_display = [
+        'id',
         'name',
         'phone',
         'created',
@@ -708,7 +719,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        ConversationInline,
+        # ConversationInline,
     ]
     readonly_fields = [
     ]

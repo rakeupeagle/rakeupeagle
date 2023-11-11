@@ -117,7 +117,7 @@ class ConversationInline(admin.TabularInline):
         'date_created',
         'date_updated',
         # 'messaging_binding',
-        'user',
+        # 'user',
     ]
     readonly_fields = [
         # 'identity',
@@ -133,7 +133,7 @@ class ConversationInline(admin.TabularInline):
         # 'collapse',
     ]
     autocomplete_fields = [
-        'user',
+        # 'user',
     ]
 
 
