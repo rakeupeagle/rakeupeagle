@@ -1,5 +1,7 @@
 # Django
 from django import forms
+from django.contrib import admin
+from django.contrib.admin.widgets import AutocompleteSelect
 from django.contrib.auth.forms import UserChangeForm as UserChangeFormBase
 from django.contrib.auth.forms import UserCreationForm as UserCreationFormBase
 from django.core.exceptions import ValidationError
@@ -7,11 +9,43 @@ from django.utils.safestring import mark_safe
 from phonenumber_field.formfields import PhoneNumberField
 
 # Local
+from .models import Assignment
 from .models import Recipient
 from .models import Team
 from .models import User
 from .widgets import AddressWidget
 from .widgets import CodeWidget
+
+
+class AssignmentForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = [
+            'id',
+            'state',
+            'yard',
+            'rake',
+            'event',
+        ]
+
+        widgets = {
+            'yard': AutocompleteSelect(
+                Assignment._meta.get_field('yard').remote_field,
+                admin.site,
+                attrs={
+                    'data-dropdown-auto-width': 'true',
+                    'style': "width: 100%;",
+                }
+            ),
+            'rake': AutocompleteSelect(
+                Assignment._meta.get_field('rake').remote_field,
+                admin.site,
+                attrs={
+                    'data-dropdown-auto-width': 'true',
+                    'style': "width: 100%;",
+                }
+            ),
+        }
 
 
 class CallForm(forms.ModelForm):

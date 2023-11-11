@@ -14,6 +14,7 @@ from fsm_admin.mixins import FSMTransitionMixin
 from reversion.admin import VersionAdmin
 
 # Local
+from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
@@ -304,6 +305,7 @@ class TeamAdmin(VersionAdmin):
 
 @admin.register(Assignment)
 class AssignmentAdmin(VersionAdmin):
+    form = AssignmentForm
     save_on_top = True
     fields = [
         'state',
@@ -344,7 +346,8 @@ class AssignmentAdmin(VersionAdmin):
         # 'yard__size',
         # 'rake__size',
     ]
-
+    def get_changelist_form(self, request, **kwargs):
+        return AssignmentForm
 
 @admin.register(Event)
 class EventAdmin(VersionAdmin):
