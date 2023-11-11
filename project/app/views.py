@@ -35,6 +35,7 @@ from .forms import RegisterForm
 from .forms import TeamcallForm
 from .forms import TeamForm
 from .forms import VerifyCodeForm
+from .helpers import process_webhook
 from .models import Assignment
 from .models import MessageArchive
 from .models import Picture
@@ -225,6 +226,16 @@ def verify_code(request):
             'form': form
         },
     )
+
+
+@validate_twilio_request
+@csrf_exempt
+@require_POST
+def webhook(request):
+    data = request.POST.dict()
+    process_webhook(data)
+    return HttpResponse(status=200)
+
 
 # Recipient
 @login_required

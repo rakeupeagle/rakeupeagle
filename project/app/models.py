@@ -501,7 +501,6 @@ class Conversation(models.Model):
     sid = models.CharField(
         max_length=100,
         unique=True,
-        null=True,
     )
     STATE = Choices(
         (10, 'active', 'active'),
@@ -541,7 +540,6 @@ class Participant(models.Model):
     sid = models.CharField(
         max_length=100,
         unique=True,
-        null=True,
     )
     phone = PhoneNumberField(
         null=True,
@@ -604,7 +602,6 @@ class Message(models.Model):
     sid = models.CharField(
         max_length=100,
         unique=True,
-        null=True,
     )
     index = models.IntegerField(
         null=True,
@@ -694,7 +691,6 @@ class Receipt(models.Model):
     sid = models.CharField(
         max_length=100,
         unique=True,
-        null=True,
     )
     STATUS = Choices(
         (-20, 'failed', 'failed'),
@@ -768,7 +764,6 @@ class Content(models.Model):
     sid = models.CharField(
         max_length=100,
         unique=True,
-        null=True,
     )
     STATUS = Choices(
         (0, 'new', 'New'),

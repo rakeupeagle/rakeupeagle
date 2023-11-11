@@ -36,7 +36,7 @@ urlpatterns = [
     path('team', views.team, name='team',),
 
     # Twilio
-    # path('sms', views.sms, name='sms',),
+    path('webhook', views.webhook, name='webhook',),
 
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
