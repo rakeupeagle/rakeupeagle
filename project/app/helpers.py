@@ -166,7 +166,7 @@ def process_webhook(data):
                 date_created=date_created,
                 body=body,
                 author=author,
-                conversation_sid=conversation_sid,
+                conversation=conversation_sid,
                 media=media,
             )
         # case 'onParticipantUpdated':
@@ -178,17 +178,17 @@ def process_webhook(data):
         #     )
         case 'onDeliveryUpdated':
             sid = data.get('DeliveryReceiptSid')
-            conversation_sid = data.get('ConversationSid')
-            message_sid = data.get('MessageSid')
-            participant_sid = data.get('ParticipantSid')
+            conversation = data.get('ConversationSid')
+            message = data.get('MessageSid')
+            participant = data.get('ParticipantSid')
             status = getattr(Receipt.STATUS, data['Status'])
             error_code = data.get('ErrorCode')
             date_created = data.get('DateCreated')
             date_updated = data.get('DateUpdated')
             defaults = {
-                'conversation_sid': conversation_sid,
-                'message_sid': message_sid,
-                'participant_sid': participant_sid,
+                'conversation': conversation,
+                'message': message,
+                'participant': participant,
                 'status': status,
                 'error_code': error_code,
                 'date_created': date_created,
