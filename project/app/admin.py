@@ -517,33 +517,31 @@ class MessageAdmin(admin.ModelAdmin):
         'index',
         'author',
         'body',
-        'media',
+        # 'media',
         # 'attributes',
         'date_created',
-        'date_updated',
+        # 'date_updated',
         # 'url',
         # 'delivery',
         # 'links',
         'conversation',
-        'content',
+        # 'content',
     ]
 
     list_display = [
-        'id',
         'sid',
         'index',
         'author',
         'body',
-        # 'body',
-        'media',
+        # 'media',
         # 'attributes',
-        # 'delivery',
         'date_created',
-        'date_updated',
+        # 'date_updated',
         # 'url',
+        # 'delivery',
         # 'links',
         'conversation',
-        # 'content'
+        # 'content',
     ]
     ordering = [
     ]
