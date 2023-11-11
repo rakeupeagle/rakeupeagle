@@ -305,7 +305,7 @@ class TeamAdmin(VersionAdmin):
 
 @admin.register(Assignment)
 class AssignmentAdmin(VersionAdmin):
-    form = AssignmentForm
+    # form = AssignmentForm
     save_on_top = True
     fields = [
         'state',
