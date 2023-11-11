@@ -590,6 +590,7 @@ class Participant(models.Model):
         'app.Conversation',
         on_delete=models.CASCADE,
         to_field='sid',
+        db_column='conversation_sid',
         related_name='participants',
     )
     def __str__(self):
@@ -670,6 +671,7 @@ class Message(models.Model):
         'app.Conversation',
         on_delete=models.CASCADE,
         to_field='sid',
+        db_column='conversation_sid',
         related_name='messages',
     )
     content = models.ForeignKey(
@@ -677,6 +679,7 @@ class Message(models.Model):
         on_delete=models.SET_NULL,
         related_name='messages',
         to_field='sid',
+        db_column='content_sid',
         null=True,
         blank=True,
     )
@@ -736,18 +739,21 @@ class Receipt(models.Model):
         'app.Message',
         on_delete=models.CASCADE,
         to_field='sid',
+        db_column='message_sid',
         related_name='receipts',
     )
     participant = models.ForeignKey(
         'app.Participant',
         on_delete=models.CASCADE,
         to_field='sid',
+        db_column='participation_sid',
         related_name='receipts',
     )
     conversation = models.ForeignKey(
         'app.Conversation',
         on_delete=models.CASCADE,
         to_field='sid',
+        db_column='conversation_sid',
         related_name='receipts',
     )
 
@@ -802,7 +808,6 @@ class Content(models.Model):
     )
     def __str__(self):
         return str(self.name)
-
 
 
 class User(AbstractBaseUser):
