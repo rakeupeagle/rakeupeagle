@@ -126,8 +126,9 @@ class RecipientAdmin(GISModelAdmin):
         'location',
     ]
     list_editable = [
-        'state',
-        'user',
+        # 'state',
+        # 'user',
+        'location',
     ]
     autocomplete_fields = [
         'user',
