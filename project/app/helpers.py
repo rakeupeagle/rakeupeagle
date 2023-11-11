@@ -159,7 +159,10 @@ def process_webhook(data):
             body = data.get('Body', None)
             media = data.get('Media', None)
             author = data.get('Author', None)
-            conversation = data.get('ConversationSid', None)
+            conversation_sid = data.get('ConversationSid', None)
+            conversation = Conversation.objects.get(
+                sid=conversation_sid,
+            )
             Message.objects.create(
                 sid=sid,
                 index=index,
@@ -178,13 +181,22 @@ def process_webhook(data):
         #     )
         case 'onDeliveryUpdated':
             sid = data.get('DeliveryReceiptSid')
-            conversation = data.get('ConversationSid')
-            message = data.get('MessageSid')
-            participant = data.get('ParticipantSid')
+            conversation_sid = data.get('ConversationSid')
+            message_sid = data.get('MessageSid')
+            participant_sid = data.get('ParticipantSid')
             status = getattr(Receipt.STATUS, data['Status'])
             error_code = data.get('ErrorCode')
             date_created = data.get('DateCreated')
             date_updated = data.get('DateUpdated')
+            conversation = Conversation.objects.get(
+                sid=conversation_sid,
+            )
+            participant = Participant.objects.get(
+                sid=participant_sid,
+            )
+            message = Message.objects.get(
+                sid=message_sid,
+            )
             defaults = {
                 'conversation': conversation,
                 'message': message,

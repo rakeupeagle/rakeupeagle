@@ -21,10 +21,14 @@ from .inlines import YardInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
 from .models import Assignment
+from .models import Conversation
 from .models import Event
+from .models import Message
 from .models import MessageArchive
+from .models import Participant
 from .models import Picture
 from .models import Rake
+from .models import Receipt
 from .models import Recipient
 from .models import Team
 from .models import User
