@@ -27,12 +27,12 @@
 {% block topnav %}
 {% endblock topnav %}
 
-{% block title %}Team Handout for {{team.name}}{% endblock title %}
+{% block title %}Team Handout for {{rake.team.name}}{% endblock title %}
 
 {% block content %}
   <section>
-    <h2>Rake Up Eagle Handout for {{team.team}}</h2>
-    <h3>Team Leader: {{team.name}}</h3>
+    <h2>Rake Up Eagle Handout for {{rake.team.nickname}}</h2>
+    <h3>Team Leader: {{rake.team.name}}</h3>
   </section>
   <section>
     <div class='card'>
@@ -42,11 +42,12 @@
       <div class='card-body'>
         <div class='card-text'>
           <ul class='list-unstyled'>
-            <li>Name: {{recipient.name}}</li>
-            <li>Address: {{recipient.location}}</li>
-            <li>Phone: {{recipient.phone.as_national}}</li>
-            <li>Size: {{recipient.get_size_display}}</li>
-            <li>Notes: {{recipient.public_notes|default:"(No Notes Provided)"}}</li>
+            <li>Name: {{yard.recipient.name}}</li>
+            <li>Veteran?: {{yard.recipient.is_veteran}}</li>
+            <li>Address: {{yard.recipient.location}}</li>
+            <li>Phone: {{yard.recipient.phone.as_national}}</li>
+            <li>Size: {{yard.recipient.get_size_display}}</li>
+            <li>Notes: {{yard.recipient.public_notes|default:"(No Notes Provided)"}}</li>
           </ul>
           {# <div class='img-fluid'> #}
             {# <img src={{mapurl}}> #}
@@ -62,13 +63,10 @@
       If you have any questions, needs, or concerns, please call <strong>(208) 713-4599</strong>.
     </li>
     <li>
-      Given the rainy conditions, you may wish to reschedule your rake.  If you choose to do so, please complete your assignment within a week and inform your Recipient when you plan to arrive.
-    </li>
-    <li>
-      If you do decide to continue, please let us know if the yard is too big for your team(s), or is so small that you'll be done in less than an hour.  We can then give you additional help or direct you to another who needs the help when you're done.
-    </li>
-    <li>
       Please have the leader of group knock on the door so the recipient knows you have arrived.   <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
+    </li>
+    <li>
+      If they are a veteran (see above) please leave a flag when done.
     </li>
     <li>
       Put all filled leaf bags at the end of the driveway (or in the normal garbage collection area.)
@@ -80,7 +78,7 @@
       If you take any group photos, please send them to <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> so we put them in our EMS yearbook, Facebook page, and perhaps in Eagle Life Magazine!
     </li>
     <li>
-      If the recipient has a dog it needs to remain inside.  If you see any animal waste, please leave and head back to EMS for a different assignment.
+      If the recipient has a dog it needs to remain inside.  If the recipient has not picked up the dog waste in the yard, YOU MUST NOTIFY US AND LEAVE.  We will give you a different assignment, but you can NOT pick up around waste.
     </li>
   </section>
   <section>

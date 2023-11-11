@@ -422,11 +422,11 @@ def dashboard_team(request, team_id):
 @staff_member_required
 def handout_pdf(request, assignment_id):
     assignment = get_object_or_404(Assignment, pk=assignment_id)
-    recipient = assignment.recipient
-    team = assignment.team
+    yard = assignment.yard
+    rake = assignment.rake
     context={
-        'recipient': recipient,
-        'team': team,
+        'yard': yard,
+        'rake': rake,
     }
     rendered = render_to_string('app/pdfs/handout.html', context)
     pdf = pydf.generate_pdf(
@@ -474,8 +474,10 @@ def handout_pdfs(request):
 def export_assignments(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=assignments.csv'
-    gs = Assignment.objects.order_by(
-        'team__name',
+    gs = Assignment.objects.filter(
+        event__year=2023,
+    ).order_by(
+        'rake__team__user__name',
     )
     writer = csv.writer(response)
     writer.writerow([
@@ -484,18 +486,20 @@ def export_assignments(request):
         'Team Size',
         'Recipient Name',
         'Recipient Phone',
+        'Recipient Veteran',
         'Recipient Size',
         'Recipient Location',
     ])
     for g in gs:
         writer.writerow([
-            g.team.name,
-            g.team.phone.as_national,
-            g.team.get_size_display(),
-            g.recipient.name,
-            g.recipient.phone.as_national,
-            g.recipient.get_size_display(),
-            g.recipient.location,
+            g.rake.team.user.name,
+            g.rake.team.user.phone.as_national,
+            g.rake.team.get_size_display(),
+            g.yard.recipient.user.name,
+            g.yard.recipient.user.phone.as_national,
+            g.yard.recipient.is_veteran,
+            g.yard.recipient.get_size_display(),
+            g.yard.recipient.location,
         ])
     return response
 

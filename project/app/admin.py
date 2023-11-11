@@ -334,9 +334,17 @@ class AssignmentAdmin(VersionAdmin):
     ]
 
     list_editable = [
-        'yard',
-        'rake',
+        # 'yard',
+        # 'rake',
     ]
+    search_fields = [
+        'yard__recipient__user__phone',
+        'yard__recipient__user__name',
+        'rake__team__user__phone',
+        'rake__team__user__name',
+        'yard__recipient__location',
+    ]
+
     autocomplete_fields = [
         'yard',
         'rake',
@@ -346,8 +354,14 @@ class AssignmentAdmin(VersionAdmin):
         # 'yard__size',
         # 'rake__size',
     ]
+
+    ordering = (
+        'yard__recipient__user__name',
+    )
+
     def get_changelist_form(self, request, **kwargs):
         return AssignmentForm
+
 
 @admin.register(Event)
 class EventAdmin(VersionAdmin):
@@ -557,6 +571,7 @@ class MessageAdmin(admin.ModelAdmin):
         'conversation',
         # 'content',
     ]
+
 
 @admin.register(Receipt)
 class ReceiptAdmin(admin.ModelAdmin):
