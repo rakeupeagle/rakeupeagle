@@ -23,12 +23,11 @@ def get_twilio_client():
 
 @job('default')
 def create_conversation(conversation):
-    client = get_twilio_client()
     if conversation.sid:
         return
     client = get_twilio_client()
     result = client.conversations.v1.conversations.create(
-        name=conversation.name,
+        friendly_name=conversation.name,
     )
     conversation.sid = result.sid
     conversation.date_created = result.date_created
