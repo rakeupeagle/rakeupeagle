@@ -277,6 +277,20 @@ class Assignment(models.Model):
         null=True,
         blank=True,
     )
+    recipient = models.ForeignKey(
+        'app.Recipient',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=True,
+        blank=True,
+    )
+    team = models.ForeignKey(
+        'app.Team',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=True,
+        blank=True,
+    )
     event = models.ForeignKey(
         'app.Event',
         on_delete=models.CASCADE,
