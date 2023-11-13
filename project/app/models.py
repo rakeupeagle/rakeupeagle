@@ -422,13 +422,13 @@ class Conversation(models.Model):
         unique=True,
         null=True,
     )
-    # user = models.OneToOneField(
-    #     'app.User',
-    #     on_delete=models.CASCADE,
-    #     related_name='conversation',
-    #     null=True,
-    #     blank=True,
-    # )
+    user = models.OneToOneField(
+        'app.User',
+        on_delete=models.CASCADE,
+        related_name='conversation',
+        null=True,
+        blank=True,
+    )
     date_created = models.DateTimeField(
         auto_now_add=True,
         null=True,
