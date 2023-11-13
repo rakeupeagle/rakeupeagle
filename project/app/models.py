@@ -96,13 +96,6 @@ class Recipient(models.Model):
         on_delete=models.CASCADE,
         related_name='recipient',
     )
-    conversation = models.OneToOneField(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        related_name='recipient',
-        null=True,
-        blank=True,
-    )
     def __str__(self):
         return f"{self.user.name} - {self.get_size_display()}"
 
@@ -176,13 +169,6 @@ class Team(models.Model):
         'app.User',
         on_delete=models.CASCADE,
         related_name='team',
-    )
-    conversation = models.OneToOneField(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        related_name='team',
-        null=True,
-        blank=True,
     )
     def __str__(self):
         return f"{self.user.name} - {self.nickname}"
@@ -281,13 +267,6 @@ class Assignment(models.Model):
         'app.Event',
         on_delete=models.CASCADE,
         related_name='assignments',
-    )
-    conversation = models.OneToOneField(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        related_name='assignment',
-        null=True,
-        blank=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -749,6 +728,13 @@ class User(AbstractBaseUser):
     )
     is_admin = models.BooleanField(
         default=False,
+    )
+    conversation = models.OneToOneField(
+        'app.Conversation',
+        on_delete=models.CASCADE,
+        related_name='assignment',
+        null=True,
+        blank=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,
