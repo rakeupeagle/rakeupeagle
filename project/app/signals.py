@@ -19,10 +19,10 @@ def conversation_pre_save(sender, instance, **kwargs):
     create_conversation(instance)
     return
 
-@receiver(pre_delete, sender=Conversation)
-def conversation_pre_delete(sender, instance, **kwargs):
-    delete_conversation(instance)
-    return
+# @receiver(pre_delete, sender=Conversation)
+# def conversation_pre_delete(sender, instance, **kwargs):
+#     delete_conversation(instance)
+#     return
 
 @receiver(pre_save, sender=Participant)
 def participant_pre_save(sender, instance, **kwargs):
