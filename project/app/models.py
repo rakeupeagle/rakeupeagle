@@ -406,6 +406,7 @@ class Conversation(models.Model):
     sid = models.CharField(
         max_length=100,
         unique=True,
+        null=False,
     )
     STATE = Choices(
         (10, 'active', 'active'),
@@ -421,6 +422,13 @@ class Conversation(models.Model):
         unique=True,
         null=True,
     )
+    # user = models.OneToOneField(
+    #     'app.User',
+    #     on_delete=models.CASCADE,
+    #     related_name='conversation',
+    #     null=True,
+    #     blank=True,
+    # )
     date_created = models.DateTimeField(
         auto_now_add=True,
         null=True,
@@ -728,13 +736,6 @@ class User(AbstractBaseUser):
     )
     is_admin = models.BooleanField(
         default=False,
-    )
-    conversation = models.OneToOneField(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        related_name='assignment',
-        null=True,
-        blank=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,

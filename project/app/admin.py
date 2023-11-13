@@ -605,7 +605,6 @@ class UserAdmin(UserAdminBase):
             'fields': [
                 'name',
                 'phone',
-                'conversation',
             ]
         }
         ),
@@ -615,7 +614,6 @@ class UserAdmin(UserAdminBase):
         'id',
         'name',
         'phone',
-        'conversation',
         'created',
         'last_login'
     ]
