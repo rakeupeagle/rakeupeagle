@@ -310,8 +310,8 @@ class AssignmentAdmin(VersionAdmin):
     fields = [
         'state',
         'event',
-        'yard',
-        'rake',
+        'recipient',
+        'team',
         'public_notes',
         'admin_notes',
         'conversation',
@@ -319,35 +319,35 @@ class AssignmentAdmin(VersionAdmin):
     list_display = [
         'id',
         'state',
-        'yard',
+        'recipient',
         # 'yard__size',
-        'rake',
+        'team',
         # 'rake__size',
         'event',
     ]
     list_filter = [
         'event__year',
         'state',
-        'yard__recipient__size',
-        'rake__team__size',
+        # 'yard__recipient__size',
+        # 'rake__team__size',
         # 'team_state',
     ]
 
     list_editable = [
-        # 'yard',
-        # 'rake',
+        'recipient',
+        'team',
     ]
     search_fields = [
-        'yard__recipient__user__phone',
-        'yard__recipient__user__name',
-        'rake__team__user__phone',
-        'rake__team__user__name',
-        'yard__recipient__location',
+        'recipient__user__phone',
+        'recipient__user__name',
+        'team__user__phone',
+        'team__user__name',
+        'recipient__location',
     ]
 
     autocomplete_fields = [
-        'yard',
-        'rake',
+        'recipient',
+        'team',
         'event',
     ]
     readonly_fields = [
@@ -356,11 +356,11 @@ class AssignmentAdmin(VersionAdmin):
     ]
 
     ordering = (
-        'yard__recipient__user__name',
+        'recipient__user__name',
     )
 
-    def get_changelist_form(self, request, **kwargs):
-        return AssignmentForm
+    # def get_changelist_form(self, request, **kwargs):
+    #     return AssignmentForm
 
 
 @admin.register(Event)
