@@ -23,29 +23,29 @@ class AssignmentForm(forms.ModelForm):
         fields = [
             'id',
             'state',
-            'recipient',
-            'team',
+            'yard',
+            'rake',
             'event',
         ]
 
-        # widgets = {
-        #     'yard': AutocompleteSelect(
-        #         Assignment._meta.get_field('yard').remote_field,
-        #         admin.site,
-        #         attrs={
-        #             'data-dropdown-auto-width': 'true',
-        #             'style': "width: 100%;",
-        #         }
-        #     ),
-        #     'rake': AutocompleteSelect(
-        #         Assignment._meta.get_field('rake').remote_field,
-        #         admin.site,
-        #         attrs={
-        #             'data-dropdown-auto-width': 'true',
-        #             'style': "width: 100%;",
-        #         }
-        #     ),
-        # }
+        widgets = {
+            'yard': AutocompleteSelect(
+                Assignment._meta.get_field('yard').remote_field,
+                admin.site,
+                attrs={
+                    'data-dropdown-auto-width': 'true',
+                    'style': "width: 100%;",
+                }
+            ),
+            'rake': AutocompleteSelect(
+                Assignment._meta.get_field('rake').remote_field,
+                admin.site,
+                attrs={
+                    'data-dropdown-auto-width': 'true',
+                    'style': "width: 100%;",
+                }
+            ),
+        }
 
 
 class CallForm(forms.ModelForm):

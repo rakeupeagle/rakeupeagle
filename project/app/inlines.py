@@ -8,20 +8,22 @@ from .models import Conversation
 from .models import Message
 from .models import MessageArchive
 from .models import Participant
+from .models import Rake
 from .models import Receipt
 from .models import Recipient
 from .models import Team
+from .models import Yard
 
 
 class AssignmentInline(admin.TabularInline):
     model = Assignment
     fields = [
-        'recipient',
-        'team',
+        'yard',
+        'rake',
     ]
     autocomplete_fields = [
-        'recipient',
-        'team',
+        'yard',
+        'rake',
     ]
     extra = 0
     show_change_link = True
@@ -32,6 +34,33 @@ class TeamInline(admin.TabularInline):
     model = Team
     fields = [
         'size',
+    ]
+    autocomplete_fields = [
+    ]
+    extra = 0
+    show_change_link = True
+
+
+class YardInline(admin.TabularInline):
+    model = Yard
+    fields = [
+        'recipient',
+        'state',
+        'event',
+    ]
+    autocomplete_fields = [
+
+    ]
+    extra = 0
+    show_change_link = True
+
+
+class RakeInline(admin.TabularInline):
+    model = Rake
+    fields = [
+        'team',
+        'state',
+        'event',
     ]
     autocomplete_fields = [
     ]
