@@ -22,9 +22,7 @@ from .inlines import ConversationInline
 from .inlines import MessageArchiveInline
 from .inlines import MessageInline
 from .inlines import ParticipantInline
-from .inlines import RakeInline
 from .inlines import ReceiptInline
-from .inlines import YardInline
 # from .inlines import RecipientInline
 # from .inlines import TeamInline
 from .models import Assignment
@@ -34,12 +32,10 @@ from .models import Message
 from .models import MessageArchive
 from .models import Participant
 from .models import Picture
-from .models import Rake
 from .models import Receipt
 from .models import Recipient
 from .models import Team
 from .models import User
-from .models import Yard
 
 
 class DirectionListFilter(SimpleListFilter):
@@ -136,7 +132,6 @@ class RecipientAdmin(GISModelAdmin):
     ]
     inlines = [
         # AssignmentInline,
-        YardInline,
     ]
     ordering = [
         'created',
@@ -152,93 +147,6 @@ class RecipientAdmin(GISModelAdmin):
         )
         queryset |= self.model.objects.filter(user__phone=search_term)
         return queryset, may_have_duplicates
-
-
-@admin.register(Yard)
-class YardAdmin(VersionAdmin):
-    save_on_top = True
-    fields = [
-        'state',
-        'recipient',
-        'public_notes',
-        'admin_notes',
-        'event',
-    ]
-    list_display = [
-        'id',
-        'state',
-        'recipient',
-        'public_notes',
-        'admin_notes',
-        'event',
-    ]
-    list_filter = [
-        'event__year',
-        'state',
-        'recipient__size',
-    ]
-    search_fields = [
-        'recipient__user__name',
-        'recipient__location',
-    ]
-    list_editable = [
-    ]
-    autocomplete_fields = [
-        'recipient',
-        'event',
-    ]
-    inlines = [
-        AssignmentInline,
-    ]
-    ordering = [
-        'recipient__user__name',
-    ]
-    readonly_fields = [
-    ]
-
-
-@admin.register(Rake)
-class RakeAdmin(VersionAdmin):
-    save_on_top = True
-    fields = [
-        'state',
-        'public_notes',
-        'admin_notes',
-        'team',
-        'event',
-    ]
-    list_display = [
-        'id',
-        'state',
-        'team',
-        'public_notes',
-        'admin_notes',
-        'event',
-    ]
-    list_filter = [
-        'event__year',
-        'state',
-        'team__size',
-    ]
-    search_fields = [
-        'team__nickname',
-        'team__user__name',
-    ]
-    list_editable = [
-    ]
-    autocomplete_fields = [
-        'team',
-        'event',
-    ]
-    inlines = [
-        AssignmentInline,
-    ]
-    ordering = [
-        'team__nickname',
-        'team__user__name',
-    ]
-    readonly_fields = [
-    ]
 
 
 @admin.register(Team)
@@ -286,7 +194,6 @@ class TeamAdmin(VersionAdmin):
     ]
     inlines = [
         # AssignmentInline,
-        RakeInline,
     ]
     ordering = [
     ]
@@ -737,7 +644,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        # ConversationInline,
+        MessageArchiveInline,
     ]
     readonly_fields = [
     ]

@@ -23,29 +23,29 @@ class AssignmentForm(forms.ModelForm):
         fields = [
             'id',
             'state',
-            'yard',
-            'rake',
+            'recipient',
+            'team',
             'event',
         ]
 
-        widgets = {
-            'yard': AutocompleteSelect(
-                Assignment._meta.get_field('yard').remote_field,
-                admin.site,
-                attrs={
-                    'data-dropdown-auto-width': 'true',
-                    'style': "width: 100%;",
-                }
-            ),
-            'rake': AutocompleteSelect(
-                Assignment._meta.get_field('rake').remote_field,
-                admin.site,
-                attrs={
-                    'data-dropdown-auto-width': 'true',
-                    'style': "width: 100%;",
-                }
-            ),
-        }
+        # widgets = {
+        #     'yard': AutocompleteSelect(
+        #         Assignment._meta.get_field('yard').remote_field,
+        #         admin.site,
+        #         attrs={
+        #             'data-dropdown-auto-width': 'true',
+        #             'style': "width: 100%;",
+        #         }
+        #     ),
+        #     'rake': AutocompleteSelect(
+        #         Assignment._meta.get_field('rake').remote_field,
+        #         admin.site,
+        #         attrs={
+        #             'data-dropdown-auto-width': 'true',
+        #             'style': "width: 100%;",
+        #         }
+        #     ),
+        # }
 
 
 class CallForm(forms.ModelForm):
@@ -78,6 +78,7 @@ class VerifyCodeForm(forms.Form):
             }
         )
     )
+
 
 class DeleteForm(forms.Form):
     confirm = forms.BooleanField(
@@ -115,7 +116,6 @@ class AccountForm(forms.ModelForm):
             'phone',
             'name',
         ]
-
 
 
 class RecipientForm(forms.ModelForm):

@@ -263,20 +263,6 @@ class Assignment(models.Model):
         default='',
         help_text="""Internal (private) notes.""",
     )
-    yard = models.ForeignKey(
-        'app.Yard',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        null=True,
-        blank=True,
-    )
-    rake = models.ForeignKey(
-        'app.Rake',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        null=True,
-        blank=True,
-    )
     recipient = models.ForeignKey(
         'app.Recipient',
         on_delete=models.CASCADE,
@@ -311,101 +297,6 @@ class Assignment(models.Model):
     )
     def __str__(self):
         return f"{self.id}"
-
-
-class Yard(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (-20, 'cancel', 'Cancelled'),
-        (-10, 'exclude', 'Excluded'),
-        (0, 'new', 'New'),
-        (10, 'include', 'Included'),
-        (20, 'confirm', 'Confirmed'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    public_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    admin_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Internal (private) notes.""",
-    )
-    recipient = models.ForeignKey(
-        'app.Recipient',
-        on_delete=models.CASCADE,
-        related_name='yards',
-    )
-    event = models.ForeignKey(
-        'app.Event',
-        on_delete=models.CASCADE,
-        related_name='yards',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.event.year} - {self.recipient.user.name} - {self.recipient.user.phone.as_national}"
-
-
-class Rake(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (-20, 'cancel', 'Cancelled'),
-        (-10, 'exclude', 'Excluded'),
-        (0, 'new', 'New'),
-        (10, 'include', 'Included'),
-        (20, 'confirm', 'Confirmed'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    public_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    admin_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Internal (private) notes.""",
-    )
-    team = models.ForeignKey(
-        'app.Team',
-        on_delete=models.CASCADE,
-        related_name='rakes',
-        null=True,
-    )
-    event = models.ForeignKey(
-        'app.Event',
-        on_delete=models.CASCADE,
-        related_name='rakes',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.event.year} - {self.team.user.name} - {self.team.user.phone.as_national}"
 
 
 class Event(models.Model):
