@@ -97,7 +97,7 @@ class RecipientAdmin(GISModelAdmin):
         'public_notes',
         'admin_notes',
         'user',
-        'conversation',
+        # 'conversation',
     ]
     list_display = [
         'id',
@@ -160,7 +160,7 @@ class TeamAdmin(VersionAdmin):
         'public_notes',
         'admin_notes',
         'user',
-        'conversation',
+        # 'conversation',
     ]
     list_display = [
         'id',
@@ -221,7 +221,7 @@ class AssignmentAdmin(VersionAdmin):
         'team',
         'public_notes',
         'admin_notes',
-        'conversation',
+        # 'conversation',
     ]
     list_display = [
         'id',
@@ -605,6 +605,7 @@ class UserAdmin(UserAdminBase):
             'fields': [
                 'name',
                 'phone',
+                'conversation',
             ]
         }
         ),
@@ -614,6 +615,7 @@ class UserAdmin(UserAdminBase):
         'id',
         'name',
         'phone',
+        'conversation',
         'created',
         'last_login'
     ]
@@ -635,6 +637,8 @@ class UserAdmin(UserAdminBase):
         (None, {
             'classes': ('wide',),
             'fields': [
+                'name',
+                'phone',
                 'is_admin',
                 'is_active',
                 'is_verified',
