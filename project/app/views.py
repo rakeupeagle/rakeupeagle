@@ -36,8 +36,8 @@ from .forms import TeamcallForm
 from .forms import TeamForm
 from .forms import VerifyCodeForm
 from .helpers import process_webhook
+# from .models import Message
 from .models import Assignment
-from .models import MessageArchive
 from .models import Picture
 from .models import Recipient
 from .models import Team

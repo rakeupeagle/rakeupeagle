@@ -19,9 +19,9 @@ from django_rq import job
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client as TwilioClient
 
+# from .models import Message
 # Local
 from .models import Assignment
-from .models import MessageArchive
 from .models import Picture
 from .models import Recipient
 from .models import Team

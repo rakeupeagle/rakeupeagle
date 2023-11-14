@@ -18,21 +18,10 @@ from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
-from .inlines import ConversationInline
-from .inlines import MessageArchiveInline
-from .inlines import MessageInline
-from .inlines import ParticipantInline
-from .inlines import ReceiptInline
-# from .inlines import RecipientInline
-# from .inlines import TeamInline
+# from .models import Message
 from .models import Assignment
-from .models import Conversation
 from .models import Event
-from .models import Message
-from .models import MessageArchive
-from .models import Participant
 from .models import Picture
-from .models import Receipt
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -303,287 +292,59 @@ class EventAdmin(VersionAdmin):
     ]
 
 
-# Twilio
-@admin.register(Conversation)
-class ConversationAdmin(admin.ModelAdmin):
-    save_on_top = True
-    fields = [
-        'sid',
-        'state',
-        'name',
-        'date_created',
-        'date_updated',
-    ]
+# @admin.register(Message)
+# class MessageAdmin(VersionAdmin):
 
-    list_display = [
-        'id',
-        'user',
-        'name',
-        'state',
-        'date_created',
-        'date_updated',
-        # 'timers',
-        # 'url',
-        # 'links',
-        # 'bindings',
-        # 'name',
-        # 'unique_name',
-        # 'attributes',
-        # 'origination',
-    ]
-    ordering = [
-    ]
-    search_fields = [
-        'sid',
-    ]
-    list_filter = [
-        'state',
-    ]
-    readonly_fields = [
-        'sid',
-        # 'state',
-        'date_created',
-        'date_updated',
-    ]
-    inlines = [
-        # ParticipantInline,
-        MessageInline,
-    ]
-    list_editable = [
-    ]
-    autocomplete_fields = [
-        # 'user',
-    ]
+#     # def user_url(self, obj):
+#     #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
+#     #     return format_html("<a href='{url}'>User</a>", url=user_url)
 
-
-@admin.register(Participant)
-class ParticipantAdmin(admin.ModelAdmin):
-    save_on_top = True
-    fields = [
-        'sid',
-        # 'attributes',
-        # 'messaging_binding',
-        'last_read_message_index',
-        'last_read_timestamp',
-        'date_created',
-        'date_updated',
-        # 'url',
-        # 'conversation_sid',
-        # 'origination',
-        'conversation',
-        'phone',
-    ]
-
-    list_display = [
-        'id',
-        'sid',
-        # 'messaging_binding',
-        'date_created',
-        'date_updated',
-        'last_read_message_index',
-        'last_read_timestamp',
-        # 'conversation_sid',
-        # 'origination',
-        'conversation',
-        'phone',
-    ]
-    ordering = [
-    ]
-    search_fields = [
-        'sid',
-    ]
-    list_filter = [
-    ]
-    inlines = [
-        # ReceiptInline,
-    ]
-    list_editable = [
-    ]
-    readonly_fields = [
-        'sid',
-        'date_created',
-        'date_updated',
-        'last_read_message_index',
-        'last_read_timestamp',
-        'conversation',
-    ]
-    autocomplete_fields = [
-        'conversation',
-    ]
-
-
-@admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
-    save_on_top = True
-
-    actions = [
-        # block_message,
-    ]
-    fields = [
-        'sid',
-        'index',
-        'author',
-        'body',
-        'media',
-        # 'attributes',
-        'date_created',
-        # 'date_updated',
-        # 'url',
-        # 'delivery',
-        # 'links',
-        'conversation',
-        # 'content',
-    ]
-
-    list_display = [
-        'sid',
-        'index',
-        'author',
-        'body',
-        'media',
-        # 'attributes',
-        'date_created',
-        # 'date_updated',
-        # 'url',
-        # 'delivery',
-        # 'links',
-        'conversation',
-        # 'content',
-    ]
-    ordering = [
-    ]
-    search_fields = [
-        'author',
-        'sid',
-        'body',
-    ]
-    list_filter = [
-        DirectionListFilter,
-        # 'delivery',
-    ]
-    readonly_fields = [
-        'sid',
-        'index',
-        'date_created',
-        'date_updated',
-    ]
-    inlines = [
-        ReceiptInline,
-    ]
-    list_editable = [
-    ]
-    autocomplete_fields = [
-        'conversation',
-        # 'content',
-    ]
-
-
-@admin.register(Receipt)
-class ReceiptAdmin(admin.ModelAdmin):
-    save_on_top = True
-    fields = [
-        'sid',
-        'status',
-        'error_code',
-        'date_created',
-        'date_updated',
-        'conversation',
-        'participant',
-        'message',
-    ]
-
-    list_display = [
-        'id',
-        'sid',
-        'status',
-        'error_code',
-        'date_created',
-        'date_updated',
-        'conversation',
-        'participant',
-        'message',
-    ]
-    ordering = [
-    ]
-    search_fields = [
-    ]
-    list_filter = [
-        'status',
-    ]
-    inlines = [
-    ]
-    list_editable = [
-    ]
-    readonly_fields = [
-        'sid',
-        'status',
-        'error_code',
-        'date_created',
-        'date_updated',
-        'participant',
-        'message',
-        'conversation',
-    ]
-    autocomplete_fields = [
-        'participant',
-        'message',
-        'conversation',
-    ]
-
-
-@admin.register(MessageArchive)
-class MessageArchiveAdmin(VersionAdmin):
-
-    # def user_url(self, obj):
-    #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
-    #     return format_html("<a href='{url}'>User</a>", url=user_url)
-
-    fields = [
-        'id',
-        'state',
-        'body',
-        'sid',
-        'to_phone',
-        'from_phone',
-        'direction',
-        'raw',
-        'created',
-        'updated',
-    ]
-    list_display = [
-        'id',
-        # 'user_url',
-        'body',
-        'direction',
-        'created',
-        'updated',
-    ]
-    list_editable = [
-    ]
-    list_filter = [
-        'direction',
-        'state',
-    ]
-    search_fields = [
-    ]
-    autocomplete_fields = [
-    ]
-    inlines = [
-    ]
-    ordering = [
-        '-created',
-    ]
-    readonly_fields = [
-        'id',
-        'sid',
-        # 'to_phone',
-        'from_phone',
-        'user_id',
-        # 'direction',
-        'created',
-        'updated',
-        'raw',
-    ]
+#     fields = [
+#         'id',
+#         'state',
+#         'body',
+#         'sid',
+#         'to_phone',
+#         'from_phone',
+#         'direction',
+#         'raw',
+#         'created',
+#         'updated',
+#     ]
+#     list_display = [
+#         'id',
+#         # 'user_url',
+#         'body',
+#         'direction',
+#         'created',
+#         'updated',
+#     ]
+#     list_editable = [
+#     ]
+#     list_filter = [
+#         'direction',
+#         'state',
+#     ]
+#     search_fields = [
+#     ]
+#     autocomplete_fields = [
+#     ]
+#     inlines = [
+#     ]
+#     ordering = [
+#         '-created',
+#     ]
+#     readonly_fields = [
+#         'id',
+#         'sid',
+#         # 'to_phone',
+#         'from_phone',
+#         'user_id',
+#         # 'direction',
+#         'created',
+#         'updated',
+#         'raw',
+#     ]
 
 
 @admin.register(Picture)

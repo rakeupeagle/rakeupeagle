@@ -305,62 +305,61 @@ class Event(models.Model):
         return f"{self.year}"
 
 
-class MessageArchive(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    STATE = Choices(
-        (0, 'new', 'New'),
-        (10, 'sent', 'Sent'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    sid = models.CharField(
-        max_length=100,
-        blank=True,
-    )
-    to_phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
-    from_phone = PhoneNumberField(
-        blank=True,
-        null=True,
-    )
-    body = models.TextField(
-        blank=True,
-    )
-    DIRECTION = Choices(
-        (10, 'inbound', 'Inbound'),
-        (20, 'outbound', 'Outbound'),
-    )
-    direction = models.IntegerField(
-        choices=DIRECTION,
-        null=True,
-        blank=True,
-    )
-    raw = models.JSONField(
-        blank=True,
-        null=True,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-
-    user = models.ForeignKey(
-        'app.User',
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        # related_name='messages',
-    )
-    def __str__(self):
-        return f"{self.id}"
+# class Message(models.Model):
+#     id = HashidAutoField(
+#         primary_key=True,
+#     )
+#     STATE = Choices(
+#         (0, 'new', 'New'),
+#         (10, 'sent', 'Sent'),
+#     )
+#     state = FSMIntegerField(
+#         choices=STATE,
+#         default=STATE.new,
+#     )
+#     sid = models.CharField(
+#         max_length=100,
+#         blank=True,
+#     )
+#     to_phone = PhoneNumberField(
+#         blank=True,
+#         null=True,
+#     )
+#     from_phone = PhoneNumberField(
+#         blank=True,
+#         null=True,
+#     )
+#     body = models.TextField(
+#         blank=True,
+#     )
+#     DIRECTION = Choices(
+#         (10, 'inbound', 'Inbound'),
+#         (20, 'outbound', 'Outbound'),
+#     )
+#     direction = models.IntegerField(
+#         choices=DIRECTION,
+#         null=True,
+#         blank=True,
+#     )
+#     raw = models.JSONField(
+#         blank=True,
+#         null=True,
+#     )
+#     created = models.DateTimeField(
+#         auto_now_add=True,
+#     )
+#     updated = models.DateTimeField(
+#         auto_now=True,
+#     )
+#     user = models.ForeignKey(
+#         'app.User',
+#         on_delete=models.CASCADE,
+#         null=True,
+#         blank=True,
+#         # related_name='messages',
+#     )
+#     def __str__(self):
+#         return f"{self.id}"
 
 
 class Picture(models.Model):
@@ -376,321 +375,6 @@ class Picture(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-
-
-# Twilio
-class Conversation(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    sid = models.CharField(
-        max_length=100,
-        unique=True,
-        null=False,
-    )
-    STATE = Choices(
-        (10, 'active', 'active'),
-        (-10, 'inactive', 'inactive'),
-        (-20, 'closed', 'closed'),
-    )
-    state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.active,
-    )
-    name = models.CharField(
-        max_length=100,
-        unique=True,
-        null=True,
-    )
-    user = models.OneToOneField(
-        'app.User',
-        on_delete=models.CASCADE,
-        related_name='conversation',
-        null=True,
-        blank=True,
-    )
-    date_created = models.DateTimeField(
-        auto_now_add=True,
-        null=True,
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True,
-        null=True,
-    )
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Participant(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    sid = models.CharField(
-        max_length=100,
-        unique=True,
-    )
-    phone = PhoneNumberField(
-        null=True,
-        blank=True,
-    )
-    date_created = models.DateTimeField(
-        auto_now_add=True,
-        null=True,
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True,
-        null=True,
-    )
-    last_read_message_index = models.IntegerField(
-        null=True,
-        blank=True,
-    )
-    last_read_timestamp = models.DateTimeField(
-        null=True,
-        blank=True,
-    )
-    # messaging_binding = models.JSONField(
-    #     max_length=2048,
-    #     null=True,
-    #     blank=True,
-    # )
-    # origination = PhoneNumberField(
-    #     null=True,
-    #     blank=True,
-    # )
-    # identity = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    #     blank=True,
-    # )
-    # attributes = models.JSONField(
-    #     null=True,
-    #     blank=True,
-    # )
-    # url = models.URLField(
-    #     max_length=1024,
-    #     null=True,
-    #     blank=True,
-    # )
-    conversation = models.ForeignKey(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        to_field='sid',
-        db_column='conversation_sid',
-        related_name='participants',
-    )
-    def __str__(self):
-        return f"{self.id}"
-
-
-class Message(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    sid = models.CharField(
-        max_length=100,
-        unique=True,
-    )
-    index = models.IntegerField(
-        null=True,
-        blank=True,
-    )
-    author = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    body = models.TextField(
-        max_length=1600,
-        null=True,
-        blank=True,
-    )
-    media = models.JSONField(
-        max_length=2048,
-        null=True,
-        blank=True,
-    )
-    delivery = models.JSONField(
-        null=True,
-        blank=True,
-    )
-    date_created = models.DateTimeField(
-        auto_now_add=True,
-        null=True,
-        blank=True,
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True,
-        null=True,
-        blank=True,
-    )
-    # url = models.URLField(
-    #     max_length=1024,
-    #     null=True,
-    #     blank=True,
-    # )
-    # links = models.JSONField(
-    #     null=True,
-    #     blank=True,
-    # )
-    # attributes = models.JSONField(
-    #     null=True,
-    #     blank=True,
-    # )
-    # participant_sid = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    #     blank=True,
-    # )
-    # conversation_sid = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    #     blank=True,
-    # )
-    # content_sid = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    #     blank=True,
-    # )
-    conversation = models.ForeignKey(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        to_field='sid',
-        db_column='conversation_sid',
-        related_name='messages',
-    )
-    content = models.ForeignKey(
-        'app.Content',
-        on_delete=models.SET_NULL,
-        related_name='messages',
-        to_field='sid',
-        db_column='content_sid',
-        null=True,
-        blank=True,
-    )
-    def __str__(self):
-        return f"{self.id}"
-
-
-class Receipt(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    sid = models.CharField(
-        max_length=100,
-        unique=True,
-    )
-    STATUS = Choices(
-        (-20, 'failed', 'failed'),
-        (-10, 'undelivered', 'undelivered'),
-        (0, 'sent', 'sent'),
-        (20, 'delivered', 'delivered'),
-        (30, 'read', 'read'),
-    )
-    status = FSMIntegerField(
-        choices=STATUS,
-    )
-    error_code = models.IntegerField(
-        null=True,
-        blank=True,
-    )
-    date_created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True,
-        null=True,
-        blank=True,
-    )
-    # url = models.URLField(
-    #     max_length=1024,
-    #     null=True,
-    #     blank=True,
-    # )
-    # conversation_sid = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    # )
-    # message_sid = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    # )
-    # participant_sid = models.CharField(
-    #     max_length=100,
-    #     null=True,
-    # )
-    message = models.ForeignKey(
-        'app.Message',
-        on_delete=models.CASCADE,
-        to_field='sid',
-        db_column='message_sid',
-        related_name='receipts',
-    )
-    participant = models.ForeignKey(
-        'app.Participant',
-        on_delete=models.CASCADE,
-        to_field='sid',
-        db_column='participation_sid',
-        related_name='receipts',
-    )
-    conversation = models.ForeignKey(
-        'app.Conversation',
-        on_delete=models.CASCADE,
-        to_field='sid',
-        db_column='conversation_sid',
-        related_name='receipts',
-    )
-
-    def __str__(self):
-        return f"{self.id}"
-
-
-class Content(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    sid = models.CharField(
-        max_length=100,
-        unique=True,
-    )
-    STATUS = Choices(
-        (0, 'new', 'New'),
-        (10, 'active', 'Active'),
-    )
-    status = FSMIntegerField(
-        choices=STATUS,
-        default=STATUS.new,
-    )
-    name = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True,
-    )
-    body = models.CharField(
-        max_length=1600,
-        blank=True,
-        default='',
-    )
-    components = models.JSONField(
-        blank=True,
-        null=True,
-    )
-    variables = models.JSONField(
-        blank=True,
-        null=True,
-    )
-    date_created = models.DateTimeField(
-        auto_now_add=True,
-        null=True,
-        blank=True,
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True,
-        null=True,
-        blank=True,
-    )
-    def __str__(self):
-        return str(self.name)
 
 
 class User(AbstractBaseUser):
