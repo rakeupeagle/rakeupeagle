@@ -129,6 +129,7 @@ class RecipientAdmin(GISModelAdmin):
         'user',
     ]
     inlines = [
+        # MessageInline,
         # AssignmentInline,
     ]
     ordering = [
@@ -316,7 +317,8 @@ class ConversationAdmin(admin.ModelAdmin):
 
     list_display = [
         'id',
-        'sid',
+        'user',
+        'name',
         'state',
         'date_created',
         'date_updated',
@@ -344,7 +346,7 @@ class ConversationAdmin(admin.ModelAdmin):
         'date_updated',
     ]
     inlines = [
-        ParticipantInline,
+        # ParticipantInline,
         MessageInline,
     ]
     list_editable = [
@@ -644,7 +646,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        MessageArchiveInline,
+        # MessageInline,
     ]
     readonly_fields = [
     ]

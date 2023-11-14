@@ -163,7 +163,7 @@ class MessageInline(admin.TabularInline):
         'date_created',
         'date_updated',
         # 'delivery',
-        # 'conversation',
+        'conversation',
     ]
     ordering = (
         'index',
