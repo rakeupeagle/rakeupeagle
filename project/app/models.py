@@ -305,61 +305,61 @@ class Event(models.Model):
         return f"{self.year}"
 
 
-# class Message(models.Model):
-#     id = HashidAutoField(
-#         primary_key=True,
-#     )
-#     STATE = Choices(
-#         (0, 'new', 'New'),
-#         (10, 'sent', 'Sent'),
-#     )
-#     state = FSMIntegerField(
-#         choices=STATE,
-#         default=STATE.new,
-#     )
-#     sid = models.CharField(
-#         max_length=100,
-#         blank=True,
-#     )
-#     to_phone = PhoneNumberField(
-#         blank=True,
-#         null=True,
-#     )
-#     from_phone = PhoneNumberField(
-#         blank=True,
-#         null=True,
-#     )
-#     body = models.TextField(
-#         blank=True,
-#     )
-#     DIRECTION = Choices(
-#         (10, 'inbound', 'Inbound'),
-#         (20, 'outbound', 'Outbound'),
-#     )
-#     direction = models.IntegerField(
-#         choices=DIRECTION,
-#         null=True,
-#         blank=True,
-#     )
-#     raw = models.JSONField(
-#         blank=True,
-#         null=True,
-#     )
-#     created = models.DateTimeField(
-#         auto_now_add=True,
-#     )
-#     updated = models.DateTimeField(
-#         auto_now=True,
-#     )
-#     user = models.ForeignKey(
-#         'app.User',
-#         on_delete=models.CASCADE,
-#         null=True,
-#         blank=True,
-#         # related_name='messages',
-#     )
-#     def __str__(self):
-#         return f"{self.id}"
+class Message(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    STATE = Choices(
+        (0, 'new', 'New'),
+        (10, 'sent', 'Sent'),
+    )
+    state = FSMIntegerField(
+        choices=STATE,
+        default=STATE.new,
+    )
+    sid = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+    to_phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    from_phone = PhoneNumberField(
+        blank=True,
+        null=True,
+    )
+    body = models.TextField(
+        blank=True,
+    )
+    DIRECTION = Choices(
+        (10, 'inbound', 'Inbound'),
+        (20, 'outbound', 'Outbound'),
+    )
+    direction = models.IntegerField(
+        choices=DIRECTION,
+        null=True,
+        blank=True,
+    )
+    raw = models.JSONField(
+        blank=True,
+        null=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    user = models.ForeignKey(
+        'app.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='messages',
+    )
+    def __str__(self):
+        return f"{self.id}"
 
 
 class Picture(models.Model):

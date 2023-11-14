@@ -36,6 +36,7 @@ TIME_ZONE = env("TIME_ZONE")
 
 # HashIDs
 HASHID_FIELD_SALT = env("HASHID_FIELD_SALT")
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application Active Flag
 ACTIVE = env("ACTIVE")
@@ -84,7 +85,7 @@ RQ_SHOW_ADMIN_LINK = True
 # Sessions
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
-SESSION_SERIALIZER = 'app.serializers.HashidJSONEncoder'
+# SESSION_SERIALIZER = 'app.serializers.HashidJSONEncoder'
 
 # Email
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
