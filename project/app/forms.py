@@ -62,7 +62,7 @@ class TeamcallForm(forms.ModelForm):
         model = Team
         fields = [
             'admin_notes',
-            'actual',
+            'adults',
             # 'phone',
         ]
 

@@ -86,7 +86,6 @@ class RecipientAdmin(GISModelAdmin):
     fields = [
         'state',
         'location',
-        'address',
         'point',
         'size',
         'is_veteran',
@@ -103,7 +102,6 @@ class RecipientAdmin(GISModelAdmin):
         'id',
         'user',
         'location',
-        'address',
         'size',
         'state',
     ]

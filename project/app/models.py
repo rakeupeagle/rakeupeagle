@@ -34,16 +34,16 @@ class Recipient(models.Model):
         choices=SIZE,
         help_text="""Please provide the approximate yard size."""
     )
+    bags = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='Bags estimate',
+    )
     location = models.CharField(
         max_length=512,
         blank=True,
         default='',
         help_text="""Please provide the street address to be raked (City of Eagle is assumed)."""
-    )
-    address = models.CharField(
-        max_length=512,
-        blank=True,
-        default='',
     )
     point = models.PointField(
         null=True,
@@ -74,16 +74,6 @@ class Recipient(models.Model):
         blank=True,
         default='',
         help_text="""Administrator Notes (from calling).""",
-    )
-    bags = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='Actual Bags Used',
-    )
-    hours = models.FloatField(
-        blank=True,
-        null=True,
-        help_text='Actual Hours Worked',
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -130,6 +120,11 @@ class Team(models.Model):
         choices=SIZE,
         help_text='The size of your group. (Number of adults, or equivalent in children.)',
     )
+    adults = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text='The actual number of adults, or adult-equivalent in children.',
+    )
     nickname = models.CharField(
         max_length=100,
         blank=True,
@@ -141,11 +136,6 @@ class Team(models.Model):
         blank=True,
         default='',
         help_text="""How did you hear about us?""",
-    )
-    actual = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='The actual number of adults, or adult-equivalent in children.',
     )
     public_notes = models.TextField(
         max_length=512,
@@ -226,16 +216,6 @@ class Assignment(models.Model):
     recipient_state = FSMIntegerField(
         choices=RECIPIENT_STATE,
         default=RECIPIENT_STATE.new,
-    )
-    bags = models.IntegerField(
-        blank=True,
-        null=True,
-        help_text='Actual Bags Used',
-    )
-    hours = models.FloatField(
-        blank=True,
-        null=True,
-        help_text='Actual Hours Worked',
     )
     public_notes = models.TextField(
         max_length=2000,
