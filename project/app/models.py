@@ -362,21 +362,6 @@ class Message(models.Model):
         return f"{self.id}"
 
 
-class Picture(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    image = models.ImageField(
-        blank=True,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-
-
 class User(AbstractBaseUser):
     id = HashidAutoField(
         primary_key=True,

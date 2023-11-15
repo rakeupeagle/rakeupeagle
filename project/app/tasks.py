@@ -22,7 +22,6 @@ from twilio.rest import Client as TwilioClient
 # from .models import Message
 # Local
 from .models import Assignment
-from .models import Picture
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -396,14 +395,6 @@ def import_t_calls_csv():
 #         body=body,
 #     )
 #     return message
-
-@job
-def create_and_upload_picture(path):
-    with open(path, 'rb') as f:
-        imagefile = File(f)
-        picture = Picture.objects.create()
-        picture.image.save('null', imagefile)
-
 
 # @job
 # def send_text(to, body, media_url=None):

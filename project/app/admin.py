@@ -21,7 +21,6 @@ from .inlines import AssignmentInline
 # from .models import Message
 from .models import Assignment
 from .models import Event
-from .models import Picture
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -345,14 +344,6 @@ class EventAdmin(VersionAdmin):
 #         'updated',
 #         'raw',
 #     ]
-
-
-@admin.register(Picture)
-class PictureAdmin(VersionAdmin):
-    save_on_top = True
-    fields = [
-        'image',
-    ]
 
 
 @admin.register(User)
