@@ -1,6 +1,5 @@
 {% extends 'app/_base.html' %}
 
-{% load bootstrap4 %}
 {% load humanize %}
 {% load phonenumber %}
 
@@ -38,29 +37,24 @@
         {% csrf_token %}
         <div class="card-body">
           <div class='card-text'>
-            {% bootstrap_form_errors form %}
             <div class='form-group'>
               <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
               <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
             </div>
-            {% bootstrap_field form.name show_help=True show_label=False  %}
-            {% bootstrap_field form.location show_help=True show_label=False  %}
-            {% bootstrap_field form.size show_help=True show_label=False  %}
-            {% bootstrap_field form.is_veteran show_help=True show_label=False %}
-            {% bootstrap_field form.is_senior show_help=True show_label=False %}
-            {% bootstrap_field form.is_disabled show_help=True show_label=False %}
-            {% bootstrap_field form.is_dog show_help=True show_label=False %}
-            {% bootstrap_field form.public_notes show_help=False show_label=False %}
+            {{form.name}}
+            {{form.location}}
+            {{form.size}}
+            {{form.is_veteran}}
+            {{form.is_senior}}
+            {{form.is_disabled}}
+            {{form.is_dog}}
+            {{form.public_notes}}
           </div>
         </div>
         <div class='card-footer'>
           <div class='list-inline'>
             <li class='list-inline-item'>
-              {% bootstrap_button "Save" button_type='submit' size='large' %}
-            </li>
-            <li class='list-inline-item'>
-              {% url "recipient" as recipient_url %}
-              {% bootstrap_button "Cancel" button_type='link' href=recipient_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+              <button role='submit' class='btn btn-lg'>Save</button>
             </li>
           </div>
         </div>

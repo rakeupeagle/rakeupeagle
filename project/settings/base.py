@@ -250,7 +250,6 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'django_rq',
     'fsm_admin',
-    'bootstrap4',
     'phonenumber_field',
     'app',
 ]

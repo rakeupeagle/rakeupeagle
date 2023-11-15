@@ -1,6 +1,5 @@
 {% extends 'app/_base.html' %}
 
-{% load bootstrap4 %}
 {% load humanize %}
 {% load static %}
 
@@ -19,10 +18,9 @@
     <p>
       <form method='post' role='form'>
         {% csrf_token %}
-        {% bootstrap_form_errors form %}
-        {% bootstrap_field form.phone %}
-        {% bootstrap_field form.name %}
-        {% bootstrap_button "Save" button_type='submit' button_class='btn btn-success btn-lg btn-block' %}
+        {{form.phone}}
+        {{form.name}}
+        <button type='submit' class='btn btn-success btn-lg btn-block'>Save</button>
       </form>
     </p>
     <p>

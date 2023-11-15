@@ -1,7 +1,6 @@
 {% extends 'app/_base.html' %}
 
 {% load phonenumber %}
-{% load bootstrap4 %}
 {% load humanize %}
 
 {% block formmedia %}{{ form.media }}{% endblock formmedia %}
@@ -35,26 +34,21 @@
         {% csrf_token %}
         <div class="card-body">
           <div class='card-text'>
-            {% bootstrap_form_errors form %}
             <div class='form-group'>
               <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
               <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
             </div>
-            {% bootstrap_field form.name show_help=True show_label=False %}
-            {% bootstrap_field form.size show_help=True show_label=False %}
-            {% bootstrap_field form.nickname show_help=True show_label=False %}
-            {% bootstrap_field form.reference show_help=True show_label=False %}
-            {% bootstrap_field form.public_notes show_help=False show_label=False %}
+            {{form.name}}
+            {{form.size}}
+            {{form.nickname}}
+            {{form.reference}}
+            {{form.public_notes}}
           </div>
         </div>
         <div class='card-footer'>
           <div class='list-inline'>
             <li class='list-inline-item'>
-              {% bootstrap_button "Save" button_type='submit' size='large' %}
-            </li>
-            <li class='list-inline-item'>
-              {% url "team" as team_url %}
-              {% bootstrap_button "Cancel" button_type='link' href=team_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+              <button role='submit' class='btn btn-lg'>Save</button>
             </li>
           </div>
         </div>

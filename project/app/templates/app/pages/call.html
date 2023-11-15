@@ -1,6 +1,5 @@
 {% extends 'app/_base.html' %}
 
-{% load bootstrap4 %}
 {% load humanize %}
 {% load phonenumber %}
 
@@ -55,18 +54,11 @@
           <div class='form-group'>
             {{recipient.public_notes}}
           </div>
-          {% bootstrap_form_errors form %}
-          {% bootstrap_form form %}
-          {# {% bootstrap_field form.admin_notes show_help=True show_label=False%} #}
         </div>
         <div class='card-footer'>
           <ul class='list-inline'>
             <li class='list-inline-item'>
-              {% bootstrap_button "Save" button_type='submit' size='large' %}
-            </li>
-            <li class='list-inline-item'>
-              {% url 'call' as call_url %}
-              {% bootstrap_button "Cancel" button_type='link' href=call_url size='large' button_class='btn-outline-dark' extra_classes='ml-3'%}
+              <button role='submit' class='btn btn-lg'>Save</button>
             </li>
           </ul>
         </div>
