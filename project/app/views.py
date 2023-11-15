@@ -23,7 +23,6 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from reversion.views import create_revision
 
 from .decorators import validate_twilio_request
 from .forms import AccountForm
@@ -293,7 +292,6 @@ def team(request):
 
 # Admin
 @login_required
-@create_revision()
 def call(request):
     try:
         recipient = Recipient.objects.order_by(
@@ -332,7 +330,6 @@ def call(request):
     )
 
 @login_required
-@create_revision()
 def teamcall(request):
     try:
         team = Team.objects.order_by(

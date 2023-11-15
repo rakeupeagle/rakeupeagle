@@ -2,6 +2,7 @@
 # First-Party
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 from django.contrib.admin import SimpleListFilter
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
@@ -11,7 +12,6 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
-from reversion.admin import VersionAdmin
 
 # Local
 from .forms import AssignmentForm
@@ -137,7 +137,7 @@ class RecipientAdmin(GISModelAdmin):
 
 
 @admin.register(Team)
-class TeamAdmin(VersionAdmin):
+class TeamAdmin(ModelAdmin):
 
     save_on_top = True
     fields = [
@@ -198,7 +198,7 @@ class TeamAdmin(VersionAdmin):
 
 
 @admin.register(Assignment)
-class AssignmentAdmin(VersionAdmin):
+class AssignmentAdmin(ModelAdmin):
     # form = AssignmentForm
     save_on_top = True
     fields = [
@@ -258,7 +258,7 @@ class AssignmentAdmin(VersionAdmin):
 
 
 @admin.register(Event)
-class EventAdmin(VersionAdmin):
+class EventAdmin(ModelAdmin):
     save_on_top = True
     fields = [
         'year',
@@ -292,7 +292,7 @@ class EventAdmin(VersionAdmin):
 
 
 # @admin.register(Message)
-# class MessageAdmin(VersionAdmin):
+# class MessageAdmin(ModelAdmin):
 
 #     # def user_url(self, obj):
 #     #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
