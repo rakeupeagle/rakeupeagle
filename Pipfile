@@ -34,7 +34,6 @@ django-fsm = "*"
 django-fsm-admin = {editable = true, ref = "master", git = "https://github.com/gadventures/django-fsm-admin.git"}
 geocoder = "*"
 twilio = "*"
-pyjwt = "*"
 pillow = "*"
 python-dateutil = "*"
 wkhtmltopdf = "*"
