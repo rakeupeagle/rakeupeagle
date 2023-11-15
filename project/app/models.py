@@ -173,14 +173,13 @@ class Assignment(models.Model):
         primary_key=True,
     )
     STATE = Choices(
-        (-30, 'incomplete', 'Incompleted'),
-        (-20, 'fail', 'Failed'),
-        (-10, 'cancel', 'Cancelled'),
+        (-20, 'failed', 'Failed'),
+        (-10, 'cancelled', 'Cancelled'),
         (0, 'new', 'New'),
-        (20, 'confirm', 'Confirmed'),
-        (30, 'checkin', 'Checked-In'),
-        (40, 'start', 'Started'),
-        (50, 'finish', 'Finished'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'checked', 'Checked-In'),
+        (40, 'started', 'Started'),
+        (50, 'finished', 'Finished'),
     )
     state = FSMIntegerField(
         choices=STATE,
