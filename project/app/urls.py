@@ -41,8 +41,8 @@ urlpatterns = [
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
     path('dashboard/<team_id>', views.dashboard_team, name='dashboard-team',),
-    path('assignment/<assignment_id>/pdf', views.handout_pdf, name='handout-pdf',),
-    path('handouts/', views.handout_pdfs, name='handouts',),
+    # path('assignment/<assignment_id>/pdf', views.handout_pdf, name='handout-pdf',),
+    # path('handouts/', views.handout_pdfs, name='handouts',),
     path('csv/assignments/', views.export_assignments, name='export-assignments',),
     path('csv/recipients/', views.export_recipients, name='export-recipients',),
     path('csv/teams/', views.export_teams, name='export-teams',),

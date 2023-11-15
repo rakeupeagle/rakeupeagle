@@ -2,8 +2,6 @@ import csv
 import datetime
 import logging
 
-import jwt
-import pydf
 import requests
 from django.conf import settings
 from django.contrib import messages
@@ -51,13 +49,10 @@ log = logging.getLogger(__name__)
 
 # Root
 def index(request):
-    pictures = Picture.objects.all()
     return render(
         request,
         'app/pages/index.html',
         context={
-            'pictures': pictures,
-            'is_active': True,
         }
     )
 
@@ -415,56 +410,56 @@ def dashboard_team(request, team_id):
 #     )
 #     return HttpResponse(status=201)
 
-@staff_member_required
-def handout_pdf(request, assignment_id):
-    assignment = get_object_or_404(Assignment, pk=assignment_id)
-    yard = assignment.yard
-    rake = assignment.rake
-    context={
-        'yard': yard,
-        'rake': rake,
-    }
-    rendered = render_to_string('app/pdfs/handout.html', context)
-    pdf = pydf.generate_pdf(
-        rendered,
-        enable_smart_shrinking=False,
-        orientation='Portrait',
-        margin_top='10mm',
-        margin_bottom='10mm',
-    )
-    content = ContentFile(pdf)
-    return FileResponse(
-        content,
-        as_attachment=True,
-        filename='rake_up_eagle_handout.pdf',
-    )
+# @staff_member_required
+# def handout_pdf(request, assignment_id):
+#     assignment = get_object_or_404(Assignment, pk=assignment_id)
+#     yard = assignment.yard
+#     rake = assignment.rake
+#     context={
+#         'yard': yard,
+#         'rake': rake,
+#     }
+#     rendered = render_to_string('app/pdfs/handout.html', context)
+#     pdf = pydf.generate_pdf(
+#         rendered,
+#         enable_smart_shrinking=False,
+#         orientation='Portrait',
+#         margin_top='10mm',
+#         margin_bottom='10mm',
+#     )
+#     content = ContentFile(pdf)
+#     return FileResponse(
+#         content,
+#         as_attachment=True,
+#         filename='rake_up_eagle_handout.pdf',
+#     )
 
-@staff_member_required
-def handout_pdfs(request):
-    assignments = Assignment.objects.order_by(
-        'team__name',
-    )
-    output = ''
-    for assignment in assignments:
-        context={
-            'recipient': assignment.recipient,
-            'team': assignment.team,
-        }
-        rendered = render_to_string('app/pdfs/handout.html', context)
-        output += '<div class="new-page"></div>'+rendered
-    pdf = pydf.generate_pdf(
-        output,
-        enable_smart_shrinking=False,
-        orientation='Portrait',
-        margin_top='10mm',
-        margin_bottom='10mm',
-    )
-    content = ContentFile(pdf)
-    return FileResponse(
-        content,
-        as_attachment=True,
-        filename='handouts.pdf',
-    )
+# @staff_member_required
+# def handout_pdfs(request):
+#     assignments = Assignment.objects.order_by(
+#         'team__name',
+#     )
+#     output = ''
+#     for assignment in assignments:
+#         context={
+#             'recipient': assignment.recipient,
+#             'team': assignment.team,
+#         }
+#         rendered = render_to_string('app/pdfs/handout.html', context)
+#         output += '<div class="new-page"></div>'+rendered
+#     pdf = pydf.generate_pdf(
+#         output,
+#         enable_smart_shrinking=False,
+#         orientation='Portrait',
+#         margin_top='10mm',
+#         margin_bottom='10mm',
+#     )
+#     content = ContentFile(pdf)
+#     return FileResponse(
+#         content,
+#         as_attachment=True,
+#         filename='handouts.pdf',
+#     )
 
 @staff_member_required
 def export_assignments(request):
