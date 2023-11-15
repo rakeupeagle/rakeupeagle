@@ -18,9 +18,9 @@ from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
-# from .models import Message
 from .models import Assignment
 from .models import Event
+from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -67,7 +67,6 @@ class DirectionListFilter(SimpleListFilter):
             )
 
 
-
 @admin.register(Recipient)
 class RecipientAdmin(GISModelAdmin):
     save_on_top = True
@@ -90,6 +89,7 @@ class RecipientAdmin(GISModelAdmin):
         'id',
         'user',
         'location',
+        'bags',
         'size',
         'state',
     ]
@@ -111,7 +111,7 @@ class RecipientAdmin(GISModelAdmin):
     list_editable = [
         # 'state',
         # 'user',
-        'location',
+        'bags',
     ]
     autocomplete_fields = [
         'user',
@@ -291,59 +291,49 @@ class EventAdmin(ModelAdmin):
     ]
 
 
-# @admin.register(Message)
-# class MessageAdmin(ModelAdmin):
+@admin.register(Message)
+class MessageAdmin(ModelAdmin):
 
-#     # def user_url(self, obj):
-#     #     user_url = reverse('admin:app_user_change', args=[obj.user.id])
-#     #     return format_html("<a href='{url}'>User</a>", url=user_url)
-
-#     fields = [
-#         'id',
-#         'state',
-#         'body',
-#         'sid',
-#         'to_phone',
-#         'from_phone',
-#         'direction',
-#         'raw',
-#         'created',
-#         'updated',
-#     ]
-#     list_display = [
-#         'id',
-#         # 'user_url',
-#         'body',
-#         'direction',
-#         'created',
-#         'updated',
-#     ]
-#     list_editable = [
-#     ]
-#     list_filter = [
-#         'direction',
-#         'state',
-#     ]
-#     search_fields = [
-#     ]
-#     autocomplete_fields = [
-#     ]
-#     inlines = [
-#     ]
-#     ordering = [
-#         '-created',
-#     ]
-#     readonly_fields = [
-#         'id',
-#         'sid',
-#         # 'to_phone',
-#         'from_phone',
-#         'user_id',
-#         # 'direction',
-#         'created',
-#         'updated',
-#         'raw',
-#     ]
+    fields = [
+        'id',
+        'state',
+        'body',
+        'sid',
+        'to_phone',
+        'from_phone',
+        'direction',
+        'user',
+        'created',
+        'updated',
+    ]
+    list_display = [
+        'id',
+        'body',
+        'direction',
+        'created',
+        'updated',
+    ]
+    list_editable = [
+    ]
+    list_filter = [
+        'direction',
+        'state',
+    ]
+    search_fields = [
+    ]
+    autocomplete_fields = [
+        'user',
+    ]
+    inlines = [
+    ]
+    ordering = [
+        '-created',
+    ]
+    readonly_fields = [
+        'id',
+        'created',
+        'updated',
+    ]
 
 
 @admin.register(User)
