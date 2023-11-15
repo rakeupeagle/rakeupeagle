@@ -10,10 +10,5 @@ ALLOWED_HOSTS = [
 # Sentry
 SENTRY_RELEASE = env("HEROKU_SLUG_COMMIT")
 
-# Cloudinary
-CLOUDINARY_STORAGE = {
-    'PREFIX': 'rakeupeagle',
-}
-
 # Sentry
 SENTRY_CONFIG['release'] = env("HEROKU_SLUG_COMMIT")

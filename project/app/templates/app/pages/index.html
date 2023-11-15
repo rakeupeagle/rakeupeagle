@@ -1,5 +1,4 @@
 {% extends 'app/_base.html' %}
-{% load cloudinary %}
 {% load static %}
 
 {% block title %}Rake Up Eagle! - Sponsored by Eagle Middle School PTO{% endblock title%}
@@ -76,11 +75,6 @@
           This year's event will take place on November 11th.  We're gearing up for another great year, and will open registration soon.  In the meantime, if you have any questions you can reach out to <a href='mailto:eaglemiddlepto@gmail.com'>eaglemiddlepto@gmail.com</a> and we'll do our best to answer.
         </p>
       </div>
-    </section>
-    <section class='my-3'>
-      {% for picture in pictures %}
-        {% cloudinary picture.image.name width=800 class='img-fluid img-thumbnail'%}
-      {% endfor %}
     </section>
   {% endif %}
 {% endblock content %}

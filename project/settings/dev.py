@@ -18,11 +18,6 @@ MIDDLEWARE += [
     'querycount.middleware.QueryCountMiddleware',
 ]
 
-# Cloudinary
-CLOUDINARY_STORAGE = {
-    'PREFIX': 'rakeupeagle-dev',
-}
-
 # Async settings
 RQ_QUEUES['default']['ASYNC'] = False
 

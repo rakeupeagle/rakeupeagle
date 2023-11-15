@@ -98,12 +98,6 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 WHITENOISE_USE_FINDERS = True
 
-# Media File Management
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-MEDIA_ROOT = root('mediafiles')
-MEDIA_URL = '/media/'
-CLOUDINARY_URL = env("CLOUDINARY_URL")
-
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
 
@@ -255,8 +249,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django_rq',
-    'cloudinary_storage',
-    'cloudinary',
     'fsm_admin',
     'bootstrap4',
     'phonenumber_field',

@@ -30,7 +30,6 @@ django-hashid-field = "*"
 python-pdf = "*"
 phonenumberslite = "*"
 django-phonenumber-field = "*"
-django-cloudinary-storage = "*"
 django-fsm = "*"
 django-fsm-admin = {editable = true, ref = "master", git = "https://github.com/gadventures/django-fsm-admin.git"}
 geocoder = "*"
