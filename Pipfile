@@ -34,9 +34,6 @@ django-fsm-admin = {editable = true, ref = "master", git = "https://github.com/g
 geocoder = "*"
 twilio = "*"
 python-dateutil = "*"
-pandas = "*"
-django-pandas = "*"
-geopandas = "*"
 
 [requires]
 python_version = "3.11"
