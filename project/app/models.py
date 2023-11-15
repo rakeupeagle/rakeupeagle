@@ -16,9 +16,13 @@ class Recipient(models.Model):
         primary_key=True,
     )
     STATE = Choices(
+        (-40, 'blocked', 'Blocked'),
+        (-20, 'cancelled', 'Cancelled'),
         (-10, 'inactive', 'Inactive'),
         (0, 'new', 'New'),
         (10, 'active', 'Active'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'assigned', 'Assigned'),
     )
     state = FSMIntegerField(
         choices=STATE,
@@ -99,9 +103,12 @@ class Team(models.Model):
         primary_key=True,
     )
     STATE = Choices(
+        (-20, 'cancelled', 'Cancelled'),
         (-10, 'inactive', 'Inactive'),
         (0, 'new', 'New'),
         (10, 'active', 'Active'),
+        (20, 'confirmed', 'Confirmed'),
+        (30, 'assigned', 'Assigned'),
     )
     state = FSMIntegerField(
         choices=STATE,
@@ -176,45 +183,13 @@ class Assignment(models.Model):
         (-20, 'failed', 'Failed'),
         (-10, 'cancelled', 'Cancelled'),
         (0, 'new', 'New'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'checked', 'Checked-In'),
+        (10, 'assigned', 'Assigned'),
         (40, 'started', 'Started'),
         (50, 'finished', 'Finished'),
     )
     state = FSMIntegerField(
         choices=STATE,
         default=STATE.new,
-    )
-    TEAM_STATE = Choices(
-        (-30, 'archived', 'Archived'),
-        (-20, 'cancelled', 'Cancelled'),
-        (-10, 'exclude', 'Excluded'),
-        (0, 'new', 'New'),
-        (10, 'include', 'Included'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'checked', 'Checked-In'),
-        (40, 'missed', 'Missed'),
-        (50, 'complete', 'Complete'),
-    )
-    team_state = FSMIntegerField(
-        choices=TEAM_STATE,
-        default=TEAM_STATE.new,
-    )
-    RECIPIENT_STATE = Choices(
-        (-40, 'blocked', 'Blocked'),
-        (-30, 'archived', 'Archived'),
-        (-20, 'cancelled', 'Cancelled'),
-        (-10, 'exclude', 'Excluded'),
-        (0, 'new', 'New'),
-        (10, 'include', 'Included'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'checked', 'Checked-In'),
-        (40, 'missed', 'Missed'),
-        (50, 'complete', 'Complete'),
-    )
-    recipient_state = FSMIntegerField(
-        choices=RECIPIENT_STATE,
-        default=RECIPIENT_STATE.new,
     )
     public_notes = models.TextField(
         max_length=2000,
