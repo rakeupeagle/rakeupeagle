@@ -1,5 +1,0 @@
-{% autoescape off %}
-Rake Up Eagle: If you have extra bags please bring them back to EMS at 1000 Floating Feather.  And if you end early please call 847.347.1579; other groups need help!
-
-Thank you!
-{% endautoescape %}

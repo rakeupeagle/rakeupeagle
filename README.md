@@ -1,3 +1,3 @@
-# README
+# RakeUpEagle
 
-This is an application to help manage the Rake Up Eagle team project.
+The website and app for the Rake Up Eagle community service project.

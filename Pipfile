@@ -4,35 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-debug-toolbar = "*"
-django-querycount = "*"
-factory-boy = "*"
-faker = "*"
-pytest = "*"
-pytest-django = "*"
-pylint = "*"
+ipython = "*"
 
 [packages]
-django = "*"
-django-environ = "*"
-psycopg2 = "*"
-whitenoise = "*"
-ipython = "*"
-brotli = "*"
-gunicorn = "*"
-django-redis = "*"
-django-rq = "*"
-requests = "*"
-django-model-utils = "*"
-sentry-sdk = "*"
-django-hashid-field = "*"
-phonenumberslite = "*"
-django-phonenumber-field = "*"
-django-fsm = "*"
-django-fsm-admin = {editable = true, ref = "master", git = "https://github.com/gadventures/django-fsm-admin.git"}
-geocoder = "*"
-twilio = "*"
-python-dateutil = "*"
+pelican = "*"
+markdown = "*"
+typogrify = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.12"
