@@ -246,7 +246,7 @@ def recipient(request):
         recipient.save()
         messages.success(
             request,
-            "Registration complete!  We will reach out before November 7th with futher details.",
+            "Registration complete!  We will reach out before November 5th with futher details.",
         )
         send_recipient_confirmation(recipient)
     return render(
@@ -272,7 +272,7 @@ def team(request):
         team.save()
         messages.success(
             request,
-            "Registration complete!  We will reach out before November 7th with futher details.",
+            "Registration complete!  We will reach out before November 5th with futher details.",
         )
         send_team_confirmation(team)
     else:
@@ -466,7 +466,7 @@ def export_assignments(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=assignments.csv'
     gs = Assignment.objects.filter(
-        event__year=2023,
+        event__year=2024,
     ).order_by(
         'rake__team__user__name',
     )
