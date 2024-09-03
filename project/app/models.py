@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
+from django.db.models import IntegerChoices
 from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
 # from django_fsm import transition
@@ -15,18 +16,17 @@ class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    STATE = Choices(
-        (-40, 'blocked', 'Blocked'),
-        (-20, 'cancelled', 'Cancelled'),
-        (-10, 'inactive', 'Inactive'),
-        (0, 'new', 'New'),
-        (10, 'active', 'Active'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'assigned', 'Assigned'),
-    )
+    class StateChoices(IntegerChoices):
+        BLOCKED = -40, "Blocked"
+        CANCELLED = -20, "Cancelled"
+        INACTIVE = -10, "Inactive"
+        NEW = 0, "New"
+        ACTIVE = 10, "Active"
+        CONFIRMED = 20, "Confirmed"
+        ASSIGNED = 30, "Assigned"
     state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
+        choices=StateChoices,
+        default=StateChoices.NEW,
     )
     SIZE = Choices(
         (110, 'small', 'Small (1-15 bags)'),
@@ -102,29 +102,29 @@ class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    STATE = Choices(
-        (-20, 'cancelled', 'Cancelled'),
-        (-10, 'inactive', 'Inactive'),
-        (0, 'new', 'New'),
-        (10, 'active', 'Active'),
-        (20, 'confirmed', 'Confirmed'),
-        (30, 'assigned', 'Assigned'),
-    )
+    class StateChoices(IntegerChoices):
+        CANCELLED = -20, "Cancelled"
+        INACTIVE = -10, "Inactive"
+        NEW = 0, "New"
+        ACTIVE = 10, "Active"
+        CONFIRMED = 20, "Confirmed"
+        ASSIGNED = 30, "Assigned"
+
+    class SizeChoices(IntegerChoices):
+        SOLO = 105, "Solo (1 Adult)"
+        XSMALL = 110, "Extra-Small (2-5 Adults)"
+        SMALL = 120, "Small (6-10 Adults)"
+        MEDIUM = 130, "Medium (11-15 Adults)"
+        LARGE = 140, "Large (16-20 Adults)"
+        XLARGE = 150, "Extra-Large (21+ Adults)"
+
     state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
-    )
-    SIZE = Choices(
-        (105, 'solo', 'Solo (1 Adult)'),
-        (110, 'xs', 'Extra-Small (2-5 Adults)'),
-        (120, 'small', 'Small (6-10 Adults)'),
-        (130, 'medium', 'Medium (11-15 Adults)'),
-        (140, 'large', 'Large (16-20 Adults)'),
-        (150, 'xl', 'Extra-Large (21+ Adults)'),
+        choices=StateChoices,
+        default=StateChoices.NEW,
     )
     size = models.IntegerField(
         blank=False,
-        choices=SIZE,
+        choices=SizeChoices,
         help_text='The size of your group. (Number of adults, or equivalent in children.)',
     )
     adults = models.IntegerField(
@@ -179,17 +179,17 @@ class Assignment(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    STATE = Choices(
-        (-20, 'failed', 'Failed'),
-        (-10, 'cancelled', 'Cancelled'),
-        (0, 'new', 'New'),
-        (10, 'assigned', 'Assigned'),
-        (40, 'started', 'Started'),
-        (50, 'finished', 'Finished'),
-    )
+    class StateChoices(IntegerChoices):
+        FAILED = -20, "Failed"
+        CANCELLED = -10, "Cancelled"
+        NEW = 0, "New"
+        ASSIGNED = 10, "Assigned"
+        STARTED = 40, "Started"
+        FINISHED = 50, "Finished"
+
     state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
+        choices=StateChoices,
+        default=StateChoices.NEW,
     )
     public_notes = models.TextField(
         max_length=2000,
@@ -236,20 +236,20 @@ class Event(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
+    class StateChoices(IntegerChoices):
+        ARCHIVE = -10, "Archive"
+        NEW = 0, "New"
+        CURRENT = 10, "Current"
+
     name = models.CharField(
         max_length=100,
         blank=True,
         default='',
         help_text="""Your full name."""
     )
-    STATE = Choices(
-        (-10, 'archive', 'Archive'),
-        (0, 'new', 'New'),
-        (10, 'current', 'Current'),
-    )
     state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
+        choices=StateChoices,
+        default=StateChoices.NEW,
     )
     year = models.IntegerField(
         blank=True,
@@ -283,13 +283,13 @@ class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    STATE = Choices(
-        (0, 'new', 'New'),
-        (10, 'sent', 'Sent'),
-    )
+    class StateChoices(IntegerChoices):
+        NEW = 0, "New"
+        SENT = 10, "Sent"
+
     state = FSMIntegerField(
-        choices=STATE,
-        default=STATE.new,
+        choices=StateChoices,
+        default=StateChoices.NEW,
     )
     sid = models.CharField(
         max_length=100,
