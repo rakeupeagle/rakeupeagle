@@ -13,6 +13,7 @@ env = Env(
     REDIS_URL=(str, 'redis://localhost:6379/0'),
     LOGLEVEL=(str, 'INFO'),
     ACTIVE=(bool, False),
+    HEROKU_SLUG_COMMIT=(str, 'Init'),
 )
 
 root = Path(__file__) - 2
