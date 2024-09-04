@@ -8,7 +8,7 @@ from environ import Path
 env = Env(
     DEBUG=(bool, False),
     DEFAULT_FROM_EMAIL=(str, 'webmaster@localhost'),
-    TIME_ZONE=(str, 'US/Mountain'),
+    TIME_ZONE=(str, 'America/Boise'),
     EMAIL_URL=(str, 'smtp://localhost:1025'),
     REDIS_URL=(str, 'redis://localhost:6379/0'),
     LOGLEVEL=(str, 'INFO'),
