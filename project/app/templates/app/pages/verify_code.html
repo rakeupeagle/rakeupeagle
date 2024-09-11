@@ -1,5 +1,5 @@
 {% extends 'app/_base.html' %}
-
+{% load phonenumber %}
 {% block title %}
   Verify
 {% endblock title %}
@@ -13,13 +13,13 @@
       Please wait ten seconds for your 4-digit code to arrive, then enter it below.
     </p>
   </header>
-  <main class='col-lg-4'>
+  <main class='col-lg-6'>
     <div class='card'>
       <form action='{% url "verify-code" %}' method='post'>
         {% csrf_token %}
         <div class='card-header'>
           <h4>
-            Enter Code
+            Enter Code Sent to {{phone|phonenumber}}
           </h4>
         </div>
         <div class='card-body'>

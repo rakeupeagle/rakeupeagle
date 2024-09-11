@@ -21,6 +21,7 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from phonenumber_field.phonenumber import PhoneNumber
 
 from .decorators import validate_twilio_request
 from .forms import AccountForm
@@ -81,6 +82,11 @@ def login(request):
         #     f"Welcome, {user.name}!",
         # )
         # return redirect('account')
+    else:
+        messages.error(
+            request,
+            "Please enter a mobile phone number",
+        )
     return render(
         request,
         'app/pages/login.html',
@@ -91,9 +97,10 @@ def login(request):
 
 def verify_code(request):
     form = VerifyCodeForm(request.POST or None)
+    number = request.session['number']
+    phone = PhoneNumber.from_string(number)
     if form.is_valid():
         code = form.cleaned_data.get('code')
-        number = request.session['number']
         if check(number, code):
             user = authenticate(
                 request,
@@ -117,7 +124,8 @@ def verify_code(request):
         request,
         'app/pages/verify_code.html',
         context={
-            'form': form
+            'form': form,
+            'phone': phone,
         },
     )
 
