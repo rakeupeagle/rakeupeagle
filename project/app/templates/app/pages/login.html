@@ -1,18 +1,26 @@
 {% extends 'app/_base.html' %}
 
-{% block title %}Login Account{% endblock title %}
+{% block title %}Login{% endblock title %}
 
 {% block content %}
   <section class='my-5 col-lg-8'>
     <h2>
-      Login Account
+      Login
     </h2>
+    <p class='lead'>
+      Please enter your mobile phone number to start.
+    </p>
   </section>
-  <section class='my-5'>
-    <form method='post' role='form'>
+  <section class='my-5 row'>
+    <form method='post' role='form' class='form-floating'>
       {% csrf_token %}
-      {{form.phone}}
-      <button role='submit' class='btn btn-success btn-lg btn-block'>Login</button>
+      <div class='form-floating mb-3 col-md-4'>
+        <input type="tel" name="phone" class="form-control form-control-lg" id="id_phone" placeholder='Mobile Phone' required>
+        <label for="id_phone">Mobile Phone</label>
+      </div>
+      <div class='col-md-4'>
+        <button role='submit' class='btn btn-success btn-lg btn-block'>Login</button>
+      </div>
     </form>
   </section>
 
