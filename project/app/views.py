@@ -62,27 +62,25 @@ def login(request):
     form = LoginForm(request.POST or None)
     if form.is_valid():
         number = form.cleaned_data['phone'].as_e164
-        try:
-            user = User.objects.get(
-                phone=number,
-            )
-        except User.DoesNotExist:
-            request.session['number'] = number
-            return redirect('register')
-        user = authenticate(
-            request,
-            phone=number,
+        request.session['number'] = number
+        send(
+            number,
         )
-        log_in(
-            request,
-            user,
-            backend='app.backends.AppBackend',
-        )
-        messages.success(
-            request,
-            f"Welcome, {user.name}!",
-        )
-        return redirect('account')
+        return redirect('verify-code')
+        # user = authenticate(
+        #     request,
+        #     phone=number,
+        # )
+        # log_in(
+        #     request,
+        #     user,
+        #     backend='app.backends.AppBackend',
+        # )
+        # messages.success(
+        #     request,
+        #     f"Welcome, {user.name}!",
+        # )
+        # return redirect('account')
     return render(
         request,
         'app/pages/login.html',
@@ -90,6 +88,39 @@ def login(request):
             'form': form,
         }
     )
+
+def verify_code(request):
+    form = VerifyCodeForm(request.POST or None)
+    if form.is_valid():
+        code = form.cleaned_data.get('code')
+        number = request.session['number']
+        if check(number, code):
+            user = authenticate(
+                request,
+                phone=number,
+            )
+            log_in(
+                request,
+                user,
+                backend='app.backends.AppBackend',
+            )
+            messages.success(
+                request,
+                "You have logged in!",
+            )
+            return redirect('account')
+        messages.warning(
+            request,
+            "Sorry, that code didn't work.  Try again.",
+        )
+    return render(
+        request,
+        'app/pages/verify_code.html',
+        context={
+            'form': form
+        },
+    )
+
 
 def register(request):
     number = request.session.get('number', '')
@@ -192,33 +223,12 @@ def verification(request):
         },
     )
 
-@login_required
 def verify_send(request):
+    number = request.session['number']
     send(
-        request.user.phone.as_e164,
+        number,
     )
     return redirect('verify-code')
-
-@login_required
-def verify_code(request):
-    form = VerifyCodeForm(request.POST or None)
-    if form.is_valid():
-        code = form.cleaned_data.get('code')
-        if check(request.user.phone.as_e164, code):
-            request.user.is_verified = True
-            request.user.save()
-            messages.success(
-                request,
-                "Your account has been verified!",
-            )
-            return redirect('account')
-    return render(
-        request,
-        'app/pages/verify_code.html',
-        context={
-            'form': form
-        },
-    )
 
 
 @validate_twilio_request
