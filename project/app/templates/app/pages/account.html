@@ -3,12 +3,12 @@
 {% load humanize %}
 {% load static %}
 
-{% block title %}Rake Up Eagle Account{% endblock title %}
+{% block title %}Account{% endblock title %}
 
 {% block content %}
   <section class='my-5'>
     <h2>
-      Rake Up Eagle Account
+      Account
     </h2>
   </section>
   <section class='my-5'>
@@ -22,13 +22,6 @@
         {{form.name}}
         <button type='submit' class='btn btn-success btn-lg btn-block'>Save</button>
       </form>
-    </p>
-    <p>
-      {% if request.user.is_verified %}
-        <p>Verified</p>
-      {% else %}
-        <a href='{% url "verify-send" %}'>Verify</a>
-      {% endif %}
     </p>
     <p>
       {% for recipient in recipients %}

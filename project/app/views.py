@@ -36,6 +36,7 @@ from .forms import VerifyCodeForm
 from .helpers import process_webhook
 # from .models import Message
 from .models import Assignment
+from .models import Event
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -60,6 +61,8 @@ def index(request):
 
 # Authentication
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('account')
     form = LoginForm(request.POST or None)
     if form.is_valid():
         number = form.cleaned_data['phone'].as_e164
@@ -68,20 +71,6 @@ def login(request):
             number,
         )
         return redirect('verify-code')
-        # user = authenticate(
-        #     request,
-        #     phone=number,
-        # )
-        # log_in(
-        #     request,
-        #     user,
-        #     backend='app.backends.AppBackend',
-        # )
-        # messages.success(
-        #     request,
-        #     f"Welcome, {user.name}!",
-        # )
-        # return redirect('account')
     else:
         messages.error(
             request,
@@ -94,6 +83,15 @@ def login(request):
             'form': form,
         }
     )
+
+
+def verify_send(request):
+    number = request.session['number']
+    send(
+        number,
+    )
+    return redirect('verify-code')
+
 
 def verify_code(request):
     form = VerifyCodeForm(request.POST or None)
@@ -129,7 +127,69 @@ def verify_code(request):
         },
     )
 
+def logout(request):
+    log_out(request)
+    messages.success(
+        request,
+        "You Have Been Logged Out!",
+    )
+    return redirect('index')
 
+@login_required
+def delete(request):
+    form = DeleteForm(request.POST or None)
+    if form.is_valid():
+        user = request.user
+        user.delete()
+        messages.error(
+            request,
+            "Account Deleted!",
+        )
+        return redirect('index')
+    return render(
+        request,
+        'app/pages/delete.html',
+        context={
+            'form': form,
+        },
+    )
+
+
+# Business Logic
+@login_required
+def account(request):
+    user = request.user
+    if user.is_admin:
+        return redirect('admin:index')
+    if request.POST:
+        form = AccountForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Saved!',
+            )
+            return redirect('account')
+    form = AccountForm(instance=user)
+    recipients = Recipient.objects.filter(
+        user=request.user,
+    )
+    teams = Team.objects.filter(
+        user=request.user,
+    )
+    return render(
+        request,
+        'app/pages/account.html',
+        context={
+            'user': user,
+            'form': form,
+            'recipients': recipients,
+            'teams': teams,
+        }
+    )
+
+
+@login_required
 def register(request):
     number = request.session.get('number', '')
     initial = {
@@ -161,91 +221,6 @@ def register(request):
             'form': form,
         }
     )
-
-
-def logout(request):
-    log_out(request)
-    messages.success(
-        request,
-        "You Have Been Logged Out!",
-    )
-    return redirect('index')
-
-
-@login_required
-def account(request):
-    user = request.user
-    if request.POST:
-        form = AccountForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request,
-                'Saved!',
-            )
-            return redirect('account')
-    form = AccountForm(instance=user)
-    recipients = Recipient.objects.filter(
-        user=request.user,
-    )
-    teams = Team.objects.filter(
-        user=request.user,
-    )
-    return render(
-        request,
-        'app/pages/account.html',
-        context={
-            'user': user,
-            'form': form,
-            'recipients': recipients,
-            'teams': teams,
-        }
-    )
-
-
-@login_required
-def delete(request):
-    form = DeleteForm(request.POST or None)
-    if form.is_valid():
-        user = request.user
-        user.delete()
-        messages.error(
-            request,
-            "Account Deleted!",
-        )
-        return redirect('index')
-    return render(
-        request,
-        'app/pages/delete.html',
-        context={
-            'form': form,
-        },
-    )
-
-@login_required
-def verification(request):
-    return render(
-        request,
-        'app/pages/verification.html',
-        context={
-        },
-    )
-
-def verify_send(request):
-    number = request.session['number']
-    send(
-        number,
-    )
-    return redirect('verify-code')
-
-
-@validate_twilio_request
-@csrf_exempt
-@require_POST
-def webhook(request):
-    data = request.POST.dict()
-    process_webhook(data)
-    return HttpResponse(status=200)
 
 
 # Recipient
@@ -395,6 +370,14 @@ def dashboard_team(request, team_id):
         'app/pages/team.html',
         {'team': team},
     )
+
+@validate_twilio_request
+@csrf_exempt
+@require_POST
+def webhook(request):
+    data = request.POST.dict()
+    process_webhook(data)
+    return HttpResponse(status=200)
 
 # @validate_twilio_request
 # @csrf_exempt
