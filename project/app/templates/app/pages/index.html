@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-  {% if False %}
+  {% if True %}
     <section class='my-3'>
       <div class='jumbotron'>
         <h2>
@@ -10,9 +10,9 @@
         </h2>
 
         <h3 class='my-3'>
-          {% comment %}
+
           Join today -- registration deadline is November 5th!<br><br>
-          {% endcomment %}
+
           {% comment %}
           <span class='text-danger'>Registration has closed for 2024 &mdash; see you on November 9th!</span>
           {% endcomment %}
@@ -37,7 +37,7 @@
                 Signup!
               </button>
               {% endcomment %}
-              <a href='{% url "login" %}?initial=team' class="btn btn-success btn-block btn-lg">
+              <a href='{% url "team" %}' class="btn btn-success btn-block btn-lg">
                 Signup!
               </a>
             </div>
@@ -58,7 +58,7 @@
                 Register!
               </button>
               {% endcomment %}
-              <a href='{% url "login" %}?initial=recipient' class="btn btn-success btn-block btn-lg">
+              <a href='{% url "recipient" %}' class="btn btn-success btn-block btn-lg">
                 Register!
               </a>
             </div>
