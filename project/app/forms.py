@@ -122,6 +122,8 @@ class RecipientForm(forms.ModelForm):
     class Meta:
         model = Recipient
         fields = [
+            'phone',
+            'name',
             'location',
             'size',
             'is_veteran',
@@ -144,8 +146,22 @@ class RecipientForm(forms.ModelForm):
                     'rows': 5,
                 }
             ),
+            'size': forms.Select(
+                attrs={
+                    'class': 'form-control form-control-lg',
+                }
+            ),
+            'is_veteran': forms.CheckboxInput(
+                attrs={
+                    'class': 'form-control form-control-lg',
+                }
+            ),
         }
         help_texts = {
+            "is_dog": "I Have a Dog",
+            "is_veteran": "I Am a Veteran",
+            "is_senior": "I Am a Senior",
+            "is_disabled": "I Am Disabled",
         }
 
 

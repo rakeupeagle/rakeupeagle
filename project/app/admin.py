@@ -18,6 +18,8 @@ from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
+from .inlines import RecipientInline
+from .inlines import TeamInline
 from .models import Assignment
 from .models import Event
 from .models import Message
@@ -118,7 +120,6 @@ class RecipientAdmin(GISModelAdmin):
     ]
     inlines = [
         # MessageInline,
-        # AssignmentInline,
     ]
     ordering = [
         'created',
@@ -389,6 +390,8 @@ class UserAdmin(UserAdminBase):
     filter_horizontal = ()
     inlines = [
         # MessageInline,
+        TeamInline,
+        RecipientInline,
     ]
     readonly_fields = [
     ]

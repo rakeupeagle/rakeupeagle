@@ -33,35 +33,60 @@
       <div class='card-header'>
         <h4>Recipient Information</h4>
       </div>
-      <form method='post'>
+      <form method='post' role='form' class='form-floating'>
         {% csrf_token %}
         <div class="card-body">
           <div class='card-text'>
-            <div class='form-group'>
-              <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
-              <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
+            <div class='form-floating mb-3'>
+              <input type="tel" name="phone" class="form-control form-control-lg" id="id_phone" placeholder='Phone' required>
+              <label for="id_phone">Phone</label>
             </div>
-            {{form.name}}
-            {{form.location}}
-            {{form.size}}
-            {{form.is_veteran}}
-            {{form.is_senior}}
-            {{form.is_disabled}}
-            {{form.is_dog}}
+            <div class='form-floating mb-3'>
+              <input type="text" name="name" class="form-control form-control-lg" id="id_name" placeholder='Name' required>
+              <label for="id_name">Name</label>
+            </div>
+            <div class='form-floating mb-3'>
+              <input type="text" name="location" class="form-control form-control-lg" id="id_location" placeholder='Address to be Raked' required>
+              <label for="id_location">Location</label>
+            </div>
+            <div class='mb-3'>
+              {{form.size}}
+            </div>
+            <div class='form-check mb-3'>
+              <input type='checkbox' name='is_veteran' id='id_is_veteran' class="form-check-input">
+              <label class="form-check-label" for="id_is_veteran">
+                I am a Veteran
+              </label>
+            </div>
+            <div class='form-check mb-3'>
+              <input type='checkbox' name='is_senior' id='id_is_senior' class="form-check-input">
+              <label class="form-check-label" for="id_is_senior">
+                I am a Senior
+              </label>
+            </div>
+            <div class='form-check mb-3'>
+              <input type='checkbox' name='is_disabled' id='id_is_disabled' class="form-check-input">
+              <label class="form-check-label" for="id_is_disabled">
+                I am Disabled
+              </label>
+            </div>
+            <div class='form-check mb-3'>
+              <input type='checkbox' name='is_dog' id='id_is_dog' class="form-check-input">
+              <label class="form-check-label" for="id_is_dog">
+                I have a Dog
+              </label>
+            </div>
             {{form.public_notes}}
           </div>
         </div>
         <div class='card-footer'>
           <div class='list-inline'>
             <li class='list-inline-item'>
-              <button role='submit' class='btn btn-lg'>Save</button>
+              <button role='submit' class='btn btn-lg btn-success'>Save</button>
             </li>
           </div>
         </div>
       </form>
-    </div>
-    <div class='text-right'>
-      <a href='{% url "delete" %}'><span class='text-danger text-small'>Delete Account</span></a>
     </div>
   </section>
 

@@ -24,10 +24,26 @@ class AssignmentInline(admin.TabularInline):
 
 
 
+class RecipientInline(admin.TabularInline):
+    model = Recipient
+    fields = [
+        # 'status',
+        'size',
+        'location',
+        'is_dog',
+        'user',
+    ]
+    autocomplete_fields = [
+    ]
+    extra = 0
+    show_change_link = True
+
+
 class TeamInline(admin.TabularInline):
     model = Team
     fields = [
         'size',
+        'user',
     ]
     autocomplete_fields = [
     ]
@@ -60,17 +76,3 @@ class TeamInline(admin.TabularInline):
 #     ]
 #     autocomplete_fields = [
 #     ]
-
-
-class RecipientInline(admin.TabularInline):
-    model = Recipient
-    fields = [
-        # 'status',
-        'size',
-        'location',
-        'is_dog',
-    ]
-    autocomplete_fields = [
-    ]
-    extra = 0
-    show_change_link = True

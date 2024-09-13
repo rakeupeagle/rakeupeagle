@@ -191,7 +191,11 @@ def account(request):
 
 @login_required
 def register(request):
-    number = request.session.get('number', '')
+    user = request.user
+
+
+
+
     initial = {
         'phone': number,
     }
@@ -224,24 +228,24 @@ def register(request):
 
 
 # Recipient
-@login_required
+# @login_required
 def recipient(request):
-    recipient = request.user.recipients.first()
-    if request.POST:
-        form = RecipientForm(request.POST, instance=recipient)
-    else:
-        form = RecipientForm(instance=recipient)
+    form = RecipientForm(request.POST or None)
     if form.is_valid():
-        user = request.user
         recipient = form.save(commit=False)
         recipient.state = 0
-        recipient.user = user
         recipient.save()
         messages.success(
             request,
-            "Registration complete!  We will reach out before November 5th with futher details.",
+            "Saved!",
         )
-        send_recipient_confirmation(recipient)
+        # send_recipient_confirmation(recipient)
+        return redirect('success')
+    else:
+        messages.warning(
+            request,
+            form.errors,
+        )
     return render(
         request,
         'app/pages/recipient.html',
@@ -250,7 +254,7 @@ def recipient(request):
         }
     )
 
-@login_required
+# @login_required
 def team(request):
     team = request.user.teams.first()
     if request.POST:
@@ -265,7 +269,7 @@ def team(request):
         team.save()
         messages.success(
             request,
-            "Registration complete!  We will reach out before November 5th with futher details.",
+            "Saved!",
         )
         send_team_confirmation(team)
     else:
@@ -276,6 +280,13 @@ def team(request):
         context={
             'form': form,
         }
+    )
+
+
+def success(request):
+    return render(
+        request,
+        'app/pages/success.html',
     )
 
 # Admin

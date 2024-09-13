@@ -28,13 +28,25 @@ class Recipient(models.Model):
         choices=StateChoices,
         default=StateChoices.NEW,
     )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Your full name."""
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+        unique=True,
+        help_text="""Your mobile number."""
+    )
     SIZE = Choices(
         (110, 'small', 'Small (1-15 bags)'),
         (120, 'medium', 'Medium (16-30 bags)'),
         (130, 'large', 'Large (31+ bags)'),
     )
     size = models.IntegerField(
-        blank=True,
+        blank=False,
         choices=SIZE,
         help_text="""Please provide the approximate yard size."""
     )
@@ -85,13 +97,15 @@ class Recipient(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         'app.User',
-        on_delete=models.CASCADE,
-        related_name='recipient',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='recipients',
     )
     def __str__(self):
-        return f"{self.user.name} - {self.get_size_display()}"
+        return f"{self.name} - {self.get_size_display()}"
 
     # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
     # def confirm(self):
@@ -121,6 +135,18 @@ class Team(models.Model):
     state = FSMIntegerField(
         choices=StateChoices,
         default=StateChoices.NEW,
+    )
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Your full name."""
+    )
+    phone = PhoneNumberField(
+        blank=True,
+        null=True,
+        unique=True,
+        help_text="""Your mobile number."""
     )
     size = models.IntegerField(
         blank=False,
@@ -162,13 +188,15 @@ class Team(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         'app.User',
-        on_delete=models.CASCADE,
-        related_name='team',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='teams',
     )
     def __str__(self):
-        return f"{self.user.name} - {self.nickname}"
+        return f"{self.name} - {self.nickname}"
 
     # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     # def confirm(self):

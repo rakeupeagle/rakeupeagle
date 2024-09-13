@@ -34,6 +34,7 @@ urlpatterns = [
     # Recipient
     path('recipient', views.recipient, name='recipient',),
     path('team', views.team, name='team',),
+    path('success', views.success, name='success',),
 
     # Twilio
     path('webhook', views.webhook, name='webhook',),
