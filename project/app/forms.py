@@ -151,11 +151,6 @@ class RecipientForm(forms.ModelForm):
                     'class': 'form-control form-control-lg',
                 }
             ),
-            'is_veteran': forms.CheckboxInput(
-                attrs={
-                    'class': 'form-control form-control-lg',
-                }
-            ),
         }
         help_texts = {
             "is_dog": "I Have a Dog",
@@ -175,6 +170,8 @@ class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = [
+            'phone',
+            'name',
             'size',
             'nickname',
             'reference',
@@ -188,6 +185,11 @@ class TeamForm(forms.ModelForm):
                     'class': 'form-control h-25',
                     'placeholder': 'Anything else we should know? (Optional)',
                     'rows': 5,
+                }
+            ),
+            'size': forms.Select(
+                attrs={
+                    'class': 'form-control form-control-lg',
                 }
             ),
             'nickname': forms.TextInput(

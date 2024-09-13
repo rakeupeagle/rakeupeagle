@@ -5,17 +5,17 @@
 
 {% block formmedia %}{{ form.media }}{% endblock formmedia %}
 
-{% block title %}Thank You!{% endblock title %}
+{% block title %}Volunteer{% endblock title %}
 
 {% block content %}
   <section class='my-5'>
     <h2>
-      Thank you!
+      Volunteer
     </h2>
   </section>
   <section class='my-5'>
     <p class='lead'>
-      Thanks for volunteering!  Here's what you need to know:
+      Thanks for being willing to help!  Here's what you need to know:
     </p>
     <ul class='list-styled'>
       <li>The event date is November 9, 2024.</li>
@@ -28,34 +28,47 @@
   <section class='my-5 col-lg-8'>
     <div class='card'>
       <div class='card-header'>
-        <h4>Volunteer Information</h4>
+        <h4>
+          Team Leader Information
+        </h4>
+        <small>Note: This form is only for team leaders or solo volunteers; you shouldn't fill out this form if you're already part of a team.</small>
       </div>
-      <form method='post'>
+      <form method='post' role='form' class='form-floating'>
         {% csrf_token %}
         <div class="card-body">
           <div class='card-text'>
-            <div class='form-group'>
-              <input type='text' name='phone' value='{{request.user.phone|phonenumber}}' class='form-control' disabled>
-              <small class='form-text text-muted'>If you need to change your number please delete your account and start over.</small>
+            <div class='form-floating mb-3'>
+              <input type="tel" name="phone" class="form-control form-control-lg" id="id_phone" placeholder='Phone' required>
+              <label for="id_phone">Phone</label>
             </div>
-            {{form.name}}
-            {{form.size}}
-            {{form.nickname}}
-            {{form.reference}}
-            {{form.public_notes}}
+            <div class='form-floating mb-3'>
+              <input type="text" name="name" class="form-control form-control-lg" id="id_name" placeholder='Name' required>
+              <label for="id_name">Your Name</label>
+            </div>
+            <div class='form-floating mb-3'>
+              <input type="text" name="nickname" class="form-control form-control-lg" id="id_nickname" placeholder='Nickname for your Team'>
+              <label for="id_nickname">Team Nickname (Optional)</label>
+            </div>
+            <div class='mb-3'>
+              {{form.size}}
+            </div>
+            <div class='form-floating mb-3'>
+              <input type="text" name="reference" class="form-control form-control-lg" id="id_reference" placeholder='Reference'>
+              <label for="id_reference">Reference</label>
+            </div>
+            <div class='mb-3'>
+              {{form.public_notes}}
+            </div>
           </div>
         </div>
         <div class='card-footer'>
           <div class='list-inline'>
             <li class='list-inline-item'>
-              <button role='submit' class='btn btn-lg'>Save</button>
+              <button role='submit' class='btn btn-lg btn-success'>Save</button>
             </li>
           </div>
         </div>
       </form>
-    </div>
-    <div class='text-right'>
-      <a href='{% url "delete" %}'><span class='text-danger text-small'>Delete Account</span></a>
     </div>
   </section>
 {% endblock content %}

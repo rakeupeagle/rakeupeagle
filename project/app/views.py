@@ -192,10 +192,6 @@ def account(request):
 @login_required
 def register(request):
     user = request.user
-
-
-
-
     initial = {
         'phone': number,
     }
@@ -256,24 +252,22 @@ def recipient(request):
 
 # @login_required
 def team(request):
-    team = request.user.teams.first()
-    if request.POST:
-        form = TeamForm(request.POST, instance=team)
-    else:
-        form = TeamForm(instance=team)
+    form = TeamForm(request.POST or None)
     if form.is_valid():
-        user = request.user
         team = form.save(commit=False)
         team.state = 0
-        team.user = user
         team.save()
         messages.success(
             request,
             "Saved!",
         )
-        send_team_confirmation(team)
+        # send_team_confirmation(team)
+        return redirect('success')
     else:
-        print(form.errors)
+        messages.warning(
+            request,
+            form.errors,
+        )
     return render(
         request,
         'app/pages/team.html',
