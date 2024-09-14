@@ -93,13 +93,13 @@ class RecipientAdmin(GISModelAdmin):
         'id',
         'name',
         'phone',
-        'user',
         'location',
-        'bags',
         'size',
+        'event',
         'state',
     ]
     list_filter = [
+        'event__year',
         'state',
         'size',
         'is_veteran',
@@ -117,7 +117,7 @@ class RecipientAdmin(GISModelAdmin):
     list_editable = [
         # 'state',
         # 'user',
-        'bags',
+        # 'bags',
     ]
     autocomplete_fields = [
         'user',
@@ -147,6 +147,8 @@ class TeamAdmin(ModelAdmin):
     save_on_top = True
     fields = [
         'state',
+        'name',
+        'phone',
         'nickname',
         'size',
         'public_notes',
@@ -156,11 +158,13 @@ class TeamAdmin(ModelAdmin):
     ]
     list_display = [
         'id',
-        'nickname',
-        'user',
+        'name',
+        'phone',
         'size',
+        'nickname',
         # 'nickname',
         # 'recipient_sizes',
+        'event',
         'state',
         # 'created',
         # 'public_notes',
@@ -168,6 +172,7 @@ class TeamAdmin(ModelAdmin):
         # 'latest_message',
     ]
     list_filter = [
+        'event__year',
         'state',
         'size',
         'created',
@@ -179,7 +184,7 @@ class TeamAdmin(ModelAdmin):
         'user__phone',
     ]
     list_editable = [
-        'state',
+        # 'state',
     ]
     autocomplete_fields = [
         'user',
