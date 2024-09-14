@@ -59,7 +59,6 @@ def index(request):
     )
 
 
-# Authentication
 def login(request):
     if request.user.is_authenticated:
         return redirect('account')
@@ -127,6 +126,7 @@ def verify_code(request):
         },
     )
 
+
 def logout(request):
     log_out(request)
     messages.success(
@@ -134,6 +134,7 @@ def logout(request):
         "You Have Been Logged Out!",
     )
     return redirect('index')
+
 
 @login_required
 def delete(request):
@@ -155,7 +156,6 @@ def delete(request):
     )
 
 
-# Business Logic
 @login_required
 def account(request):
     user = request.user
@@ -223,8 +223,6 @@ def register(request):
     )
 
 
-# Recipient
-# @login_required
 def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
@@ -250,7 +248,7 @@ def recipient(request):
         }
     )
 
-# @login_required
+
 def team(request):
     form = TeamForm(request.POST or None)
     if form.is_valid():
@@ -282,6 +280,7 @@ def success(request):
         request,
         'app/pages/success.html',
     )
+
 
 # Admin
 @login_required
@@ -322,6 +321,7 @@ def call(request):
         },
     )
 
+
 @login_required
 def teamcall(request):
     try:
@@ -360,12 +360,14 @@ def teamcall(request):
         },
     )
 
+
 @staff_member_required
 def dashboard(request):
     return render(
         request,
         'app/pages/dashboard.html',
     )
+
 
 @staff_member_required
 def dashboard_team(request, team_id):
@@ -375,6 +377,7 @@ def dashboard_team(request, team_id):
         'app/pages/team.html',
         {'team': team},
     )
+
 
 @validate_twilio_request
 @csrf_exempt
