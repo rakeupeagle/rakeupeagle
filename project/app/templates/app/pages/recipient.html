@@ -49,8 +49,14 @@
               <input type="text" name="location" class="form-control form-control-lg" id="id_location" placeholder='Address to be Raked' required>
               <label for="id_location">Location</label>
             </div>
-            <div class='mb-3'>
-              {{form.size}}
+            <div class='form-floating mb-3'>
+              <select name='size' class="form-control form-control-lg" id='id_size' >
+                <option selected>Yard Size</option>
+                <option value="110">Small (1-15 Bags)</option>
+                <option value="120">Medium (16-30 Bags)</option>
+                <option value="130">Large (31+ Bags)</option>
+              </select>
+              <label for='id_size'>Yard Size</label>
             </div>
             <div class='form-check mb-3'>
               <input type='checkbox' name='is_veteran' id='id_is_veteran' class="form-check-input">
