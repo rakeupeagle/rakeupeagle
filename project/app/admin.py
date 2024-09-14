@@ -73,6 +73,8 @@ class DirectionListFilter(SimpleListFilter):
 class RecipientAdmin(GISModelAdmin):
     save_on_top = True
     fields = [
+        'name',
+        'phone',
         'state',
         'location',
         'point',
@@ -89,6 +91,8 @@ class RecipientAdmin(GISModelAdmin):
     ]
     list_display = [
         'id',
+        'name',
+        'phone',
         'user',
         'location',
         'bags',
