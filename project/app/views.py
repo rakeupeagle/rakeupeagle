@@ -65,16 +65,13 @@ def login(request):
     form = LoginForm(request.POST or None)
     if form.is_valid():
         number = form.cleaned_data['phone'].as_e164
+        initial = request.GET.get('next', 'account')
         request.session['number'] = number
+        request.session['initial'] = initial
         send(
             number,
         )
         return redirect('verify-code')
-    else:
-        messages.error(
-            request,
-            "Please enter a mobile phone number",
-        )
     return render(
         request,
         'app/pages/login.html',
@@ -95,6 +92,7 @@ def verify_send(request):
 def verify_code(request):
     form = VerifyCodeForm(request.POST or None)
     number = request.session['number']
+    initial = request.session['initial']
     phone = PhoneNumber.from_string(number)
     if form.is_valid():
         code = form.cleaned_data.get('code')
@@ -112,7 +110,7 @@ def verify_code(request):
                 request,
                 "You have logged in!",
             )
-            return redirect('account')
+            return redirect(initial)
         messages.warning(
             request,
             "Sorry, that code didn't work.  Try again.",
@@ -223,6 +221,7 @@ def register(request):
     )
 
 
+@login_required
 def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
@@ -249,6 +248,7 @@ def recipient(request):
     )
 
 
+@login_required
 def team(request):
     form = TeamForm(request.POST or None)
     if form.is_valid():
