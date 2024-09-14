@@ -37,7 +37,7 @@ class Recipient(models.Model):
     phone = PhoneNumberField(
         blank=True,
         null=True,
-        unique=True,
+        unique=False,
         help_text="""Your mobile number."""
     )
     SIZE = Choices(
