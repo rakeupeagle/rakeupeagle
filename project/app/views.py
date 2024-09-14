@@ -221,12 +221,15 @@ def register(request):
     )
 
 
-@login_required
 def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
         recipient = form.save(commit=False)
         recipient.state = 0
+        event = Event.objects.get(
+            state=Event.StateChoices.CURRENT,
+        )
+        recipient.event = event
         recipient.save()
         messages.success(
             request,
@@ -248,11 +251,14 @@ def recipient(request):
     )
 
 
-@login_required
 def team(request):
     form = TeamForm(request.POST or None)
     if form.is_valid():
         team = form.save(commit=False)
+        event = Event.objects.get(
+            state=Event.StateChoices.CURRENT,
+        )
+        team.event = event
         team.state = 0
         team.save()
         messages.success(

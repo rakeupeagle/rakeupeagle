@@ -97,6 +97,13 @@ class Recipient(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='recipients',
+    )
     user = models.ForeignKey(
         'app.User',
         null=True,
@@ -145,7 +152,7 @@ class Team(models.Model):
     phone = PhoneNumberField(
         blank=True,
         null=True,
-        unique=True,
+        unique=False,
         help_text="""Your mobile number."""
     )
     size = models.IntegerField(
@@ -187,6 +194,13 @@ class Team(models.Model):
     )
     updated = models.DateTimeField(
         auto_now=True,
+    )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='teams',
     )
     user = models.ForeignKey(
         'app.User',
