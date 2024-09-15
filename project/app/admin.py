@@ -290,7 +290,8 @@ class EventAdmin(ModelAdmin):
     list_filter = [
     ]
     inlines = [
-        AssignmentInline,
+        RecipientInline,
+        TeamInline,
     ]
     list_editable = [
     ]

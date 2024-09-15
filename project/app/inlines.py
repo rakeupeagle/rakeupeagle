@@ -28,10 +28,11 @@ class RecipientInline(admin.TabularInline):
     model = Recipient
     fields = [
         # 'status',
+        'name',
+        'phone',
         'size',
         'location',
         'is_dog',
-        'user',
     ]
     autocomplete_fields = [
     ]
@@ -42,8 +43,10 @@ class RecipientInline(admin.TabularInline):
 class TeamInline(admin.TabularInline):
     model = Team
     fields = [
+        'name',
+        'nickname',
+        'phone',
         'size',
-        'user',
     ]
     autocomplete_fields = [
     ]
