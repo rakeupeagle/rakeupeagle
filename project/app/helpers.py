@@ -4,6 +4,7 @@ from django.conf import settings
 from django_rq import job
 from twilio.rest import Client as TwilioClient
 
+from .models import Event
 from .models import Message
 from .models import Recipient
 from .models import Team
@@ -46,12 +47,14 @@ def process_webhook(data):
     try:
         recipient = Recipient.objects.get(
             phone=data['From'],
+            event__state=Event.StateChoices.CURRENT,
         )
     except Recipient.DoesNotExist:
         recipient = None
     try:
         team = Team.objects.get(
             phone=data['From'],
+            event__state=Event.StateChoices.CURRENT,
         )
     except Team.DoesNotExist:
         team = None
