@@ -1,28 +1,8 @@
 from functools import wraps
 
 from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseForbidden
 from twilio.request_validator import RequestValidator
-
-
-def is_verified(
-    view_func=None,
-    redirect_field_name=REDIRECT_FIELD_NAME,
-    login_url="verify-send"
-):
-    """
-    Decorator for views that checks that the user is verified, redirecting to the login page if necessary.
-    """
-    actual_decorator = user_passes_test(
-        lambda u: u.is_verified,
-        login_url=login_url,
-        redirect_field_name=redirect_field_name,
-    )
-    if view_func:
-        return actual_decorator(view_func)
-    return actual_decorator
 
 
 def validate_twilio_request(f):

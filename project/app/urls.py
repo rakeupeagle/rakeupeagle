@@ -11,7 +11,6 @@ urlpatterns = [
 
     # Footer
     path('about/', TemplateView.as_view(template_name='app/pages/about.html'), name='about',),
-    path('privacy/', TemplateView.as_view(template_name='app/pages/privacy.html'), name='privacy',),
     path('terms/', TemplateView.as_view(template_name='app/pages/terms.html'), name='terms',),
     path('support/', TemplateView.as_view(template_name='app/pages/support.html'), name='support',),
     path('donate/', TemplateView.as_view(template_name='app/pages/donate.html'), name='donate',),
@@ -20,16 +19,11 @@ urlpatterns = [
     # Authentication
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('register/', views.register, name='register'),
     path('account/', views.account, name='account'),
 
     # Authentication
-    path('verify/send/', views.verify_send, name='verify-send',),
-    path('verify/code/', views.verify_code, name='verify-code',),
-
-
-    # Account
-    path('delete', views.delete, name='delete',),
+    path('send/', views.send, name='send',),
+    path('verify/', views.verify, name='verify',),
 
     # Recipient
     path('recipient/', views.recipient, name='recipient',),
@@ -40,8 +34,6 @@ urlpatterns = [
     path('webhook', views.webhook, name='webhook',),
 
     # Admin
-    path('dashboard/', views.dashboard, name='dashboard',),
-    path('dashboard/<team_id>', views.dashboard_team, name='dashboard-team',),
     # path('assignment/<assignment_id>/pdf', views.handout_pdf, name='handout-pdf',),
     # path('handouts/', views.handout_pdfs, name='handouts',),
     path('csv/assignments/', views.export_assignments, name='export-assignments',),

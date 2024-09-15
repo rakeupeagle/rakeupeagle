@@ -29,7 +29,6 @@ from .forms import CallForm
 from .forms import DeleteForm
 from .forms import LoginForm
 from .forms import RecipientForm
-from .forms import RegisterForm
 from .forms import TeamcallForm
 from .forms import TeamForm
 from .forms import VerifyCodeForm
@@ -42,7 +41,7 @@ from .models import Team
 from .models import User
 # from .tasks import get_assignments_csv
 from .tasks import check
-from .tasks import send
+from .tasks import send as send_code
 
 # from .tasks import send_recipient_confirmation
 # from .tasks import send_team_confirmation
@@ -68,10 +67,10 @@ def login(request):
         initial = request.GET.get('next', 'account')
         request.session['number'] = number
         request.session['initial'] = initial
-        send(
+        send_code(
             number,
         )
-        return redirect('verify-code')
+        return redirect('verify')
     return render(
         request,
         'app/pages/login.html',
@@ -81,15 +80,15 @@ def login(request):
     )
 
 
-def verify_send(request):
+def send(request):
     number = request.session['number']
-    send(
+    send_code(
         number,
     )
-    return redirect('verify-code')
+    return redirect('verify')
 
 
-def verify_code(request):
+def verify(request):
     form = VerifyCodeForm(request.POST or None)
     number = request.session['number']
     initial = request.session['initial']
@@ -117,7 +116,7 @@ def verify_code(request):
         )
     return render(
         request,
-        'app/pages/verify_code.html',
+        'app/pages/verify.html',
         context={
             'form': form,
             'phone': phone,
@@ -132,26 +131,6 @@ def logout(request):
         "You Have Been Logged Out!",
     )
     return redirect('index')
-
-
-@login_required
-def delete(request):
-    form = DeleteForm(request.POST or None)
-    if form.is_valid():
-        user = request.user
-        user.delete()
-        messages.error(
-            request,
-            "Account Deleted!",
-        )
-        return redirect('index')
-    return render(
-        request,
-        'app/pages/delete.html',
-        context={
-            'form': form,
-        },
-    )
 
 
 @login_required
@@ -187,45 +166,11 @@ def account(request):
     )
 
 
-@login_required
-def register(request):
-    user = request.user
-    initial = {
-        'phone': number,
-    }
-    form = RegisterForm(request.POST or None, initial=initial)
-    if form.is_valid():
-        number = form.cleaned_data['phone'].as_e164
-        name = form.cleaned_data['name']
-        user = authenticate(
-            request,
-            phone=number,
-            name=name,
-        )
-        log_in(
-            request,
-            user,
-            backend='app.backends.AppBackend',
-        )
-        messages.success(
-            request,
-            f"Welcome, {user.name}!",
-        )
-        return redirect('account')
-    return render(
-        request,
-        'app/pages/register.html',
-        context={
-            'form': form,
-        }
-    )
-
-
 def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
         recipient = form.save(commit=False)
-        recipient.state = 0
+        recipient.state = Recipient.StateChoices.NEW
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
@@ -289,7 +234,7 @@ def success(request):
 
 
 # Admin
-@login_required
+@staff_member_required
 def call(request):
     try:
         recipient = Recipient.objects.order_by(
@@ -328,7 +273,7 @@ def call(request):
     )
 
 
-@login_required
+@staff_member_required
 def teamcall(request):
     try:
         team = Team.objects.order_by(
@@ -366,115 +311,6 @@ def teamcall(request):
         },
     )
 
-
-@staff_member_required
-def dashboard(request):
-    return render(
-        request,
-        'app/pages/dashboard.html',
-    )
-
-
-@staff_member_required
-def dashboard_team(request, team_id):
-    team = Team.objects.get(pk=team_id)
-    return render(
-        request,
-        'app/pages/team.html',
-        {'team': team},
-    )
-
-
-@validate_twilio_request
-@csrf_exempt
-@require_POST
-def webhook(request):
-    data = request.POST.dict()
-    process_webhook(data)
-    return HttpResponse(status=200)
-
-# @validate_twilio_request
-# @csrf_exempt
-# @require_POST
-# def sms(request):
-#     defaults = {}
-#     raw = request.POST.dict()
-#     sid = raw['SmsSid']
-#     # status = getattr(Message.STATUS, raw.get('SmsStatus', Message.STATUS.new))
-#     direction = Message.DIRECTION.inbound
-#     to_phone = raw['To']
-#     from_phone = raw['From']
-#     body = raw['Body']
-#     try:
-#         user = User.objects.get(phone=from_phone)
-#     except User.DoesNotExist:
-#         log.error('no user')
-#         return HttpResponse(status=404)
-#     defaults = {
-#         # 'status': status,
-#         'direction': direction,
-#         'to_phone': to_phone,
-#         'from_phone': from_phone,
-#         'body': body,
-#         'user': user,
-#         'raw': raw,
-#     }
-#     Message.objects.update_or_create(
-#         sid=sid,
-#         defaults=defaults,
-#     )
-#     return HttpResponse(status=201)
-
-# @staff_member_required
-# def handout_pdf(request, assignment_id):
-#     assignment = get_object_or_404(Assignment, pk=assignment_id)
-#     yard = assignment.yard
-#     rake = assignment.rake
-#     context={
-#         'yard': yard,
-#         'rake': rake,
-#     }
-#     rendered = render_to_string('app/pdfs/handout.html', context)
-#     pdf = pydf.generate_pdf(
-#         rendered,
-#         enable_smart_shrinking=False,
-#         orientation='Portrait',
-#         margin_top='10mm',
-#         margin_bottom='10mm',
-#     )
-#     content = ContentFile(pdf)
-#     return FileResponse(
-#         content,
-#         as_attachment=True,
-#         filename='rake_up_eagle_handout.pdf',
-#     )
-
-# @staff_member_required
-# def handout_pdfs(request):
-#     assignments = Assignment.objects.order_by(
-#         'team__name',
-#     )
-#     output = ''
-#     for assignment in assignments:
-#         context={
-#             'recipient': assignment.recipient,
-#             'team': assignment.team,
-#         }
-#         rendered = render_to_string('app/pdfs/handout.html', context)
-#         output += '<div class="new-page"></div>'+rendered
-#     pdf = pydf.generate_pdf(
-#         output,
-#         enable_smart_shrinking=False,
-#         orientation='Portrait',
-#         margin_top='10mm',
-#         margin_bottom='10mm',
-#     )
-#     content = ContentFile(pdf)
-#     return FileResponse(
-#         content,
-#         as_attachment=True,
-#         filename='handouts.pdf',
-#     )
 
 @staff_member_required
 def export_assignments(request):
@@ -572,3 +408,96 @@ def export_teams(request):
         # team.admin_notes,
     ])
     return response
+
+
+# Webhook
+@validate_twilio_request
+@csrf_exempt
+@require_POST
+def webhook(request):
+    data = request.POST.dict()
+    process_webhook(data)
+    return HttpResponse(status=200)
+
+# @validate_twilio_request
+# @csrf_exempt
+# @require_POST
+# def sms(request):
+#     defaults = {}
+#     raw = request.POST.dict()
+#     sid = raw['SmsSid']
+#     # status = getattr(Message.STATUS, raw.get('SmsStatus', Message.STATUS.new))
+#     direction = Message.DIRECTION.inbound
+#     to_phone = raw['To']
+#     from_phone = raw['From']
+#     body = raw['Body']
+#     try:
+#         user = User.objects.get(phone=from_phone)
+#     except User.DoesNotExist:
+#         log.error('no user')
+#         return HttpResponse(status=404)
+#     defaults = {
+#         # 'status': status,
+#         'direction': direction,
+#         'to_phone': to_phone,
+#         'from_phone': from_phone,
+#         'body': body,
+#         'user': user,
+#         'raw': raw,
+#     }
+#     Message.objects.update_or_create(
+#         sid=sid,
+#         defaults=defaults,
+#     )
+#     return HttpResponse(status=201)
+
+# @staff_member_required
+# def handout_pdf(request, assignment_id):
+#     assignment = get_object_or_404(Assignment, pk=assignment_id)
+#     yard = assignment.yard
+#     rake = assignment.rake
+#     context={
+#         'yard': yard,
+#         'rake': rake,
+#     }
+#     rendered = render_to_string('app/pdfs/handout.html', context)
+#     pdf = pydf.generate_pdf(
+#         rendered,
+#         enable_smart_shrinking=False,
+#         orientation='Portrait',
+#         margin_top='10mm',
+#         margin_bottom='10mm',
+#     )
+#     content = ContentFile(pdf)
+#     return FileResponse(
+#         content,
+#         as_attachment=True,
+#         filename='rake_up_eagle_handout.pdf',
+#     )
+
+# @staff_member_required
+# def handout_pdfs(request):
+#     assignments = Assignment.objects.order_by(
+#         'team__name',
+#     )
+#     output = ''
+#     for assignment in assignments:
+#         context={
+#             'recipient': assignment.recipient,
+#             'team': assignment.team,
+#         }
+#         rendered = render_to_string('app/pdfs/handout.html', context)
+#         output += '<div class="new-page"></div>'+rendered
+#     pdf = pydf.generate_pdf(
+#         output,
+#         enable_smart_shrinking=False,
+#         orientation='Portrait',
+#         margin_top='10mm',
+#         margin_bottom='10mm',
+#     )
+#     content = ContentFile(pdf)
+#     return FileResponse(
+#         content,
+#         as_attachment=True,
+#         filename='handouts.pdf',
+#     )

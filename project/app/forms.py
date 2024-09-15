@@ -92,23 +92,6 @@ class LoginForm(forms.Form):
     )
 
 
-class RegisterForm(forms.Form):
-    phone = PhoneNumberField(
-        required=True,
-    )
-    name = forms.CharField(
-        max_length=40,
-        required=True,
-        help_text='Your Name',
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control form-control-lg",
-                'placeholder': "Name",
-            },
-        ),
-    )
-
-
 class AccountForm(forms.ModelForm):
     class Meta:
         model = User

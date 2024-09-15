@@ -15,7 +15,7 @@
   </header>
   <main class='col-lg-6'>
     <div class='card'>
-      <form action='{% url "verify-code" %}' method='post'>
+      <form action='{% url "verify" %}' method='post'>
         {% csrf_token %}
         <div class='card-header'>
           <h4>
@@ -26,7 +26,7 @@
           {{form.code}}
         </div>
         <div class='card-footer'>
-          <a href='{% url "verify-send" %}' role='button' class='btn btn-lg btn-outline-dark'>Send Again</a>
+          <a href='{% url "send" %}' role='button' class='btn btn-lg btn-outline-dark'>Send Again</a>
           <button type='submit' class='btn btn-lg btn-success float-end'>Verify</button>
         </div>
       </form>
