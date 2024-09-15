@@ -21,7 +21,15 @@ def get_twilio_client():
 
 @job('default')
 def create_message(message):
-    return
+    client = get_twilio_client()
+    response = client.messages.create(
+        body='Foo bar',
+        messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
+        to='+14157132126',
+    )
+    log.info(response)
+    return response
+
 
 @job('default')
 def delete_message(message):
@@ -29,8 +37,8 @@ def delete_message(message):
 
 
 def process_webhook(data):
+    log.info(data)
     return
-    # log.info(data)
     # event_type = data['EventType']
     # match event_type:
     #     # case 'onConversationStateUpdated':
