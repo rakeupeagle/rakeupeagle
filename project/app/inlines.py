@@ -54,17 +54,37 @@ class TeamInline(admin.TabularInline):
     show_change_link = True
 
 
-class MessageInline(admin.TabularInline):
+class RecipientMessageInline(admin.TabularInline):
     model = Message
     fields = [
         'id',
         'direction',
         'body',
-        'to_phone',
-        'from_phone',
         'created',
-        'user',
         'recipient',
+    ]
+    readonly_fields = [
+        'created',
+        'id',
+    ]
+    ordering = (
+        'created',
+    )
+    show_change_link = True
+    extra = 0
+    classes = [
+    ]
+    autocomplete_fields = [
+    ]
+
+
+class TeamMessageInline(admin.TabularInline):
+    model = Message
+    fields = [
+        'id',
+        'direction',
+        'body',
+        'created',
         'team',
     ]
     readonly_fields = [
@@ -77,7 +97,30 @@ class MessageInline(admin.TabularInline):
     show_change_link = True
     extra = 0
     classes = [
-        # 'collapse',
+    ]
+    autocomplete_fields = [
+    ]
+
+
+class UserMessageInline(admin.TabularInline):
+    model = Message
+    fields = [
+        'id',
+        'direction',
+        'body',
+        'created',
+        'user',
+    ]
+    readonly_fields = [
+        'created',
+        'id',
+    ]
+    ordering = (
+        'created',
+    )
+    show_change_link = True
+    extra = 0
+    classes = [
     ]
     autocomplete_fields = [
     ]

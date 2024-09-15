@@ -26,11 +26,25 @@ def get_twilio_client():
 @job('default')
 def create_message(message):
     client = get_twilio_client()
-    if message.direction == Message.DirectionChoices.INBOUND:
+    if message.direction == Message.DirectionChoices.INBOUND or message.sid:
         return
+    # This is more than a little hacky....
+    phone = getattr(
+        message.user,
+        'phone',
+        getattr(
+            message.recipient,
+            'phone',
+            getattr(
+                message.team,
+                'phone',
+                None,
+            )
+        )
+    )
     response = client.messages.create(
         messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-        to=message.to_phone.as_e164,
+        to=phone.as_e164,
         body=message.body,
     )
     message.sid = response.sid

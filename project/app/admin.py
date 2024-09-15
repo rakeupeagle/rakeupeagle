@@ -18,9 +18,11 @@ from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
-from .inlines import MessageInline
 from .inlines import RecipientInline
+from .inlines import RecipientMessageInline
 from .inlines import TeamInline
+from .inlines import TeamMessageInline
+from .inlines import UserMessageInline
 from .models import Assignment
 from .models import Event
 from .models import Message
@@ -127,7 +129,7 @@ class RecipientAdmin(GISModelAdmin):
         'user',
     ]
     inlines = [
-        MessageInline,
+        RecipientMessageInline,
     ]
     ordering = [
         'created',
@@ -197,7 +199,7 @@ class TeamAdmin(ModelAdmin):
         'user',
     ]
     inlines = [
-        MessageInline,
+        TeamMessageInline,
     ]
     ordering = [
     ]
@@ -326,6 +328,7 @@ class MessageAdmin(ModelAdmin):
     ]
     list_display = [
         'id',
+        'sid',
         'body',
         'direction',
         'created',
@@ -406,7 +409,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        MessageInline,
+        UserMessageInline,
         TeamInline,
         RecipientInline,
     ]
