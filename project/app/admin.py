@@ -320,6 +320,7 @@ class MessageAdmin(ModelAdmin):
         'to_phone',
         'from_phone',
         'direction',
+        'raw',
         'recipient',
         'team',
         'user',
@@ -329,10 +330,13 @@ class MessageAdmin(ModelAdmin):
     list_display = [
         'id',
         'sid',
-        'body',
-        'direction',
-        'created',
-        'updated',
+        # 'body',
+        # 'direction',
+        # 'created',
+        # 'updated',
+        'recipient',
+        'team',
+        'user',
     ]
     list_editable = [
     ]
