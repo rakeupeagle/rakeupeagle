@@ -2,9 +2,9 @@
 # Django
 from django.contrib import admin
 
-# from .models import Message
 # Local
 from .models import Assignment
+from .models import Message
 from .models import Recipient
 from .models import Team
 
@@ -54,28 +54,28 @@ class TeamInline(admin.TabularInline):
     show_change_link = True
 
 
-# class MessageInline(admin.TabularInline):
-#     model = Message
-#     fields = [
-#         'id',
-#         'direction',
-#         'body',
-#         'to_phone',
-#         'from_phone',
-#         'created',
-#         'user',
-#     ]
-#     readonly_fields = [
-#         'created',
-#         'id',
-#     ]
-#     ordering = (
-#         'created',
-#     )
-#     show_change_link = True
-#     extra = 0
-#     classes = [
-#         # 'collapse',
-#     ]
-#     autocomplete_fields = [
-#     ]
+class MessageInline(admin.TabularInline):
+    model = Message
+    fields = [
+        'id',
+        'direction',
+        'body',
+        'to_phone',
+        'from_phone',
+        'created',
+        'user',
+    ]
+    readonly_fields = [
+        'created',
+        'id',
+    ]
+    ordering = (
+        'created',
+    )
+    show_change_link = True
+    extra = 0
+    classes = [
+        # 'collapse',
+    ]
+    autocomplete_fields = [
+    ]

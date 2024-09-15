@@ -18,6 +18,7 @@ from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
 from .inlines import AssignmentInline
+from .inlines import MessageInline
 from .inlines import RecipientInline
 from .inlines import TeamInline
 from .models import Assignment
@@ -399,7 +400,7 @@ class UserAdmin(UserAdminBase):
     )
     filter_horizontal = ()
     inlines = [
-        # MessageInline,
+        MessageInline,
         TeamInline,
         RecipientInline,
     ]
