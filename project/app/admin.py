@@ -114,6 +114,8 @@ class RecipientAdmin(GISModelAdmin):
     search_fields = [
         'user__name',
         'user__phone',
+        'name',
+        'phone',
         'location',
     ]
     list_editable = [
@@ -183,6 +185,8 @@ class TeamAdmin(ModelAdmin):
     ]
     search_fields = [
         'nickname',
+        'name',
+        'phone',
         'user__name',
         'user__phone',
     ]
@@ -314,6 +318,8 @@ class MessageAdmin(ModelAdmin):
         'to_phone',
         'from_phone',
         'direction',
+        'recipient',
+        'team',
         'user',
         'created',
         'updated',
