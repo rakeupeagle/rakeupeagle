@@ -64,6 +64,8 @@ class MessageInline(admin.TabularInline):
         'from_phone',
         'created',
         'user',
+        'recipient',
+        'team',
     ]
     readonly_fields = [
         'created',

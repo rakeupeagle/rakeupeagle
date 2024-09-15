@@ -395,6 +395,20 @@ class Message(models.Model):
         blank=True,
         related_name='messages',
     )
+    recipient = models.ForeignKey(
+        'app.Recipient',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='messages',
+    )
+    team = models.ForeignKey(
+        'app.Team',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='messages',
+    )
     def __str__(self):
         return f"{self.id}"
 

@@ -125,7 +125,7 @@ class RecipientAdmin(GISModelAdmin):
         'user',
     ]
     inlines = [
-        # MessageInline,
+        MessageInline,
     ]
     ordering = [
         'created',
@@ -193,7 +193,7 @@ class TeamAdmin(ModelAdmin):
         'user',
     ]
     inlines = [
-        # AssignmentInline,
+        MessageInline,
     ]
     ordering = [
     ]
