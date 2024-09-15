@@ -6,7 +6,6 @@ from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
 # from django_fsm import transition
 from hashid_field import HashidAutoField
-from model_utils import Choices
 from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
@@ -41,14 +40,13 @@ class Recipient(models.Model):
         unique=False,
         help_text="""Your mobile number."""
     )
-    SIZE = Choices(
-        (110, 'small', 'Small (1-15 bags)'),
-        (120, 'medium', 'Medium (16-30 bags)'),
-        (130, 'large', 'Large (31+ bags)'),
-    )
+    class SizeChoices(IntegerChoices):
+        SMALL = 110, "Small (1-15 bags)"
+        MEDIUM = 120, "Medium (16-30 bags)"
+        LARGE = 130, "Large (31+ bags)"
     size = models.IntegerField(
         blank=False,
-        choices=SIZE,
+        choices=SizeChoices,
         help_text="""Please provide the approximate yard size."""
     )
     bags = models.IntegerField(
@@ -352,6 +350,10 @@ class Message(models.Model):
         NEW = 0, "New"
         SENT = 10, "Sent"
 
+    class DirectionChoices(IntegerChoices):
+        INBOUND = 10, "Inbound"
+        OUTBOUND = 20, "Outbound"
+
     state = FSMIntegerField(
         choices=StateChoices,
         default=StateChoices.NEW,
@@ -371,12 +373,8 @@ class Message(models.Model):
     body = models.TextField(
         blank=True,
     )
-    DIRECTION = Choices(
-        (10, 'inbound', 'Inbound'),
-        (20, 'outbound', 'Outbound'),
-    )
     direction = models.IntegerField(
-        choices=DIRECTION,
+        choices=DirectionChoices,
         null=True,
         blank=True,
     )
