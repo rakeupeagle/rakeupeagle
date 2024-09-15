@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
 from django.db.models import IntegerChoices
+from django.db.models.constraints import UniqueConstraint
 from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
 # from django_fsm import transition
@@ -111,6 +112,17 @@ class Recipient(models.Model):
         on_delete=models.SET_NULL,
         related_name='recipients',
     )
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=[
+                    'phone',
+                    'event',
+                ],
+                name='unique_recipient_event',
+            ),
+        ]
+
     def __str__(self):
         return f"{self.name} - {self.get_size_display()}"
 
@@ -209,6 +221,17 @@ class Team(models.Model):
         on_delete=models.SET_NULL,
         related_name='teams',
     )
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=[
+                    'phone',
+                    'event',
+                ],
+                name='unique_team_event',
+            ),
+        ]
+
     def __str__(self):
         return f"{self.name} - {self.nickname}"
 

@@ -76,6 +76,7 @@ class RecipientAdmin(GISModelAdmin):
         'name',
         'phone',
         'state',
+        'event',
         'location',
         'point',
         'size',
@@ -147,6 +148,7 @@ class TeamAdmin(ModelAdmin):
     save_on_top = True
     fields = [
         'state',
+        'event',
         'name',
         'phone',
         'nickname',
@@ -238,8 +240,6 @@ class AssignmentAdmin(ModelAdmin):
     ]
 
     list_editable = [
-        'recipient',
-        'team',
     ]
     search_fields = [
         'recipient__user__phone',
