@@ -362,6 +362,7 @@ class Message(models.Model):
         max_length=100,
         blank=True,
         unique=True,
+        null=True,
     )
     to_phone = PhoneNumberField(
         blank=True,

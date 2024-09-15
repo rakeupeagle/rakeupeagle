@@ -26,13 +26,15 @@ def get_twilio_client():
 @job('default')
 def create_message(message):
     client = get_twilio_client()
+    if message.direction == Message.DirectionChoices.INBOUND:
+        return
     response = client.messages.create(
-        body='Foo bar',
         messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-        to='+14157132126',
+        to=message.to_phone.as_e164,
+        body=message.body,
     )
-    log.info(response)
-    return response
+    message.sid = response.sid
+    return message
 
 
 @job('default')
