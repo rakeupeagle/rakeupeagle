@@ -361,6 +361,7 @@ class Message(models.Model):
     sid = models.CharField(
         max_length=100,
         blank=True,
+        unique=True,
     )
     to_phone = PhoneNumberField(
         blank=True,
