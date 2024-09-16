@@ -10,7 +10,7 @@ from .models import Message
 
 @receiver(pre_save, sender=Message)
 def message_pre_save(sender, instance, **kwargs):
-    # create_message(instance)
+    create_message(instance)
     return
 
 # @receiver(pre_delete, sender=Message)

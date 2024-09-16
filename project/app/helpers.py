@@ -42,13 +42,42 @@ def create_message(message):
             )
         )
     )
+    is_empty = all([
+        not(message.recipient),
+        not(message.team),
+        not(message.user),
+    ])
+    if is_empty:
+        log.error("Message target empty")
+        return
+    is_unclear = all([
+        message.recipient,
+        message.team,
+    ])
+    if is_unclear:
+        log.error("Message target unclear")
+        return
+    phone = getattr(
+        message.user,
+        'phone',
+        getattr(
+            message.recipient,
+            'phone',
+            getattr(
+                message.team,
+                'phone',
+                None,
+            )
+        )
+    )
     response = client.messages.create(
         messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
         to=phone.as_e164,
         body=message.body,
     )
     message.sid = response.sid
-    return message
+    message.direction = Message.DirectionChoices.OUTBOUND
+    return response
 
 
 @job('default')
