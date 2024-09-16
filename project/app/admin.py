@@ -348,6 +348,8 @@ class MessageAdmin(ModelAdmin):
     ]
     autocomplete_fields = [
         'user',
+        'recipient',
+        'team',
     ]
     inlines = [
     ]
