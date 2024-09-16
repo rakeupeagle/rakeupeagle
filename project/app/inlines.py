@@ -32,7 +32,7 @@ class RecipientInline(admin.TabularInline):
         'phone',
         'size',
         'location',
-        'is_dog',
+        'event',
     ]
     autocomplete_fields = [
     ]
@@ -47,6 +47,7 @@ class TeamInline(admin.TabularInline):
         'nickname',
         'phone',
         'size',
+        'event',
     ]
     autocomplete_fields = [
     ]
