@@ -122,7 +122,7 @@ class Recipient(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.name} - {self.get_size_display()}"
+        return f"{self.name} - {self.event.year}"
 
     # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
     # def confirm(self):
@@ -231,7 +231,7 @@ class Team(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.name} - {self.nickname}"
+        return f"{self.name} - {self.event.year}"
 
     # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
     # def confirm(self):
