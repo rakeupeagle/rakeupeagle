@@ -19,9 +19,9 @@ from django_rq import job
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client as TwilioClient
 
-# from .models import Message
 # Local
 from .models import Assignment
+from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -234,40 +234,40 @@ def import_assignments_csv():
 
 
 
-def import_r_calls_csv():
-    with open('r.csv', 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        rows = [row for row in reader]
-        for row in rows:
-            name = row[0]
-            notes = row[5]
-            try:
-                recipient = Recipient.objects.get(
-                    name=name,
-                )
-            except Recipient.DoesNotExist:
-                print(row[0])
-            recipient.admin_notes = notes
-            recipient.save()
+# def import_r_calls_csv():
+#     with open('r.csv', 'r') as f:
+#         reader = csv.reader(f)
+#         next(reader)
+#         rows = [row for row in reader]
+#         for row in rows:
+#             name = row[0]
+#             notes = row[5]
+#             try:
+#                 recipient = Recipient.objects.get(
+#                     name=name,
+#                 )
+#             except Recipient.DoesNotExist:
+#                 print(row[0])
+#             recipient.admin_notes = notes
+#             recipient.save()
 
 
-def import_t_calls_csv():
-    with open('t.csv', 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        rows = [row for row in reader]
-        for row in rows:
-            name = row[0]
-            notes = row[4]
-            try:
-                team = Team.objects.get(
-                    name=name,
-                )
-            except Team.DoesNotExist:
-                print(row[0])
-            team.admin_notes = notes
-            team.save()
+# def import_t_calls_csv():
+#     with open('t.csv', 'r') as f:
+#         reader = csv.reader(f)
+#         next(reader)
+#         rows = [row for row in reader]
+#         for row in rows:
+#             name = row[0]
+#             notes = row[4]
+#             try:
+#                 team = Team.objects.get(
+#                     name=name,
+#                 )
+#             except Team.DoesNotExist:
+#                 print(row[0])
+#             team.admin_notes = notes
+#             team.save()
 
 
 # def get_messages_csv():
@@ -294,47 +294,31 @@ def import_t_calls_csv():
 #                 m.created,
 #             ])
 
-# @job
-# def send_recipient_confirmation(recipient):
-#     body = render_to_string(
-#         'app/texts/recipient_confirmation.txt',
-#         context={
-#             'recipient': recipient,
-#         },
-#     )
-#     admin = User.objects.get(is_admin=True)
-#     message = Message.objects.create(
-#         user=admin,
-#         direction=Message.DIRECTION.outbound,
-#         body=body,
-#     )
-#     message = Message.objects.create(
-#         user=recipient.user,
-#         direction=Message.DIRECTION.outbound,
-#         body=body,
-#     )
-#     return message
+@job
+def send_recipient_confirmation(recipient):
+    body = render_to_string(
+        'app/texts/recipient_confirmation.txt',
+        context={
+            'recipient': recipient,
+        },
+    )
+    message = recipient.messages.create(
+        body=body,
+    )
+    return message
 
-# @job
-# def send_team_confirmation(team):
-#     body = render_to_string(
-#         'app/texts/team_confirmation.txt',
-#         context={
-#             'team': team,
-#         },
-#     )
-#     admin = User.objects.get(is_admin=True)
-#     message = Message.objects.create(
-#         user=admin,
-#         direction=Message.DIRECTION.outbound,
-#         body=body,
-#     )
-#     message = Message.objects.create(
-#         user=team.user,
-#         direction=Message.DIRECTION.outbound,
-#         body=body,
-#     )
-#     return message
+@job
+def send_team_confirmation(team):
+    body = render_to_string(
+        'app/texts/team_confirmation.txt',
+        context={
+            'team': team,
+        },
+    )
+    message = team.messages.create(
+        body=body,
+    )
+    return message
 
 # @job
 # def send_recipient_deadline(recipient):

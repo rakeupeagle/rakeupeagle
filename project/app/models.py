@@ -120,6 +120,9 @@ class Recipient(models.Model):
                 name='unique_recipient_event',
             ),
         ]
+        ordering = (
+            '-created',
+        )
 
     def __str__(self):
         return f"{self.name} - {self.event.year}"
@@ -229,6 +232,9 @@ class Team(models.Model):
                 name='unique_team_event',
             ),
         ]
+        ordering = (
+            '-created',
+        )
 
     def __str__(self):
         return f"{self.name} - {self.event.year}"

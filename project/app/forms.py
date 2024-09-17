@@ -112,11 +112,11 @@ class RecipientForm(forms.ModelForm):
             'is_veteran',
             'is_senior',
             'is_disabled',
-            'is_dog',
+            # 'is_dog',
             'public_notes',
         ]
         labels = {
-            "is_dog": "I Have a Dog",
+            # "is_dog": "I Have a Dog",
             "is_veteran": "I Am a Veteran",
             "is_senior": "I Am a Senior",
             "is_disabled": "I Am Disabled",
@@ -136,7 +136,7 @@ class RecipientForm(forms.ModelForm):
             ),
         }
         help_texts = {
-            "is_dog": "I Have a Dog",
+            # "is_dog": "I Have a Dog",
             "is_veteran": "I Am a Veteran",
             "is_senior": "I Am a Senior",
             "is_disabled": "I Am Disabled",

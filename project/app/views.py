@@ -42,9 +42,8 @@ from .models import User
 # from .tasks import get_assignments_csv
 from .tasks import check
 from .tasks import send as send_code
-
-# from .tasks import send_recipient_confirmation
-# from .tasks import send_team_confirmation
+from .tasks import send_recipient_confirmation
+from .tasks import send_team_confirmation
 
 log = logging.getLogger(__name__)
 
@@ -180,7 +179,7 @@ def recipient(request):
             request,
             "Saved!",
         )
-        # send_recipient_confirmation(recipient)
+        send_recipient_confirmation.delay(recipient)
         return redirect('success')
     else:
         messages.warning(
@@ -210,7 +209,7 @@ def team(request):
             request,
             "Saved!",
         )
-        # send_team_confirmation(team)
+        send_team_confirmation.delay(team)
         return redirect('success')
     else:
         messages.warning(

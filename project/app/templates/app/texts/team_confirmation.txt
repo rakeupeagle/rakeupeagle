@@ -7,6 +7,6 @@ Group Size: {{team.get_size_display}}
 Team Name: {{team.nickname|default:'(None provided)'}}
 Notes: {{team.public_notes|default:'(No Notes)'}}
 
-We will be in contact after November 5th with further instructions.  Please let us know if you have any questions.
+Thank you for volunteering!  We will use this text thread to keep you posted as Rake Up Eagle approaches.  If you have any questions please don't hesitate to ask them here.
 
 {% endautoescape %}
