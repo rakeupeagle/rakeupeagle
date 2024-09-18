@@ -39,6 +39,7 @@
             <p style="font-family:Caveat" class='text-success'>Sponsored by EMS PTO</p>
           </div>
         </a>
+        {% comment %}
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -57,15 +58,14 @@
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
               {% else %}
-                {% comment %}
                 <li class='nav-item'>
                   <a class="nav-link " href="{% url 'login' %}">Login</a>
                 </li>
-                {% endcomment %}
               {% endif %}
             </ul>
           </div>
         </div>
+        {% endcomment %}
       </nav>
     {% endblock header %}
 
