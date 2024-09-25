@@ -317,6 +317,7 @@ def send_recipient_invitation(recipient):
     )
     message = recipient.messages.create(
         body=body,
+        is_read=True,
     )
     recipient.state = Recipient.StateChoices.INVITED
     recipient.save()
