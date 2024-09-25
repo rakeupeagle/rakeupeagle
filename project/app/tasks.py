@@ -324,6 +324,38 @@ def send_recipient_invitation(recipient):
     return message
 
 @job
+def send_recipient_acceptance(recipient):
+    body = render_to_string(
+        'app/texts/recipient_acceptance.txt',
+        context={
+            'recipient': recipient,
+        },
+    )
+    message = recipient.messages.create(
+        body=body,
+        is_read=True,
+    )
+    recipient.state = Recipient.StateChoices.ACCEPTED
+    recipient.save()
+    return message
+
+@job
+def send_recipient_declined(recipient):
+    body = render_to_string(
+        'app/texts/recipient_declined.txt',
+        context={
+            'recipient': recipient,
+        },
+    )
+    message = recipient.messages.create(
+        body=body,
+        is_read=True,
+    )
+    recipient.state = Recipient.StateChoices.DECLINED
+    recipient.save()
+    return message
+
+@job
 def send_team_confirmation(team):
     body = render_to_string(
         'app/texts/team_confirmation.txt',

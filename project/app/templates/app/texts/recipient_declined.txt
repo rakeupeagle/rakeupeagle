@@ -1,0 +1,6 @@
+{% autoescape off %}Thank you for letting us know you won't need your yard raked this year!
+
+If anything changes don't hesitate to let us know.
+
+Rake Up Eagle, EMS PTO
+{% endautoescape %}
