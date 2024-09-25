@@ -318,6 +318,8 @@ def send_recipient_invitation(recipient):
     message = recipient.messages.create(
         body=body,
     )
+    recipient.state = Recipient.StateChoices.INVITED
+    recipient.save()
     return message
 
 @job

@@ -57,7 +57,7 @@ class Recipient(models.Model):
     )
     location = models.CharField(
         max_length=512,
-        blank=True,
+        blank=False,
         default='',
         help_text="""Please provide the street address to be raked (City of Eagle is assumed)."""
     )
