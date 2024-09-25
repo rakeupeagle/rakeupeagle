@@ -1,0 +1,14 @@
+{% autoescape off %}
+Rake Up Eagle 2024 Invitation
+
+Dear {{recipient.name}},
+
+You are receiving this message because you were a Rake Up Eagle recipient last year.  This year's raking will take place on Saturday, November 9th and we were wondering if you'd like your yard raked again this year?
+
+If so, then please just let us know via this message and we'll confirm your details and get you all set up!  And if you don't need us then that would be good to know also.
+
+Thank you!
+Rake Up Eagle, a day of service organized by
+Eagle Middle School PTO
+
+{% endautoescape %}

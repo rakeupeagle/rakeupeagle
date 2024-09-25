@@ -101,6 +101,7 @@ class RecipientAdmin(GISModelAdmin):
         'size',
         'event',
         'state',
+        'admin_notes',
     ]
     list_filter = [
         'event__year',

@@ -308,6 +308,19 @@ def send_recipient_confirmation(recipient):
     return message
 
 @job
+def send_recipient_invitation(recipient):
+    body = render_to_string(
+        'app/texts/recipient_invitation.txt',
+        context={
+            'recipient': recipient,
+        },
+    )
+    message = recipient.messages.create(
+        body=body,
+    )
+    return message
+
+@job
 def send_team_confirmation(team):
     body = render_to_string(
         'app/texts/team_confirmation.txt',
