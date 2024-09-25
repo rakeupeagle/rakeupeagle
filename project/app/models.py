@@ -375,6 +375,9 @@ class Message(models.Model):
         unique=True,
         null=True,
     )
+    is_read = models.BooleanField(
+        default=False,
+    )
     to_phone = PhoneNumberField(
         blank=True,
         null=True,

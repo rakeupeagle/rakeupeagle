@@ -315,6 +315,7 @@ class MessageAdmin(ModelAdmin):
     fields = [
         'id',
         'state',
+        'is_read',
         'body',
         'sid',
         'to_phone',
@@ -329,19 +330,21 @@ class MessageAdmin(ModelAdmin):
     ]
     list_display = [
         'id',
-        'sid',
         # 'body',
-        # 'direction',
-        # 'created',
         # 'updated',
         'recipient',
         'team',
+        'created',
+        'direction',
+        'is_read',
     ]
     list_editable = [
+        'is_read',
     ]
     list_filter = [
         'direction',
         'state',
+        'is_read',
     ]
     search_fields = [
     ]
