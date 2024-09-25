@@ -1,5 +1,4 @@
-{% autoescape off %}
-Rake Up Eagle 2024 Invitation
+{% autoescape off %}Rake Up Eagle 2024 Invitation
 
 Dear {{recipient.name}},
 
