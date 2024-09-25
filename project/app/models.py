@@ -21,6 +21,7 @@ class Recipient(models.Model):
         CANCELLED = -20, "Cancelled"
         INACTIVE = -10, "Inactive"
         NEW = 0, "New"
+        INVITED = 5, "Invited"
         ACTIVE = 10, "Active"
         CONFIRMED = 20, "Confirmed"
         ASSIGNED = 30, "Assigned"
