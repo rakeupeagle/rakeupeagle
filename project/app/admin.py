@@ -280,6 +280,7 @@ class EventAdmin(ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(ModelAdmin):
+    save_on_top = True
 
     fields = [
         'id',
