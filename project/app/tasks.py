@@ -324,7 +324,7 @@ def send_recipient_invitation(recipient):
     return message
 
 @job
-def send_recipient_acceptance(recipient):
+def send_recipient_accepted(recipient):
     body = render_to_string(
         'app/texts/recipient_acceptance.txt',
         context={
@@ -335,8 +335,6 @@ def send_recipient_acceptance(recipient):
         body=body,
         is_read=True,
     )
-    recipient.state = Recipient.StateChoices.ACCEPTED
-    recipient.save()
     return message
 
 @job

@@ -4,12 +4,14 @@ from django.db.models import IntegerChoices
 from django.db.models.constraints import UniqueConstraint
 from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
-# from django_fsm import transition
+from django_fsm import transition
+# from fsm_admin2.admin import FSMTransitionMixin
 from hashid_field import HashidAutoField
 from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
 from .managers import UserManager
+from .tasks import send_recipient_accepted
 
 
 class Recipient(models.Model):
@@ -20,8 +22,10 @@ class Recipient(models.Model):
         BLOCKED = -40, "Blocked"
         CANCELLED = -20, "Cancelled"
         INACTIVE = -10, "Inactive"
+        DECLINED = -7, "Declined"
         NEW = 0, "New"
         INVITED = 5, "Invited"
+        ACCEPTED = 7, "Accepted"
         ACTIVE = 10, "Active"
         CONFIRMED = 20, "Confirmed"
         ASSIGNED = 30, "Assigned"
@@ -128,10 +132,16 @@ class Recipient(models.Model):
     def __str__(self):
         return f"{self.name} - {self.event.year}"
 
-    # @transition(field=state, source=[STATE.new], target=STATE.confirmed)
-    # def confirm(self):
-    #     return
-
+    @transition(
+        field=state,
+        source=[
+            StateChoices.INVITED,
+        ],
+        target=StateChoices.ACCEPTED,
+    )
+    def accept(self):
+        send_recipient_accepted.delay(self)
+        return
 
 class Team(models.Model):
     id = HashidAutoField(

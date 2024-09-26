@@ -14,10 +14,10 @@ from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
 
 # Local
-from .forms import AssignmentForm
+# from .forms import AssignmentForm
 from .forms import UserChangeForm
 from .forms import UserCreationForm
-from .inlines import AssignmentInline
+# from .inlines import AssignmentInline
 from .inlines import RecipientInline
 from .inlines import RecipientMessageInline
 from .inlines import TeamInline
@@ -73,7 +73,7 @@ class DirectionListFilter(SimpleListFilter):
 
 
 @admin.register(Recipient)
-class RecipientAdmin(GISModelAdmin):
+class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
     save_on_top = True
     fields = [
         'name',
