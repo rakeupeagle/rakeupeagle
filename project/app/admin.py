@@ -140,8 +140,8 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         'event',
         'state',
         # 'created',
-        # 'public_notes',
-        # 'admin_notes',
+        'public_notes',
+        'admin_notes',
         # 'latest_message',
     ]
     list_filter = [
