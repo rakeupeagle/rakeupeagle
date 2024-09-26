@@ -149,7 +149,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
 
 
 @admin.register(Team)
-class TeamAdmin(ModelAdmin):
+class TeamAdmin(FSMTransitionMixin, ModelAdmin):
 
     save_on_top = True
     fields = [
