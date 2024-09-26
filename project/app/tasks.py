@@ -78,7 +78,7 @@ def send_recipient_invitation(recipient):
 @job
 def send_recipient_accepted(recipient):
     body = render_to_string(
-        'app/texts/recipient_acceptance.txt',
+        'app/texts/recipient_accepted.txt',
         context={
             'recipient': recipient,
         },
