@@ -84,7 +84,7 @@ def send_recipient_invited(recipient):
             'recipient': recipient,
         },
     )
-    message = team.messages.create(
+    message = recipient.messages.create(
         body=body,
         is_read=True,
     )
