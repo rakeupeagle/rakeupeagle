@@ -31,6 +31,7 @@ def send(number):
         channel='sms',
     )
 
+
 def check(number, code):
     client = TwilioClient()
     try:
@@ -46,34 +47,49 @@ def check(number, code):
     return result.status == 'approved'
 
 
-@job
-def send_recipient_confirmation(recipient):
-    body = render_to_string(
-        'app/texts/recipient_confirmation.txt',
-        context={
-            'recipient': recipient,
-        },
-    )
-    message = recipient.messages.create(
-        body=body,
-    )
-    return message
+def get_precision(geocode):
+    return all([
+        geocode['accuracy'] == 'ROOFTOP',
+        any([
+            geocode['quality'] == 'premise',
+            geocode['quality'] == 'subpremise',
+            geocode['quality'] == 'street_address',
+        ])
+    ])
+
 
 @job
-def send_recipient_invitation(recipient):
+def geocode_recipient(recipient):
+    address = f"{recipient.location}, Eagle, ID"
+    result = geocoder.google(address)
+    geocode = result.json
+    try:
+        is_precise = get_precision(geocode)
+    except TypeError:
+        return
+    if is_precise:
+        recipient.point = Point(
+            geocode['lng'],
+            geocode['lat'],
+        )
+        recipient.save()
+    return
+
+
+@job
+def send_recipient_invited(recipient):
     body = render_to_string(
-        'app/texts/recipient_invitation.txt',
+        'app/texts/recipient_invited.txt',
         context={
             'recipient': recipient,
         },
     )
-    message = recipient.messages.create(
+    message = team.messages.create(
         body=body,
         is_read=True,
     )
-    # recipient.state = Recipient.StateChoices.INVITED
-    # recipient.save()
     return message
+
 
 @job
 def send_recipient_accepted(recipient):
@@ -89,6 +105,7 @@ def send_recipient_accepted(recipient):
     )
     return message
 
+
 @job
 def send_recipient_declined(recipient):
     body = render_to_string(
@@ -101,9 +118,67 @@ def send_recipient_declined(recipient):
         body=body,
         is_read=True,
     )
-    # recipient.state = Recipient.StateChoices.DECLINED
-    # recipient.save()
     return message
+
+
+@job
+def send_recipient_confirmation(recipient):
+    body = render_to_string(
+        'app/texts/recipient_confirmation.txt',
+        context={
+            'recipient': recipient,
+        },
+    )
+    message = recipient.messages.create(
+        body=body,
+    )
+    return message
+
+
+@job
+def send_team_invited(team):
+    body = render_to_string(
+        'app/texts/team_invited.txt',
+        context={
+            'team': team,
+        },
+    )
+    message = team.messages.create(
+        body=body,
+        is_read=True,
+    )
+    return message
+
+
+@job
+def send_team_accepted(team):
+    body = render_to_string(
+        'app/texts/team_accepted.txt',
+        context={
+            'team': team,
+        },
+    )
+    message = team.messages.create(
+        body=body,
+        is_read=True,
+    )
+    return message
+
+
+@job
+def send_team_declined(team):
+    body = render_to_string(
+        'app/texts/team_declined.txt',
+        context={
+            'team': team,
+        },
+    )
+    message = team.messages.create(
+        body=body,
+        is_read=True,
+    )
+    return message
+
 
 @job
 def send_team_confirmation(team):
@@ -117,6 +192,7 @@ def send_team_confirmation(team):
         body=body,
     )
     return message
+
 
 # @job
 # def send_recipient_deadline(recipient):
@@ -381,34 +457,6 @@ def send_team_confirmation(team):
 #     )
 #     return recipient
 
-
-def get_precision(geocode):
-    return all([
-        geocode['accuracy'] == 'ROOFTOP',
-        any([
-            geocode['quality'] == 'premise',
-            geocode['quality'] == 'subpremise',
-            geocode['quality'] == 'street_address',
-        ])
-    ])
-
-
-@job
-def geocode_recipient(recipient):
-    address = f"{recipient.location}, Eagle, ID"
-    result = geocoder.google(address)
-    geocode = result.json
-    try:
-        is_precise = get_precision(geocode)
-    except TypeError:
-        return
-    if is_precise:
-        recipient.point = Point(
-            geocode['lng'],
-            geocode['lat'],
-        )
-        recipient.save()
-    return
 
 
 # def create_or_update(message):

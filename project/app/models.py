@@ -13,6 +13,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .managers import UserManager
 from .tasks import send_recipient_accepted
 from .tasks import send_recipient_declined
+from .tasks import send_recipient_invited
+from .tasks import send_team_accepted
+from .tasks import send_team_declined
+from .tasks import send_team_invited
 
 
 class Recipient(models.Model):
@@ -136,12 +140,24 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
+            StateChoices.NEW,
+        ],
+        target=StateChoices.INVITED,
+    )
+    def invite(self):
+        send_recipient_invited.delay(self)
+        return
+
+
+    @transition(
+        field=state,
+        source=[
             StateChoices.INVITED,
         ],
         target=StateChoices.ACCEPTED,
     )
     def accept(self):
-        message = send_recipient_accepted.delay(self)
+        send_recipient_accepted.delay(self)
         return
 
 
@@ -153,7 +169,7 @@ class Recipient(models.Model):
         target=StateChoices.DECLINED,
     )
     def decline(self):
-        message = send_recipient_declined.delay(self)
+        send_recipient_declined.delay(self)
         return
 
 
@@ -164,7 +180,10 @@ class Team(models.Model):
     class StateChoices(IntegerChoices):
         CANCELLED = -20, "Cancelled"
         INACTIVE = -10, "Inactive"
+        DECLINED = -7, "Declined"
         NEW = 0, "New"
+        INVITED = 5, "Invited"
+        ACCEPTED = 7, "Accepted"
         ACTIVE = 10, "Active"
         CONFIRMED = 20, "Confirmed"
         ASSIGNED = 30, "Assigned"
@@ -264,9 +283,40 @@ class Team(models.Model):
     def __str__(self):
         return f"{self.name} - {self.event.year}"
 
-    # @transition(field=state, source=[STATE.new,], target=STATE.confirmed)
-    # def confirm(self):
-    #     return
+    @transition(
+        field=state,
+        source=[
+            StateChoices.NEW,
+        ],
+        target=StateChoices.INVITED,
+    )
+    def invite(self):
+        send_team_invited.delay(self)
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.INVITED,
+        ],
+        target=StateChoices.ACCEPTED,
+    )
+    def accept(self):
+        send_team_accepted.delay(self)
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.INVITED,
+        ],
+        target=StateChoices.DECLINED,
+    )
+    def decline(self):
+        send_team_declined.delay(self)
+        return
 
 
 class Assignment(models.Model):
