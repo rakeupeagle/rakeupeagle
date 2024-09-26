@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-from django.contrib.admin import SimpleListFilter
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.admin import UserAdmin as UserAdminBase
 from django.contrib.gis.admin.options import GISModelAdmin
@@ -13,6 +12,8 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
 
+from .actions import send_invitations
+from .filters import DirectionListFilter
 # Local
 # from .forms import AssignmentForm
 from .forms import UserChangeForm
@@ -29,47 +30,6 @@ from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
-
-
-class DirectionListFilter(SimpleListFilter):
-    # Human-readable title which will be displayed in the
-    # right admin sidebar just above the filter options.
-    title = 'Direction'
-
-    # Parameter for the filter that will be used in the URL query.
-    parameter_name = "direction"
-
-    def lookups(self, request, model_admin):
-        """
-        Returns a list of tuples. The first element in each
-        tuple is the coded value for the option that will
-        appear in the URL query. The second element is the
-        human-readable name for the option that will appear
-        in the right sidebar.
-        """
-        values = [
-            ('inbound', 'Inbound'),
-            ('outbound', 'Outbound'),
-        ]
-
-        return values
-
-    def queryset(self, request, queryset):
-        """
-        Returns the filtered queryset based on the value
-        provided in the query string and retrievable via
-        `self.value()`.
-        """
-        # Compare the requested value (either '80s' or '90s')
-        # to decide how to filter the queryset.
-        if self.value() == 'outbound':
-            return queryset.filter(
-                author__isnull=True,
-            )
-        elif self.value() == 'inbound':
-            return queryset.filter(
-                author__isnull=False,
-            )
 
 
 @admin.register(Recipient)
@@ -140,6 +100,10 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         # 'user_url',
     ]
 
+    actions = [
+        send_invitations,
+    ]
+
     def get_search_results(self, request, queryset, search_term):
         queryset, may_have_duplicates = super().get_search_results(
             request, queryset, search_term
@@ -208,6 +172,10 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         # 'latest_message',
         # 'user_url',
     ]
+    actions = [
+        send_invitations,
+    ]
+
 
     def get_search_results(self, request, queryset, search_term):
         queryset, may_have_duplicates = super().get_search_results(
