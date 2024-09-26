@@ -310,6 +310,7 @@ class MessageAdmin(ModelAdmin):
     list_editable = [
         'is_read',
         'recipient',
+        'team',
     ]
     list_filter = [
         'direction',
