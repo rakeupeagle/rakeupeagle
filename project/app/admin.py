@@ -61,6 +61,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'size',
         'event',
         'state',
+        'public_notes',
         'admin_notes',
     ]
     list_filter = [
