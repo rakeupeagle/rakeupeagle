@@ -83,7 +83,6 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'location',
     ]
     list_editable = [
-        # 'state',
         # 'user',
         # 'bags',
     ]
@@ -310,6 +309,7 @@ class MessageAdmin(ModelAdmin):
     ]
     list_editable = [
         'is_read',
+        'recipient',
     ]
     list_filter = [
         'direction',
