@@ -306,6 +306,7 @@ class MessageAdmin(ModelAdmin):
         'team',
         'created',
         'direction',
+        'body',
         'is_read',
     ]
     list_editable = [
