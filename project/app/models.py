@@ -1,3 +1,4 @@
+from app.tasks import send_recipient_accepted
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
 from django.db.models import IntegerChoices
@@ -11,7 +12,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
 from .managers import UserManager
-from .tasks import send_recipient_accepted
 
 
 class Recipient(models.Model):
@@ -142,6 +142,7 @@ class Recipient(models.Model):
     def accept(self):
         send_recipient_accepted.delay(self)
         return
+
 
 class Team(models.Model):
     id = HashidAutoField(
