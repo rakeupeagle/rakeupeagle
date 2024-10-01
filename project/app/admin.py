@@ -185,6 +185,66 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         return queryset, may_have_duplicates
 
 
+@admin.register(Message)
+class MessageAdmin(FSMTransitionMixin, ModelAdmin):
+    save_on_top = True
+
+    fields = [
+        'id',
+        'state',
+        'is_read',
+        'body',
+        'sid',
+        'to_phone',
+        'from_phone',
+        'direction',
+        'raw',
+        'recipient',
+        'team',
+        'user',
+        'created',
+        'updated',
+    ]
+    list_display = [
+        'id',
+        # 'body',
+        # 'updated',
+        'recipient',
+        'team',
+        'created',
+        'direction',
+        'body',
+        'is_read',
+    ]
+    list_editable = [
+        'is_read',
+        'recipient',
+        'team',
+    ]
+    list_filter = [
+        'direction',
+        'state',
+        'is_read',
+    ]
+    search_fields = [
+    ]
+    autocomplete_fields = [
+        'user',
+        'recipient',
+        'team',
+    ]
+    inlines = [
+    ]
+    ordering = [
+        '-created',
+    ]
+    readonly_fields = [
+        'id',
+        'created',
+        'updated',
+    ]
+
+
 @admin.register(Assignment)
 class AssignmentAdmin(ModelAdmin):
     # form = AssignmentForm
@@ -277,65 +337,6 @@ class EventAdmin(ModelAdmin):
         'year',
     ]
 
-
-@admin.register(Message)
-class MessageAdmin(ModelAdmin):
-    save_on_top = True
-
-    fields = [
-        'id',
-        'state',
-        'is_read',
-        'body',
-        'sid',
-        'to_phone',
-        'from_phone',
-        'direction',
-        'raw',
-        'recipient',
-        'team',
-        'user',
-        'created',
-        'updated',
-    ]
-    list_display = [
-        'id',
-        # 'body',
-        # 'updated',
-        'recipient',
-        'team',
-        'created',
-        'direction',
-        'body',
-        'is_read',
-    ]
-    list_editable = [
-        'is_read',
-        'recipient',
-        'team',
-    ]
-    list_filter = [
-        'direction',
-        'state',
-        'is_read',
-    ]
-    search_fields = [
-    ]
-    autocomplete_fields = [
-        'user',
-        'recipient',
-        'team',
-    ]
-    inlines = [
-    ]
-    ordering = [
-        '-created',
-    ]
-    readonly_fields = [
-        'id',
-        'created',
-        'updated',
-    ]
 
 
 @admin.register(User)
