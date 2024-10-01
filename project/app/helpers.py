@@ -26,7 +26,9 @@ def get_twilio_client():
 @job
 def create_message(message):
     client = get_twilio_client()
-    if message.direction == Message.DirectionChoices.INBOUND or message.sid:
+    if message.sid:
+        return
+    if message.direction != Message.DirectionChoices.OUTBOUND:
         return
     # This is more than a little hacky....
     phone = getattr(
@@ -76,7 +78,7 @@ def create_message(message):
         body=message.body,
     )
     message.sid = response.sid
-    message.direction = Message.DirectionChoices.OUTBOUND
+    message.state = Message.StateChoices.SENT
     return response
 
 

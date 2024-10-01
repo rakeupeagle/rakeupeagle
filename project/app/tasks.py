@@ -21,7 +21,7 @@ from twilio.rest import Client as TwilioClient
 
 # Local
 
-
+# Authentication
 def send(number):
     client = TwilioClient()
     client.verify.services(
@@ -47,6 +47,7 @@ def check(number, code):
     return result.status == 'approved'
 
 
+# Geocoding
 def get_precision(geocode):
     return all([
         geocode['accuracy'] == 'ROOFTOP',
@@ -76,6 +77,7 @@ def geocode_recipient(recipient):
     return
 
 
+# Messaging
 @job
 def send_recipient_invited(recipient):
     body = render_to_string(
