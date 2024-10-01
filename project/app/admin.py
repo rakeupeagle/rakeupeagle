@@ -12,6 +12,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
 
+from .actions import mark_read
 from .actions import send_invitations
 from .filters import DirectionListFilter
 # Local
@@ -243,7 +244,9 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
         'created',
         'updated',
     ]
-
+    actions = [
+        mark_read,
+    ]
 
 @admin.register(Assignment)
 class AssignmentAdmin(ModelAdmin):
