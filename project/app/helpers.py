@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 from django_rq import job
+from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client as TwilioClient
 
 from .models import Event
@@ -20,6 +21,27 @@ def get_twilio_client():
         settings.TWILIO_AUTH_TOKEN,
     )
     return client
+
+def send(number):
+    client = TwilioClient()
+    client.verify.services(
+        settings.TWILIO_VERIFY_SID,
+    ).verifications.create(
+        to=number,
+        channel='sms',
+    )
+
+
+def check(number, code):
+    client = TwilioClient()
+    result = client.verify.services(
+        settings.TWILIO_VERIFY_SID,
+    ).verification_checks.create(
+        to=number,
+        code=code,
+    )
+    return result.status == 'approved'
+
 
 
 

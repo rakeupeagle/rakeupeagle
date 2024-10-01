@@ -14,35 +14,6 @@ from django.db.models import Sum
 from django.http import FileResponse
 from django.template.loader import render_to_string
 from django_rq import job
-from twilio.base.exceptions import TwilioRestException
-from twilio.rest import Client as TwilioClient
-
-# Local
-
-# Authentication
-def send(number):
-    client = TwilioClient()
-    client.verify.services(
-        settings.TWILIO_VERIFY_SID,
-    ).verifications.create(
-        to=number,
-        channel='sms',
-    )
-
-
-def check(number, code):
-    client = TwilioClient()
-    try:
-        result = client.verify.services(
-            settings.TWILIO_VERIFY_SID,
-        ).verification_checks.create(
-            to=number,
-            code=code,
-        )
-    except TwilioRestException as e:
-        # log.error(e)
-        return False
-    return result.status == 'approved'
 
 
 # Geocoding
