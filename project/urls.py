@@ -35,22 +35,22 @@ if settings.DEBUG:
         path('404/', custom_page_not_found),
         path('500/', server_error),
     ]
-else:
-    def handler404(request, *args, **argv):
-        return render(
-            request,
-            'app/root/404.html',
-            context={},
-            status=404,
-        )
+# else:
+#     def handler404(request, *args, **argv):
+#         return render(
+#             request,
+#             'app/root/404.html',
+#             context={},
+#             status=404,
+#         )
 
-    def handler500(request, *args, **argv):
-        return render(
-            request,
-            'app/root/500.html',
-            {
-                'sentry_dsn': settings.SENTRY_DSN,
-                'sentry_event_id': last_event_id(),
-            },
-            status=500,
-        )
+#     def handler500(request, *args, **argv):
+#         return render(
+#             request,
+#             'app/root/500.html',
+#             {
+#                 'sentry_dsn': settings.SENTRY_DSN,
+#                 'sentry_event_id': last_event_id(),
+#             },
+#             status=500,
+#         )
