@@ -366,115 +366,6 @@ class Team(models.Model):
         return
 
 
-class Assignment(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    class StateChoices(IntegerChoices):
-        FAILED = -20, "Failed"
-        CANCELLED = -10, "Cancelled"
-        NEW = 0, "New"
-        ASSIGNED = 10, "Assigned"
-        STARTED = 40, "Started"
-        FINISHED = 50, "Finished"
-
-    state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
-    )
-    public_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    admin_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Internal (private) notes.""",
-    )
-    recipient = models.ForeignKey(
-        'app.Recipient',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        null=True,
-        blank=True,
-    )
-    team = models.ForeignKey(
-        'app.Team',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-        null=True,
-        blank=True,
-    )
-    event = models.ForeignKey(
-        'app.Event',
-        on_delete=models.CASCADE,
-        related_name='assignments',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.id}"
-
-
-class Event(models.Model):
-    id = HashidAutoField(
-        primary_key=True,
-    )
-    class StateChoices(IntegerChoices):
-        ARCHIVE = -10, "Archive"
-        NEW = 0, "New"
-        CURRENT = 10, "Current"
-
-    name = models.CharField(
-        max_length=100,
-        blank=True,
-        default='',
-        help_text="""Your full name."""
-    )
-    state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
-    )
-    year = models.IntegerField(
-        blank=True,
-        null=True
-    )
-    admin_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
-    deadline =  models.DateField(
-        null=True,
-        blank=True,
-    )
-    date =  models.DateField(
-        null=True,
-        blank=True,
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-    )
-    def __str__(self):
-        return f"{self.year}"
-
-    class Meta:
-        ordering = (
-            '-year',
-        )
-
-
 class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -547,6 +438,125 @@ class Message(models.Model):
         null=True,
         blank=True,
         related_name='messages',
+    )
+    def __str__(self):
+        return f"{self.id}"
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.NEW,
+        ],
+        target=StateChoices.READ,
+    )
+    def read(self):
+        return
+
+
+class Event(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    class StateChoices(IntegerChoices):
+        ARCHIVE = -10, "Archive"
+        NEW = 0, "New"
+        CURRENT = 10, "Current"
+
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        help_text="""Your full name."""
+    )
+    state = FSMIntegerField(
+        choices=StateChoices,
+        default=StateChoices.NEW,
+    )
+    year = models.IntegerField(
+        blank=True,
+        null=True
+    )
+    admin_notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    deadline =  models.DateField(
+        null=True,
+        blank=True,
+    )
+    date =  models.DateField(
+        null=True,
+        blank=True,
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+    )
+    def __str__(self):
+        return f"{self.year}"
+
+    class Meta:
+        ordering = (
+            '-year',
+        )
+
+
+class Assignment(models.Model):
+    id = HashidAutoField(
+        primary_key=True,
+    )
+    class StateChoices(IntegerChoices):
+        FAILED = -20, "Failed"
+        CANCELLED = -10, "Cancelled"
+        NEW = 0, "New"
+        ASSIGNED = 10, "Assigned"
+        STARTED = 40, "Started"
+        FINISHED = 50, "Finished"
+
+    state = FSMIntegerField(
+        choices=StateChoices,
+        default=StateChoices.NEW,
+    )
+    public_notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Please add any other notes you think we should know.""",
+    )
+    admin_notes = models.TextField(
+        max_length=2000,
+        blank=True,
+        default='',
+        help_text="""Internal (private) notes.""",
+    )
+    recipient = models.ForeignKey(
+        'app.Recipient',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=True,
+        blank=True,
+    )
+    team = models.ForeignKey(
+        'app.Team',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        null=True,
+        blank=True,
+    )
+    event = models.ForeignKey(
+        'app.Event',
+        on_delete=models.CASCADE,
+        related_name='assignments',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
     )
     def __str__(self):
         return f"{self.id}"
