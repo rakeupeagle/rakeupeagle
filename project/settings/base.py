@@ -66,10 +66,12 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": env("REDIS_URL"),
-        # "OPTIONS": {
-        #     "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        #     "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None},
-        # }
+        "OPTIONS": {
+            # "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {
+                "ssl_cert_reqs": None,
+            },
+        }
     },
 }
 
