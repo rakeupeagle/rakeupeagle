@@ -169,11 +169,24 @@ def account(request):
 def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
-        recipient = form.save(commit=False)
-        recipient.state = Recipient.StateChoices.ACCEPTED
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
+        try:
+            recipient = Recipient.objects.get(
+                phone=form.cleaned_data['phone'],
+                event=event,
+            )
+            recipient.name = form.cleaned_data['name']
+            recipient.location = form.cleaned_data['location']
+            recipient.size = form.cleaned_data['size']
+            recipient.is_veteran = form.cleaned_data['is_veteran']
+            recipient.is_senior = form.cleaned_data['is_senior']
+            recipient.is_disabled = form.cleaned_data['is_disabled']
+            recipient.public_notes = form.cleaned_data['public_notes']
+        except Recipient.DoesNotExist:
+            recipient = form.save(commit=False)
+        recipient.state = Recipient.StateChoices.ACCEPTED
         recipient.event = event
         recipient.save()
         messages.success(
@@ -199,12 +212,22 @@ def recipient(request):
 def team(request):
     form = TeamForm(request.POST or None)
     if form.is_valid():
-        team = form.save(commit=False)
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
+        try:
+            team = Team.objects.get(
+                phone=form.cleaned_data['phone'],
+                event=event,
+            )
+            team.name = form.cleaned_data['name']
+            team.nickname = form.cleaned_data['nickname']
+            team.size = form.cleaned_data['size']
+            team.public_notes = form.cleaned_data['public_notes']
+        except Team.DoesNotExist:
+            team = form.save(commit=False)
+        team.state = Team.StateChoices.ACCEPTED
         team.event = event
-        team.state = 0
         team.save()
         messages.success(
             request,

@@ -49,12 +49,17 @@
               <input type="text" name="nickname" class="form-control form-control-lg" id="id_nickname" placeholder='Nickname for your Team'>
               <label for="id_nickname">Team Nickname (Optional)</label>
             </div>
-            <div class='mb-3'>
-              {{form.size}}
-            </div>
             <div class='form-floating mb-3'>
-              <input type="text" name="reference" class="form-control form-control-lg" id="id_reference" placeholder='Reference'>
-              <label for="id_reference">Reference</label>
+              <select name='size' class="form-control form-control-lg" id='id_size' >
+                <option selected>Team Size</option>
+                <option value="105">Solo (1 Adult)</option>
+                <option value="110">Extra-Small (2-5 Adults)</option>
+                <option value="120">Small (6-10 Adults)</option>
+                <option value="130">Medium (11-15 Adults)</option>
+                <option value="140">Large (16-20 Adults)</option>
+                <option value="150">Extra-Large (21+ Adults)</option>
+              </select>
+              <label for='id_size'>Team Size</label>
             </div>
             <div class='mb-3'>
               {{form.public_notes}}

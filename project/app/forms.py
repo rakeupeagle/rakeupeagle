@@ -157,7 +157,6 @@ class TeamForm(forms.ModelForm):
             'name',
             'size',
             'nickname',
-            'reference',
             'public_notes',
         ]
         labels = {
@@ -178,11 +177,6 @@ class TeamForm(forms.ModelForm):
             'nickname': forms.TextInput(
                 attrs={
                     'placeholder': 'Nick Name (optional)',
-                }
-            ),
-            'reference': forms.TextInput(
-                attrs={
-                    'placeholder': 'Referred by (optional)',
                 }
             ),
         }
