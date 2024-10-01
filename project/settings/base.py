@@ -77,8 +77,8 @@ RQ_QUEUES = {
     'default': {
         'URL': env("REDIS_URL"),
         'ASYNC': env("RQ_ASYNC"),
-        # "SSL": True,
-        # 'SSL_CERT_REQS': None,
+        "SSL": True,
+        'SSL_CERT_REQS': None,
     },
 }
 RQ_SHOW_ADMIN_LINK = True
