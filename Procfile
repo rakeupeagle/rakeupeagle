@@ -1,3 +1,3 @@
 web: gunicorn project.wsgi
 release: django-admin migrate --noinput
-worker: django-admin rqworker default low
+worker: django-admin rqworker default

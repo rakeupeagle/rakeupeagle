@@ -23,7 +23,7 @@ def get_twilio_client():
 
 
 
-@job('default')
+@job
 def create_message(message):
     client = get_twilio_client()
     if message.direction == Message.DirectionChoices.INBOUND or message.sid:
@@ -80,7 +80,7 @@ def create_message(message):
     return response
 
 
-@job('default')
+@job
 def delete_message(message):
     return
 
