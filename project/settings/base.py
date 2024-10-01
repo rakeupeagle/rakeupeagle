@@ -67,10 +67,7 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": env("REDIS_URL"),
         "OPTIONS": {
-            # "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # "CONNECTION_POOL_KWARGS": {
-            #     "ssl_cert_reqs": None,
-            # },
+                "ssl_cert_reqs": None
         }
     },
 }
@@ -80,8 +77,8 @@ RQ_QUEUES = {
     'default': {
         'URL': env("REDIS_URL"),
         'ASYNC': env("RQ_ASYNC"),
-        "SSL": True,
-        'SSL_CERT_REQS': None,
+        # "SSL": True,
+        # 'SSL_CERT_REQS': None,
     },
 }
 RQ_SHOW_ADMIN_LINK = True
