@@ -4,8 +4,6 @@ import logging
 
 import geocoder
 import requests
-# First-Party
-from dateutil import parser
 # Django
 from django.conf import settings
 from django.contrib.gis.geos import Point

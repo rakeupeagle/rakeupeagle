@@ -30,7 +30,6 @@ django-fsm-2 = "*"
 django-fsm-2-admin = "*"
 geocoder = "*"
 twilio = "*"
-python-dateutil = "*"
 
 [requires]
 python_version = "3.12"
