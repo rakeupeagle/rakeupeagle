@@ -11,6 +11,7 @@ from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
+from django.db import IntegrityError
 from django.http import FileResponse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -169,7 +170,7 @@ def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
         recipient = form.save(commit=False)
-        recipient.state = Recipient.StateChoices.NEW
+        recipient.state = Recipient.StateChoices.ACCEPTED
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )

@@ -24,16 +24,17 @@ class Recipient(models.Model):
         primary_key=True,
     )
     class StateChoices(IntegerChoices):
-        BLOCKED = -40, "Blocked"
+        ARCHIVED = -50, "Archived"
+        # BLOCKED = -40, "Blocked"
+        IGNORED = -30, "Ignored"
         CANCELLED = -20, "Cancelled"
-        INACTIVE = -10, "Inactive"
+        # INACTIVE = -10, "Inactive"
         DECLINED = -7, "Declined"
         NEW = 0, "New"
         INVITED = 5, "Invited"
         ACCEPTED = 7, "Accepted"
-        ACTIVE = 10, "Active"
         CONFIRMED = 20, "Confirmed"
-        ASSIGNED = 30, "Assigned"
+        COMPLETED = 30, "Completed"
     state = FSMIntegerField(
         choices=StateChoices,
         default=StateChoices.NEW,
@@ -152,6 +153,7 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
+            StateChoices.NEW,
             StateChoices.INVITED,
         ],
         target=StateChoices.ACCEPTED,
@@ -170,6 +172,51 @@ class Recipient(models.Model):
     )
     def decline(self):
         send_recipient_declined.delay(self)
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.INVITED,
+        ],
+        target=StateChoices.IGNORED,
+    )
+    def ignore(self):
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.ACCEPTED,
+        ],
+        target=StateChoices.CONFIRMED,
+    )
+    def confirm(self):
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.ACCEPTED,
+            StateChoices.CONFIRMED,
+        ],
+        target=StateChoices.CANCELLED,
+    )
+    def cancel(self):
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.CONFIRMED,
+        ],
+        target=StateChoices.COMPLETED,
+    )
+    def complete(self):
         return
 
 
@@ -435,6 +482,7 @@ class Message(models.Model):
     class StateChoices(IntegerChoices):
         NEW = 0, "New"
         SENT = 10, "Sent"
+        READ = 20, "Read"
 
     class DirectionChoices(IntegerChoices):
         INBOUND = 10, "Inbound"
