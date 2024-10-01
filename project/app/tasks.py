@@ -86,7 +86,6 @@ def send_recipient_invited(recipient):
     )
     message = recipient.messages.create(
         body=body,
-        is_read=True,
     )
     return message
 
@@ -101,7 +100,6 @@ def send_recipient_accepted(recipient):
     )
     message = recipient.messages.create(
         body=body,
-        is_read=True,
     )
     return message
 
@@ -116,7 +114,6 @@ def send_recipient_declined(recipient):
     )
     message = recipient.messages.create(
         body=body,
-        is_read=True,
     )
     return message
 
@@ -145,7 +142,6 @@ def send_team_invited(team):
     )
     message = team.messages.create(
         body=body,
-        is_read=True,
     )
     return message
 
@@ -160,7 +156,6 @@ def send_team_accepted(team):
     )
     message = team.messages.create(
         body=body,
-        is_read=True,
     )
     return message
 
@@ -175,7 +170,6 @@ def send_team_declined(team):
     )
     message = team.messages.create(
         body=body,
-        is_read=True,
     )
     return message
 

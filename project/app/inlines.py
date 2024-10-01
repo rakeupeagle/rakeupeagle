@@ -63,7 +63,7 @@ class RecipientMessageInline(admin.TabularInline):
         'body',
         'created',
         'recipient',
-        'is_read',
+        'state',
     ]
     readonly_fields = [
         'created',
@@ -88,7 +88,7 @@ class TeamMessageInline(admin.TabularInline):
         'body',
         'created',
         'team',
-        'is_read',
+        'state',
     ]
     readonly_fields = [
         'created',

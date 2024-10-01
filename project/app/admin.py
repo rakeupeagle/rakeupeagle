@@ -193,7 +193,6 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
     fields = [
         'id',
         'state',
-        'is_read',
         'body',
         'sid',
         'to_phone',
@@ -215,17 +214,15 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
         'created',
         'direction',
         'body',
-        'is_read',
+        'state',
     ]
     list_editable = [
-        'is_read',
         'recipient',
         'team',
     ]
     list_filter = [
         'direction',
         'state',
-        'is_read',
     ]
     search_fields = [
     ]
