@@ -1,7 +1,6 @@
 import logging.config
 
 from django.contrib.messages import constants as messages
-from django.utils.log import DEFAULT_LOGGING
 from environ import Env
 from environ import Path
 
@@ -9,25 +8,30 @@ from environ import Path
 env = Env(
     DEBUG=(bool, False),
     DEFAULT_FROM_EMAIL=(str, 'webmaster@localhost'),
-    TIME_ZONE=(str, 'America/Boise'),
+    TIME_ZONE=(str, 'US/Mountain'),
     EMAIL_URL=(str, 'smtp://localhost:1025'),
     REDIS_URL=(str, 'redis://localhost:6379/0'),
-    LOGLEVEL=(str, 'INFO'),
-    ACTIVE=(bool, False),
+    RQ_ASYNC=(bool, False),
+    ALLOWED_HOSTS=(list, []),
     HEROKU_SLUG_COMMIT=(str, 'Init'),
 )
 
 root = Path(__file__) - 2
 
 # Common
+DEBUG = env("DEBUG")
 BASE_DIR = root()
 SECRET_KEY = env("SECRET_KEY")
 ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'wsgi.application'
+DEFAULT_AUTO_FIELD = 'hashid_field.HashidAutoField'
 ADMINS = [
     ('admin', env("DEFAULT_FROM_EMAIL")),
 ]
-USE_L10N = True
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+SESSION_COOKIE_SECURE = not env("DEBUG")
+SECURE_SSL_REDIRECT = not env("DEBUG")
+CSRF_COOKIE_SECURE = not env("DEBUG")
 
 # Datetime
 USE_TZ = True
@@ -37,18 +41,15 @@ DATETIME_FORMAT = 'Y-m-d H:i:s'
 TIME_ZONE = env("TIME_ZONE")
 
 # HashIDs
-HASHID_FIELD_SALT = env("HASHID_FIELD_SALT")
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-# Application Active Flag
-ACTIVE = env("ACTIVE")
+HASHID_FIELD_SALT = env("SECRET_KEY")
+HASHID_FIELD_MIN_LENGTH = 8
+HASHID_FIELD_ENABLE_HASHID_OBJECT = False
 
 # Authentication
 AUTH_USER_MODEL = 'app.User'
 AUTHENTICATION_BACKENDS = [
     'app.backends.AppBackend',
 ]
-
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
@@ -57,8 +58,6 @@ LOGOUT_REDIRECT_URL = 'index'
 DATABASES = {
     'default': env.db()
 }
-
-# POSTGIS
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # Cache
@@ -92,11 +91,19 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
 
-# Static File Management
+# Storage
 STATIC_ROOT = root('staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
-WHITENOISE_USE_FINDERS = True
+STATIC_URL = 'static/'
+MEDIA_ROOT = root('mediafiles')
+MEDIA_URL = 'media/'
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
@@ -113,9 +120,10 @@ PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'US'
 
 # Sentry
-SENTRY_DSN = env("SENTRY_DSN")
-SENTRY_ENVIRONMENT = env("SENTRY_ENVIRONMENT")
 SENTRY_CONFIG = {
+    'dsn': env("SENTRY_DSN"),
+    'environment': env("SENTRY_ENVIRONMENT"),
+    'release': env("HEROKU_SLUG_COMMIT"),
     'send_default_pii': True,
 }
 
@@ -140,9 +148,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            root('templates'),
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -161,48 +167,6 @@ TEMPLATES = [
 
 # Logging
 LOGGING_CONFIG = None
-LOGLEVEL = env("LOGLEVEL")
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'default': {
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-        },
-        'django.server': DEFAULT_LOGGING['formatters']['django.server'],
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'default',
-        },
-        'django.server': DEFAULT_LOGGING['handlers']['django.server'],
-    },
-    'loggers': {
-        # default for all undefined Python modules
-        '': {
-            'level': 'WARNING',
-            'handlers': [
-                'console',
-            ],
-        },
-        'app': {
-            'level': LOGLEVEL,
-            'handlers': [
-                'console',
-            ],
-            'propagate': False,
-        },
-        # Prevent noisy modules from logging to Sentry
-        # 'noisy_module': {
-        #     'level': 'ERROR',
-        #     'handlers': ['console'],
-        #     'propagate': False,
-        # },
-        # Default runserver request logging
-        'django.server': DEFAULT_LOGGING['loggers']['django.server'],
-    },
-})
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -219,3 +183,16 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'app',
 ]
+# Enable development tools
+if DEBUG:
+    # Debug Toolbar
+    INTERNAL_IPS = ["127.0.0.1"]
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    MIDDLEWARE.append("querycount.middleware.QueryCountMiddleware")
+
+    # Whitenoise
+    INSTALLED_APPS.append("whitenoise.runserver_nostatic")
+
+    # Redis
+    del CACHES['default']['OPTIONS']
