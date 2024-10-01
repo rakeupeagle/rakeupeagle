@@ -55,10 +55,23 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
 # Database
+# DATABASES = {
+#     'default': env.db()
+# }
+# DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+ALLOWED_HOSTS = [
+    '.rakeupeagle.com',
+]
 DATABASES = {
-    'default': env.db()
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': '5432/d8a4pvfc11cu00',
+        'USER': 'ufpfpcdbn3gmvv',
+        'PASSWORD': 'pe0c6f11ba58e426c25289c1113bf74d30c1b8cc09410f82e0744deb76bba01d9pe0c6f11ba58e426c25289c1113bf74d30c1b8cc09410f82e0744deb76bba01d9',
+        'HOST': 'cbec45869p4jbu.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com', # Or something like this
+        'PORT': '5432',
+    }
 }
-DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # Cache
 CACHES = {
