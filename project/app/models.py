@@ -9,9 +9,11 @@ from django_fsm import transition
 from hashid_field import HashidAutoField
 from phonenumber_field.modelfields import PhoneNumberField
 
+# from .helpers import send_message
 # Local
 from .managers import UserManager
-from .tasks import send_instance_message
+from .tasks import create_instance_message
+from .tasks import send_message
 
 
 class Recipient(models.Model):
@@ -141,7 +143,7 @@ class Recipient(models.Model):
         target=StateChoices.INVITED,
     )
     def invite(self):
-        send_instance_message.delay(self, 'recipient_invited')
+        create_instance_message(self, 'recipient_invited')
         return
 
 
@@ -154,7 +156,7 @@ class Recipient(models.Model):
         target=StateChoices.ACCEPTED,
     )
     def accept(self):
-        send_instance_message.delay(self, 'recipient_accepted')
+        create_instance_message(self, 'recipient_accepted')
         return
 
 
@@ -166,7 +168,7 @@ class Recipient(models.Model):
         target=StateChoices.DECLINED,
     )
     def decline(self):
-        send_instance_message.delay(self, 'recipient_declined')
+        create_instance_message(self, 'recipient_declined')
         return
 
 
@@ -333,7 +335,7 @@ class Team(models.Model):
         target=StateChoices.INVITED,
     )
     def invite(self):
-        send_instance_message.delay(self, 'team_invited')
+        create_instance_message(self, 'team_invited')
         return
 
 
@@ -345,7 +347,7 @@ class Team(models.Model):
         target=StateChoices.ACCEPTED,
     )
     def accept(self):
-        send_instance_message.delay(self, 'team_accepted')
+        create_instance_message(self, 'team_accepted')
         return
 
 
@@ -357,7 +359,7 @@ class Team(models.Model):
         target=StateChoices.DECLINED,
     )
     def decline(self):
-        send_instance_message.delay(self, 'team_declined')
+        create_instance_message(self, 'team_declined')
         return
 
 
@@ -443,8 +445,28 @@ class Message(models.Model):
             StateChoices.NEW,
         ],
         target=StateChoices.READ,
+        conditions=[
+            lambda x : x.direction == x.DirectionChoices.INBOUND,
+        ]
     )
     def read(self):
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.NEW,
+        ],
+        target=StateChoices.SENT,
+        conditions=[
+            lambda x : x.direction == x.DirectionChoices.OUTBOUND,
+            lambda x : not x.sid,
+        ]
+    )
+    def send(self):
+        response = send_message(self)
+        self.sid = response.sid
         return
 
 

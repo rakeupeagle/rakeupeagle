@@ -1,8 +1,6 @@
 import logging
 
 from django.conf import settings
-from django_rq import job
-from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client as TwilioClient
 
 from .models import Event
@@ -14,7 +12,7 @@ from .models import User
 log = logging.getLogger(__name__)
 
 
-# Twilio
+# Client
 def get_twilio_client():
     client = TwilioClient(
         settings.TWILIO_ACCOUNT_SID,
@@ -22,6 +20,8 @@ def get_twilio_client():
     )
     return client
 
+
+# Verify
 def send(number):
     client = TwilioClient()
     client.verify.services(
@@ -43,73 +43,8 @@ def check(number, code):
     return result.status == 'approved'
 
 
-
-
-@job
-def create_message(message):
-    client = get_twilio_client()
-    if message.sid:
-        return
-    if message.direction != Message.DirectionChoices.OUTBOUND:
-        return
-    # This is more than a little hacky....
-    phone = getattr(
-        message.user,
-        'phone',
-        getattr(
-            message.recipient,
-            'phone',
-            getattr(
-                message.team,
-                'phone',
-                None,
-            )
-        )
-    )
-    is_empty = all([
-        not(message.recipient),
-        not(message.team),
-        not(message.user),
-    ])
-    if is_empty:
-        log.error("Message target empty")
-        return
-    is_unclear = all([
-        message.recipient,
-        message.team,
-    ])
-    if is_unclear:
-        log.error("Message target unclear")
-        return
-    phone = getattr(
-        message.user,
-        'phone',
-        getattr(
-            message.recipient,
-            'phone',
-            getattr(
-                message.team,
-                'phone',
-                None,
-            )
-        )
-    )
-    response = client.messages.create(
-        messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-        to=phone.as_e164,
-        body=message.body,
-    )
-    message.sid = response.sid
-    message.state = Message.StateChoices.SENT
-    return response
-
-
-@job
-def delete_message(message):
-    return
-
-
-def process_webhook(data):
+# Messaging
+def inbound_message(data):
     message, _ = Message.objects.get_or_create(
         sid=data['MessageSid'],
     )
@@ -138,7 +73,6 @@ def process_webhook(data):
     message.to_phone = settings.TWILIO_NUMBER
     message.from_phone = data['From']
     message.body = data['Body']
-    message.raw = data
     message.recipient = recipient
     message.team = team
     message.user = user

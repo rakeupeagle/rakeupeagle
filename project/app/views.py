@@ -25,7 +25,7 @@ from .forms import TeamForm
 from .forms import VerifyCodeForm
 # from .tasks import get_assignments_csv
 from .helpers import check
-from .helpers import process_webhook
+from .helpers import inbound_message
 from .helpers import send as send_code
 # from .models import Message
 from .models import Assignment
@@ -424,7 +424,7 @@ def export_teams(request):
 @require_POST
 def webhook(request):
     data = request.POST.dict()
-    process_webhook(data)
+    inbound_message(data)
     return HttpResponse(status=200)
 
 # @validate_twilio_request
