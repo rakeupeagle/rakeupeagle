@@ -10,14 +10,25 @@ let autocomplete;
 let address1Field;
 
 function initAutocomplete() {
-  address1Field = document.querySelector("#id_location");
+  let address1Field = document.querySelector("#id_location");
   // Create the autocomplete object, restricting the search predictions to
   // addresses in the US and Canada.
-  autocomplete = new google.maps.places.Autocomplete(address1Field, {
+  const center = { lat: 43.6918116, lng: -116.4135322 };
+  // Create a bounding box with sides ~10km away from the center point
+  const defaultBounds = {
+    north: center.lat + 0.1,
+    south: center.lat - 0.1,
+    east: center.lng + 0.1,
+    west: center.lng - 0.1,
+  };
+  const options = {
+    bounds: defaultBounds,
     componentRestrictions: { country: ["us",] },
-    fields: ["address_components", "geometry"],
+    fields: ["address_components",],
     types: ["address"],
-  });
+    strictBounds: false,
+  };
+  autocomplete = new google.maps.places.Autocomplete(address1Field, options);
   // address1Field.focus();
   // When the user selects an address from the drop-down, populate the
   // address fields in the form.
