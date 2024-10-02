@@ -20,4 +20,3 @@ class AppConfig(AppConfig):
             ],
             **settings.SENTRY_CONFIG,
         )
-        import app.signals
