@@ -2,10 +2,19 @@
 
 {% load humanize %}
 {% load phonenumber %}
+{% load static %}
 
 {% block formmedia %}{{ recipient_form.media }}{% endblock formmedia %}
 
 {% block title %}Registration for Yard Rake{% endblock title %}
+
+{% block scripts %}
+  {{block.super}}
+  <script async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC5tc5pa3qr1p9oO1YUeLkjotaJJNnGqg&loading=async&libraries=places&callback=initAutocomplete">
+  </script>
+  <script src="{% static 'app/js/location.js' %}"></script>
+{% endblock scripts %}
 
 {% block content %}
   <section class='col-lg-8'>
