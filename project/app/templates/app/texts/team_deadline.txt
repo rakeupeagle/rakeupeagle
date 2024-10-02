@@ -6,9 +6,9 @@ We're making our final arrangements and just wanted to check if anything has cha
 Thank you again!
 
 *Details*
-Team Leader: {{team.name}}
-Group Size: {{team.get_size_display}}
-Team Name: {{team.nickname|default:'(None provided)'}}
-Notes: {{team.public_notes|default:'(No Notes)'}}
+Team Leader: {{instance.name}}
+Group Size: {{instance.get_size_display}}
+Team Name: {{instance.nickname|default:'(None provided)'}}
+Notes: {{instance.public_notes|default:'(No Notes)'}}
 
 {% endautoescape %}

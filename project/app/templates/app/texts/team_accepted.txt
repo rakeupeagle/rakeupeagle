@@ -3,10 +3,10 @@
 We've copied over your information from last year.  Please tell us if anything has changed or there's something else we should know.
 
 *Details*
-Team Leader: {{team.name}}
-Group Size: {{team.get_size_display}}
-Team Name: {{team.nickname|default:'(None provided)'}}
-Notes: {{team.public_notes|default:'(No Notes)'}}
+Team Leader: {{instance.name}}
+Group Size: {{instance.get_size_display}}
+Team Name: {{instance.nickname|default:'(None provided)'}}
+Notes: {{instance.public_notes|default:'(No Notes)'}}
 
 We will use this text thread to keep you posted as Rake Up Eagle approaches.  If you have any questions please don't hesitate to ask them here.
 {% endautoescape %}

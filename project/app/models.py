@@ -11,12 +11,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Local
 from .managers import UserManager
-from .tasks import send_recipient_accepted
-from .tasks import send_recipient_declined
-from .tasks import send_recipient_invited
-from .tasks import send_team_accepted
-from .tasks import send_team_declined
-from .tasks import send_team_invited
+from .tasks import send_instance_message
 
 
 class Recipient(models.Model):
@@ -146,7 +141,7 @@ class Recipient(models.Model):
         target=StateChoices.INVITED,
     )
     def invite(self):
-        send_recipient_invited.delay(self)
+        send_instance_message.delay(self, 'recipient_invited')
         return
 
 
@@ -159,7 +154,7 @@ class Recipient(models.Model):
         target=StateChoices.ACCEPTED,
     )
     def accept(self):
-        send_recipient_accepted.delay(self)
+        send_instance_message.delay(self, 'recipient_accepted')
         return
 
 
@@ -171,7 +166,7 @@ class Recipient(models.Model):
         target=StateChoices.DECLINED,
     )
     def decline(self):
-        send_recipient_declined.delay(self)
+        send_instance_message.delay(self, 'recipient_declined')
         return
 
 
@@ -338,7 +333,7 @@ class Team(models.Model):
         target=StateChoices.INVITED,
     )
     def invite(self):
-        send_team_invited.delay(self)
+        send_instance_message.delay(self, 'team_invited')
         return
 
 
@@ -350,7 +345,7 @@ class Team(models.Model):
         target=StateChoices.ACCEPTED,
     )
     def accept(self):
-        send_team_accepted.delay(self)
+        send_instance_message.delay(self, 'team_accepted')
         return
 
 
@@ -362,7 +357,7 @@ class Team(models.Model):
         target=StateChoices.DECLINED,
     )
     def decline(self):
-        send_team_declined.delay(self)
+        send_instance_message.delay(self, 'team_declined')
         return
 
 

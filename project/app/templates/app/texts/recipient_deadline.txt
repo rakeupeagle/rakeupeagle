@@ -6,13 +6,13 @@ We're making our final arrangements and just wanted to check if anything has cha
 Thank you again!  We look forward to raking your lawn on November 9th!
 
 *Details*
-Name: {{recipient.name}}
-Address: {{recipient.location}}
-Yard Size: {{recipient.get_size_display}}
-Veteran? {{recipient.is_veteran|yesno|title}}
-Senior? {{recipient.is_senior|yesno|title}}
-Disabled? {{recipient.is_disabled|yesno|title}}
-Dog in Yard? {{recipient.is_dog|yesno|title}}
-Notes: {{recipient.public_notes|default:'(No Notes)'}}
+Name: {{instance.name}}
+Address: {{instance.location}}
+Yard Size: {{instance.get_size_display}}
+Veteran? {{instance.is_veteran|yesno|title}}
+Senior? {{instance.is_senior|yesno|title}}
+Disabled? {{instance.is_disabled|yesno|title}}
+Dog in Yard? {{instance.is_dog|yesno|title}}
+Notes: {{instance.public_notes|default:'(No Notes)'}}
 
 {% endautoescape %}

@@ -10,9 +10,9 @@ Here are the final instructions:
 - We'll have donuts available.
 - Check out the FAQ for more information: https://www.rakeupeagle.com/faq#teams
 
-Team Leader:  {{team.name}}
-Team Name:  {{team.team}}
-Team Size:  {{team.get_size_display}}
+Team Leader:  {{instance.name}}
+Team Name:  {{instance.nickname}}
+Team Size:  {{instance.get_size_display}}
 
 If anything has changed, or your team needs to cancel, please reply.
 

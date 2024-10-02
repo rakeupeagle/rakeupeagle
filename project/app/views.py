@@ -1,33 +1,23 @@
 import csv
-import datetime
 import logging
 
-import requests
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from django.contrib.auth.decorators import login_required
-from django.core.files.base import ContentFile
-from django.db import IntegrityError
-from django.http import FileResponse
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.template.loader import render_to_string
-from django.urls import reverse
-from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
 
 from .decorators import validate_twilio_request
+# from .forms import DeleteForm
 from .forms import AccountForm
 from .forms import CallForm
-from .forms import DeleteForm
 from .forms import LoginForm
 from .forms import RecipientForm
 from .forms import TeamcallForm
@@ -42,9 +32,8 @@ from .models import Assignment
 from .models import Event
 from .models import Recipient
 from .models import Team
-from .models import User
-from .tasks import send_recipient_confirmation
-from .tasks import send_team_confirmation
+
+# from .models import User
 
 log = logging.getLogger(__name__)
 
@@ -186,14 +175,12 @@ def recipient(request):
             recipient.public_notes = form.cleaned_data['public_notes']
         except Recipient.DoesNotExist:
             recipient = form.save(commit=False)
-        recipient.state = Recipient.StateChoices.ACCEPTED
         recipient.event = event
         recipient.save()
         messages.success(
             request,
             "Saved!",
         )
-        send_recipient_confirmation.delay(recipient)
         return redirect('success')
     else:
         messages.warning(
@@ -226,14 +213,12 @@ def team(request):
             team.public_notes = form.cleaned_data['public_notes']
         except Team.DoesNotExist:
             team = form.save(commit=False)
-        team.state = Team.StateChoices.ACCEPTED
         team.event = event
         team.save()
         messages.success(
             request,
             "Saved!",
         )
-        send_team_confirmation.delay(team)
         return redirect('success')
     else:
         messages.warning(

@@ -3,13 +3,13 @@
 We've copied over your information from last year.  Please tell us if anything has changed or there's something else we should know.
 
 *Details*
-Name: {{recipient.name}}
-Address: {{recipient.location}}
-Yard Size: {{recipient.get_size_display}}
-Veteran? {{recipient.is_veteran|yesno|title}}
-Senior? {{recipient.is_senior|yesno|title}}
-Disabled? {{recipient.is_disabled|yesno|title}}
-Notes: {{recipient.public_notes|default:'(No Notes)'}}
+Name: {{instance.name}}
+Address: {{instance.location}}
+Yard Size: {{instance.get_size_display}}
+Veteran? {{instance.is_veteran|yesno|title}}
+Senior? {{instance.is_senior|yesno|title}}
+Disabled? {{instance.is_disabled|yesno|title}}
+Notes: {{instance.public_notes|default:'(No Notes)'}}
 
 We will use this text thread to keep you posted as Rake Up Eagle approaches.  If you have any questions please don't hesitate to ask them here.
 {% endautoescape %}

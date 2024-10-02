@@ -2,10 +2,10 @@
 Here is your assignment for Rake Up Eagle
 
 *Assignment*
-Name: {{assignment.recipient.name}}
-Address: {{assignment.recipient.location}}
-Phone:  {{assignment.recipient.phone.as_national}}
-Notes: {{assignment.recipient.public_notes|default:'(No Notes)'}}
+Name: {{assignment.instance.name}}
+Address: {{assignment.instance.location}}
+Phone:  {{assignment.instance.phone.as_national}}
+Notes: {{assignment.instance.public_notes|default:'(No Notes)'}}
 
 Please arrive at Eagle Middle School between 9-10AM to pick up your bags.
 

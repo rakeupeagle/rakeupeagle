@@ -1,9 +1,0 @@
-{% autoescape off %}
-Rake Up Eagle -- glitch fixed!
-
-We had glitch that prevented completing your signup.
-
-Please try again at https://www.rakeupeagle.com.
-
-So sorry for the trouble, and call Dave at 208.713.4599 if you need further assistance.
-{% endautoescape %}

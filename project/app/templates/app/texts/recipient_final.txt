@@ -1,3 +1,3 @@
 {% autoescape off %}
-Just a final note that our Rake Up Eagle team will arrive at your house tomorrow, Saturday the 5th, between 9-11AM.  We have your address as {{recipient.location}}.  Volunteers will knock at the door when they arrive, but can not enter.  They will bring all equipment and place bags in the normal pickup area.  Reply to this message with any questions.  Be sure all pets remain inside and waste has been picked up.  See you tomorrow!
+Just a final note that our Rake Up Eagle team will arrive at your house tomorrow, Saturday the 5th, between 9-11AM.  We have your address as {{instance.location}}.  Volunteers will knock at the door when they arrive, but can not enter.  They will bring all equipment and place bags in the normal pickup area.  Reply to this message with any questions.  Be sure all pets remain inside and waste has been picked up.  See you tomorrow!
 {% endautoescape %}
