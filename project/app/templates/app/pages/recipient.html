@@ -52,16 +52,16 @@
         <div class="card-body">
           <div class='card-text'>
             <div class='form-floating mb-3'>
-              <input type="tel" name="phone" class="form-control form-control-lg" id="id_phone" placeholder='Phone' required>
-              <label for="id_phone">Phone</label>
+              <input type="text" name="location" class="form-control form-control-lg" id="id_location" placeholder='Address to be Raked' required>
+              <label for="id_location">Location</label>
             </div>
             <div class='form-floating mb-3'>
               <input type="text" name="name" class="form-control form-control-lg" id="id_name" placeholder='Name' required>
               <label for="id_name">Name</label>
             </div>
             <div class='form-floating mb-3'>
-              <input type="text" name="location" class="form-control form-control-lg" id="id_location" placeholder='Address to be Raked' required>
-              <label for="id_location">Location</label>
+              <input type="tel" name="phone" class="form-control form-control-lg" id="id_phone" placeholder='Phone' required>
+              <label for="id_phone">Phone</label>
             </div>
             <div class='form-floating mb-3'>
               <select name='size' class="form-control form-control-lg" id='id_size' >
@@ -90,14 +90,6 @@
                 I am Disabled
               </label>
             </div>
-            {% comment %}
-            <div class='form-check mb-3'>
-              <input type='checkbox' name='is_dog' id='id_is_dog' class="form-check-input">
-              <label class="form-check-label" for="id_is_dog">
-                I have a Dog
-              </label>
-            </div>
-            {% endcomment %}
             {{form.public_notes}}
           </div>
         </div>
