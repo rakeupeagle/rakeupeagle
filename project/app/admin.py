@@ -169,6 +169,7 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         TeamMessageInline,
     ]
     ordering = [
+        '-created',
     ]
     readonly_fields = [
         # 'latest_message',
