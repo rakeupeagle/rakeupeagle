@@ -14,6 +14,7 @@ from fsm_admin.mixins import FSMTransitionMixin
 
 from .actions import mark_read
 from .actions import send_invitations
+from .actions import send_message
 from .filters import DirectionListFilter
 # Local
 # from .forms import AssignmentForm
@@ -243,7 +244,9 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
     ]
     actions = [
         mark_read,
+        send_message,
     ]
+
 
 @admin.register(Assignment)
 class AssignmentAdmin(ModelAdmin):

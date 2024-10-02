@@ -47,6 +47,7 @@ def index(request):
     )
 
 
+# Authentication
 def login(request):
     if request.user.is_authenticated:
         return redirect('account')
@@ -122,6 +123,7 @@ def logout(request):
     return redirect('index')
 
 
+# Account
 @login_required
 def account(request):
     user = request.user
