@@ -207,24 +207,29 @@ def recipient(request):
 def team(request):
     form = TeamForm(request.POST or None)
     if form.is_valid():
+        phone = form.cleaned_data['phone']
+        name = form.cleaned_data['name']
+        nickname = form.cleaned_data['nickname']
+        size = form.cleaned_data['size']
+        public_notes = form.cleaned_data['public_notes']
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
         user, _ = User.objects.update_or_create(
-            phone=form.cleaned_data['phone'],
+            phone=phone,
             defaults={
-                'name': form.cleaned_data['name'],
+                'name': name,
             }
         )
         try:
             team = Team.objects.get(
-                phone=form.cleaned_data['phone'],
+                phone=phone,
                 event=event,
             )
-            team.name = form.cleaned_data['name']
-            team.nickname = form.cleaned_data['nickname']
-            team.size = form.cleaned_data['size']
-            team.public_notes = form.cleaned_data['public_notes']
+            team.name = name
+            team.nickname = nickname
+            team.size = size
+            team.public_notes = public_notes
         except Team.DoesNotExist:
             team = form.save(commit=False)
         team.event = event
