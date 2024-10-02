@@ -95,7 +95,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         RecipientMessageInline,
     ]
     ordering = [
-        'created',
+        '-created',
     ]
     readonly_fields = [
         # 'latest_message',
