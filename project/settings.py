@@ -196,3 +196,5 @@ if DEBUG:
 
     # Redis
     del CACHES['default']['OPTIONS']
+    del RQ_QUEUES['default']['SSL']
+    del RQ_QUEUES['default']['SSL_CERT_REQS']
