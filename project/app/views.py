@@ -32,8 +32,7 @@ from .models import Assignment
 from .models import Event
 from .models import Recipient
 from .models import Team
-
-# from .models import User
+from .models import User
 
 log = logging.getLogger(__name__)
 
@@ -163,6 +162,12 @@ def recipient(request):
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
+        user, _ = User.objects.update_or_create(
+            phone=form.cleaned_data['phone'],
+            defaults={
+                'name': form.cleaned_data['name'],
+            }
+        )
         try:
             recipient = Recipient.objects.get(
                 phone=form.cleaned_data['phone'],
@@ -178,6 +183,7 @@ def recipient(request):
         except Recipient.DoesNotExist:
             recipient = form.save(commit=False)
         recipient.event = event
+        recipient.user = user
         recipient.save()
         messages.success(
             request,
@@ -204,6 +210,12 @@ def team(request):
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
+        user, _ = User.objects.update_or_create(
+            phone=form.cleaned_data['phone'],
+            defaults={
+                'name': form.cleaned_data['name'],
+            }
+        )
         try:
             team = Team.objects.get(
                 phone=form.cleaned_data['phone'],
@@ -216,6 +228,7 @@ def team(request):
         except Team.DoesNotExist:
             team = form.save(commit=False)
         team.event = event
+        team.user = user
         team.save()
         messages.success(
             request,
