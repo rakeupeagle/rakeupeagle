@@ -112,6 +112,7 @@ class RecipientForm(forms.ModelForm):
             'is_veteran',
             'is_senior',
             'is_disabled',
+            'place_id',
             # 'is_dog',
             'public_notes',
         ]

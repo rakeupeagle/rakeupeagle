@@ -66,7 +66,11 @@ class Recipient(models.Model):
         max_length=512,
         blank=False,
         default='',
-        help_text="""Please provide the street address to be raked (City of Eagle is assumed)."""
+    )
+    place_id = models.CharField(
+        max_length=512,
+        null=True,
+        blank=True,
     )
     point = models.PointField(
         null=True,
