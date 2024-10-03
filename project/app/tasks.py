@@ -42,6 +42,8 @@ def geocode_recipient(recipient):
             geocode['lng'],
             geocode['lat'],
         )
+        recipient.place_id = geocode['place']
+        recipient.location = geocode['address']
         recipient.save()
     return
 
