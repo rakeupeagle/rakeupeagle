@@ -405,10 +405,6 @@ class Message(models.Model):
         null=True,
         blank=True,
     )
-    raw = models.JSONField(
-        blank=True,
-        null=True,
-    )
     created = models.DateTimeField(
         auto_now_add=True,
     )

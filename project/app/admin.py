@@ -200,7 +200,6 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
         'to_phone',
         'from_phone',
         'direction',
-        'raw',
         'recipient',
         'team',
         'user',
