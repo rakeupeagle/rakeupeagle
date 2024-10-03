@@ -12,8 +12,9 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from fsm_admin.mixins import FSMTransitionMixin
 
+from .actions import ignore_instances
+from .actions import invite_instances
 from .actions import mark_read
-from .actions import send_invitations
 from .actions import send_message
 from .filters import DirectionListFilter
 # Local
@@ -103,7 +104,8 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
     ]
 
     actions = [
-        send_invitations,
+        invite_instances,
+        ignore_instances,
     ]
 
     def get_search_results(self, request, queryset, search_term):
@@ -176,7 +178,8 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         # 'user_url',
     ]
     actions = [
-        send_invitations,
+        invite_instances,
+        ignore_instances,
     ]
 
 

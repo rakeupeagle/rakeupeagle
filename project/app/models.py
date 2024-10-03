@@ -184,6 +184,7 @@ class Recipient(models.Model):
         target=StateChoices.IGNORED,
     )
     def ignore(self):
+        create_instance_message(self, 'recipient_ignored')
         return
 
 
@@ -226,15 +227,17 @@ class Team(models.Model):
         primary_key=True,
     )
     class StateChoices(IntegerChoices):
+        ARCHIVED = -50, "Archived"
+        # BLOCKED = -40, "Blocked"
+        IGNORED = -30, "Ignored"
         CANCELLED = -20, "Cancelled"
-        INACTIVE = -10, "Inactive"
+        # INACTIVE = -10, "Inactive"
         DECLINED = -7, "Declined"
         NEW = 0, "New"
         INVITED = 5, "Invited"
         ACCEPTED = 7, "Accepted"
-        ACTIVE = 10, "Active"
         CONFIRMED = 20, "Confirmed"
-        ASSIGNED = 30, "Assigned"
+        COMPLETED = 30, "Completed"
 
     class SizeChoices(IntegerChoices):
         SOLO = 105, "Solo (1 Adult)"
@@ -364,6 +367,18 @@ class Team(models.Model):
     )
     def decline(self):
         create_instance_message(self, 'team_declined')
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.INVITED,
+        ],
+        target=StateChoices.IGNORED,
+    )
+    def ignore(self):
+        create_instance_message(self, 'team_ignored')
         return
 
 

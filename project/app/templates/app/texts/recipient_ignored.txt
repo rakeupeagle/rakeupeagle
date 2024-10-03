@@ -1,0 +1,5 @@
+{% autoescape off %}Just a quick note that we haven't heard from you and are assuming that you won't need your yard raked this year.  Please let us know via this text if you still would like to participate; otherwise we won't bother you again.
+
+Thank you!
+Rake Up Eagle
+{% endautoescape %}
