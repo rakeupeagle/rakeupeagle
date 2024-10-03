@@ -131,6 +131,13 @@ class Recipient(models.Model):
                 ],
                 name='unique_recipient_event',
             ),
+            UniqueConstraint(
+                fields=[
+                    'place_id',
+                    'event',
+                ],
+                name='unique_location_event',
+            ),
         ]
         ordering = (
             '-created',

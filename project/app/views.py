@@ -170,7 +170,7 @@ def recipient(request):
         )
         try:
             recipient = Recipient.objects.get(
-                phone=form.cleaned_data['phone'],
+                place_id=form.cleaned_data['place_id'],
                 event=event,
             )
             recipient.name = form.cleaned_data['name']
@@ -180,7 +180,7 @@ def recipient(request):
             recipient.is_senior = form.cleaned_data['is_senior']
             recipient.is_disabled = form.cleaned_data['is_disabled']
             recipient.public_notes = form.cleaned_data['public_notes']
-            recipient.place_id = form.cleaned_data['place_id']
+            recipient.phone = form.cleaned_data['phone']
         except Recipient.DoesNotExist:
             recipient = form.save(commit=False)
         recipient.event = event
