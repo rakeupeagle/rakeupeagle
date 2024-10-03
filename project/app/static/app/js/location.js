@@ -24,7 +24,7 @@ function initAutocomplete() {
   const options = {
     bounds: defaultBounds,
     componentRestrictions: { country: ["us",] },
-    fields: ["address_components",],
+    fields: ["address_components", "place_id"],
     types: ["address"],
     strictBounds: false,
   };
@@ -39,7 +39,7 @@ function fillInAddress() {
   // Get the place details from the autocomplete object.
   const place = autocomplete.getPlace();
   let address1 = "";
-
+  console.log(place.place_id);
   // Get each component of the address from the place details,
   // and then fill-in the corresponding field on the form.
   // place.address_components are google.maps.GeocoderAddressComponent objects
