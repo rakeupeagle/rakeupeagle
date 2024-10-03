@@ -126,13 +126,6 @@ class Recipient(models.Model):
         constraints = [
             UniqueConstraint(
                 fields=[
-                    'phone',
-                    'event',
-                ],
-                name='unique_recipient_event',
-            ),
-            UniqueConstraint(
-                fields=[
                     'place_id',
                     'event',
                 ],
