@@ -13,7 +13,6 @@ from .models import Assignment
 from .models import Recipient
 from .models import Team
 from .models import User
-from .widgets import AddressWidget
 from .widgets import CodeWidget
 
 
@@ -75,6 +74,7 @@ class VerifyCodeForm(forms.Form):
         widget=CodeWidget(
             attrs={
                 'class': 'form-control form-control-lg',
+                'autocomplete': 'off',
             }
         )
     )
