@@ -70,27 +70,10 @@ def send_message(message):
     if message.direction != message.DirectionChoices.OUTBOUND:
         raise ValidationError("Message is not Outbound")
 
-    # This is more than a little hacky....
-    phone = getattr(
-        message.user,
-        'phone',
-        getattr(
-            message.recipient,
-            'phone',
-            getattr(
-                message.team,
-                'phone',
-                None,
-            )
-        )
-    )
-    if not phone:
-        raise ValidationError("Message target empty")
-
     client = get_twilio_client()
     response = client.messages.create(
         messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-        to=phone.as_e164,
+        to=message.to_phone.as_e164,
         body=message.body,
     )
     return response
