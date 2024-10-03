@@ -11,7 +11,7 @@
 {% block scripts %}
   {{block.super}}
   <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC5tc5pa3qr1p9oO1YUeLkjotaJJNnGqg&loading=async&libraries=places&callback=initAutocomplete">
+      src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&loading=async&libraries=places&callback=initAutocomplete">
   </script>
   <script src="{% static 'app/js/location.js' %}"></script>
 {% endblock scripts %}
@@ -92,6 +92,7 @@
             </div>
             {{form.public_notes}}
             <input type="hidden" id="id_place_id" name="place_id">
+            <input type="hidden" id="id_point" name="point">
           </div>
         </div>
         <div class='card-footer'>

@@ -1,12 +1,14 @@
 import csv
 import logging
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import Point
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -159,6 +161,16 @@ def account(request):
 def recipient(request):
     form = RecipientForm(request.POST or None)
     if form.is_valid():
+        name = form.cleaned_data['name']
+        location = form.cleaned_data['location']
+        size = form.cleaned_data['size']
+        is_veteran = form.cleaned_data['is_veteran']
+        is_senior = form.cleaned_data['is_senior']
+        is_disabled = form.cleaned_data['is_disabled']
+        public_notes = form.cleaned_data['public_notes']
+        phone = form.cleaned_data['phone']
+        place_id = form.cleaned_data['place_id']
+        point = form.cleaned_data['point']
         event = Event.objects.get(
             state=Event.StateChoices.CURRENT,
         )
@@ -170,17 +182,18 @@ def recipient(request):
         )
         try:
             recipient = Recipient.objects.get(
-                place_id=form.cleaned_data['place_id'],
+                place_id=place_id,
                 event=event,
             )
-            recipient.name = form.cleaned_data['name']
-            recipient.location = form.cleaned_data['location']
-            recipient.size = form.cleaned_data['size']
-            recipient.is_veteran = form.cleaned_data['is_veteran']
-            recipient.is_senior = form.cleaned_data['is_senior']
-            recipient.is_disabled = form.cleaned_data['is_disabled']
-            recipient.public_notes = form.cleaned_data['public_notes']
-            recipient.phone = form.cleaned_data['phone']
+            recipient.name = name
+            recipient.location = location
+            recipient.size = size
+            recipient.is_veteran = is_veteran
+            recipient.is_senior = is_senior
+            recipient.is_disabled = is_disabled
+            recipient.public_notes = public_notes
+            recipient.phone = phone
+            recipient.point = point
         except Recipient.DoesNotExist:
             recipient = form.save(commit=False)
         recipient.event = event
@@ -201,6 +214,7 @@ def recipient(request):
         'app/pages/recipient.html',
         context={
             'form': form,
+            'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
         }
     )
 

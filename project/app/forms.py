@@ -113,7 +113,7 @@ class RecipientForm(forms.ModelForm):
             'is_senior',
             'is_disabled',
             'place_id',
-            # 'is_dog',
+            'point',
             'public_notes',
         ]
         labels = {
