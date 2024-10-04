@@ -11,7 +11,7 @@ faker = "*"
 pytest = "*"
 pytest-django = "*"
 pylint = "*"
-tqdm = "*"
+graphviz = "*"
 
 [packages]
 django = "*"
@@ -31,6 +31,7 @@ django-fsm-2 = "*"
 django-fsm-2-admin = "*"
 geocoder = "*"
 twilio = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.12"
