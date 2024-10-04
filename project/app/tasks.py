@@ -67,6 +67,7 @@ def create_instance_message(instance, message):
 
 def report_success(job, connection, result, *args, **kwargs):
     message = job.args[0]
+    message.state = message.StateChoices.SENT
     message.sid = result.sid
     message.save()
     return
