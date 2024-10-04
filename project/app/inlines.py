@@ -1,4 +1,5 @@
 
+from django.conf import settings
 # Django
 from django.contrib import admin
 
@@ -64,6 +65,8 @@ class RecipientMessageInline(admin.TabularInline):
         'created',
         'recipient',
         'state',
+        'to_phone',
+        'from_phone',
     ]
     readonly_fields = [
         'created',
@@ -78,6 +81,12 @@ class RecipientMessageInline(admin.TabularInline):
     ]
     autocomplete_fields = [
     ]
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        formset.form.base_fields['direction'].initial = Message.DirectionChoices.OUTBOUND
+        formset.form.base_fields['to_phone'].initial = obj.phone
+        formset.form.base_fields['from_phone'].initial = settings.TWILIO_NUMBER
+        return formset
 
 
 class TeamMessageInline(admin.TabularInline):
