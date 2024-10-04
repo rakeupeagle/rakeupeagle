@@ -169,6 +169,7 @@ class Recipient(models.Model):
         field=state,
         source=[
             StateChoices.INVITED,
+            StateChoices.IGNORED,
         ],
         target=StateChoices.DECLINED,
     )
@@ -365,6 +366,7 @@ class Team(models.Model):
         field=state,
         source=[
             StateChoices.INVITED,
+            StateChoices.IGNORED,
         ],
         target=StateChoices.DECLINED,
     )
