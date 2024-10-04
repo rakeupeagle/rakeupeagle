@@ -179,6 +179,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django_rq',
+    'django_fsm',
     'fsm_admin',
     'phonenumber_field',
     'app',
