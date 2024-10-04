@@ -1,5 +1,5 @@
 {% autoescape off %}
-Your registration for Rake Up Eagle is confirmed!
+Your registration for Rake Up Eagle is confirmed!  Here are the final details:
 
 *Details*
 Name: {{instance.name}}
@@ -10,5 +10,8 @@ Senior? {{instance.is_senior|yesno|title}}
 Disabled? {{instance.is_disabled|yesno|title}}
 Notes: {{instance.public_notes|default:'(No Notes)'}}
 
-We will use this text thread to keep you posted as Rake Up Eagle approaches.  If you have any questions please don't hesitate to ask them here.
+
+Your team should arrive Saturday before noon.  If you have any questions please don't hesitate to let us know!
+
+IMPORTANT NOTE: Remember that you must pick up ALL pet waste before our volunteers will be allowed to work.  If they see any pet waste they will leave immediately and your yard will NOT be rescheduled.
 {% endautoescape %}

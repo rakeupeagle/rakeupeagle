@@ -349,6 +349,7 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
+            StateChoices.NEW,
             StateChoices.INVITED,
         ],
         target=StateChoices.ACCEPTED,
@@ -380,6 +381,41 @@ class Team(models.Model):
     def ignore(self):
         create_instance_message(self, 'team_ignored')
         return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.ACCEPTED,
+        ],
+        target=StateChoices.CONFIRMED,
+    )
+    def confirm(self):
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.ACCEPTED,
+            StateChoices.CONFIRMED,
+        ],
+        target=StateChoices.CANCELLED,
+    )
+    def cancel(self):
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.CONFIRMED,
+        ],
+        target=StateChoices.COMPLETED,
+    )
+    def complete(self):
+        return
+
 
 
 class Message(models.Model):
