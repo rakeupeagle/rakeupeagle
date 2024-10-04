@@ -98,6 +98,8 @@ class TeamMessageInline(admin.TabularInline):
         'created',
         'team',
         'state',
+        'to_phone',
+        'from_phone',
     ]
     readonly_fields = [
         'created',
