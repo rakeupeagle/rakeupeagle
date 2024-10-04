@@ -23,3 +23,5 @@ latest.dump
 config.json
 /output
 rake.json
+recipient
+recipient.png
