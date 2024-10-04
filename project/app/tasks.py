@@ -1,3 +1,5 @@
+import logging
+
 import geocoder
 from django.conf import settings
 from django.contrib.gis.geos import Point
@@ -5,6 +7,9 @@ from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django_rq import job
 from twilio.rest import Client as TwilioClient
+
+log = logging.getLogger(__name__)
+
 
 
 # Client
@@ -60,6 +65,14 @@ def create_instance_message(instance, message):
     return message
 
 
+def report_success(job, connection, result, *args, **kwargs):
+    message = job.args[0]
+    message.sid = result.sid
+    message.save()
+    return
+
+
+@job('default', on_success=report_success)
 def send_message(message):
     if message.sid:
         raise ValidationError("Message already has SID")

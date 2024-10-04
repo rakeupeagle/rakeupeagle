@@ -166,7 +166,30 @@ TEMPLATES = [
 ]
 
 # Logging
-LOGGING_CONFIG = None
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        "rq_console": {
+            "level": "INFO",
+            "class": "rq.logutils.ColorizingStreamHandler",
+        },
+    },
+    "loggers": {
+        "app": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "rq.worker": {
+            "handlers": ["rq_console"],
+            "level": "INFO"
+        },
+    },
+}
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

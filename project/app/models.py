@@ -520,8 +520,7 @@ class Message(models.Model):
         ]
     )
     def send(self):
-        response = send_message(self)
-        self.sid = response.sid
+        response = send_message.delay(self)
         return
 
 
