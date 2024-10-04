@@ -54,12 +54,6 @@ class TeamInline(admin.TabularInline):
     ]
     extra = 0
     show_change_link = True
-    def get_formset(self, request, obj=None, **kwargs):
-        formset = super().get_formset(request, obj, **kwargs)
-        formset.form.base_fields['direction'].initial = Message.DirectionChoices.OUTBOUND
-        formset.form.base_fields['to_phone'].initial = obj.phone
-        formset.form.base_fields['from_phone'].initial = settings.TWILIO_NUMBER
-        return formset
 
 
 class RecipientMessageInline(admin.TabularInline):
@@ -118,6 +112,13 @@ class TeamMessageInline(admin.TabularInline):
     ]
     autocomplete_fields = [
     ]
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        formset.form.base_fields['direction'].initial = Message.DirectionChoices.OUTBOUND
+        formset.form.base_fields['to_phone'].initial = obj.phone
+        formset.form.base_fields['from_phone'].initial = settings.TWILIO_NUMBER
+        return formset
 
 
 class UserMessageInline(admin.TabularInline):
