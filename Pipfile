@@ -32,6 +32,7 @@ django-fsm-2-admin = "*"
 geocoder = "*"
 twilio = "*"
 tqdm = "*"
+pyflowchart = "*"
 
 [requires]
 python_version = "3.12"
