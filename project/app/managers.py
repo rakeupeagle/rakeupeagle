@@ -17,9 +17,6 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, name, phone, **extra_fields):
-        """
-        Create and save a SuperUser with the given email and password.
-        """
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_verified', False)
