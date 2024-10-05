@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
 from django.db.models import IntegerChoices
@@ -393,7 +395,6 @@ class Team(models.Model):
         return
 
 
-
 class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -525,10 +526,6 @@ class Event(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
-    deadline =  models.DateField(
-        null=True,
-        blank=True,
-    )
     date =  models.DateField(
         null=True,
         blank=True,
@@ -539,6 +536,12 @@ class Event(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
     )
+
+    # @property
+    # def deadline(self):
+    #     return self.date - datetime.timedelta(days=4)
+
+
     def __str__(self):
         return f"{self.year}"
 

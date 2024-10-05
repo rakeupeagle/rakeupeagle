@@ -315,7 +315,6 @@ class EventAdmin(ModelAdmin):
     fields = [
         'year',
         'state',
-        'deadline',
         'date',
         # 'created',
         # 'updated',
@@ -324,7 +323,6 @@ class EventAdmin(ModelAdmin):
         'id',
         'year',
         'state',
-        'deadline',
         'date',
         'created',
         'updated',
