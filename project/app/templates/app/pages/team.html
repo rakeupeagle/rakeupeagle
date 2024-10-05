@@ -18,9 +18,8 @@
   </section>
   <section class='my-5'>
     <ul class='list-styled'>
-      <li>The event date is November 9, 2024.</li>
-      <li>We will coordinate with you by November 5, 2024.</li>
-      <li>Check-in takes place from 9-10 AM at Eagle Middle School.</li>
+      <li>The event date is {{event.date|date:'F jS'}}.</li>
+      <li>Check-in takes place from 9-10 AM at Eagle Middle School, <a href='https://maps.app.goo.gl/3r38Di9NJNaU2h2G9'>1000 W Floating Feather Rd, Eagle, ID 83616.</a></li>
       <li>We provide the lawn bags; you need to bring rakes, gloves, etc.</li>
       <li>You agree to our <a href='{% url "terms" %}'>terms and waiver.</a></li>
     </ul>

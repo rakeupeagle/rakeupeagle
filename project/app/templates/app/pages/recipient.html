@@ -4,17 +4,7 @@
 {% load phonenumber %}
 {% load static %}
 
-{% block formmedia %}{{ recipient_form.media }}{% endblock formmedia %}
-
 {% block title %}Registration for Yard Rake{% endblock title %}
-
-{% block scripts %}
-  {{block.super}}
-  <script async
-      src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&loading=async&libraries=places&callback=initAutocomplete">
-  </script>
-  <script src="{% static 'app/js/location.js' %}"></script>
-{% endblock scripts %}
 
 {% block content %}
   <section class='col-lg-8'>
@@ -33,13 +23,10 @@
       <li>Agree to our <a href='{% url "terms" %}'>terms and waiver</a></li>
     </ul>
     <p>
-      If your yard is selected to be raked, you should receive notification by Monday, November 4, 2024.  We are going to do our absolute best to rake as many yards as possible.
+      Our volunteers will arrive on {{event.date|date:'F jS'}} between 9 - 11AM.  They will bring all their own equipment, rake your leaves into bags, and place them at your normal pickup location.
     </p>
     <p>
-      If you live in a mobile home park, please check with the park manager to make sure that it is okay that your yard is raked by our volunteers before sending in your application.
-    </p>
-    <p>
-      All raked leaf bags will be placed at your normal pickup location, or at the end of your driveway.
+      If you have a dog/cat they must be inside during the rake, and <strong>all animal waste must be picked up prior to raking</strong>.  If there is animal waste in the yard our volunteers will leave and not reschedule.
     </p>
   </section>
   <section class='my-5 col-lg-8'>
@@ -107,3 +94,11 @@
   </section>
 
 {% endblock content %}
+{% block scripts %}
+  {{block.super}}
+  <script async
+      src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&loading=async&libraries=places&callback=initAutocomplete">
+  </script>
+  <script src="{% static 'app/js/location.js' %}"></script>
+{% endblock scripts %}
+

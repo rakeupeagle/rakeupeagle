@@ -1,5 +1,4 @@
-{% autoescape off %}
-Rake Up Eagle Followup
+{% autoescape off %}Rake Up Eagle {{instance.event.date|date:'Y'}} Followup
 
 We show your team as having checked-in, which means you have your bags and assignment.
 

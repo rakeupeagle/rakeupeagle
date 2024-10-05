@@ -1,11 +1,10 @@
-{% autoescape off %}
-Thank you for teaming as a Team Leader for Rake Up Eagle!
+{% autoescape off %}Thank you for teaming as a Team Leader for Rake Up Eagle {{instance.event.date|date:'Y'}}!
 
 IMPORTANT: If you are receiving this message but are NOT your team's leader, please let us know.
 
 Here are the final instructions:
 
-- Please arrive at Eagle Middle School this Saturday November 9 between 8:00 AM - 10:00 AM to pick up your bags and assignment.
+- Please arrive at Eagle Middle School this Saturday {{instance.event.date|date:'F jS'}} between 9 - 10AM to pick up your bags and assignment.
 - Bring your own rakes, gloves, etc.
 - We'll have donuts available.
 - Check out the FAQ for more information: https://www.rakeupeagle.com/faq#teams

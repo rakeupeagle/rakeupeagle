@@ -1,5 +1,5 @@
 {% autoescape off %}
-Rake Up Eagle -- Status Check
+Rake Up Eagle {{instance.event.date|date:'Y'}} -- Status Check
 
 We're closing the check-in counter and haven't heard back from you.  Are you still planning on volunteering with Rake Up Eagle, perhaps later in the week?
 

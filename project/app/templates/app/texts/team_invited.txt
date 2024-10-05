@@ -1,8 +1,8 @@
-{% autoescape off %}Rake Up Eagle 2024 Invitation
+{% autoescape off %}Rake Up Eagle {{instance.event.date|date:'Y'}} Invitation
 
 Dear {{instance.name}},
 
-You are receiving this message because you were a Rake Up Eagle team leader last year.  This year's raking will take place on Saturday, November 9th and we were wondering if you'd like to volunteer again this year?
+You are receiving this message because you were a Rake Up Eagle team leader last year.  This year's raking will take place on Saturday, {{instance.event.date|date:'F jS'}} and we were wondering if you'd like to volunteer again this year?
 
 If so, then please just let us know via this message and we'll confirm your details and get you all set up!  If we don't hear back then we'll assume you won't be able to participate this year.
 

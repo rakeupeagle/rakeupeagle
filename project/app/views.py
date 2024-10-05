@@ -1,4 +1,5 @@
 import csv
+import datetime
 import logging
 
 from django.conf import settings
@@ -40,10 +41,36 @@ log = logging.getLogger(__name__)
 
 # Root
 def index(request):
+    try:
+        event = Event.objects.get(
+            state=Event.StateChoices.CURRENT,
+        )
+        is_closed = datetime.date.today() > event.deadline
+    except Event.DoesNotExist:
+        event = None
+        is_closed = True
     return render(
         request,
         'app/pages/index.html',
         context={
+            'event': event,
+            'is_closed': is_closed,
+        }
+    )
+
+
+def faq(request):
+    try:
+        event = Event.objects.get(
+            state=Event.StateChoices.CURRENT,
+        )
+    except Event.DoesNotExist:
+        event = None
+    return render(
+        request,
+        'app/pages/faq.html',
+        context={
+            'event': event,
         }
     )
 
@@ -159,6 +186,9 @@ def account(request):
 
 
 def recipient(request):
+    event = Event.objects.get(
+        state=Event.StateChoices.CURRENT,
+    )
     form = RecipientForm(request.POST or None)
     if form.is_valid():
         name = form.cleaned_data['name']
@@ -171,9 +201,6 @@ def recipient(request):
         phone = form.cleaned_data['phone']
         place_id = form.cleaned_data['place_id']
         point = form.cleaned_data['point']
-        event = Event.objects.get(
-            state=Event.StateChoices.CURRENT,
-        )
         user, _ = User.objects.update_or_create(
             phone=form.cleaned_data['phone'],
             defaults={
@@ -215,21 +242,22 @@ def recipient(request):
         context={
             'form': form,
             'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
+            'event': event,
         }
     )
 
 
 def team(request):
     form = TeamForm(request.POST or None)
+    event = Event.objects.get(
+        state=Event.StateChoices.CURRENT,
+    )
     if form.is_valid():
         phone = form.cleaned_data['phone']
         name = form.cleaned_data['name']
         nickname = form.cleaned_data['nickname']
         size = form.cleaned_data['size']
         public_notes = form.cleaned_data['public_notes']
-        event = Event.objects.get(
-            state=Event.StateChoices.CURRENT,
-        )
         user, _ = User.objects.update_or_create(
             phone=phone,
             defaults={
@@ -265,6 +293,7 @@ def team(request):
         'app/pages/team.html',
         context={
             'form': form,
+            'event': event,
         }
     )
 

@@ -1,4 +1,4 @@
-{% autoescape off %}Your signup for Rake Up Eagle 2024 is confirmed!
+{% autoescape off %}Your signup for Rake Up Eagle {{instance.event.date|date:'Y'}} is confirmed!
 
 We've copied over your information from last year.  Please tell us if anything has changed or there's something else we should know.
 

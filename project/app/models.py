@@ -537,9 +537,9 @@ class Event(models.Model):
         auto_now=True,
     )
 
-    # @property
-    # def deadline(self):
-    #     return self.date - datetime.timedelta(days=4)
+    @property
+    def deadline(self):
+        return self.date - datetime.timedelta(days=4)
 
 
     def __str__(self):

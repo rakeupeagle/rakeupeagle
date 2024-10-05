@@ -8,13 +8,13 @@ from . import views
 urlpatterns = [
     # Root
     path('', views.index, name='index',),
+    path('faq/', views.faq, name='faq',),
 
     # Footer
     path('about/', TemplateView.as_view(template_name='app/pages/about.html'), name='about',),
     path('terms/', TemplateView.as_view(template_name='app/pages/terms.html'), name='terms',),
     path('support/', TemplateView.as_view(template_name='app/pages/support.html'), name='support',),
     path('donate/', TemplateView.as_view(template_name='app/pages/donate.html'), name='donate',),
-    path('faq/', TemplateView.as_view(template_name='app/pages/faq.html'), name='faq',),
 
     # Authentication
     path('login/', views.login, name='login'),

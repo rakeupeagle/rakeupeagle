@@ -1,5 +1,5 @@
 {% autoescape off %}
-*Important Rake Up Eagle Notice*
+*Important Rake Up Eagle {{instance.event.date|date:'Y'}} Notice*
 
 Thank you for signing up for Rake Up Eagle.  
 
