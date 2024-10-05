@@ -1,5 +1,0 @@
-{% autoescape off %}Just a quick note that we haven't heard from you and are assuming that you won't be able to participate this year.  Please let us know via this text if things change; otherwise we won't bother you again.
-
-Thank you!
-Rake Up Eagle
-{% endautoescape %}

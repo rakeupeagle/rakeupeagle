@@ -23,7 +23,7 @@ class Recipient(models.Model):
     class StateChoices(IntegerChoices):
         ARCHIVED = -50, "Archived"
         # BLOCKED = -40, "Blocked"
-        IGNORED = -30, "Ignored"
+        # IGNORED = -30, "Ignored"
         CANCELLED = -20, "Cancelled"
         # INACTIVE = -10, "Inactive"
         DECLINED = -7, "Declined"
@@ -156,7 +156,6 @@ class Recipient(models.Model):
         source=[
             StateChoices.NEW,
             StateChoices.INVITED,
-            StateChoices.IGNORED,
         ],
         target=StateChoices.ACCEPTED,
     )
@@ -169,24 +168,11 @@ class Recipient(models.Model):
         field=state,
         source=[
             StateChoices.INVITED,
-            StateChoices.IGNORED,
         ],
         target=StateChoices.DECLINED,
     )
     def decline(self):
         create_instance_message(self, 'recipient_declined')
-        return
-
-
-    @transition(
-        field=state,
-        source=[
-            StateChoices.INVITED,
-        ],
-        target=StateChoices.IGNORED,
-    )
-    def ignore(self):
-        create_instance_message(self, 'recipient_ignored')
         return
 
 
@@ -231,7 +217,7 @@ class Team(models.Model):
     class StateChoices(IntegerChoices):
         ARCHIVED = -50, "Archived"
         # BLOCKED = -40, "Blocked"
-        IGNORED = -30, "Ignored"
+        # IGNORED = -30, "Ignored"
         CANCELLED = -20, "Cancelled"
         # INACTIVE = -10, "Inactive"
         DECLINED = -7, "Declined"
@@ -353,7 +339,6 @@ class Team(models.Model):
         source=[
             StateChoices.NEW,
             StateChoices.INVITED,
-            StateChoices.IGNORED,
         ],
         target=StateChoices.ACCEPTED,
     )
@@ -366,24 +351,11 @@ class Team(models.Model):
         field=state,
         source=[
             StateChoices.INVITED,
-            StateChoices.IGNORED,
         ],
         target=StateChoices.DECLINED,
     )
     def decline(self):
         create_instance_message(self, 'team_declined')
-        return
-
-
-    @transition(
-        field=state,
-        source=[
-            StateChoices.INVITED,
-        ],
-        target=StateChoices.IGNORED,
-    )
-    def ignore(self):
-        create_instance_message(self, 'team_ignored')
         return
 
 
