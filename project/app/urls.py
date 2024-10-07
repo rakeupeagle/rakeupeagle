@@ -34,8 +34,9 @@ urlpatterns = [
     path('webhook', views.webhook, name='webhook',),
 
     # Admin
-    # path('assignment/<assignment_id>/pdf', views.handout_pdf, name='handout-pdf',),
-    # path('handouts/', views.handout_pdfs, name='handouts',),
+    path('handout/<recipient_id>', views.handout, name='handout',),
+    path('handout/<recipient_id>/pdf', views.handout_pdf, name='handout-pdf',),
+    # path('handout/all', views.handout_pdfs, name='handouts',),
     path('csv/assignments/', views.export_assignments, name='export-assignments',),
     path('csv/recipients/', views.export_recipients, name='export-recipients',),
     path('csv/teams/', views.export_teams, name='export-teams',),

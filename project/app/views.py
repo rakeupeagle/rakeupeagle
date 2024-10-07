@@ -2,6 +2,7 @@ import csv
 import datetime
 import logging
 
+# import pydf
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -10,12 +11,17 @@ from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
+from django.core.files.base import ContentFile
+from django.http import FileResponse
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
+from weasyprint import HTML
 
 from .decorators import validate_twilio_request
 # from .forms import DeleteForm
@@ -491,61 +497,37 @@ def webhook(request):
     inbound_message(data)
     return HttpResponse(status=200)
 
-# @validate_twilio_request
-# @csrf_exempt
-# @require_POST
-# def sms(request):
-#     defaults = {}
-#     raw = request.POST.dict()
-#     sid = raw['SmsSid']
-#     # status = getattr(Message.STATUS, raw.get('SmsStatus', Message.STATUS.new))
-#     direction = Message.DIRECTION.inbound
-#     to_phone = raw['To']
-#     from_phone = raw['From']
-#     body = raw['Body']
-#     try:
-#         user = User.objects.get(phone=from_phone)
-#     except User.DoesNotExist:
-#         log.error('no user')
-#         return HttpResponse(status=404)
-#     defaults = {
-#         # 'status': status,
-#         'direction': direction,
-#         'to_phone': to_phone,
-#         'from_phone': from_phone,
-#         'body': body,
-#         'user': user,
-#         'raw': raw,
-#     }
-#     Message.objects.update_or_create(
-#         sid=sid,
-#         defaults=defaults,
-#     )
-#     return HttpResponse(status=201)
 
-# @staff_member_required
-# def handout_pdf(request, assignment_id):
-#     assignment = get_object_or_404(Assignment, pk=assignment_id)
-#     yard = assignment.yard
-#     rake = assignment.rake
-#     context={
-#         'yard': yard,
-#         'rake': rake,
-#     }
-#     rendered = render_to_string('app/pdfs/handout.html', context)
-#     pdf = pydf.generate_pdf(
-#         rendered,
-#         enable_smart_shrinking=False,
-#         orientation='Portrait',
-#         margin_top='10mm',
-#         margin_bottom='10mm',
-#     )
-#     content = ContentFile(pdf)
-#     return FileResponse(
-#         content,
-#         as_attachment=True,
-#         filename='rake_up_eagle_handout.pdf',
-#     )
+@staff_member_required
+def handout(request, recipient_id):
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
+    context={
+        'recipient': recipient,
+    }
+    return render(
+        request,
+        'app/pdfs/handout.html',
+        context = {
+            'recipient': recipient,
+        },
+    )
+
+
+@staff_member_required
+def handout_pdf(request, recipient_id):
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
+    context={
+        'recipient': recipient,
+    }
+    string = render_to_string('app/pdfs/handout.html', context)
+    html = HTML(string=string)
+    pdf = html.write_pdf()
+    content = ContentFile(pdf)
+    return FileResponse(
+        content,
+        as_attachment=True,
+        filename='rake_up_eagle_handout.pdf',
+    )
 
 # @staff_member_required
 # def handout_pdfs(request):

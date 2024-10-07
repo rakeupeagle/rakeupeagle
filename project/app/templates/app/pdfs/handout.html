@@ -3,8 +3,12 @@
 {% load humanize %}
 {% load static %}
 
-{% block customstyles %}
+{% block styles %}
+  {{block.super}}
   <style type="text/css" media='screen,print'>
+    body{
+      font-family: "Open Sans", Calibri, Candara, Arial, sans-serif;
+    }
     section {
       margin-top: 20px;
       margin-bottom: 20px;
@@ -20,18 +24,16 @@
             page-break-before: always;
         }
   </style>
+{% endblock styles %}
 
-{% endblock customstyles %}
+{% block header %}
+{% endblock header %}
 
-{% block topnav %}
-{% endblock topnav %}
-
-{% block title %}Team Handout for {{rake.team.name}}{% endblock title %}
+{% block title %}Handout for Recipient {{recipient.name}}{% endblock title %}
 
 {% block content %}
   <section>
-    <h2>Rake Up Eagle Handout for {{rake.team.nickname}}</h2>
-    <h3>Team Leader: {{rake.team.name}}</h3>
+    <h2>Handout for Recipient {{recipient.name}}</h2>
   </section>
   <section>
     <div class='card'>
@@ -41,12 +43,12 @@
       <div class='card-body'>
         <div class='card-text'>
           <ul class='list-unstyled'>
-            <li>Name: {{yard.recipient.name}}</li>
-            <li>Veteran?: {{yard.recipient.is_veteran}}</li>
-            <li>Address: {{yard.recipient.location}}</li>
-            <li>Phone: {{yard.recipient.phone.as_national}}</li>
-            <li>Size: {{yard.recipient.get_size_display}}</li>
-            <li>Notes: {{yard.recipient.public_notes|default:"(No Notes Provided)"}}</li>
+            <li>Name: {{recipient.name}}</li>
+            <li>Veteran?: {{recipient.is_veteran}}</li>
+            <li>Address: {{recipient.location}}</li>
+            <li>Phone: {{recipient.phone.as_national}}</li>
+            <li>Size: {{recipient.get_size_display}}</li>
+            <li>Notes: {{recipient.public_notes|default:"(No Notes Provided)"}}</li>
           </ul>
           {# <div class='img-fluid'> #}
             {# <img src={{mapurl}}> #}
@@ -59,25 +61,25 @@
     <h3>Instructions</h3>
     <ul class='list-styled'>
     <li>
-      If you have any questions, needs, or concerns, please call <strong>(208) 713-4599</strong>.
+      If you have any questions, needs, or concerns, please call <strong>(208) 510-0584</strong>.
     </li>
     <li>
-      Please have the leader of group knock on the door so the recipient knows you have arrived.   <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
+      Please have the leader of group knock on the door so the recipient knows you have arrived.  <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
     </li>
     <li>
-      If they are a veteran (see above) please leave a flag when done.
+      If they are a veteran (see above) please leave a yard-sign when done.
     </li>
     <li>
       Put all filled leaf bags at the end of the driveway (or in the normal garbage collection area.)
     </li>
     <li>
-      Need more lawn bags?   Head back to EMS or call for a delivery.    Please note that someone over 18 has to be at the residence the entire time of raking.  <strong>Do not leave youth alone at the recipient's home.</strong>
+      Need more lawn bags?  Head back to EMS or call for a delivery.  Please note that someone over 18 has to be at the residence the entire time of raking.  <strong>Do not leave youth alone at the recipient's home.</strong>
     </li>
     <li>
       If you take any group photos, please send them to <a href='mailto://support@rakeupeagle.com'>support@rakeupeagle.com</a> so we put them in our EMS yearbook, Facebook page, and perhaps in Eagle Life Magazine!
     </li>
     <li>
-      If the recipient has a dog it needs to remain inside.  If the recipient has not picked up the dog waste in the yard, YOU MUST NOTIFY US AND LEAVE.  We will give you a different assignment, but you can NOT pick up around waste.
+      If the recipient has a dog it needs to remain inside.  If the recipient has not picked up the dog waste in the yard, <strong>YOU MUST NOTIFY US AND LEAVE</strong>.  We will give you a different assignment, but you can NOT pick up around waste.
     </li>
   </section>
   <section>
@@ -94,5 +96,5 @@
 
 {% endblock content %}
 
-{% block bottomnav %}
-{% endblock bottomnav %}
+{% block footer %}
+{% endblock footer %}
