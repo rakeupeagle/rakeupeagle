@@ -96,7 +96,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         RecipientMessageInline,
     ]
     ordering = [
-        '-created',
+        '-updated',
     ]
     readonly_fields = [
         # 'latest_message',
@@ -171,7 +171,7 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         TeamMessageInline,
     ]
     ordering = [
-        '-created',
+        '-updated',
     ]
     readonly_fields = [
         # 'latest_message',
