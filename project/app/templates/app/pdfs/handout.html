@@ -36,40 +36,27 @@
     <table class='table table-borderless'>
       <tr>
         <th>
-          <h3>
-            {{recipient.name}}
-          </h3>
+          <ul class='list-unstyled'>
+            <li class='list-item'>Name: {{recipient.name}}</li>
+            <li class='list-item'>Address: {{recipient.location}}</li>
+            <li class='list-item'>Phone: {{recipient.phone.as_national}}</li>
+          </ul>
         </th>
         <th class='text-end'>
-          <h3>
-            Size: {{recipient.get_size_display}}<br>
-            Veteran: {{recipient.is_veteran|yesno|upper}}
-          </h3>
+          <ul class='list-unstyled'>
+            <li class='list-item'>Size: {{recipient.get_size_display}}</li>
+            <li class='list-item'>Veteran: {{recipient.is_veteran|yesno|upper}}</li>
+          </ul>
         </th>
       </tr>
+      <tr>
+        <td colspan=2>
+          <p>
+            Notes: {{recipient.public_notes|default:"(No Notes Provided)"}}
+          </p>
+        </td>
+      </tr>
     </table>
-  </section>
-  <section>
-    <div class='card'>
-      <h5 class='card-header'>
-        Recipient Details
-      </h5>
-      <div class='card-body'>
-        <div class='card-text'>
-          <ul class='list-unstyled'>
-            <li>Name: {{recipient.name}}</li>
-            <li>Veteran: {{recipient.is_veteran|yesno|capfirst}}</li>
-            <li>Address: {{recipient.location}}</li>
-            <li>Phone: {{recipient.phone.as_national}}</li>
-            <li>Size: {{recipient.get_size_display}}</li>
-            <li>Notes: {{recipient.public_notes|default:"(No Notes Provided)"}}</li>
-          </ul>
-          {# <div class='img-fluid'> #}
-            {# <img src={{mapurl}}> #}
-          {# </div> #}
-        </div>
-      </div>
-    </div>
   </section>
   <section>
     <h3>Instructions</h3>
