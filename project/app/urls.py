@@ -32,6 +32,7 @@ urlpatterns = [
 
     # Twilio
     path('webhook', views.webhook, name='webhook',),
+    path('voice', views.voice, name='voice',),
 
     # Admin
     path('handout/<recipient_id>', views.handout, name='handout',),
