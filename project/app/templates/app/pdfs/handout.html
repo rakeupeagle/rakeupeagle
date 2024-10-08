@@ -33,7 +33,21 @@
 
 {% block content %}
   <section>
-    <h2>Handout for Recipient {{recipient.name}}</h2>
+    <table class='table table-borderless'>
+      <tr>
+        <th>
+          <h3>
+            {{recipient.name}}
+          </h3>
+        </th>
+        <th class='text-end'>
+          <h3>
+            Size: {{recipient.get_size_display}}<br>
+            Veteran: {{recipient.is_veteran|yesno|upper}}
+          </h3>
+        </th>
+      </tr>
+    </table>
   </section>
   <section>
     <div class='card'>
@@ -44,7 +58,7 @@
         <div class='card-text'>
           <ul class='list-unstyled'>
             <li>Name: {{recipient.name}}</li>
-            <li>Veteran?: {{recipient.is_veteran}}</li>
+            <li>Veteran: {{recipient.is_veteran|yesno|capfirst}}</li>
             <li>Address: {{recipient.location}}</li>
             <li>Phone: {{recipient.phone.as_national}}</li>
             <li>Size: {{recipient.get_size_display}}</li>
