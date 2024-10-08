@@ -10,7 +10,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as log_in
 from django.contrib.auth import logout as log_out
 from django.contrib.auth.decorators import login_required
-from django.contrib.gis.geos import Point
 from django.core.files.base import ContentFile
 from django.http import FileResponse
 from django.http import HttpResponse
@@ -21,7 +20,6 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
-from twilio.twiml.voice_response import VoiceResponse
 from weasyprint import HTML
 
 from .decorators import validate_twilio_request
@@ -497,21 +495,6 @@ def webhook(request):
     data = request.POST.dict()
     inbound_message(data)
     return HttpResponse(status=200)
-
-
-# @validate_twilio_request
-# @csrf_exempt
-# @require_POST
-def voice(request):
-    response = VoiceResponse()
-
-    # Read a message aloud to the caller
-    response.say("Thank you for calling! Have a great day.", voice='Polly.Amy')
-    return HttpResponse(
-        str(response),
-        status=200,
-        content_type="text/plain",
-    )
 
 
 @staff_member_required
