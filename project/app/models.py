@@ -341,6 +341,7 @@ class Team(models.Model):
         source=[
             StateChoices.NEW,
             StateChoices.INVITED,
+            StateChoices.DECLINED,
         ],
         target=StateChoices.ACCEPTED,
     )
