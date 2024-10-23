@@ -333,7 +333,7 @@ def dashboard(request):
         request,
         'app/pages/dashboard.html',
         context = {
-            'messages': messages,
+            'texts': messages,
             'teams': teams,
             'recipients': recipients,
         },
