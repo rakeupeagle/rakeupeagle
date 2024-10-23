@@ -330,13 +330,13 @@ def dashboard(request):
     teams_count = teams.filter(
         state__in=[
             Team.StateChoices.ACCEPTED,
-            Team.State.Choices.CONFIRMED,
+            Team.StateChoices.CONFIRMED,
         ],
     )
     recipients_count = recipients.filter(
         state__in=[
             Recipient.StateChoices.ACCEPTED,
-            Recipient.State.Choices.CONFIRMED,
+            Recipient.StateChoices.CONFIRMED,
         ],
     )
     return render(
