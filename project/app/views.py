@@ -317,9 +317,15 @@ def success(request):
 def dashboard(request):
     teams = Team.objects.filter(
         event__state=Event.StateChoices.CURRENT,
+    ).order_by(
+        'state',
+        'created',
     )
     recipients = Recipient.objects.filter(
         event__state=Event.StateChoices.CURRENT,
+    ).order_by(
+        'state',
+        'created',
     )
 
     return render(
