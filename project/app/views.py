@@ -458,6 +458,34 @@ def admin_message_recipient(request, recipient_id):
 
 
 @staff_member_required
+def admin_read_team(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    texts = team.messages.filter(
+        state=Message.StateChoices.NEW,
+    )
+    texts.update(state=Message.StateChoices.READ)
+    messages.success(
+        request,
+        "Marked as Read!",
+    )
+    return redirect('admin-team', team.id)
+
+
+@staff_member_required
+def admin_read_recipient(request, recipient_id):
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
+    texts = recipient.messages.filter(
+        state=Message.StateChoices.NEW,
+    )
+    texts.update(state=Message.StateChoices.READ)
+    messages.success(
+        request,
+        "Marked as Read!",
+    )
+    return redirect('admin-recipient', recipient.id)
+
+
+@staff_member_required
 def admin_recipient_action(request, recipient_id, action):
     recipient = get_object_or_404(Team, pk=recipient_id)
     invoke = getattr(recipient, action)

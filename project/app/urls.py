@@ -37,10 +37,12 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard',),
     path('dashboard/team/<team_id>', views.admin_team, name='admin-team',),
     path('dashboard/team/<team_id>/<action>/', views.admin_team_action, name='admin-team-action',),
+    path('dashboard/read/team/<team_id>', views.admin_read_team, name='admin-read-team',),
     path('dashboard/message/team/<team_id>', views.admin_message_team, name='admin-message-team',),
 
     path('dashboard/recipient/<recipient_id>', views.admin_recipient, name='admin-recipient',),
     path('dashboard/recipient/<recipient_id>/<action>/', views.admin_recipient_action, name='admin-recipient-action',),
+    path('dashboard/read/recipient/<recipient_id>', views.admin_read_recipient, name='admin-read-recipient',),
     path('dashboard/message/recipient/<recipient_id>', views.admin_message_recipient, name='admin-message-recipient',),
 
     path('handout/<recipient_id>', views.handout, name='handout',),
