@@ -314,9 +314,6 @@ def success(request):
 # Admin
 @staff_member_required
 def dashboard(request):
-    messages = Message.objects.filter(
-        state=Message.StateChoices.NEW,
-    )
     teams = Team.objects.filter(
         state__in=[
             Team.StateChoices.NEW,
@@ -329,11 +326,11 @@ def dashboard(request):
             Recipient.StateChoices.ACCEPTED,
         ],
     )
+
     return render(
         request,
         'app/pages/dashboard.html',
         context = {
-            'texts': messages,
             'teams': teams,
             'recipients': recipients,
         },

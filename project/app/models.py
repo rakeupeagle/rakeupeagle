@@ -124,6 +124,13 @@ class Recipient(models.Model):
         on_delete=models.SET_NULL,
         related_name='recipients',
     )
+
+    @property
+    def is_unread(self):
+        return self.messages.filter(
+            state=0,
+        )
+
     class Meta:
         constraints = [
             UniqueConstraint(
@@ -307,6 +314,13 @@ class Team(models.Model):
         on_delete=models.SET_NULL,
         related_name='teams',
     )
+
+    @property
+    def is_unread(self):
+        return self.messages.filter(
+            state=0,
+        )
+
     class Meta:
         constraints = [
             UniqueConstraint(
