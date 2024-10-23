@@ -384,6 +384,32 @@ def admin_team(request, team_id):
 
 
 @staff_member_required
+def admin_team_action(request, team_id, action):
+    team = get_object_or_404(Team, pk=team_id)
+    invoke = getattr(team, action)
+    invoke()
+    team.save()
+    messages.success(
+        request,
+        f"{team.get_state_display()}!",
+    )
+    return redirect('admin-team', team_id)
+
+
+@staff_member_required
+def admin_recipient_action(request, recipient_id, action):
+    recipient = get_object_or_404(Team, pk=recipient_id)
+    invoke = getattr(recipient, action)
+    invoke()
+    recipient.save()
+    messages.success(
+        request,
+        f"{recipient.get_state_display()}!",
+    )
+    return redirect('admin-recipient', recipient_id)
+
+
+@staff_member_required
 def call(request):
     try:
         recipient = Recipient.objects.order_by(

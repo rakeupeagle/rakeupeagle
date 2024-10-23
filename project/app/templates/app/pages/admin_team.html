@@ -17,17 +17,19 @@
         <li class='list-item'>{{team.get_size_display}}</li>
         <li class='list-item'>{{team.phone.as_national}}</li>
         <li class='list-item'>{{team.nickname}}</li>
-        <li class='list-item'>{{team.get_state_display}}</li>
       </ul>
     </div>
-    <div>
+    <div class='my-5'>
+      <p>
+        Status: <strong>{{team.get_state_display}}</strong>
+      </p>
       <ul class='list-inline'>
         {% for transition in transitions %}
-          <li class='list-inline-item'><a href='#' class='btn btn-sm {% if transition.name in "accept, confirm" %}btn-success{% elif transition.name in "decline, cancel" %}btn-danger{% endif %}' role='button'>{{transition.name|upper}}</a></li>
+          <li class='list-inline-item'><a href='{% url "admin-team-action" team.id transition.name %}' class='btn btn-sm {% if transition.name in "accept, confirm, complete" %}btn-success{% elif transition.name in "decline, cancel" %}btn-danger{% endif %}' role='button'>{{transition.name|upper}}</a></li>
         {% endfor %}
       </ul>
     </div>
-    <div class='col-lg-8'>
+    <div class='col-lg-8 my-5'>
       <p>
         <strong>Notes:</strong>
       </p>
