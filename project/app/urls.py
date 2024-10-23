@@ -34,6 +34,8 @@ urlpatterns = [
     path('webhook', views.webhook, name='webhook',),
 
     # Admin
+    path('dashboard/', views.dashboard, name='dashboard',),
+
     path('handout/<recipient_id>', views.handout, name='handout',),
     path('handout/<recipient_id>/pdf', views.handout_pdf, name='handout-pdf',),
     # path('handout/all', views.handout_pdfs, name='handouts',),

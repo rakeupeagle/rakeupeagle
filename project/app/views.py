@@ -38,6 +38,7 @@ from .helpers import send as send_code
 # from .models import Message
 from .models import Assignment
 from .models import Event
+from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -311,6 +312,34 @@ def success(request):
 
 
 # Admin
+@staff_member_required
+def dashboard(request):
+    messages = Message.objects.filter(
+        state=Message.StateChoices.NEW,
+    )
+    teams = Team.objects.filter(
+        state__in=[
+            Team.StateChoices.NEW,
+            Team.StateChoices.ACCEPTED,
+        ],
+    )
+    recipients = Recipient.objects.filter(
+        state__in=[
+            Recipient.StateChoices.NEW,
+            Recipient.StateChoices.ACCEPTED,
+        ],
+    )
+    return render(
+        request,
+        'app/pages/dashboard.html',
+        context = {
+            'messages': messages,
+            'teams': teams,
+            'recipients': recipients,
+        },
+    )
+
+
 @staff_member_required
 def call(request):
     try:

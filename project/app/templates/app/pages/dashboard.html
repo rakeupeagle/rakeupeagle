@@ -1,0 +1,56 @@
+{% extends 'app/_base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+  <section class='my-5'>
+    <h2>
+      Dashboard
+    </h2>
+  </section>
+  <section class='my-5'>
+    <div class='col-lg-8'>
+      <p>
+        New Messages: {{messages.count}}
+      </p>
+    </div>
+  </section>
+  <section class='my-5'>
+    <p>
+      Recipients
+    </p>
+    <table class='table table-condensed table-striped'>
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for team in teams %}
+          <tr>
+            <td>{{team.name}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  <section class='my-5'>
+    <p>
+      Recipients
+    </p>
+    <table class='table table-condensed table-striped'>
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for recipient in recipients %}
+          <tr>
+            <td>{{recipient.name}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock content %}
