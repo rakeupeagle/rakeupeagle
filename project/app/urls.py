@@ -35,6 +35,8 @@ urlpatterns = [
 
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
+    path('dashboard/recipient/<recipient_id>', views.admin_recipient, name='admin-recipient',),
+    path('dashboard/team/<team_id>', views.admin_team, name='admin-team',),
 
     path('handout/<recipient_id>', views.handout, name='handout',),
     path('handout/<recipient_id>/pdf', views.handout_pdf, name='handout-pdf',),

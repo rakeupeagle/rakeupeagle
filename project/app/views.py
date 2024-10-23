@@ -341,6 +341,40 @@ def dashboard(request):
 
 
 @staff_member_required
+def admin_recipient(request, recipient_id):
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
+    messages = recipient.messages.order_by(
+        '-created',
+    )
+    return render(
+        request,
+        'app/pages/admin_recipient.html',
+        context = {
+            'recipient': recipient,
+            'texts': messages,
+        },
+    )
+
+
+
+@staff_member_required
+def admin_team(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    messages = team.messages.order_by(
+        '-created',
+    )
+    return render(
+        request,
+        'app/pages/admin_team.html',
+        context = {
+            'team': team,
+            'texts': messages,
+        },
+    )
+
+
+
+@staff_member_required
 def call(request):
     try:
         recipient = Recipient.objects.order_by(
@@ -516,16 +550,6 @@ def export_teams(request):
     return response
 
 
-# Webhook
-@validate_twilio_request
-@csrf_exempt
-@require_POST
-def webhook(request):
-    data = request.POST.dict()
-    inbound_message(data)
-    return HttpResponse(status=200)
-
-
 @staff_member_required
 def handout(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
@@ -557,6 +581,7 @@ def handout_pdf(request, recipient_id):
         filename='rake_up_eagle_handout.pdf',
     )
 
+
 # @staff_member_required
 # def handout_pdfs(request):
 #     assignments = Assignment.objects.order_by(
@@ -583,3 +608,13 @@ def handout_pdf(request, recipient_id):
 #         as_attachment=True,
 #         filename='handouts.pdf',
 #     )
+
+
+# Webhook
+@validate_twilio_request
+@csrf_exempt
+@require_POST
+def webhook(request):
+    data = request.POST.dict()
+    inbound_message(data)
+    return HttpResponse(status=200)

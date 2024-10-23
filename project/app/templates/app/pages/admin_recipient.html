@@ -1,0 +1,54 @@
+{% extends 'app/_base.html' %}
+
+{% block title %}Recipient Detail{% endblock title %}
+
+{% block content %}
+  <header>
+    <h2>
+      {{recipient.name}}
+    </h2>
+  </header>
+  <main>
+    <div class='col-lg-8'>
+      <ul class='list-unstyled'>
+        <li class='list-item'>{{recipient.get_size_display}}</li>
+        <li class='list-item'>{{recipient.phone.as_national}}</li>
+        <li class='list-item'>{{recipient.location}}</li>
+        <li class='list-item'>{{recipient.get_state_display}}</li>
+      </ul>
+    </div>
+    <div class='col-lg-8'>
+      <p>
+        <strong>Notes:</strong>
+      </p>
+      <p>
+        {{team.public_notes|default:"(No Notes Provided)"}}
+      </p>
+    </div>
+    <div class='col-lg-12'>
+      <p>
+        <strong>Messages:</strong>
+      </p>
+      <table class='table table-sm table-striped'>
+        <thead>
+          <tr>
+            <th>Created</th>
+            <th>Direction</th>
+            <th>Body</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for text in texts %}
+            <tr>
+              <td>{{text.created}}</td>
+              <td>{{text.get_direction_display}}</td>
+              <td>{{text.body}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </p>
+    </div>
+
+  </main>
+{% endblock content %}

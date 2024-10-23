@@ -32,7 +32,7 @@
       <tbody>
         {% for team in teams %}
           <tr>
-            <td>{{team.name}}</td>
+            <td><a href='{% url "admin-team" team.id %}'>{{team.name}}</a></td>
             <td>{{team.get_size_display}}</td>
             <td>{{team.phone.as_national}}</td>
             <td>{{team.nickname}}</td>
@@ -59,7 +59,7 @@
       <tbody>
         {% for recipient in recipients %}
           <tr>
-            <td>{{recipient.name}}</td>
+            <td><a href='{% url "admin-recipient" recipient.id %}'>{{recipient.name}}</a></td>
             <td>{{recipient.get_size_display}}</td>
             <td>{{recipient.phone.as_national}}</td>
             <td>{{recipient.location}}</td>
