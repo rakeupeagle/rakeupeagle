@@ -162,7 +162,7 @@ def logout(request):
 def account(request):
     user = request.user
     if user.is_admin:
-        return redirect('admin:index')
+        return redirect('app:dashboard')
     if request.POST:
         form = AccountForm(request.POST, instance=user)
         if form.is_valid():
