@@ -316,16 +316,10 @@ def success(request):
 @staff_member_required
 def dashboard(request):
     teams = Team.objects.filter(
-        state__in=[
-            Team.StateChoices.NEW,
-            Team.StateChoices.ACCEPTED,
-        ],
+        event__state=Event.StateChoices.CURRENT,
     )
     recipients = Recipient.objects.filter(
-        state__in=[
-            Recipient.StateChoices.NEW,
-            Recipient.StateChoices.ACCEPTED,
-        ],
+        event__state=Event.StateChoices.CURRENT,
     )
 
     return render(
