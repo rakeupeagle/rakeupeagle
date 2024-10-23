@@ -447,7 +447,7 @@ class Message(models.Model):
         null=True,
     )
     body = models.TextField(
-        blank=True,
+        blank=False,
     )
     direction = models.IntegerField(
         choices=DirectionChoices,

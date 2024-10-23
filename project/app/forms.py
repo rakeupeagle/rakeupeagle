@@ -10,6 +10,7 @@ from phonenumber_field.formfields import PhoneNumberField
 
 # Local
 from .models import Assignment
+from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -98,6 +99,14 @@ class AccountForm(forms.ModelForm):
         fields = [
             'phone',
             'name',
+        ]
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = [
+            'body',
         ]
 
 

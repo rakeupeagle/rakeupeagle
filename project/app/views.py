@@ -27,6 +27,7 @@ from .decorators import validate_twilio_request
 from .forms import AccountForm
 from .forms import CallForm
 from .forms import LoginForm
+from .forms import MessageForm
 from .forms import RecipientForm
 from .forms import TeamcallForm
 from .forms import TeamForm
@@ -394,6 +395,66 @@ def admin_team_action(request, team_id, action):
         f"{team.get_state_display()}!",
     )
     return redirect('admin-team', team_id)
+
+
+@staff_member_required
+def admin_message_team(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    if request.POST:
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            team.messages.create(
+                body=form.cleaned_data['body'],
+                to_phone=team.phone.as_e164,
+                from_phone=settings.TWILIO_NUMBER,
+                direction=Message.DirectionChoices.OUTBOUND,
+                team=team,
+            )
+            messages.success(
+                request,
+                "Saved!",
+            )
+            return redirect(admin_team, team.id)
+    else:
+        form = MessageForm()
+    return render(
+        request,
+        'app/pages/admin_message_team.html',
+        context={
+            'form': form,
+            'team': team,
+        }
+    )
+
+
+@staff_member_required
+def admin_message_recipient(request, recipient_id):
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
+    if request.POST:
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            recipient.messages.create(
+                body=form.cleaned_data['body'],
+                to_phone=recipient.phone.as_e164,
+                from_phone=settings.TWILIO_NUMBER,
+                direction=Message.DirectionChoices.OUTBOUND,
+                recipient=recipient,
+            )
+            messages.success(
+                request,
+                "Saved!",
+            )
+            return redirect(admin_recipient, recipient.id)
+    else:
+        form = MessageForm()
+    return render(
+        request,
+        'app/pages/admin_message_recipient.html',
+        context={
+            'form': form,
+            'recipient': recipient,
+        }
+    )
 
 
 @staff_member_required

@@ -41,6 +41,9 @@
       <p>
         <strong>Messages:</strong>
       </p>
+      <p>
+        <a href='{% url "admin-message-team" team.id %}' role='button' class='btn btn-outline-success'>Message Team</a>
+      </p>
       <table class='table table-sm table-striped'>
         <thead>
           <tr>
@@ -51,7 +54,7 @@
         </thead>
         <tbody>
           {% for text in texts %}
-            <tr>
+            <tr class='{% if text.get_state_display == "New"%}table-warning{%endif%}'>
               <td>{{text.created}}</td>
               <td>{{text.get_direction_display}}</td>
               <td>{{text.body}}</td>
