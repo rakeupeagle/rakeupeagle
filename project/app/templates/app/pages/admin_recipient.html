@@ -3,7 +3,11 @@
 {% block title %}Recipient Detail{% endblock title %}
 
 {% block content %}
+
   <header>
+    <p>
+      <span class='bi bi-arrow-left-circle'></span>&nbsp;<a href='{% url "dashboard" %}'>Back to Dashboard</a>
+    </p>
     <h2>
       {{recipient.name}}
     </h2>
@@ -15,6 +19,13 @@
         <li class='list-item'>{{recipient.phone.as_national}}</li>
         <li class='list-item'>{{recipient.location}}</li>
         <li class='list-item'>{{recipient.get_state_display}}</li>
+      </ul>
+    </div>
+    <div>
+      <ul class='list-inline'>
+        {% for transition in transitions %}
+          <li class='list-inline-item'><a href='#' class='btn btn-sm {% if transition.name in "accept, confirm" %}btn-success{% elif transition.name in "decline, cancel" %}btn-danger{% endif %}' role='button'>{{transition.name|upper}}</a></li>
+        {% endfor %}
       </ul>
     </div>
     <div class='col-lg-8'>
@@ -43,6 +54,10 @@
               <td>{{text.created}}</td>
               <td>{{text.get_direction_display}}</td>
               <td>{{text.body}}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan=3>(No messages)</td>
             </tr>
           {% endfor %}
         </tbody>

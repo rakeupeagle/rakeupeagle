@@ -343,12 +343,18 @@ def admin_recipient(request, recipient_id):
     messages = recipient.messages.order_by(
         '-created',
     )
+    transitions = sorted(
+        recipient.get_available_state_transitions(),
+        key=lambda x: x.target.value,
+        reverse=True,
+    )
     return render(
         request,
         'app/pages/admin_recipient.html',
         context = {
             'recipient': recipient,
             'texts': messages,
+            'transitions': transitions,
         },
     )
 
@@ -360,12 +366,18 @@ def admin_team(request, team_id):
     messages = team.messages.order_by(
         '-created',
     )
+    transitions = sorted(
+        team.get_available_state_transitions(),
+        key=lambda x: x.target.value,
+        reverse=True,
+    )
     return render(
         request,
         'app/pages/admin_team.html',
         context = {
             'team': team,
             'texts': messages,
+            'transitions': transitions,
         },
     )
 

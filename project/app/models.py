@@ -151,7 +151,7 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
+            # StateChoices.NEW,
         ],
         target=StateChoices.INVITED,
     )
@@ -176,6 +176,7 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
+            StateChoices.NEW,
             StateChoices.INVITED,
         ],
         target=StateChoices.DECLINED,
@@ -341,7 +342,7 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
+            # StateChoices.NEW,
         ],
         target=StateChoices.INVITED,
     )
@@ -368,6 +369,7 @@ class Team(models.Model):
         field=state,
         source=[
             StateChoices.INVITED,
+            StateChoices.NEW,
         ],
         target=StateChoices.DECLINED,
     )
