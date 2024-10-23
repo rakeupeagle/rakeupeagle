@@ -327,13 +327,26 @@ def dashboard(request):
         'state',
         'created',
     )
-
+    teams_count = teams.filter(
+        state__in=[
+            Team.StateChoices.ACCEPTED,
+            Team.State.Choices.CONFIRMED,
+        ],
+    )
+    recipients_count = recipients.filter(
+        state__in=[
+            Recipient.StateChoices.ACCEPTED,
+            Recipient.State.Choices.CONFIRMED,
+        ],
+    )
     return render(
         request,
         'app/pages/dashboard.html',
         context = {
             'teams': teams,
             'recipients': recipients,
+            'teams_count': teams_count,
+            'recipients_count': recipients_count,
         },
     )
 
