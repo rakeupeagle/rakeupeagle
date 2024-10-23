@@ -460,13 +460,21 @@ def admin_message_recipient(request, recipient_id):
 @staff_member_required
 def admin_read_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
-    texts = team.messages.filter(
+    inbounds = team.messages.filter(
         state=Message.StateChoices.NEW,
+        direction=Message.StateChoices.INBOUND,
     )
-    texts.update(state=Message.StateChoices.READ)
+    inbounds.update(state=Message.StateChoices.READ)
+    outbounds = team.messages.filter(
+        state=Message.StateChoices.NEW,
+        direction=Message.StateChoices.OUTBOUND,
+    )
+    for outbound in outbounds:
+        outbound.send()
+        outbound.save()
     messages.success(
         request,
-        "Marked as Read!",
+        "Messages Processed!",
     )
     return redirect('admin-team', team.id)
 
@@ -474,13 +482,21 @@ def admin_read_team(request, team_id):
 @staff_member_required
 def admin_read_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
-    texts = recipient.messages.filter(
+    inbounds = recipient.messages.filter(
         state=Message.StateChoices.NEW,
+        direction=Message.StateChoices.INBOUND,
     )
-    texts.update(state=Message.StateChoices.READ)
+    inbounds.update(state=Message.StateChoices.READ)
+    outbounds = recipient.messages.filter(
+        state=Message.StateChoices.NEW,
+        direction=Message.StateChoices.OUTBOUND,
+    )
+    for outbound in outbounds:
+        outbound.send()
+        outbound.save()
     messages.success(
         request,
-        "Marked as Read!",
+        "Messages Processed!",
     )
     return redirect('admin-recipient', recipient.id)
 

@@ -43,8 +43,8 @@
         <strong>Messages:</strong>
       </p>
       <ul class='list-inline'>
-        <li class='list-inline-item pe-5'><a href='{% url "admin-read-recipient" recipient.id %}' role='button' class='btn btn-lg btn-outline-primary'>Mark Messages as Read</a></li>
         <li class='list-inline-item pe-5'><a href='{% url "admin-message-recipient" recipient.id %}' role='button' class='btn btn-lg btn-outline-success'>Message Recipient</a></li>
+        <li class='list-inline-item pe-5'><a href='{% url "admin-read-recipient" recipient.id %}' role='button' class='btn btn-lg btn-outline-primary'>Process Messages</a></li>
       </ul>
       <table class='table table-striped'>
         <thead>
