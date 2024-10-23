@@ -475,12 +475,12 @@ def admin_read_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     inbounds = team.messages.filter(
         state=Message.StateChoices.NEW,
-        direction=Message.StateChoices.INBOUND,
+        direction=Message.DirectionChoices.INBOUND,
     )
     inbounds.update(state=Message.StateChoices.READ)
     outbounds = team.messages.filter(
         state=Message.StateChoices.NEW,
-        direction=Message.StateChoices.OUTBOUND,
+        direction=Message.DirectionChoices.OUTBOUND,
     )
     for outbound in outbounds:
         outbound.send()
