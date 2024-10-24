@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         {% for team in teams %}
-          <tr class='{% if team.is_unread %}table-warning{% elif team.get_state_display == "New"%}table-success{% endif %}'>
+          <tr class='{% if team.is_unread %}table-warning{% elif team.get_state_display == "New"%}table-success{% elif team.get_state_display == "Declined"%}table-danger{% endif %}'>
             <td><a href='{% url "admin-team" team.id %}'>{{team.name}}</a></td>
             <td>{{team.get_size_display}}</td>
             <td>{{team.phone.as_national}}</td>
@@ -51,7 +51,7 @@
       </thead>
       <tbody>
         {% for recipient in recipients %}
-          <tr class='{% if recipient.is_unread %}table-warning{% elif recipient.get_state_display == "New"%}table-success{% endif %}'>
+          <tr class='{% if recipient.is_unread %}table-warning{% elif recipient.get_state_display == "New"%}table-success{% elif recipient.get_state_display == "Declined"%}table-danger{% endif %}'>
             <td><a href='{% url "admin-recipient" recipient.id %}'>{{recipient.name}}</a></td>
             <td>{{recipient.get_size_display}}</td>
             <td>{{recipient.phone.as_national}}</td>
