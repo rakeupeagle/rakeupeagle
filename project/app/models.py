@@ -26,14 +26,14 @@ class Recipient(models.Model):
         ARCHIVED = -50, "Archived"
         # BLOCKED = -40, "Blocked"
         # IGNORED = -30, "Ignored"
-        CANCELLED = 50, "Cancelled"
         # INACTIVE = -10, "Inactive"
-        DECLINED = 40, "Declined"
         NEW = 0, "New"
         INVITED = 5, "Invited"
         ACCEPTED = 7, "Accepted"
         CONFIRMED = 20, "Confirmed"
         COMPLETED = 30, "Completed"
+        DECLINED = 40, "Declined"
+        CANCELLED = 50, "Cancelled"
     state = FSMIntegerField(
         choices=StateChoices,
         default=StateChoices.NEW,
@@ -172,6 +172,7 @@ class Recipient(models.Model):
         source=[
             StateChoices.NEW,
             StateChoices.INVITED,
+            StateChoices.ACCEPTED,
         ],
         target=StateChoices.DECLINED,
     )
@@ -194,7 +195,6 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.ACCEPTED,
             StateChoices.CONFIRMED,
         ],
         target=StateChoices.CANCELLED,
@@ -222,14 +222,14 @@ class Team(models.Model):
         ARCHIVED = -50, "Archived"
         # BLOCKED = -40, "Blocked"
         # IGNORED = -30, "Ignored"
-        CANCELLED = 50, "Cancelled"
         # INACTIVE = -10, "Inactive"
-        DECLINED = 40, "Declined"
         NEW = 0, "New"
         INVITED = 5, "Invited"
         ACCEPTED = 7, "Accepted"
         CONFIRMED = 20, "Confirmed"
         COMPLETED = 30, "Completed"
+        DECLINED = 40, "Declined"
+        CANCELLED = 50, "Cancelled"
 
     class SizeChoices(IntegerChoices):
         SOLO = 105, "Solo (1 Adult)"
@@ -356,8 +356,9 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.INVITED,
             StateChoices.NEW,
+            StateChoices.INVITED,
+            StateChoices.ACCEPTED,
         ],
         target=StateChoices.DECLINED,
     )
@@ -380,7 +381,6 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.ACCEPTED,
             StateChoices.CONFIRMED,
         ],
         target=StateChoices.CANCELLED,
