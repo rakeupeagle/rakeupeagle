@@ -497,12 +497,12 @@ def admin_read_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     inbounds = recipient.messages.filter(
         state=Message.StateChoices.NEW,
-        direction=Message.StateChoices.INBOUND,
+        direction=Message.DirectionChoices.INBOUND,
     )
     inbounds.update(state=Message.StateChoices.READ)
     outbounds = recipient.messages.filter(
         state=Message.StateChoices.NEW,
-        direction=Message.StateChoices.OUTBOUND,
+        direction=Message.DirectionChoices.OUTBOUND,
     )
     for outbound in outbounds:
         outbound.send()
