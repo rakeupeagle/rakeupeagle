@@ -205,7 +205,7 @@ def recipient(request):
         is_veteran = form.cleaned_data['is_veteran']
         is_senior = form.cleaned_data['is_senior']
         is_disabled = form.cleaned_data['is_disabled']
-        public_notes = form.cleaned_data['public_notes']
+        comments = form.cleaned_data['comments']
         phone = form.cleaned_data['phone']
         place_id = form.cleaned_data['place_id']
         point = form.cleaned_data['point']
@@ -228,7 +228,6 @@ def recipient(request):
             recipient.is_veteran = is_veteran
             recipient.is_senior = is_senior
             recipient.is_disabled = is_disabled
-            # recipient.public_notes = public_notes
             recipient.phone = phone
             recipient.point = point
         except Recipient.DoesNotExist:
@@ -237,12 +236,12 @@ def recipient(request):
         recipient.user = user
         recipient.save()
         # Then create a message if notes are provided
-        if public_notes:
+        if comments:
             recipient.messages.create(
                 direction=Message.DirectionChoices.INBOUND,
                 to_phone=settings.TWILIO_NUMBER,
                 from_phone=phone,
-                body=public_notes,
+                body=comments,
             )
         messages.success(
             request,
@@ -275,7 +274,7 @@ def team(request):
         name = form.cleaned_data['name']
         nickname = form.cleaned_data['nickname']
         size = form.cleaned_data['size']
-        public_notes = form.cleaned_data['public_notes']
+        comments = form.cleaned_data['comments']
         user, _ = User.objects.update_or_create(
             phone=phone,
             defaults={
@@ -290,19 +289,18 @@ def team(request):
             team.name = name
             team.nickname = nickname
             team.size = size
-            # team.public_notes = public_notes
         except Team.DoesNotExist:
             team = form.save(commit=False)
         team.event = event
         team.user = user
         team.save()
         # Create message if notes provided
-        if public_notes:
+        if comments:
             team.messages.create(
                 direction=Message.DirectionChoices.INBOUND,
                 to_phone=settings.TWILIO_NUMBER,
                 from_phone=phone,
-                body=public_notes,
+                body=comments,
             )
         messages.success(
             request,
@@ -686,7 +684,7 @@ def export_recipients(request):
             phone,
             recipient.location,
             recipient.get_size_display(),
-            recipient.public_notes,
+            recipient.notes,
         ])
     return response
 
@@ -715,7 +713,7 @@ def export_teams(request):
         team.phone,
         team.nickname,
         team.get_size_display(),
-        team.public_notes,
+        team.notes,
     ])
     return response
 

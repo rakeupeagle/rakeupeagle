@@ -51,7 +51,6 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'is_disabled',
         'is_dog',
         'bags',
-        'public_notes',
         'notes',
         'user',
         # 'conversation',
@@ -64,7 +63,6 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'size',
         'event',
         'state',
-        'public_notes',
         'notes',
     ]
     list_filter = [
@@ -127,7 +125,6 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         'phone',
         'nickname',
         'size',
-        'public_notes',
         'notes',
         'user',
         # 'conversation',
@@ -143,7 +140,6 @@ class TeamAdmin(FSMTransitionMixin, ModelAdmin):
         'event',
         'state',
         # 'created',
-        'public_notes',
         'notes',
         # 'latest_message',
     ]
@@ -260,7 +256,6 @@ class AssignmentAdmin(ModelAdmin):
         'event',
         'recipient',
         'team',
-        'public_notes',
         'notes',
         # 'conversation',
     ]

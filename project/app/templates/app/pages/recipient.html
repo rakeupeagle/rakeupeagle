@@ -77,7 +77,10 @@
                 I am Disabled
               </label>
             </div>
-            {{form.public_notes}}
+            <div class='form-floating mb-3'>
+              <textarea name="comments" class="form-control" id="id_comments" placeholder='(Optional)' rows="7" style="height:100%;"></textarea>
+              <label for="id_comments">Comments (Optional)</label>
+            </div>
             <input type="hidden" id="id_place_id" name="place_id">
             <input type="hidden" id="id_point" name="point">
           </div>

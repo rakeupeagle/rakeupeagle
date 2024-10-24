@@ -92,12 +92,6 @@ class Recipient(models.Model):
         default=False,
         help_text=mark_safe("""If you have a dog, it must be contained in your home for us to rake. <em>Also, you must clean up all animal waste before we arrive or our team group will not be able to rake.</em>"""),
     )
-    public_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
-    )
     notes = models.TextField(
         max_length=2000,
         blank=True,
@@ -282,12 +276,6 @@ class Team(models.Model):
         blank=True,
         default='',
         help_text="""How did you hear about us?""",
-    )
-    public_notes = models.TextField(
-        max_length=512,
-        blank=True,
-        default='',
-        help_text="""Notes.""",
     )
     notes = models.TextField(
         max_length=2000,
@@ -583,12 +571,6 @@ class Assignment(models.Model):
     state = FSMIntegerField(
         choices=StateChoices,
         default=StateChoices.NEW,
-    )
-    public_notes = models.TextField(
-        max_length=2000,
-        blank=True,
-        default='',
-        help_text="""Please add any other notes you think we should know.""",
     )
     notes = models.TextField(
         max_length=2000,

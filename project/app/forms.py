@@ -111,6 +111,10 @@ class MessageForm(forms.ModelForm):
 
 
 class RecipientForm(forms.ModelForm):
+    comments = forms.CharField(
+        max_length=1024,
+    )
+
     class Meta:
         model = Recipient
         fields = [
@@ -123,7 +127,7 @@ class RecipientForm(forms.ModelForm):
             'is_disabled',
             'place_id',
             'point',
-            'public_notes',
+            'comments',
         ]
         labels = {
             # "is_dog": "I Have a Dog",
@@ -132,13 +136,6 @@ class RecipientForm(forms.ModelForm):
             "is_disabled": "I Am Disabled",
         }
         widgets = {
-            'public_notes': forms.Textarea(
-                attrs={
-                    'class': 'form-control h-25',
-                    'placeholder': 'Anything else we should know? (Optional)',
-                    'rows': 5,
-                }
-            ),
             'size': forms.Select(
                 attrs={
                     'class': 'form-control form-control-lg',
@@ -160,6 +157,10 @@ class TeamForm(forms.ModelForm):
     #     self.fields['name'].required = True
     #     self.fields['size'].required = True
 
+    comments = forms.CharField(
+        max_length=1024,
+    )
+
     class Meta:
         model = Team
         fields = [
@@ -167,18 +168,11 @@ class TeamForm(forms.ModelForm):
             'name',
             'size',
             'nickname',
-            'public_notes',
+            'comments',
         ]
         labels = {
         }
         widgets = {
-            'public_notes': forms.Textarea(
-                attrs={
-                    'class': 'form-control h-25',
-                    'placeholder': 'Anything else we should know? (Optional)',
-                    'rows': 5,
-                }
-            ),
             'size': forms.Select(
                 attrs={
                     'class': 'form-control form-control-lg',
