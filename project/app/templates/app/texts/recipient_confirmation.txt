@@ -8,8 +8,6 @@ Yard Size: {{instance.get_size_display}}
 Veteran? {{instance.is_veteran|yesno|title}}
 Senior? {{instance.is_senior|yesno|title}}
 Disabled? {{instance.is_disabled|yesno|title}}
-Notes: {{instance.public_notes|default:'(No Notes)'}}
-
 
 Your team should arrive Saturday before noon.  If you have any questions please don't hesitate to let us know!
 

@@ -4,7 +4,7 @@
 Team Leader: {{instance.name}}
 Group Size: {{instance.get_size_display}}
 Team Name: {{instance.nickname|default:'(None provided)'}}
-Notes: {{instance.public_notes|default:'(No Notes)'}}
+Notes: {{instance.messages.first.body|default:'(No Notes)'}}
 
 We will use this text thread to keep you posted as Rake Up Eagle approaches and will reach out for a final confirmation in early November.  If you have any questions please don't hesitate to ask them here.
 {% endautoescape %}
