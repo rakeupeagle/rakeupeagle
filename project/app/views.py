@@ -336,13 +336,13 @@ def dashboard(request):
         event__state=Event.StateChoices.CURRENT,
     ).order_by(
         'state',
-        'created',
+        '-created',
     )
     recipients = Recipient.objects.filter(
         event__state=Event.StateChoices.CURRENT,
     ).order_by(
         'state',
-        'created',
+        '-created',
     )
     teams_count = teams.filter(
         state__in=[
