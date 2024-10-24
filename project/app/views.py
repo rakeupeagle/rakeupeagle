@@ -163,7 +163,7 @@ def logout(request):
 def account(request):
     user = request.user
     if user.is_admin:
-        return redirect('app:dashboard')
+        return redirect('dashboard')
     if request.POST:
         form = AccountForm(request.POST, instance=user)
         if form.is_valid():
