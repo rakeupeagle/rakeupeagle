@@ -48,23 +48,23 @@ class AssignmentForm(forms.ModelForm):
         # }
 
 
-class CallForm(forms.ModelForm):
-    class Meta:
-        model = Recipient
-        fields = [
-            'admin_notes',
-            # 'phone',
-        ]
+# class CallForm(forms.ModelForm):
+#     class Meta:
+#         model = Recipient
+#         fields = [
+#             'admin_notes',
+#             # 'phone',
+#         ]
 
 
-class TeamcallForm(forms.ModelForm):
-    class Meta:
-        model = Team
-        fields = [
-            'admin_notes',
-            'adults',
-            # 'phone',
-        ]
+# class TeamcallForm(forms.ModelForm):
+#     class Meta:
+#         model = Team
+#         fields = [
+#             'admin_notes',
+#             'adults',
+#             # 'phone',
+#         ]
 
 
 class VerifyCodeForm(forms.Form):

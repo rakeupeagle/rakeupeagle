@@ -23,13 +23,13 @@ from phonenumber_field.phonenumber import PhoneNumber
 from weasyprint import HTML
 
 from .decorators import validate_twilio_request
+# from .forms import TeamcallForm
+# from .forms import CallForm
 # from .forms import DeleteForm
 from .forms import AccountForm
-from .forms import CallForm
 from .forms import LoginForm
 from .forms import MessageForm
 from .forms import RecipientForm
-from .forms import TeamcallForm
 from .forms import TeamForm
 from .forms import VerifyCodeForm
 # from .tasks import get_assignments_csv
@@ -546,82 +546,82 @@ def admin_recipient_action(request, recipient_id, action):
     return redirect('admin-recipient', recipient_id)
 
 
-@staff_member_required
-def call(request):
-    try:
-        recipient = Recipient.objects.order_by(
-            'created',
-        ).filter(
-            admin_notes='',
-            state=Recipient.STATE.new,
-        ).earliest('created')
-    except Recipient.DoesNotExist:
-        messages.success(
-            request,
-            "All Recipients Called for Now!",
-        )
-        return redirect('index')
-    recipient.save()
-    if request.POST:
-        form = CallForm(request.POST, instance=recipient)
-        if form.is_valid():
-            recipient = form.save(commit=False)
-            recipient.confirm()
-            recipient.save()
-            messages.success(
-                request,
-                "Saved!",
-            )
-            return redirect('call')
-    else:
-        form = CallForm(instance=recipient)
-    return render(
-        request,
-        'app/pages/call.html',
-        context = {
-            'recipient': recipient,
-            'form': form,
-        },
-    )
+# @staff_member_required
+# def call(request):
+#     try:
+#         recipient = Recipient.objects.order_by(
+#             'created',
+#         ).filter(
+#             admin_notes='',
+#             state=Recipient.STATE.new,
+#         ).earliest('created')
+#     except Recipient.DoesNotExist:
+#         messages.success(
+#             request,
+#             "All Recipients Called for Now!",
+#         )
+#         return redirect('index')
+#     recipient.save()
+#     if request.POST:
+#         form = CallForm(request.POST, instance=recipient)
+#         if form.is_valid():
+#             recipient = form.save(commit=False)
+#             recipient.confirm()
+#             recipient.save()
+#             messages.success(
+#                 request,
+#                 "Saved!",
+#             )
+#             return redirect('call')
+#     else:
+#         form = CallForm(instance=recipient)
+#     return render(
+#         request,
+#         'app/pages/call.html',
+#         context = {
+#             'recipient': recipient,
+#             'form': form,
+#         },
+#     )
 
 
-@staff_member_required
-def teamcall(request):
-    try:
-        team = Team.objects.order_by(
-            'created',
-        ).filter(
-            admin_notes='',
-            state=Team.STATE.new,
-        ).earliest('created')
-    except Team.DoesNotExist:
-        messages.success(
-            request,
-            "All Teams Called for Now!",
-        )
-        return redirect('index')
-    team.save()
-    if request.POST:
-        form = TeamcallForm(request.POST, instance=team)
-        if form.is_valid():
-            team = form.save(commit=False)
-            team.confirm()
-            team.save()
-            messages.success(
-                request,
-                "Saved!",
-            )
-            return redirect('teamcall')
-    else:
-        form = TeamcallForm(instance=team)
-    return render(
-        request,
-        'app/pages/teamcall.html',
-        context = {
-            'team': team,
-            'form': form,
-        },
-    )
+# @staff_member_required
+# def teamcall(request):
+#     try:
+#         team = Team.objects.order_by(
+#             'created',
+#         ).filter(
+#             admin_notes='',
+#             state=Team.STATE.new,
+#         ).earliest('created')
+#     except Team.DoesNotExist:
+#         messages.success(
+#             request,
+#             "All Teams Called for Now!",
+#         )
+#         return redirect('index')
+#     team.save()
+#     if request.POST:
+#         form = TeamcallForm(request.POST, instance=team)
+#         if form.is_valid():
+#             team = form.save(commit=False)
+#             team.confirm()
+#             team.save()
+#             messages.success(
+#                 request,
+#                 "Saved!",
+#             )
+#             return redirect('teamcall')
+#     else:
+#         form = TeamcallForm(instance=team)
+#     return render(
+#         request,
+#         'app/pages/teamcall.html',
+#         context = {
+#             'team': team,
+#             'form': form,
+#         },
+#     )
 
 
 @staff_member_required
@@ -687,7 +687,6 @@ def export_recipients(request):
             recipient.location,
             recipient.get_size_display(),
             recipient.public_notes,
-            # recipient.admin_notes,
         ])
     return response
 
@@ -717,7 +716,6 @@ def export_teams(request):
         team.nickname,
         team.get_size_display(),
         team.public_notes,
-        # team.admin_notes,
     ])
     return response
 
