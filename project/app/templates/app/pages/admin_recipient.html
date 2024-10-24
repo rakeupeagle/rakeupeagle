@@ -26,7 +26,7 @@
       </p>
       <ul class='list-inline'>
         {% for transition in transitions %}
-          <li class='list-inline-item pe-3 pb-3'><a href='{% url "admin-recipient-action" recipient.id transition.name %}' class='btn btn-lg {% if transition.name in "accept, confirm, complete" %}btn-outline-success{% elif transition.name in "decline, cancel" %}btn-outline-danger{% endif %}' role='button'>{{transition.name|upper}}</a></li>
+          <li class='list-inline-item pe-3 pb-3'><a href='{% url "admin-recipient-action" recipient.id transition.name %}' class='btn btn-lg {% if transition.name in "accept, confirm, complete" %}btn-success{% elif transition.name in "decline, cancel" %}btn-danger{% endif %}' role='button'>{{transition.name|upper}}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -43,8 +43,8 @@
         <strong>Messages:</strong>
       </p>
       <ul class='list-inline'>
-        <li class='list-inline-item pe-3 pb-3'><a href='{% url "admin-message-recipient" recipient.id %}' role='button' class='btn btn-lg btn-outline-success'>Message Recipient</a></li>
-        <li class='list-inline-item pe-3 pb-3'><a href='{% url "admin-read-recipient" recipient.id %}' role='button' class='btn btn-lg btn-outline-primary'>Process Messages</a></li>
+        <li class='list-inline-item pe-3 pb-3'><a href='{% url "admin-message-recipient" recipient.id %}' role='button' class='btn btn-lg btn-success'>Message Recipient</a></li>
+        <li class='list-inline-item pe-3 pb-3'><a href='{% url "admin-read-recipient" recipient.id %}' role='button' class='btn btn-lg btn-primary'>Process Messages</a></li>
       </ul>
       <table class='table table-striped'>
         <thead>
