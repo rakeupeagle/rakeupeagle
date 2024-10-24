@@ -198,6 +198,7 @@ def recipient(request):
     )
     form = RecipientForm(request.POST or None)
     if form.is_valid():
+        # create variables from form
         name = form.cleaned_data['name']
         location = form.cleaned_data['location']
         size = form.cleaned_data['size']
@@ -214,6 +215,8 @@ def recipient(request):
                 'name': form.cleaned_data['name'],
             }
         )
+        # try to get existing record from location
+        # and update to provided values
         try:
             recipient = Recipient.objects.get(
                 place_id=place_id,
@@ -225,7 +228,7 @@ def recipient(request):
             recipient.is_veteran = is_veteran
             recipient.is_senior = is_senior
             recipient.is_disabled = is_disabled
-            recipient.public_notes = public_notes
+            # recipient.public_notes = public_notes
             recipient.phone = phone
             recipient.point = point
         except Recipient.DoesNotExist:
@@ -233,6 +236,14 @@ def recipient(request):
         recipient.event = event
         recipient.user = user
         recipient.save()
+        # Then create a message if notes are provided
+        if public_notes:
+            recipient.messages.create(
+                direction=Message.DirectionChoices.INBOUND,
+                to_phone=settings.TWILIO_NUMBER,
+                from_phone=phone,
+                body=public_notes,
+            )
         messages.success(
             request,
             "Saved!",
@@ -279,12 +290,20 @@ def team(request):
             team.name = name
             team.nickname = nickname
             team.size = size
-            team.public_notes = public_notes
+            # team.public_notes = public_notes
         except Team.DoesNotExist:
             team = form.save(commit=False)
         team.event = event
         team.user = user
         team.save()
+        # Create message if notes provided
+        if public_notes:
+            team.messages.create(
+                direction=Message.DirectionChoices.INBOUND,
+                to_phone=settings.TWILIO_NUMBER,
+                from_phone=phone,
+                body=public_notes,
+            )
         messages.success(
             request,
             "Saved!",
