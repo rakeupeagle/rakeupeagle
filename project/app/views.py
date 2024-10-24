@@ -516,7 +516,7 @@ def admin_read_recipient(request, recipient_id):
 
 @staff_member_required
 def admin_recipient_action(request, recipient_id, action):
-    recipient = get_object_or_404(Team, pk=recipient_id)
+    recipient = get_object_or_404(Recipient, pk=recipient_id)
     invoke = getattr(recipient, action)
     invoke()
     recipient.save()
