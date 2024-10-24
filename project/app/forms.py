@@ -52,7 +52,7 @@ class AssignmentForm(forms.ModelForm):
 #     class Meta:
 #         model = Recipient
 #         fields = [
-#             'admin_notes',
+#             'notes',
 #             # 'phone',
 #         ]
 
@@ -61,7 +61,7 @@ class AssignmentForm(forms.ModelForm):
 #     class Meta:
 #         model = Team
 #         fields = [
-#             'admin_notes',
+#             'notes',
 #             'adults',
 #             # 'phone',
 #         ]

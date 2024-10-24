@@ -98,7 +98,7 @@ class Recipient(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
-    admin_notes = models.TextField(
+    notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -289,7 +289,7 @@ class Team(models.Model):
         default='',
         help_text="""Notes.""",
     )
-    admin_notes = models.TextField(
+    notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -537,7 +537,7 @@ class Event(models.Model):
         blank=True,
         null=True
     )
-    admin_notes = models.TextField(
+    notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',
@@ -590,7 +590,7 @@ class Assignment(models.Model):
         default='',
         help_text="""Please add any other notes you think we should know.""",
     )
-    admin_notes = models.TextField(
+    notes = models.TextField(
         max_length=2000,
         blank=True,
         default='',

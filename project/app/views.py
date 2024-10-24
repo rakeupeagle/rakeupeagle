@@ -552,7 +552,7 @@ def admin_recipient_action(request, recipient_id, action):
 #         recipient = Recipient.objects.order_by(
 #             'created',
 #         ).filter(
-#             admin_notes='',
+#             notes='',
 #             state=Recipient.STATE.new,
 #         ).earliest('created')
 #     except Recipient.DoesNotExist:
@@ -591,7 +591,7 @@ def admin_recipient_action(request, recipient_id, action):
 #         team = Team.objects.order_by(
 #             'created',
 #         ).filter(
-#             admin_notes='',
+#             notes='',
 #             state=Team.STATE.new,
 #         ).earliest('created')
 #     except Team.DoesNotExist:
