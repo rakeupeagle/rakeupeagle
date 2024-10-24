@@ -1,7 +1,5 @@
 {% autoescape off %}Your registration for Rake Up Eagle {{instance.event.date|date:'Y'}} is accepted!
 
-We've copied over your information from last year.  Please tell us if anything has changed or there's something else we should know.
-
 IMPORTANT REMINDER: If you have a dog/cat they must be inside and all animal waste picked up.  If there is waste in the yard our volunteers are not allowed to work.
 
 *Details*

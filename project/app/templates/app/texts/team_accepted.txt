@@ -1,7 +1,5 @@
 {% autoescape off %}Your signup for Rake Up Eagle {{instance.event.date|date:'Y'}} is accepted!
 
-We've copied over your information from last year.  Please tell us if anything has changed or there's something else we should know.
-
 *Details*
 Team Leader: {{instance.name}}
 Group Size: {{instance.get_size_display}}
