@@ -1,0 +1,5 @@
+{% autoescape off %}Thank you for signing up for Rake Up Eagle {{instance.event.date|date:'Y'}}!
+
+We will use this text thread to keep you posted as Rake Up Eagle approaches, and will do a final confirmation in early November.  If you have any questions please don't hesitate to ask them here.
+
+{% endautoescape %}

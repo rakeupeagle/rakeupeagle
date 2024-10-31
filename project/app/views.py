@@ -43,6 +43,8 @@ from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
+from .tasks import create_instance_message
+from .tasks import send_message
 
 log = logging.getLogger(__name__)
 
@@ -235,6 +237,11 @@ def recipient(request):
         recipient.event = event
         recipient.user = user
         recipient.save()
+
+        # create and send signup message
+        message = create_instance_message(recipient, 'recipient_registration')
+        send_message.delay(message)
+
         # Then create a message if notes are provided
         if comments:
             recipient.messages.create(
@@ -294,6 +301,11 @@ def team(request):
         team.event = event
         team.user = user
         team.save()
+
+        # create and send signup message
+        message = create_instance_message(team, 'team_signup')
+        send_message.delay(message)
+
         # Create message if notes provided
         if comments:
             team.messages.create(
