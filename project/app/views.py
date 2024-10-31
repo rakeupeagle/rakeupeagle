@@ -330,7 +330,7 @@ def success(request):
 
 
 # Admin
-@staff_member_required
+@staff_member_required(login_url='login')
 def dashboard(request):
     teams = Team.objects.filter(
         event__state=Event.StateChoices.CURRENT,
@@ -368,7 +368,7 @@ def dashboard(request):
     )
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     messages = recipient.messages.order_by(
@@ -391,7 +391,7 @@ def admin_recipient(request, recipient_id):
 
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     messages = team.messages.order_by(
@@ -414,7 +414,7 @@ def admin_team(request, team_id):
 
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_team_action(request, team_id, action):
     team = get_object_or_404(Team, pk=team_id)
     invoke = getattr(team, action)
@@ -427,7 +427,7 @@ def admin_team_action(request, team_id, action):
     return redirect('admin-team', team_id)
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_message_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.POST:
@@ -457,7 +457,7 @@ def admin_message_team(request, team_id):
     )
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_message_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     if request.POST:
@@ -487,7 +487,7 @@ def admin_message_recipient(request, recipient_id):
     )
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_read_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     inbounds = team.messages.filter(
@@ -509,7 +509,7 @@ def admin_read_team(request, team_id):
     return redirect('admin-team', team.id)
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_read_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     inbounds = recipient.messages.filter(
@@ -531,7 +531,7 @@ def admin_read_recipient(request, recipient_id):
     return redirect('admin-recipient', recipient.id)
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def admin_recipient_action(request, recipient_id, action):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     invoke = getattr(recipient, action)
@@ -544,7 +544,7 @@ def admin_recipient_action(request, recipient_id, action):
     return redirect('admin-recipient', recipient_id)
 
 
-# @staff_member_required
+# @staff_member_required(login_url='login')
 # def call(request):
 #     try:
 #         recipient = Recipient.objects.order_by(
@@ -583,7 +583,7 @@ def admin_recipient_action(request, recipient_id, action):
 #     )
 
 
-# @staff_member_required
+# @staff_member_required(login_url='login')
 # def teamcall(request):
 #     try:
 #         team = Team.objects.order_by(
@@ -622,7 +622,7 @@ def admin_recipient_action(request, recipient_id, action):
 #     )
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def export_assignments(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=assignments.csv'
@@ -656,7 +656,7 @@ def export_assignments(request):
     return response
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def export_recipients(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=recipients.csv'
@@ -689,7 +689,7 @@ def export_recipients(request):
     return response
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def export_teams(request):
     response = HttpResponse('text/csv')
     response['Content-Disposition'] = 'attachment; filename=teams.csv'
@@ -718,7 +718,7 @@ def export_teams(request):
     return response
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def handout(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     context={
@@ -733,7 +733,7 @@ def handout(request, recipient_id):
     )
 
 
-@staff_member_required
+@staff_member_required(login_url='login')
 def handout_pdf(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     context={
@@ -750,7 +750,7 @@ def handout_pdf(request, recipient_id):
     )
 
 
-# @staff_member_required
+# @staff_member_required(login_url='login')
 # def handout_pdfs(request):
 #     assignments = Assignment.objects.order_by(
 #         'team__name',

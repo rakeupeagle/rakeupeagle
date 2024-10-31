@@ -408,5 +408,5 @@ class UserAdmin(UserAdminBase):
 # Use Passwordless for login
 admin.site.login = staff_member_required(
     admin.site.login,
-    login_url=settings.LOGIN_URL,
+    login_url='login',
 )
