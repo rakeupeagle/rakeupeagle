@@ -5,9 +5,9 @@ Your registration for Rake Up Eagle is confirmed!  Here are the final details:
 Name: {{instance.name}}
 Address: {{instance.location}}
 Yard Size: {{instance.get_size_display}}
-Veteran? {{instance.is_veteran|yesno|title}}
-Senior? {{instance.is_senior|yesno|title}}
-Disabled? {{instance.is_disabled|yesno|title}}
+Veteran? {{instance.is_veteran|yesno|title}}.
+Senior? {{instance.is_senior|yesno|title}}.
+Disabled? {{instance.is_disabled|yesno|title}}.
 
 Your team should arrive Saturday before noon.  If you have any questions please don't hesitate to let us know!
 
