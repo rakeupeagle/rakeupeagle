@@ -200,6 +200,7 @@ class Recipient(models.Model):
         target=StateChoices.CANCELLED,
     )
     def cancel(self):
+        create_instance_message(self, 'recipient_cancelled')
         return
 
 
@@ -386,6 +387,7 @@ class Team(models.Model):
         target=StateChoices.CANCELLED,
     )
     def cancel(self):
+        create_instance_message(self, 'team_cancelled')
         return
 
 
