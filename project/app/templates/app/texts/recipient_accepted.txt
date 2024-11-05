@@ -9,7 +9,6 @@ Yard Size: {{instance.get_size_display}}
 Veteran? {{instance.is_veteran|yesno|title}}.
 Senior? {{instance.is_senior|yesno|title}}.
 Disabled? {{instance.is_disabled|yesno|title}}.
-Notes: {{instance.messages.first.body|default:'(No Notes.)'}}
 
 We will use this text thread to keep you posted as Rake Up Eagle approaches, and will do a final confirmation in early November.  If you have any questions please don't hesitate to ask them here.
 {% endautoescape %}
