@@ -346,14 +346,20 @@ def success(request):
 def dashboard(request):
     try:
         event = Event.objects.get(
-            state=Event.StateChoices.CURRENT,
+            state__in=[
+                Event.StateChoices.CURRENT,
+                Event.StateChoices.CLOSED,
+            ],
         )
         is_closed = datetime.date.today() > event.deadline
     except Event.DoesNotExist:
         event = None
         is_closed = True
     teams = Team.objects.filter(
-        event__state=Event.StateChoices.CURRENT,
+        event__state__in=[
+            Event.StateChoices.CURRENT,
+            Event.StateChoices.CLOSED,
+        ],
     ).order_by(
         'state',
         '-created',
@@ -363,7 +369,10 @@ def dashboard(request):
             state=Team.StateChoices.DECLINED,
         )
     recipients = Recipient.objects.filter(
-        event__state=Event.StateChoices.CURRENT,
+        event__state__in=[
+            Event.StateChoices.CURRENT,
+            Event.StateChoices.CLOSED,
+        ],
     ).order_by(
         'state',
         '-created',
