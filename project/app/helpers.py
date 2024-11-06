@@ -51,14 +51,20 @@ def inbound_message(data):
     try:
         recipient = Recipient.objects.get(
             phone=data['From'],
-            event__state=Event.StateChoices.CURRENT,
+            event__state__in=[
+                Event.StateChoices.CURRENT,
+                Event.StateChoices.CLOSED,
+            ],
         )
     except Recipient.DoesNotExist:
         recipient = None
     try:
         team = Team.objects.get(
             phone=data['From'],
-            event__state=Event.StateChoices.CURRENT,
+            event__state__in=[
+                Event.StateChoices.CURRENT,
+                Event.StateChoices.CLOSED,
+            ],
         )
     except Team.DoesNotExist:
         team = None
