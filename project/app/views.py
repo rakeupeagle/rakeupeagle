@@ -344,18 +344,34 @@ def success(request):
 # Admin
 @staff_member_required(login_url='login')
 def dashboard(request):
+    try:
+        event = Event.objects.get(
+            state=Event.StateChoices.CURRENT,
+        )
+        is_closed = datetime.date.today() > event.deadline
+    except Event.DoesNotExist:
+        event = None
+        is_closed = True
     teams = Team.objects.filter(
         event__state=Event.StateChoices.CURRENT,
     ).order_by(
         'state',
         '-created',
     )
+    if is_closed:
+        teams = teams.exclude(
+            state=Team.StateChoices.DECLINED,
+        )
     recipients = Recipient.objects.filter(
         event__state=Event.StateChoices.CURRENT,
     ).order_by(
         'state',
         '-created',
     )
+    if is_closed:
+        recipients = recipients.exclude(
+            state=Recipient.StateChoices.DECLINED,
+        )
     teams_count = teams.filter(
         state__in=[
             Team.StateChoices.ACCEPTED,
