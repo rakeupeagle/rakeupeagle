@@ -758,14 +758,15 @@ def export_teams(request):
 @staff_member_required(login_url='login')
 def handout(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
-    context={
-        'recipient': recipient,
-    }
+    texts = recipient.messages.order_by(
+        'created',
+    )
     return render(
         request,
         'app/pdfs/handout.html',
-        context = {
+        context={
             'recipient': recipient,
+            'texts': texts,
         },
     )
 
@@ -773,17 +774,21 @@ def handout(request, recipient_id):
 @staff_member_required(login_url='login')
 def handout_pdf(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
+    texts = recipient.messages.order_by(
+        'created',
+    )
     context={
         'recipient': recipient,
+        'texts': texts,
     }
     string = render_to_string('app/pdfs/handout.html', context)
-    html = HTML(string=string)
+    html = HTML(string=string, base_url=request.build_absolute_uri())
     pdf = html.write_pdf()
     content = ContentFile(pdf)
     return FileResponse(
         content,
         as_attachment=True,
-        filename='rake_up_eagle_handout.pdf',
+        filename=f'{recipient}.pdf',
     )
 
 

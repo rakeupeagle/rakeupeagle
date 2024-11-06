@@ -23,6 +23,13 @@
     .new-page{
             page-break-before: always;
         }
+    .table-sm {
+      font-size: 12px ;
+    }
+    .img-venmo {
+      height: 100px;
+      width: 100px;
+    }
   </style>
 {% endblock styles %}
 
@@ -51,9 +58,7 @@
       </tr>
       <tr>
         <td colspan=2>
-          <p>
-            Notes: {{recipient.notes|default:"(No Notes Provided)"}}
-          </p>
+          Notes: {{recipient.notes|default:"(No Notes Provided -- See Reverse for Messages)"}}
         </td>
       </tr>
     </table>
@@ -85,15 +90,53 @@
   </section>
   <section>
     <h3>Donations</h3>
-    <p>
-      Donations are not expected, but if recipients insist they can send a check to Eagle Middle PTO, 1000 W. Floating Feather, Eagle ID 83616, or via Venmo: @Eagle-Middle
-    </p>
+    <div class='row'>
+      <p class='col-6'>
+        Donations are not expected, but if recipients insist they can send a check to Eagle Middle PTO, 1000 W. Floating Feather, Eagle ID 83616, or via Venmo: @Eagle-Middle
+      </p>
+      <p class='col-2'>
+      </p>
+      <img src='{% static "app/venmo.png" %}' class='img-venmo col-4'>
+    </div>
   </section>
   <section>
-    <p class='lead'>
+    <p class='lead text-center'>
       Thank you for volunteering today &mdash; <em>there is so much good in the world!</em>
     </p>
   </section>
+
+  <div class='new-page'>
+  </div>
+  <h2>
+    Messages
+  </h2>
+  <table class='table table-responsive table-sm'>
+    <thead>
+      <tr>
+        <th width="5%">Date</th>
+        <th width="40%">Outbound</th>
+        <th width="40%">Inbound</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for text in texts %}
+        <tr>
+          <td>{{text.created|date:"SHORT_DATETIME_FORMAT"}}</td>
+          {% if text.get_direction_display == 'Inbound' %}
+            <td></td>
+            <td>{{text.body}}</td>
+          {% else %}
+            <td>{{text.body}}</td>
+            <td></td>
+          {% endif %}
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan=3>(No messages)</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
 {% endblock content %}
 

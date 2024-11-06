@@ -33,6 +33,7 @@ class Recipient(models.Model):
         INVITED = 5, "Invited"
         ACCEPTED = 7, "Accepted"
         CONFIRMED = 20, "Confirmed"
+        ASSIGNED = 25, "Assigned"
         COMPLETED = 30, "Completed"
         DECLINED = 40, "Declined"
         CANCELLED = 50, "Cancelled"
@@ -143,7 +144,7 @@ class Recipient(models.Model):
         )
 
     def __str__(self):
-        return f"{self.name} - {self.event.year}"
+        return f"{self.name}"
 
     @transition(
         field=state,
@@ -214,6 +215,18 @@ class Recipient(models.Model):
         source=[
             StateChoices.CONFIRMED,
         ],
+        target=StateChoices.ASSIGNED,
+    )
+    def assign(self):
+        create_instance_message(self, 'team_assigned')
+        return
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.CONFIRMED,
+            StateChoices.ASSIGNED,
+        ],
         target=StateChoices.COMPLETED,
     )
     def complete(self):
@@ -233,6 +246,7 @@ class Team(models.Model):
         INVITED = 5, "Invited"
         ACCEPTED = 7, "Accepted"
         CONFIRMED = 20, "Confirmed"
+        ASSIGNED = 25, "Assigned"
         COMPLETED = 30, "Completed"
         DECLINED = 40, "Declined"
         CANCELLED = 50, "Cancelled"
@@ -403,11 +417,23 @@ class Team(models.Model):
         source=[
             StateChoices.CONFIRMED,
         ],
+        target=StateChoices.ASSIGNED,
+    )
+    def assign(self):
+        create_instance_message(self, 'team_assigned')
+        return
+
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.CONFIRMED,
+            StateChoices.ASSIGNED,
+        ],
         target=StateChoices.COMPLETED,
     )
     def complete(self):
         return
-
 
 class Message(models.Model):
     id = HashidAutoField(
