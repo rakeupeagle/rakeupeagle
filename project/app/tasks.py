@@ -65,6 +65,23 @@ def create_instance_message(instance, message):
     return message
 
 
+# Messaging
+def create_recipients_message(instance, message):
+    recipients = instance.recipients.filter(
+        state=7, # TODO Hardcode
+    )
+    for recipient in recipients:
+        create_instance_message(recipient, message)
+    return True
+
+def create_teams_message(instance, message):
+    teams = instance.teams.filter(
+        state=7, # TODO Hardcode
+    )
+    for team in teams:
+        create_instance_message(team, message)
+    return True
+
 def report_success(job, connection, result, *args, **kwargs):
     message = job.args[0]
     message.state = message.StateChoices.SENT

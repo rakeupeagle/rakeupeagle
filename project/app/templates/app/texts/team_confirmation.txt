@@ -1,10 +1,13 @@
 {% autoescape off %}
-Your signup for Rake Up Eagle is confirmed!
+Confirmation requested!
 
-*Details*
-Team Leader: {{instance.name}}
-Group Size: {{instance.get_size_display}}
-Team Name: {{instance.nickname|default:'(None provided)'}}
+- Rake Up Eagle is this Saturday, November 9th.
 
-Thank you for volunteering!  We will use this text thread to keep you posted as Rake Up Eagle approaches.  If you have any questions please don't hesitate to ask them here.
+- Please arrive at Eagle Middle School 1000 W. Floating Feather Road between 9-10 AM to receive your bags and assignment(s).
+
+- You need to bring your own rakes, gloves, etc.
+
+- We will have donuts courtesy of Mojo Donuts!
+
+Please reply to this message with a "Yes" to confirm, or ask any questions and we'll do our best to answer.
 {% endautoescape %}

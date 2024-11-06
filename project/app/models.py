@@ -15,6 +15,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Local
 from .managers import UserManager
 from .tasks import create_instance_message
+from .tasks import create_recipients_message
+from .tasks import create_teams_message
 from .tasks import send_message
 
 
@@ -189,6 +191,7 @@ class Recipient(models.Model):
         target=StateChoices.CONFIRMED,
     )
     def confirm(self):
+        create_instance_message(self, 'recipient_confirmed')
         return
 
 
@@ -376,6 +379,7 @@ class Team(models.Model):
         target=StateChoices.CONFIRMED,
     )
     def confirm(self):
+        create_instance_message(self, 'team_confirmed')
         return
 
 
@@ -512,6 +516,7 @@ class Event(models.Model):
         ARCHIVE = -10, "Archive"
         NEW = 0, "New"
         CURRENT = 10, "Current"
+        CLOSED = 20, "Closed"
 
     name = models.CharField(
         max_length=100,
@@ -547,6 +552,21 @@ class Event(models.Model):
     @property
     def deadline(self):
         return self.date - datetime.timedelta(days=4)
+
+    @transition(
+        field=state,
+        source=[
+            StateChoices.CURRENT,
+        ],
+        target=StateChoices.CLOSED,
+        conditions=[
+            lambda x: x.date >= datetime.date.today()
+        ]
+    )
+    def close(self):
+        create_recipients_message(self, 'recipient_confirmation')
+        create_teams_message(self, 'team_confirmation')
+        return
 
 
     def __str__(self):

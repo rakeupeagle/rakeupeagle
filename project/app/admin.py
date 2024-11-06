@@ -305,7 +305,7 @@ class AssignmentAdmin(ModelAdmin):
 
 
 @admin.register(Event)
-class EventAdmin(ModelAdmin):
+class EventAdmin(FSMTransitionMixin, ModelAdmin):
     save_on_top = True
     fields = [
         'year',

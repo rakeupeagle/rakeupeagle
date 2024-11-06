@@ -1,15 +1,11 @@
 {% autoescape off %}
-Your registration for Rake Up Eagle is confirmed!  Here are the final details:
+Confirmation requested!
 
-*Details*
-Name: {{instance.name}}
-Address: {{instance.location}}
-Yard Size: {{instance.get_size_display}}
-Veteran? {{instance.is_veteran|yesno|title}}.
-Senior? {{instance.is_senior|yesno|title}}.
-Disabled? {{instance.is_disabled|yesno|title}}.
+- Rake Up Eagle is this Saturday, November 9th.
 
-Your team should arrive Saturday before noon.  If you have any questions please don't hesitate to let us know!
+- A team should arrive between 9AM and Noon to rake your yard.
+
+Please reply to this message with a "Yes" to confirm, or ask any questions and we'll do our best to answer.
 
 IMPORTANT NOTE: Remember that you must pick up ALL pet waste before our volunteers will be allowed to work.  If they see any pet waste they will leave immediately and your yard will NOT be rescheduled.
 {% endautoescape %}
