@@ -110,25 +110,22 @@
   <h2>
     Messages
   </h2>
-  <table class='table table-responsive table-sm'>
+  <table class='table table-sm'>
     <thead>
       <tr>
-        <th width="5%">Date</th>
-        <th width="40%">Outbound</th>
-        <th width="40%">Inbound</th>
+        <th>Date</th>
+        <th>Message</th>
       </tr>
     </thead>
     <tbody>
       {% for text in texts %}
-        <tr>
+        {% if text.get_direction_display == 'Inbound' %}
+          <tr class='table-secondary'>
+        {% else %}
+          <tr class='table-light'>
+        {% endif %}
           <td>{{text.created|date:"SHORT_DATETIME_FORMAT"}}</td>
-          {% if text.get_direction_display == 'Inbound' %}
-            <td></td>
-            <td>{{text.body}}</td>
-          {% else %}
-            <td>{{text.body}}</td>
-            <td></td>
-          {% endif %}
+          <td>{{text.body}}
         </tr>
       {% empty %}
         <tr>
