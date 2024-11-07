@@ -196,8 +196,11 @@ def account(request):
 
 def recipient(request):
     event = Event.objects.get(
-        state=Event.StateChoices.CURRENT,
+        # state=Event.StateChoices.CURRENT,
+        year=2024, # TODO
     )
+    if event.state == Event.StateChoices.CLOSED:
+        return redirect('index')
     form = RecipientForm(request.POST or None)
     if form.is_valid():
         # create variables from form
@@ -274,8 +277,11 @@ def recipient(request):
 def team(request):
     form = TeamForm(request.POST or None)
     event = Event.objects.get(
-        state=Event.StateChoices.CURRENT,
+        # state=Event.StateChoices.CURRENT,
+        year=2024, # TODO year
     )
+    if event.state == Event.StateChoices.CLOSED:
+        return redirect('index')
     if form.is_valid():
         phone = form.cleaned_data['phone']
         name = form.cleaned_data['name']

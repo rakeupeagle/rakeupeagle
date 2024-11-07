@@ -435,6 +435,7 @@ class Team(models.Model):
     def complete(self):
         return
 
+
 class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
@@ -559,7 +560,7 @@ class Event(models.Model):
     )
     year = models.IntegerField(
         blank=True,
-        null=True
+        null=True,
     )
     notes = models.TextField(
         max_length=2000,
@@ -602,6 +603,14 @@ class Event(models.Model):
         return f"{self.year}"
 
     class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=[
+                    'year',
+                ],
+                name='unique_event_year',
+            ),
+        ]
         ordering = (
             '-year',
         )
