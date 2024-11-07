@@ -544,7 +544,7 @@ def admin_read_team(request, team_id):
         state=MessageStateChoices.NEW,
         direction=DirectionChoices.INBOUND,
     )
-    inbounds.update(state=Message.StateChoices.READ)
+    inbounds.update(state=MessageStateChoices.READ)
     outbounds = team.messages.filter(
         state=MessageStateChoices.NEW,
         direction=DirectionChoices.OUTBOUND,
