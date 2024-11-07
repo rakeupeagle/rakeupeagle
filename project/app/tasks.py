@@ -8,8 +8,10 @@ from django.template.loader import render_to_string
 from django_rq import job
 from twilio.rest import Client as TwilioClient
 
-log = logging.getLogger(__name__)
+from .choices import DirectionChoices
+from .choices import MessageStateChoices
 
+log = logging.getLogger(__name__)
 
 
 # Client
@@ -84,7 +86,7 @@ def create_teams_message(instance, message):
 
 def report_success(job, connection, result, *args, **kwargs):
     message = job.args[0]
-    message.state = message.StateChoices.SENT
+    message.state = MessageStateChoices.SENT
     message.sid = result.sid
     message.save()
     return
@@ -98,7 +100,7 @@ def send_message(message):
     if message.to_phone == settings.TWILIO_NUMBER:
         raise ValidationError("Can't send to Twilio Number")
 
-    if message.direction != message.DirectionChoices.OUTBOUND:
+    if message.direction != DirectionChoices.OUTBOUND:
         raise ValidationError("Message is not Outbound")
 
     client = get_twilio_client()

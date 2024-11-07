@@ -2,7 +2,6 @@ import datetime
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.gis.db import models
-from django.db.models import IntegerChoices
 from django.db.models.constraints import UniqueConstraint
 from django.utils.safestring import mark_safe
 from django_fsm import FSMIntegerField
@@ -574,8 +573,8 @@ class Assignment(models.Model):
         primary_key=True,
     )
     state = FSMIntegerField(
-        choices=EventStateChoices,
-        default=EventStateChoices.NEW,
+        choices=AssignmentStateChoices,
+        default=AssignmentStateChoices.NEW,
     )
     notes = models.TextField(
         max_length=2000,

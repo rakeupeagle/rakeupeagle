@@ -3,6 +3,7 @@ from django.conf import settings
 # Django
 from django.contrib import admin
 
+from .choices import DirectionChoices
 # Local
 from .models import Assignment
 from .models import Message
@@ -83,7 +84,7 @@ class RecipientMessageInline(admin.TabularInline):
     ]
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
-        formset.form.base_fields['direction'].initial = Message.DirectionChoices.OUTBOUND
+        formset.form.base_fields['direction'].initial = DirectionChoices.OUTBOUND
         formset.form.base_fields['to_phone'].initial = getattr(obj, 'phone', None)
         formset.form.base_fields['from_phone'].initial = settings.TWILIO_NUMBER
         return formset
@@ -117,7 +118,7 @@ class TeamMessageInline(admin.TabularInline):
 
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
-        formset.form.base_fields['direction'].initial = Message.DirectionChoices.OUTBOUND
+        formset.form.base_fields['direction'].initial = DirectionChoices.OUTBOUND
         formset.form.base_fields['to_phone'].initial = getattr(obj, 'phone', None)
         formset.form.base_fields['from_phone'].initial = settings.TWILIO_NUMBER
         return formset

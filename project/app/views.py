@@ -22,6 +22,14 @@ from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
 from weasyprint import HTML
 
+from .choices import AssignmentStateChoices
+from .choices import DirectionChoices
+from .choices import EventStateChoices
+from .choices import MessageStateChoices
+from .choices import RecipientSizeChoices
+from .choices import RecipientStateChoices
+from .choices import TeamSizeChoices
+from .choices import TeamStateChoices
 from .decorators import validate_twilio_request
 # from .forms import TeamcallForm
 # from .forms import CallForm
@@ -52,7 +60,7 @@ log = logging.getLogger(__name__)
 def index(request):
     try:
         event = Event.objects.get(
-            state=Event.StateChoices.CURRENT,
+            state=EventStateChoices.CURRENT,
         )
         is_closed = datetime.date.today() > event.deadline
     except Event.DoesNotExist:
@@ -71,7 +79,7 @@ def index(request):
 def faq(request):
     try:
         event = Event.objects.get(
-            state=Event.StateChoices.CURRENT,
+            state=EventStateChoices.CURRENT,
         )
     except Event.DoesNotExist:
         event = None
@@ -196,10 +204,10 @@ def account(request):
 
 def recipient(request):
     event = Event.objects.get(
-        # state=Event.StateChoices.CURRENT,
+        # state=EventStateChoices.CURRENT,
         year=2024, # TODO
     )
-    if event.state == Event.StateChoices.CLOSED:
+    if event.state == EventStateChoices.CLOSED:
         return redirect('index')
     form = RecipientForm(request.POST or None)
     if form.is_valid():
@@ -248,7 +256,7 @@ def recipient(request):
         # Then create a message if notes are provided
         if comments:
             recipient.messages.create(
-                direction=Message.DirectionChoices.INBOUND,
+                direction=MessageDirectionChoices.INBOUND,
                 to_phone=settings.TWILIO_NUMBER,
                 from_phone=phone,
                 body=comments,
@@ -277,10 +285,10 @@ def recipient(request):
 def team(request):
     form = TeamForm(request.POST or None)
     event = Event.objects.get(
-        # state=Event.StateChoices.CURRENT,
+        # state=EventStateChoices.CURRENT,
         year=2024, # TODO year
     )
-    if event.state == Event.StateChoices.CLOSED:
+    if event.state == EventStateChoices.CLOSED:
         return redirect('index')
     if form.is_valid():
         phone = form.cleaned_data['phone']
@@ -315,7 +323,7 @@ def team(request):
         # Create message if notes provided
         if comments:
             team.messages.create(
-                direction=Message.DirectionChoices.INBOUND,
+                direction=MessageDirectionChoices.INBOUND,
                 to_phone=settings.TWILIO_NUMBER,
                 from_phone=phone,
                 body=comments,
@@ -353,8 +361,8 @@ def dashboard(request):
     try:
         event = Event.objects.get(
             state__in=[
-                Event.StateChoices.CURRENT,
-                Event.StateChoices.CLOSED,
+                EventStateChoices.CURRENT,
+                EventStateChoices.CLOSED,
             ],
         )
         is_closed = datetime.date.today() > event.deadline
@@ -363,8 +371,8 @@ def dashboard(request):
         is_closed = True
     teams = Team.objects.filter(
         event__state__in=[
-            Event.StateChoices.CURRENT,
-            Event.StateChoices.CLOSED,
+            EventStateChoices.CURRENT,
+            EventStateChoices.CLOSED,
         ],
     ).order_by(
         'state',
@@ -372,12 +380,12 @@ def dashboard(request):
     )
     if is_closed:
         teams = teams.exclude(
-            state=Team.StateChoices.DECLINED,
+            state=TeamStateChoices.DECLINED,
         )
     recipients = Recipient.objects.filter(
         event__state__in=[
-            Event.StateChoices.CURRENT,
-            Event.StateChoices.CLOSED,
+            EventStateChoices.CURRENT,
+            EventStateChoices.CLOSED,
         ],
     ).order_by(
         'state',
@@ -385,18 +393,18 @@ def dashboard(request):
     )
     if is_closed:
         recipients = recipients.exclude(
-            state=Recipient.StateChoices.DECLINED,
+            state=RecipientStateChoices.DECLINED,
         )
     teams_count = teams.filter(
         state__in=[
-            Team.StateChoices.ACCEPTED,
-            Team.StateChoices.CONFIRMED,
+            TeamStateChoices.ACCEPTED,
+            TeamStateChoices.CONFIRMED,
         ],
     )
     recipients_count = recipients.filter(
         state__in=[
-            Recipient.StateChoices.ACCEPTED,
-            Recipient.StateChoices.CONFIRMED,
+            RecipientStateChoices.ACCEPTED,
+            RecipientStateChoices.CONFIRMED,
         ],
     )
     return render(
@@ -480,7 +488,7 @@ def admin_message_team(request, team_id):
                 body=form.cleaned_data['body'],
                 to_phone=team.phone.as_e164,
                 from_phone=settings.TWILIO_NUMBER,
-                direction=Message.DirectionChoices.OUTBOUND,
+                direction=MessageDirectionChoices.OUTBOUND,
                 team=team,
             )
             messages.success(
@@ -510,7 +518,7 @@ def admin_message_recipient(request, recipient_id):
                 body=form.cleaned_data['body'],
                 to_phone=recipient.phone.as_e164,
                 from_phone=settings.TWILIO_NUMBER,
-                direction=Message.DirectionChoices.OUTBOUND,
+                direction=MessageDirectionChoices.OUTBOUND,
                 recipient=recipient,
             )
             messages.success(
@@ -534,13 +542,13 @@ def admin_message_recipient(request, recipient_id):
 def admin_read_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     inbounds = team.messages.filter(
-        state=Message.StateChoices.NEW,
-        direction=Message.DirectionChoices.INBOUND,
+        state=MessageStateChoices.NEW,
+        direction=MessageDirectionChoices.INBOUND,
     )
     inbounds.update(state=Message.StateChoices.READ)
     outbounds = team.messages.filter(
-        state=Message.StateChoices.NEW,
-        direction=Message.DirectionChoices.OUTBOUND,
+        state=MessageStateChoices.NEW,
+        direction=MessageDirectionChoices.OUTBOUND,
     )
     for outbound in outbounds:
         outbound.send()
@@ -556,13 +564,13 @@ def admin_read_team(request, team_id):
 def admin_read_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     inbounds = recipient.messages.filter(
-        state=Message.StateChoices.NEW,
-        direction=Message.DirectionChoices.INBOUND,
+        state=MessageStateChoices.NEW,
+        direction=MessageDirectionChoices.INBOUND,
     )
-    inbounds.update(state=Message.StateChoices.READ)
+    inbounds.update(state=MessageStateChoices.READ)
     outbounds = recipient.messages.filter(
-        state=Message.StateChoices.NEW,
-        direction=Message.DirectionChoices.OUTBOUND,
+        state=MessageStateChoices.NEW,
+        direction=MessageDirectionChoices.OUTBOUND,
     )
     for outbound in outbounds:
         outbound.send()

@@ -3,7 +3,9 @@ import logging
 from django.conf import settings
 from twilio.rest import Client as TwilioClient
 
-from .models import Event
+from .choices import DirectionChoices
+from .choices import EventStateChoices
+from .choices import MessageStateChoices
 from .models import Message
 from .models import Recipient
 from .models import Team
@@ -52,8 +54,8 @@ def inbound_message(data):
         recipient = Recipient.objects.get(
             phone=data['From'],
             event__state__in=[
-                Event.StateChoices.CURRENT,
-                Event.StateChoices.CLOSED,
+                EventStateChoices.CURRENT,
+                EventStateChoices.CLOSED,
             ],
         )
     except Recipient.DoesNotExist:
@@ -62,8 +64,8 @@ def inbound_message(data):
         team = Team.objects.get(
             phone=data['From'],
             event__state__in=[
-                Event.StateChoices.CURRENT,
-                Event.StateChoices.CLOSED,
+                EventStateChoices.CURRENT,
+                EventStateChoices.CLOSED,
             ],
         )
     except Team.DoesNotExist:
@@ -74,8 +76,8 @@ def inbound_message(data):
         )
     except User.DoesNotExist:
         user = None
-    message.state = message.StateChoices.NEW
-    message.direction = message.DirectionChoices.INBOUND
+    message.state = MessageStateChoices.NEW
+    message.direction = DirectionChoices.INBOUND
     message.to_phone = settings.TWILIO_NUMBER
     message.from_phone = data['From']
     message.body = data['Body']
