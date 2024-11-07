@@ -473,7 +473,7 @@ class Message(models.Model):
         ],
         target=MessageStateChoices.READ,
         conditions=[
-            lambda x : x.direction == x.DirectionChoices.INBOUND,
+            lambda x : x.direction == DirectionChoices.INBOUND,
         ]
     )
     def read(self):
@@ -487,7 +487,7 @@ class Message(models.Model):
         ],
         target=MessageStateChoices.SENT,
         conditions=[
-            lambda x : x.direction == x.DirectionChoices.OUTBOUND,
+            lambda x : x.direction == DirectionChoices.OUTBOUND,
             lambda x : not x.sid,
         ]
     )
