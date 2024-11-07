@@ -11,6 +11,14 @@ from django_fsm import transition
 from hashid_field import HashidAutoField
 from phonenumber_field.modelfields import PhoneNumberField
 
+from .choices import AssignmentStateChoices
+from .choices import DirectionChoices
+from .choices import EventStateChoices
+from .choices import MessageStateChoices
+from .choices import RecipientSizeChoices
+from .choices import RecipientStateChoices
+from .choices import TeamSizeChoices
+from .choices import TeamStateChoices
 # from .helpers import send_message
 # Local
 from .managers import UserManager
@@ -24,23 +32,9 @@ class Recipient(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    class StateChoices(IntegerChoices):
-        ARCHIVED = -50, "Archived"
-        # BLOCKED = -40, "Blocked"
-        # IGNORED = -30, "Ignored"
-        # INACTIVE = -10, "Inactive"
-        NEW = 0, "New"
-        INVITED = 5, "Invited"
-        ACCEPTED = 7, "Accepted"
-        CONFIRMED = 20, "Confirmed"
-        ASSIGNED = 25, "Assigned"
-        COMPLETED = 30, "Completed"
-        DECLINED = 40, "Declined"
-        CANCELLED = 50, "Cancelled"
-
     state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
+        choices=RecipientStateChoices,
+        default=RecipientStateChoices.NEW,
     )
     name = models.CharField(
         max_length=100,
@@ -54,13 +48,9 @@ class Recipient(models.Model):
         unique=False,
         help_text="""Your mobile number."""
     )
-    class SizeChoices(IntegerChoices):
-        SMALL = 110, "Small (1-15 bags)"
-        MEDIUM = 120, "Medium (16-30 bags)"
-        LARGE = 130, "Large (31+ bags)"
     size = models.IntegerField(
         blank=False,
-        choices=SizeChoices,
+        choices=RecipientSizeChoices,
         help_text="""Please provide the approximate yard size."""
     )
     bags = models.IntegerField(
@@ -149,9 +139,9 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            # StateChoices.NEW,
+            # RecipientStateChoices.NEW,
         ],
-        target=StateChoices.INVITED,
+        target=RecipientStateChoices.INVITED,
     )
     def invite(self):
         create_instance_message(self, 'recipient_invited')
@@ -161,10 +151,10 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
-            StateChoices.INVITED,
+            RecipientStateChoices.NEW,
+            RecipientStateChoices.INVITED,
         ],
-        target=StateChoices.ACCEPTED,
+        target=RecipientStateChoices.ACCEPTED,
     )
     def accept(self):
         create_instance_message(self, 'recipient_accepted')
@@ -174,11 +164,11 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
-            StateChoices.INVITED,
-            StateChoices.ACCEPTED,
+            RecipientStateChoices.NEW,
+            RecipientStateChoices.INVITED,
+            RecipientStateChoices.ACCEPTED,
         ],
-        target=StateChoices.DECLINED,
+        target=RecipientStateChoices.DECLINED,
     )
     def decline(self):
         create_instance_message(self, 'recipient_declined')
@@ -188,9 +178,9 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.ACCEPTED,
+            RecipientStateChoices.ACCEPTED,
         ],
-        target=StateChoices.CONFIRMED,
+        target=RecipientStateChoices.CONFIRMED,
     )
     def confirm(self):
         create_instance_message(self, 'recipient_confirmed')
@@ -200,10 +190,10 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.ACCEPTED,
-            StateChoices.CONFIRMED,
+            RecipientStateChoices.ACCEPTED,
+            RecipientStateChoices.CONFIRMED,
         ],
-        target=StateChoices.CANCELLED,
+        target=RecipientStateChoices.CANCELLED,
     )
     def cancel(self):
         create_instance_message(self, 'recipient_cancelled')
@@ -213,9 +203,9 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.CONFIRMED,
+            RecipientStateChoices.CONFIRMED,
         ],
-        target=StateChoices.ASSIGNED,
+        target=RecipientStateChoices.ASSIGNED,
     )
     def assign(self):
         create_instance_message(self, 'team_assigned')
@@ -224,10 +214,10 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.CONFIRMED,
-            StateChoices.ASSIGNED,
+            RecipientStateChoices.CONFIRMED,
+            RecipientStateChoices.ASSIGNED,
         ],
-        target=StateChoices.COMPLETED,
+        target=RecipientStateChoices.COMPLETED,
     )
     def complete(self):
         return
@@ -237,31 +227,9 @@ class Team(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    class StateChoices(IntegerChoices):
-        ARCHIVED = -50, "Archived"
-        # BLOCKED = -40, "Blocked"
-        # IGNORED = -30, "Ignored"
-        # INACTIVE = -10, "Inactive"
-        NEW = 0, "New"
-        INVITED = 5, "Invited"
-        ACCEPTED = 7, "Accepted"
-        CONFIRMED = 20, "Confirmed"
-        ASSIGNED = 25, "Assigned"
-        COMPLETED = 30, "Completed"
-        DECLINED = 40, "Declined"
-        CANCELLED = 50, "Cancelled"
-
-    class SizeChoices(IntegerChoices):
-        SOLO = 105, "Solo (1 Adult)"
-        XSMALL = 110, "Extra-Small (2-5 Adults)"
-        SMALL = 120, "Small (6-10 Adults)"
-        MEDIUM = 130, "Medium (11-15 Adults)"
-        LARGE = 140, "Large (16-20 Adults)"
-        XLARGE = 150, "Extra-Large (21+ Adults)"
-
     state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
+        choices=TeamStateChoices,
+        default=TeamStateChoices.NEW,
     )
     name = models.CharField(
         max_length=100,
@@ -277,7 +245,7 @@ class Team(models.Model):
     )
     size = models.IntegerField(
         blank=False,
-        choices=SizeChoices,
+        choices=TeamSizeChoices,
         help_text='The size of your group. (Number of adults, or equivalent in children.)',
     )
     adults = models.IntegerField(
@@ -350,9 +318,9 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            # StateChoices.NEW,
+            # TeamStateChoices.NEW,
         ],
-        target=StateChoices.INVITED,
+        target=TeamStateChoices.INVITED,
     )
     def invite(self):
         create_instance_message(self, 'team_invited')
@@ -362,11 +330,11 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
-            StateChoices.INVITED,
-            StateChoices.DECLINED,
+            TeamStateChoices.NEW,
+            TeamStateChoices.INVITED,
+            TeamStateChoices.DECLINED,
         ],
-        target=StateChoices.ACCEPTED,
+        target=TeamStateChoices.ACCEPTED,
     )
     def accept(self):
         create_instance_message(self, 'team_accepted')
@@ -376,11 +344,11 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
-            StateChoices.INVITED,
-            StateChoices.ACCEPTED,
+            TeamStateChoices.NEW,
+            TeamStateChoices.INVITED,
+            TeamStateChoices.ACCEPTED,
         ],
-        target=StateChoices.DECLINED,
+        target=TeamStateChoices.DECLINED,
     )
     def decline(self):
         create_instance_message(self, 'team_declined')
@@ -390,9 +358,9 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.ACCEPTED,
+            TeamStateChoices.ACCEPTED,
         ],
-        target=StateChoices.CONFIRMED,
+        target=TeamStateChoices.CONFIRMED,
     )
     def confirm(self):
         create_instance_message(self, 'team_confirmed')
@@ -402,10 +370,10 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.ACCEPTED,
-            StateChoices.CONFIRMED,
+            TeamStateChoices.ACCEPTED,
+            TeamStateChoices.CONFIRMED,
         ],
-        target=StateChoices.CANCELLED,
+        target=TeamStateChoices.CANCELLED,
     )
     def cancel(self):
         create_instance_message(self, 'team_cancelled')
@@ -415,9 +383,9 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.CONFIRMED,
+            TeamStateChoices.CONFIRMED,
         ],
-        target=StateChoices.ASSIGNED,
+        target=TeamStateChoices.ASSIGNED,
     )
     def assign(self):
         create_instance_message(self, 'team_assigned')
@@ -427,10 +395,10 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.CONFIRMED,
-            StateChoices.ASSIGNED,
+            TeamStateChoices.CONFIRMED,
+            TeamStateChoices.ASSIGNED,
         ],
-        target=StateChoices.COMPLETED,
+        target=TeamStateChoices.COMPLETED,
     )
     def complete(self):
         return
@@ -440,18 +408,9 @@ class Message(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    class StateChoices(IntegerChoices):
-        NEW = 0, "New"
-        SENT = 10, "Sent"
-        READ = 20, "Read"
-
-    class DirectionChoices(IntegerChoices):
-        INBOUND = 10, "Inbound"
-        OUTBOUND = 20, "Outbound"
-
     state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
+        choices=MessageStateChoices,
+        default=MessageStateChoices.NEW,
     )
     sid = models.CharField(
         max_length=100,
@@ -511,9 +470,9 @@ class Message(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
+            MessageStateChoices.NEW,
         ],
-        target=StateChoices.READ,
+        target=MessageStateChoices.READ,
         conditions=[
             lambda x : x.direction == x.DirectionChoices.INBOUND,
         ]
@@ -525,9 +484,9 @@ class Message(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.NEW,
+            MessageStateChoices.NEW,
         ],
-        target=StateChoices.SENT,
+        target=MessageStateChoices.SENT,
         conditions=[
             lambda x : x.direction == x.DirectionChoices.OUTBOUND,
             lambda x : not x.sid,
@@ -542,12 +501,6 @@ class Event(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    class StateChoices(IntegerChoices):
-        ARCHIVE = -10, "Archive"
-        NEW = 0, "New"
-        CURRENT = 10, "Current"
-        CLOSED = 20, "Closed"
-
     name = models.CharField(
         max_length=100,
         blank=True,
@@ -555,8 +508,8 @@ class Event(models.Model):
         help_text="""Your full name."""
     )
     state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
+        choices=EventStateChoices,
+        default=EventStateChoices.NEW,
     )
     year = models.IntegerField(
         blank=True,
@@ -586,9 +539,9 @@ class Event(models.Model):
     @transition(
         field=state,
         source=[
-            StateChoices.CURRENT,
+            EventStateChoices.CURRENT,
         ],
-        target=StateChoices.CLOSED,
+        target=EventStateChoices.CLOSED,
         conditions=[
             lambda x: x.date >= datetime.date.today()
         ]
@@ -620,17 +573,9 @@ class Assignment(models.Model):
     id = HashidAutoField(
         primary_key=True,
     )
-    class StateChoices(IntegerChoices):
-        FAILED = -20, "Failed"
-        CANCELLED = -10, "Cancelled"
-        NEW = 0, "New"
-        ASSIGNED = 10, "Assigned"
-        STARTED = 40, "Started"
-        FINISHED = 50, "Finished"
-
     state = FSMIntegerField(
-        choices=StateChoices,
-        default=StateChoices.NEW,
+        choices=EventStateChoices,
+        default=EventStateChoices.NEW,
     )
     notes = models.TextField(
         max_length=2000,
