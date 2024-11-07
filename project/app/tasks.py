@@ -10,6 +10,8 @@ from twilio.rest import Client as TwilioClient
 
 from .choices import DirectionChoices
 from .choices import MessageStateChoices
+from .choices import RecipientStateChoices
+from .choices import TeamStateChoices
 
 log = logging.getLogger(__name__)
 
@@ -61,16 +63,15 @@ def create_instance_message(instance, message):
     message = instance.messages.create(
         to_phone=instance.phone,
         from_phone=settings.TWILIO_NUMBER,
-        direction=20, #TODO Fix Hardcode
+        direction=DirectionChoices.OUTBOUND,
         body=body,
     )
     return message
 
-
 # Messaging
 def create_recipients_message(instance, message):
     recipients = instance.recipients.filter(
-        state=7, # TODO Hardcode
+        state=RecipientStateChoices.ACCEPTED,
     )
     for recipient in recipients:
         create_instance_message(recipient, message)
@@ -78,7 +79,7 @@ def create_recipients_message(instance, message):
 
 def create_teams_message(instance, message):
     teams = instance.teams.filter(
-        state=7, # TODO Hardcode
+        state=TeamStateChoices.ACCEPTED,
     )
     for team in teams:
         create_instance_message(team, message)

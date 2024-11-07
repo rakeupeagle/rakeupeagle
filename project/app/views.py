@@ -205,7 +205,7 @@ def account(request):
 def recipient(request):
     event = Event.objects.get(
         # state=EventStateChoices.CURRENT,
-        year=2024, # TODO
+        year=datetime.date.today().year,
     )
     if event.state == EventStateChoices.CLOSED:
         return redirect('index')
@@ -285,8 +285,7 @@ def recipient(request):
 def team(request):
     form = TeamForm(request.POST or None)
     event = Event.objects.get(
-        # state=EventStateChoices.CURRENT,
-        year=2024, # TODO year
+        year=datetime.date.today().year,
     )
     if event.state == EventStateChoices.CLOSED:
         return redirect('index')
