@@ -8,6 +8,7 @@
   <style type="text/css" media='screen,print'>
     body{
       font-family: Helvetica, sans-serif;
+      font-size: 14px;
     }
     section {
       margin-top: 20px;
@@ -39,17 +40,24 @@
 {% block title %}Handout for Recipient {{recipient.name}}{% endblock title %}
 
 {% block content %}
+  <section>
+    {% if recipient.assigned %}
+      <p class='text-center'>
+        Assigned to:  {{recipient.assigned}}
+      </p>
+    {% endif %}
+  </section>
   <section class='row'>
     <div class='col-6 ms-auto text-start'>
-      <h3>
-        Scan This Code When Starting
-      </h3>
+      <p class='lead'>
+        Scan When Starting
+      </p>
       <img src="{{recipient.assign_code.url}}" class='img-qr'></img>
     </div>
     <div class='col-6 me-auto text-end'>
-      <h3>
-        Scan This Code When Finished
-      </h3>
+      <p class='lead'>
+        Scan When Finished
+      </p>
       <img src="{{recipient.complete_code.url}}" class='img-qr'></img>
     </div>
   </section>

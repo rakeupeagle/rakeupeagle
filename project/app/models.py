@@ -114,6 +114,13 @@ class Recipient(models.Model):
         blank=True,
         related_name='recipients',
     )
+    assigned = models.ForeignKey(
+        'app.Team',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='recipients',
+    )
     user = models.ForeignKey(
         'app.User',
         null=True,
@@ -330,7 +337,10 @@ class Team(models.Model):
         )
 
     def __str__(self):
-        return f"{self.name} - {self.event.year}"
+        return " ".join(filter(None, [
+            self.name,
+            self.nickname
+        ]))
 
     @transition(
         field=state,

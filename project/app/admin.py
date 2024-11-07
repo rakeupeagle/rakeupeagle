@@ -52,6 +52,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'is_dog',
         'bags',
         'notes',
+        'assigned',
         'user',
         # 'conversation',
     ]
@@ -89,6 +90,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
     ]
     autocomplete_fields = [
         'user',
+        'assigned',
     ]
     inlines = [
         RecipientMessageInline,
