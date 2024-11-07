@@ -256,7 +256,7 @@ def recipient(request):
         # Then create a message if notes are provided
         if comments:
             recipient.messages.create(
-                direction=MessageDirectionChoices.INBOUND,
+                direction=DirectionChoices.INBOUND,
                 to_phone=settings.TWILIO_NUMBER,
                 from_phone=phone,
                 body=comments,
@@ -323,7 +323,7 @@ def team(request):
         # Create message if notes provided
         if comments:
             team.messages.create(
-                direction=MessageDirectionChoices.INBOUND,
+                direction=DirectionChoices.INBOUND,
                 to_phone=settings.TWILIO_NUMBER,
                 from_phone=phone,
                 body=comments,
@@ -488,7 +488,7 @@ def admin_message_team(request, team_id):
                 body=form.cleaned_data['body'],
                 to_phone=team.phone.as_e164,
                 from_phone=settings.TWILIO_NUMBER,
-                direction=MessageDirectionChoices.OUTBOUND,
+                direction=DirectionChoices.OUTBOUND,
                 team=team,
             )
             messages.success(
@@ -518,7 +518,7 @@ def admin_message_recipient(request, recipient_id):
                 body=form.cleaned_data['body'],
                 to_phone=recipient.phone.as_e164,
                 from_phone=settings.TWILIO_NUMBER,
-                direction=MessageDirectionChoices.OUTBOUND,
+                direction=DirectionChoices.OUTBOUND,
                 recipient=recipient,
             )
             messages.success(
@@ -543,12 +543,12 @@ def admin_read_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     inbounds = team.messages.filter(
         state=MessageStateChoices.NEW,
-        direction=MessageDirectionChoices.INBOUND,
+        direction=DirectionChoices.INBOUND,
     )
     inbounds.update(state=Message.StateChoices.READ)
     outbounds = team.messages.filter(
         state=MessageStateChoices.NEW,
-        direction=MessageDirectionChoices.OUTBOUND,
+        direction=DirectionChoices.OUTBOUND,
     )
     for outbound in outbounds:
         outbound.send()
@@ -565,12 +565,12 @@ def admin_read_recipient(request, recipient_id):
     recipient = get_object_or_404(Recipient, pk=recipient_id)
     inbounds = recipient.messages.filter(
         state=MessageStateChoices.NEW,
-        direction=MessageDirectionChoices.INBOUND,
+        direction=DirectionChoices.INBOUND,
     )
     inbounds.update(state=MessageStateChoices.READ)
     outbounds = recipient.messages.filter(
         state=MessageStateChoices.NEW,
-        direction=MessageDirectionChoices.OUTBOUND,
+        direction=DirectionChoices.OUTBOUND,
     )
     for outbound in outbounds:
         outbound.send()
