@@ -98,12 +98,20 @@ MEDIA_ROOT = root('mediafiles')
 MEDIA_URL = 'media/'
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": env("STORAGE_BACKEND"),
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
+
+# AWS Settings
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = 'rakeupeagle'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_REGION_NAME = 'us-west-2'
+AWS_S3_FILE_OVERWRITE = True
 
 # Google
 GOOGLE_API_KEY = env("GOOGLE_API_KEY")
@@ -207,6 +215,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'app',
 ]
+
 # Enable development tools
 if DEBUG:
     # Debug Toolbar

@@ -26,7 +26,7 @@
     .table-sm {
       font-size: 12px ;
     }
-    .img-venmo {
+    .img-qr {
       height: 100px;
       width: 100px;
     }
@@ -39,6 +39,20 @@
 {% block title %}Handout for Recipient {{recipient.name}}{% endblock title %}
 
 {% block content %}
+  <section class='row'>
+    <div class='col-6 ms-auto text-start'>
+      <h3>
+        Scan This Code When Starting
+      </h3>
+      <img src="{{recipient.assign_code.url}}" class='img-qr'></img>
+    </div>
+    <div class='col-6 me-auto text-end'>
+      <h3>
+        Scan This Code When Finished
+      </h3>
+      <img src="{{recipient.complete_code.url}}" class='img-qr'></img>
+    </div>
+  </section>
   <section>
     <table class='table table-borderless'>
       <tr>
@@ -56,18 +70,13 @@
           </ul>
         </th>
       </tr>
-      <tr>
-        <td colspan=2>
-          Notes: {{recipient.notes|default:"(No Notes Provided -- See Reverse for Messages)"}}
-        </td>
-      </tr>
     </table>
   </section>
   <section>
     <h3>Instructions</h3>
     <ul class='list-styled'>
     <li>
-      If you have any questions, needs, or concerns, please call <strong>(208) 510-0584</strong>.
+      If you have any questions, needs, or concerns, please call or text <strong>(208) 510-0584</strong>.
     </li>
     <li>
       Please have the leader of group knock on the door so the recipient knows you have arrived.  <strong>Do not enter the home.</strong>  You are only giving them a heads up that your group has arrived.
@@ -90,14 +99,9 @@
   </section>
   <section>
     <h3>Donations</h3>
-    <div class='row'>
-      <p class='col-6'>
-        Donations are not expected, but if recipients insist they can send a check to Eagle Middle PTO, 1000 W. Floating Feather, Eagle ID 83616, or via Venmo: @Eagle-Middle
-      </p>
-      <p class='col-2'>
-      </p>
-      <img src='{% static "app/venmo.png" %}' class='img-venmo col-4'>
-    </div>
+    <p class=''>
+      Donations are not expected, but if recipients insist they can send a check to Eagle Middle PTO, 1000 W. Floating Feather, Eagle ID 83616, or via Venmo: @Eagle-Middle
+    </p>
   </section>
   <section>
     <p class='lead text-center'>

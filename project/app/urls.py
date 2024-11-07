@@ -36,17 +36,17 @@ urlpatterns = [
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
     path('dashboard/team/<team_id>', views.admin_team, name='admin-team',),
+    path('dashboard/team/<team_id>/read/', views.admin_read_team, name='admin-read-team',),
+    path('dashboard/team/<team_id>/message/', views.admin_message_team, name='admin-message-team',),
     path('dashboard/team/<team_id>/<action>/', views.admin_team_action, name='admin-team-action',),
-    path('dashboard/read/team/<team_id>', views.admin_read_team, name='admin-read-team',),
-    path('dashboard/message/team/<team_id>', views.admin_message_team, name='admin-message-team',),
 
     path('dashboard/recipient/<recipient_id>', views.admin_recipient, name='admin-recipient',),
+    path('dashboard/recipient/<recipient_id>/read/', views.admin_read_recipient, name='admin-read-recipient',),
+    path('dashboard/recipient/<recipient_id>/message/', views.admin_message_recipient, name='admin-message-recipient',),
+    path('dashboard/recipient/<recipient_id>/handout/', views.handout, name='handout',),
+    path('dashboard/recipient/<recipient_id>/pdf/', views.handout_pdf, name='handout-pdf',),
     path('dashboard/recipient/<recipient_id>/<action>/', views.admin_recipient_action, name='admin-recipient-action',),
-    path('dashboard/read/recipient/<recipient_id>', views.admin_read_recipient, name='admin-read-recipient',),
-    path('dashboard/message/recipient/<recipient_id>', views.admin_message_recipient, name='admin-message-recipient',),
 
-    path('handout/<recipient_id>', views.handout, name='handout',),
-    path('handout/<recipient_id>/pdf', views.handout_pdf, name='handout-pdf',),
     # path('handout/all', views.handout_pdfs, name='handouts',),
     path('csv/assignments/', views.export_assignments, name='export-assignments',),
     path('csv/recipients/', views.export_recipients, name='export-recipients',),

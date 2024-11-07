@@ -1,9 +1,13 @@
+import io
 import logging
+from urllib.parse import quote_plus
 
 import geocoder
+import qrcode
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django_rq import job
 from twilio.rest import Client as TwilioClient
@@ -111,3 +115,35 @@ def send_message(message):
         body=message.body,
     )
     return response
+
+# QR Codes
+def assign_code(recipient):
+    body = f"We've been assigned to {recipient.name} [{recipient.id}]) at {recipient.location}."
+    img = qrcode.make(
+        f'sms:{settings.TWILIO_NUMBER}&body={body}',
+    )
+    temp_img = io.BytesIO()
+    img.save(temp_img)
+    temp_img.seek(0)
+    recipient.assign_code.save(
+        f'assign_code_{recipient.id}.png',
+        ContentFile(temp_img.read()),
+        save=True,
+    )
+    recipient.save()
+    return
+
+
+def complete_code(recipient):
+    body = f"We're finished with {recipient.name} [{recipient.id}]) at {recipient.location}."
+    img = qrcode.make(f'sms:{settings.TWILIO_NUMBER}&body={body}')
+    temp_img = io.BytesIO()
+    img.save(temp_img)
+    temp_img.seek(0)
+    recipient.complete_code.save(
+        f'complete_code_{recipient.id}.png',
+        ContentFile(temp_img.read()),
+        save=True,
+    )
+    recipient.save()
+    return

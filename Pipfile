@@ -34,6 +34,8 @@ twilio = "*"
 tqdm = "*"
 pyflowchart = "*"
 weasyprint = "*"
+qrcode = "*"
+django-storages = {version = "*", extras = ["s3"]}
 
 [requires]
 python_version = "3.12"

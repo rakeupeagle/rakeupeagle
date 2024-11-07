@@ -21,6 +21,8 @@ from .choices import TeamStateChoices
 # from .helpers import send_message
 # Local
 from .managers import UserManager
+from .tasks import assign_code
+from .tasks import complete_code
 from .tasks import create_instance_message
 from .tasks import create_recipients_message
 from .tasks import create_teams_message
@@ -90,6 +92,14 @@ class Recipient(models.Model):
         blank=True,
         default='',
         help_text="""Administrator Notes (from calling).""",
+    )
+    assign_code = models.ImageField(
+        null=True,
+        blank=True,
+    )
+    complete_code = models.ImageField(
+        null=True,
+        blank=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -185,6 +195,8 @@ class Recipient(models.Model):
         target=RecipientStateChoices.CONFIRMED,
     )
     def confirm(self):
+        assign_code(self)
+        complete_code(self)
         create_instance_message(self, 'recipient_confirmed')
         return
 

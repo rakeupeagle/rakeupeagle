@@ -1,6 +1,7 @@
 # Third-Party
 # Django
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.shortcuts import render
 from django.urls import include
@@ -34,7 +35,8 @@ if settings.DEBUG:
         path('__debug__/', include(debug_toolbar.urls)),
         path('404/', custom_page_not_found),
         path('500/', server_error),
-    ]
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 # else:
 #     def handler404(request, *args, **argv):
 #         return render(
