@@ -11,7 +11,7 @@
         <p>
           This year's event takes place on {{event.date|date:'F jS'}} &mdash; join today as a recipient or volunteer your team!
         </p>
-        {% if is_closed %}
+        {% if event.get_state_display == 'Closed' %}
           <p>
             <span class='text-danger'>Registration has closed for 2024.</span>
           </p>
@@ -39,7 +39,7 @@
             <p class='card-text'>
               Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
             </p>
-            {% if is_closed %}
+            {% if event.get_state_display == 'Closed' %}
               <button class="btn btn-success btn-block btn-lg" disabled >
                 Signup!
               </button>
@@ -61,7 +61,7 @@
             <p class='card-text'>
               If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
             </p>
-            {% if is_closed %}
+            {% if event.get_state_display == 'Closed' %}
               <button class="btn btn-success btn-block btn-lg" disabled >
                 Register!
               </button>

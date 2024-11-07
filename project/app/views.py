@@ -60,18 +60,15 @@ log = logging.getLogger(__name__)
 def index(request):
     try:
         event = Event.objects.get(
-            state=EventStateChoices.CURRENT,
+            year=datetime.date.today().year,
         )
-        is_closed = datetime.date.today() > event.deadline
     except Event.DoesNotExist:
         event = None
-        is_closed = True
     return render(
         request,
         'app/pages/index.html',
         context={
             'event': event,
-            'is_closed': is_closed,
         }
     )
 
