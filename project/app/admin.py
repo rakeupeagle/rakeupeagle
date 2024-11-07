@@ -267,6 +267,7 @@ class AssignmentAdmin(ModelAdmin):
         'team',
         # 'rake__size',
         'event',
+        'notes',
     ]
     list_filter = [
         'event__year',
