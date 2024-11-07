@@ -47,7 +47,6 @@ from .helpers import send as send_code
 # from .models import Message
 from .models import Assignment
 from .models import Event
-from .models import Message
 from .models import Recipient
 from .models import Team
 from .models import User
@@ -76,7 +75,7 @@ def index(request):
 def faq(request):
     try:
         event = Event.objects.get(
-            state=EventStateChoices.CURRENT,
+            year=datetime.date.today().year,
         )
     except Event.DoesNotExist:
         event = None
@@ -201,7 +200,6 @@ def account(request):
 
 def recipient(request):
     event = Event.objects.get(
-        # state=EventStateChoices.CURRENT,
         year=datetime.date.today().year,
     )
     if event.state == EventStateChoices.CLOSED:
@@ -356,38 +354,23 @@ def success(request):
 def dashboard(request):
     try:
         event = Event.objects.get(
-            state__in=[
-                EventStateChoices.CURRENT,
-                EventStateChoices.CLOSED,
-            ],
+            year=datetime.date.today().year,
         )
-        is_closed = datetime.date.today() > event.deadline
     except Event.DoesNotExist:
         event = None
-        is_closed = True
-    teams = Team.objects.filter(
-        event__state__in=[
-            EventStateChoices.CURRENT,
-            EventStateChoices.CLOSED,
-        ],
-    ).order_by(
+    teams = event.teams.order_by(
         'state',
         '-created',
     )
-    if is_closed:
+    if event.state == EventStateChoices.CLOSED:
         teams = teams.exclude(
             state=TeamStateChoices.DECLINED,
         )
-    recipients = Recipient.objects.filter(
-        event__state__in=[
-            EventStateChoices.CURRENT,
-            EventStateChoices.CLOSED,
-        ],
-    ).order_by(
+    recipients = event.recipients.order_by(
         'state',
         '-created',
     )
-    if is_closed:
+    if event.state == EventStateChoices.CLOSED:
         recipients = recipients.exclude(
             state=RecipientStateChoices.DECLINED,
         )
