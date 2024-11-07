@@ -168,6 +168,9 @@ class Recipient(models.Model):
             RecipientStateChoices.ACCEPTED,
         ],
         target=RecipientStateChoices.DECLINED,
+        conditions=[
+            lambda x : x.event.state == EventStateChoices.CURRENT,
+        ],
     )
     def decline(self):
         create_instance_message(self, 'recipient_declined')
@@ -193,6 +196,9 @@ class Recipient(models.Model):
             RecipientStateChoices.CONFIRMED,
         ],
         target=RecipientStateChoices.CANCELLED,
+        conditions=[
+            lambda x : x.event.state == EventStateChoices.CLOSED,
+        ],
     )
     def cancel(self):
         create_instance_message(self, 'recipient_cancelled')
@@ -348,6 +354,9 @@ class Team(models.Model):
             TeamStateChoices.ACCEPTED,
         ],
         target=TeamStateChoices.DECLINED,
+        conditions=[
+            lambda x : x.event.state == EventStateChoices.CURRENT,
+        ],
     )
     def decline(self):
         create_instance_message(self, 'team_declined')
@@ -373,6 +382,9 @@ class Team(models.Model):
             TeamStateChoices.CONFIRMED,
         ],
         target=TeamStateChoices.CANCELLED,
+        conditions=[
+            lambda x : x.event.state == EventStateChoices.CLOSED,
+        ],
     )
     def cancel(self):
         create_instance_message(self, 'team_cancelled')
