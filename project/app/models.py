@@ -232,7 +232,7 @@ class Recipient(models.Model):
         target=RecipientStateChoices.ASSIGNED,
     )
     def assign(self):
-        create_instance_message(self, 'team_assigned')
+        create_instance_message(self, 'recipient_assigned')
         return
 
     @transition(
