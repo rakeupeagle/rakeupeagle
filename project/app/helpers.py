@@ -112,6 +112,4 @@ def inbound_message(data):
             assignee.save()
         else:
             log.error('state error')
-    else:
-        log.error('no assignee or team')
     return
