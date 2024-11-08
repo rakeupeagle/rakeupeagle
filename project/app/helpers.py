@@ -93,11 +93,13 @@ def inbound_message(data):
     pattern = r'(?<=\[).{8}(?=\])'
     match = re.search(pattern, body)
     if not match:
+        log.error('no match')
         return
     assignee_id = match[0]
+    log.error(assignee_id)
     try:
         assignee = Recipient.objects.get(
-            id=assignee_id[0]
+            id=assignee_id
         )
     except Recipient.DoesNotExist:
         assignee = None
