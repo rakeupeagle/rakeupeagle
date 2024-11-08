@@ -1,5 +1,3 @@
 {% autoescape off %}
-Thank you -- you are confirmed for Rake Up Eagle!
-
-If anything changes between now and then please let us know.  Otherwise we'll see you on Saturday!
+Thanks for checking in!  Please be sure to scan the "finished" code when you're done, and let us know if you have any questions in the meantime.
 {% endautoescape %}

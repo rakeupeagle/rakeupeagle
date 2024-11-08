@@ -1,4 +1,5 @@
 import logging
+import re
 
 from django.conf import settings
 from twilio.rest import Client as TwilioClient
@@ -6,6 +7,7 @@ from twilio.rest import Client as TwilioClient
 from .choices import DirectionChoices
 from .choices import EventStateChoices
 from .choices import MessageStateChoices
+from .choices import RecipientStateChoices
 from .models import Message
 from .models import Recipient
 from .models import Team
@@ -85,4 +87,31 @@ def inbound_message(data):
     message.team = team
     message.user = user
     message.save()
+
+    # Probably should refactor this
+    pattern = r'\[.{8}\]'
+    assignee_id = re.search(pattern, data['Body'])
+    try:
+        assignee = Recipient.objects.get(
+            id=assignee_id
+        )
+    except Recipient.DoesNotExist:
+        assignee = None
+    if assignee and team:
+        if assignee.state == RecipientStateChoices.CONFIRMED:
+            assignee.assigned = team
+            assignee.save()
+            assignee.assign()
+            team.assign()
+            team.save()
+            assignee.save()
+        elif assignee.state == RecipientStateChoices.ASSIGNED:
+            team.complete()
+            team.save()
+            assignee.complete()
+            assignee.save()
+        else:
+            log.error('state error')
+    else:
+        log.error('no assignee or team')
     return
