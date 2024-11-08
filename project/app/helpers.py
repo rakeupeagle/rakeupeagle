@@ -89,9 +89,8 @@ def inbound_message(data):
     message.save()
 
     # Probably should refactor this
-    body = "We've been assigned to Peggy Drzayich [21DK4erO]) at 576 Palmetto Dr, Eagle, ID 83616, USA."
     pattern = r'(?<=\[).{8}(?=\])'
-    match = re.search(pattern, body)
+    match = re.search(pattern, data['Body'])
     if not match:
         log.error('no match')
         return
