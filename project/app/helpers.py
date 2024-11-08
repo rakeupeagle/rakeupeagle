@@ -91,10 +91,13 @@ def inbound_message(data):
     # Probably should refactor this
     body = "We've been assigned to Peggy Drzayich [21DK4erO]) at 576 Palmetto Dr, Eagle, ID 83616, USA."
     pattern = r'(?<=\[).{8}(?=\])'
-    assignee_id = re.search(pattern, body)
+    match = re.search(pattern, body)
+    if not match:
+        return
+    assignee_id = match[0]
     try:
         assignee = Recipient.objects.get(
-            id=assignee_id
+            id=assignee_id[0]
         )
     except Recipient.DoesNotExist:
         assignee = None
