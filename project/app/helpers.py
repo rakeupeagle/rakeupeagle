@@ -92,17 +92,14 @@ def inbound_message(data):
     pattern = r'(?<=\[).{8}(?=\])'
     match = re.search(pattern, data['Body'])
     if not match:
-        log.info('no match')
         return
     assignee_id = match[0]
-    log.info(assignee_id)
     try:
         assignee = Recipient.objects.get(
             id=assignee_id
         )
     except Recipient.DoesNotExist:
         assignee = None
-    log.info(f'assignee: {assignee}')
     if assignee and team:
         if assignee.state == RecipientStateChoices.CONFIRMED:
             assignee.assigned = team
