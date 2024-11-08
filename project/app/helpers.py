@@ -89,8 +89,9 @@ def inbound_message(data):
     message.save()
 
     # Probably should refactor this
-    pattern = r'\[.{8}\]'
-    assignee_id = re.search(pattern, data['Body'])
+    body = "We've been assigned to Peggy Drzayich [21DK4erO]) at 576 Palmetto Dr, Eagle, ID 83616, USA."
+    pattern = r'(?<=\[).{8}(?=\])'
+    assignee_id = re.search(pattern, body)
     try:
         assignee = Recipient.objects.get(
             id=assignee_id
