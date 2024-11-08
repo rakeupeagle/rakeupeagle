@@ -238,7 +238,6 @@ class Recipient(models.Model):
     @transition(
         field=state,
         source=[
-            RecipientStateChoices.CONFIRMED,
             RecipientStateChoices.ASSIGNED,
         ],
         target=RecipientStateChoices.COMPLETED,
@@ -428,7 +427,6 @@ class Team(models.Model):
     @transition(
         field=state,
         source=[
-            TeamStateChoices.CONFIRMED,
             TeamStateChoices.ASSIGNED,
         ],
         target=TeamStateChoices.COMPLETED,
