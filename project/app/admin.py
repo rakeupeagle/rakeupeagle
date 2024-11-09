@@ -54,7 +54,6 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'notes',
         'assigned',
         'user',
-        'assigned',
         # 'conversation',
     ]
     list_display = [
