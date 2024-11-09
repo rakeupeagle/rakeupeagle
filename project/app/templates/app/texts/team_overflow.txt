@@ -1,0 +1,5 @@
+{% autoescape off %}
+Thank you for all you are doing for our community!
+
+We still have a few recipients who are in need of assistance -- if you are willing/able to take another assignment, please respond to this text.
+{% endautoescape %}
