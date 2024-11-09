@@ -1,5 +1,3 @@
 {% autoescape off %}
-Thank you for all you are doing for our community!
-
-We still have a few recipients who are in need of assistance -- if you are willing/able to take another assignment, please respond to this text.
+I know we've already asked too much of you, but we had one last-minute team cancellation and so there is a recipient still in need of raking.  If you are near-done and still have some gas left in the tank let us know...  Thanks.
 {% endautoescape %}
