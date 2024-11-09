@@ -54,6 +54,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'notes',
         'assigned',
         'user',
+        'assigned',
         # 'conversation',
     ]
     list_display = [
@@ -64,7 +65,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
         'size',
         'event',
         'state',
-        'notes',
+        'assigned',
     ]
     list_filter = [
         'event__year',
@@ -86,7 +87,7 @@ class RecipientAdmin(FSMTransitionMixin, GISModelAdmin):
     ]
     list_editable = [
         # 'user',
-        # 'bags',
+        'assigned',
     ]
     autocomplete_fields = [
         'user',

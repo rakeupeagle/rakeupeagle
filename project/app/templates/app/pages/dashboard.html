@@ -47,7 +47,6 @@
           <th>Phone</th>
           <th>Location</th>
           <th>State</th>
-          <th>Assigned</th>
         </tr>
       </thead>
       <tbody>
@@ -58,7 +57,6 @@
             <td>{{recipient.phone.as_national}}</td>
             <td>{{recipient.location}}</td>
             <td>{{recipient.get_state_display}}</td>
-            <td>{{recipient.assigned}}</td>
           </tr>
         {% endfor %}
       </tbody>
