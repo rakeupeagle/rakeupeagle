@@ -229,6 +229,7 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
         'state',
     ]
     search_fields = [
+        'body',
     ]
     autocomplete_fields = [
         'user',
