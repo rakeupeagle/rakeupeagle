@@ -230,6 +230,8 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
     ]
     search_fields = [
         'body',
+        'recipient',
+        'team',
     ]
     autocomplete_fields = [
         'user',
