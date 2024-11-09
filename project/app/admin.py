@@ -211,6 +211,8 @@ class MessageAdmin(FSMTransitionMixin, ModelAdmin):
         'id',
         # 'body',
         # 'updated',
+        'to_phone',
+        'from_phone',
         'recipient',
         'team',
         'created',
