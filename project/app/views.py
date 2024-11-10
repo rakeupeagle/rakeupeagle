@@ -42,6 +42,7 @@ from .forms import TeamForm
 from .forms import VerifyCodeForm
 # from .tasks import get_assignments_csv
 from .helpers import check
+from .helpers import inbound_error
 from .helpers import inbound_message
 from .helpers import send as send_code
 # from .models import Message
@@ -820,4 +821,13 @@ def handout_pdf(request, recipient_id):
 def webhook(request):
     data = request.POST.dict()
     inbound_message(data)
+    return HttpResponse(status=200)
+
+
+@validate_twilio_request
+@csrf_exempt
+@require_POST
+def weberror(request):
+    data = request.POST.dict()
+    inbound_error(data)
     return HttpResponse(status=200)

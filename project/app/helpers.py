@@ -1,3 +1,4 @@
+import json
 import logging
 import re
 
@@ -115,4 +116,10 @@ def inbound_message(data):
             assignee.save()
         else:
             log.error('state error')
+    return
+
+
+def inbound_error(data):
+    j = json.dumps(data)
+    log.error(j)
     return

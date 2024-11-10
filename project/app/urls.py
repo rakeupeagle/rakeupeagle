@@ -32,6 +32,7 @@ urlpatterns = [
 
     # Twilio
     path('webhook', views.webhook, name='webhook',),
+    path('weberror', views.weberror, name='weberror',),
 
     # Admin
     path('dashboard/', views.dashboard, name='dashboard',),
