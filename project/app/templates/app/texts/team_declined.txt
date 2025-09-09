@@ -1,4 +1,0 @@
-{% autoescape off %}We understand you won't be able to participate this year.  If anything changes don't hesitate to let us know!
-
-Rake Up Eagle, EMS PTO
-{% endautoescape %}

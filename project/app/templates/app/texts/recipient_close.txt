@@ -1,8 +1,0 @@
-{% autoescape off %}
-Rake Up Eagle {{instance.event.date|date:'Y'}} is in full swing today!
-
-All yards should have been raked this morning or a group might be at your house right now.
-
-If a team group has not shown up yet, please reach out to us and let us know.
-
-{% endautoescape %}

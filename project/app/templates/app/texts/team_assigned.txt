@@ -1,3 +1,0 @@
-{% autoescape off %}
-Thanks for checking in!  Please be sure to scan the "finished" code when you're done, and let us know if you have any questions in the meantime.
-{% endautoescape %}

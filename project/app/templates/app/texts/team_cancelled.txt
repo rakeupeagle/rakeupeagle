@@ -1,4 +1,0 @@
-{% autoescape off %}We have cancelled your signup for Rake Up Eagle (either at your request or administratively to remove duplicates, etc.).  
-
-Please let us know via text if you believe this is in error or have any other questions.  Thank you!
-{% endautoescape %}

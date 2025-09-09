@@ -4,38 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-debug-toolbar = "*"
-django-querycount = "*"
-factory-boy = "*"
-faker = "*"
-pytest = "*"
-pytest-django = "*"
-pylint = "*"
-graphviz = "*"
+ipython = "*"
 
 [packages]
-django = "*"
-django-environ = "*"
-psycopg2 = "*"
-whitenoise = "*"
-ipython = "*"
-brotli = "*"
-gunicorn = "*"
-django-rq = "*"
-requests = "*"
-sentry-sdk = "*"
-django-hashid-field = "*"
-phonenumberslite = "*"
-django-phonenumber-field = "*"
-django-fsm-2 = "*"
-django-fsm-2-admin = "*"
-geocoder = "*"
-twilio = "*"
-tqdm = "*"
-pyflowchart = "*"
-weasyprint = "*"
-qrcode = "*"
-django-storages = {version = "*", extras = ["s3"]}
+mkdocs = "*"
+mkdocs-material = "*"
 
 [requires]
-python_version = "3.12"
+python_version = "3.13"

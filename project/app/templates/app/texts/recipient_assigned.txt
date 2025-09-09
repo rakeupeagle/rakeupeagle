@@ -1,3 +1,0 @@
-{% autoescape off %}
-Rake Up Eagle is here!  A team has been assigned to your yard and should be arriving soon.
-{% endautoescape %}

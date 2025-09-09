@@ -1,3 +1,0 @@
-{% autoescape off %}
-I know we've already asked too much of you, but we had one last-minute team cancellation and so there is a recipient still in need of raking.  If you are near-done and still have some gas left in the tank let us know...  Thanks.
-{% endautoescape %}
