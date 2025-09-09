@@ -1,18 +1,30 @@
-name: Deploy MkDocs Site
+name: Deploy Website
 on:
   push:
     branches:
       - main
+    paths:
+      - 'website/**'
+permissions:
+  contents: write
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # Checkout the repository
-      - uses: actions/setup-python@v5 # Set up Python
+      - uses: actions/checkout@v4
         with:
-          python-version: '3.13' # Specify a Python version
-      - name: Install MkDocs and Material theme
-        run: |
-          pip install mkdocs mkdocs-material
-      - name: Deploy MkDocs site to GitHub Pages
-        run: mkdocs gh-deploy --force # Build and deploy to gh-pages branch
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: ~/.cache
+          restore-keys: |
+            mkdocs-material-
+      - run: pip install mkdocs mkdocs-material
+      - run: mkdocs gh-deploy --force
