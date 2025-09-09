@@ -1,1 +1,13 @@
-site_name: My Docs
+site_name: Rake Up Eagle
+site_url: https://www.rakeupeagle.com
+repo_url: https://github.com/rakeupeagle/rakeupeagle
+site_description: Helping rake the years of seniors, veterans and the disabled.  A volunteer project of Eagle Middle School PTO.
+site_author: Eagle Middle School PTO
+copyright: David Binetti 2025
+nav:
+  - 'index.md'
+  - 'about.md'
+theme:
+  name: material
+  logo: img/logo.png
+docs_dir: website
