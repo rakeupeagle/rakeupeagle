@@ -1,17 +1,21 @@
-# Welcome to MkDocs
+# Rake Up Eagle
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+> **Rake Up Eagle** connects volunteer teams with seniors, veterans, and disabled citizens in a day of public service.
 
-## Commands
+This year's event takes place on EVENT_DATE -- join today as a recipient or volunteer your team!
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Volunteer to Help
+![Volunteer to Help](images/volunteer.jpg)
 
-## Project layout
+Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+[Sign Up!](volunteer.md){ .md-button }
+
+
+## Register to be Raked
+
+![Register to be Raked](images/recipient.jpg)
+
+If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
+
+[Register!](recipient.md){ .md-button }
