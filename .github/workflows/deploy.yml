@@ -1,10 +1,11 @@
 name: Deploy Website
 on:
-  push:
+  - push:
     branches:
       - main
     paths:
       - 'website/**'
+  - workflow_dispatch
 permissions:
   contents: write
 env:
