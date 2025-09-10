@@ -58,6 +58,6 @@ Please return all unused bags to Eagle Middle school, 1000 W Floating Feather Rd
 You are **not allowed**a to rake if there is animal waste in the yard.  The homeowners have been notified they need to clean up all animal waste before teams show up.
 
 ### What do we do if it rains/snows on or before Rake Up Eagle?
-We ask that all teams get the raking done as soon as possible, preferably within a week of EVENT_DATE. If you absolutely cannot reschedule, please contact Rake Up Eagle to reassign the yard. Please also watch for texts from Rake Up Eagle PTO with instructions if weather becomes an issue.
+We ask that all teams get the raking done as soon as possible, preferably within a week of November 15. If you absolutely cannot reschedule, please contact Rake Up Eagle to reassign the yard. Please also watch for texts from Rake Up Eagle PTO with instructions if weather becomes an issue.
 
 Still have questions?  Ask us at eaglemiddlepto@gmail.com!
