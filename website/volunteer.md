@@ -6,4 +6,4 @@
 - We provide the lawn bags; you need to bring rakes, gloves, etc.
 - You agree to our [terms and waiver](terms.md).
 
-To sign up, please SIGN_UP_PROCESS.
+To sign up, please [CLICK HERE](https://docs.google.com/forms/d/1fLh4adb5z9pI3CmIgEFbnICk2SN3nFvKlM0PrF-o20Q/edit).

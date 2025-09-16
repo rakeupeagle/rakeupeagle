@@ -10,4 +10,4 @@ Our volunteers will arrive on November 15th between 9 - 11AM.  They will bring a
 
 If you have a dog/cat they must be inside during the rake, and **all animal waste must be picked up prior to raking**.  If there is animal waste in the yard our volunteers will leave and not reschedule.
 
-To register, please REGISTER_PROCESSS.
+To register, please [CLICK HERE](https://docs.google.com/forms/d/1bAsnN5PONQQ_K0G0IamqvP5hleBq7p9mJPXV0YmPCwY/edit).
