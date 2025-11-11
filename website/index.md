@@ -1,10 +1,11 @@
 # Rake Up Eagle
 
-!!! note ""
+!!! note
 
     **Rake Up Eagle** connects volunteer teams with seniors, veterans, and disabled citizens in a day of public service.
 
-This year's event takes place on November 15 -- join today as a recipient or volunteer your team!
+This year's event takes place on November 15.  ~~Join today as a recipient or volunteer your team!~~  **Registration Closed:** Registration has closed for this year -- we'll see you on November 15th!
+
 
 ## Volunteer to Help
 ![Volunteer to Help](images/volunteer.jpg)
