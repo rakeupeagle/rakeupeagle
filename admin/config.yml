@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: rakeupeagle/rakeupeagle
+  branch: main
+  commit_messages:
+    create: Create {{slug}}
+    update: Update {{slug}}
+    delete: Delete {{slug}}
+    uploadMedia: Upload {{path}}
+    deleteMedia: Delete {{path}}
+  cms_label_prefix: cms/
+logo:
+  src: /assets/images/logo.png
+app_title: "Rake Up Eagle Admin"
+publish_mode: editorial_workflow
+media_folder: website/assets
+public_folder: /assets
+editor:
+  preview: false
+# show_preview_links: false
+singletons:
+  - name: home
+    label: Home Page
+    file: website/index.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+  - name: faq
+    label: Frequently Asked Questions
+    file: website/faq.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+  - name: about
+    label: About
+    file: website/about.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+  - name: recipient
+    label: Recipient
+    file: website/recipient.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+  - name: volunteer
+    label: Volunteer
+    file: website/volunteer.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+  - name: support
+    label: Support
+    file: website/support.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+  - name: terms
+    label: Terms
+    file: website/terms.md
+    fields:
+      - name: body
+        label: Body
+        widget: richtext
+
