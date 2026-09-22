@@ -1,19 +1,20 @@
+[project]
 site_name = "Rake Up Eagle"
 site_description = "A day of service to disabled, veteran, and senior citizens.  Sponsored by Eagle Middle School PTO."
 site_author = "Eagle Middle School PTO"
 docs_dir = "website"
 markdown_extensions = [
-  "attr_list",
-  "admonition",
-  "pymdownx.details",
-  "pymdownx.superfences",
-  "pymdownx.tilde"
+    "attr_list",
+    "admonition",
+    "pymdownx.details",
+    "pymdownx.superfences",
+    "pymdownx.tilde",
 ]
 
-[theme]
+[project.theme]
 name = "material"
 logo = "assets/images/logo.png"
-
-[project.markdown_extensions]
-"toc.toc_depth" = 0
+# features = [
+#     "toc.integrate"
+# ]
 
