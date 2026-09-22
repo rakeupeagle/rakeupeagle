@@ -8,7 +8,7 @@ This year's event takes place on November 7.
 
 
 ## Volunteer to Help
-![Volunteer to Help](images/volunteer.jpg)
+![Volunteer to Help](assets/images/volunteer.jpg)
 
 Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
 
@@ -17,7 +17,7 @@ Signup your team to rake the yard of a senior, veteran, or disabled neighbor!
 
 ## Register to be Raked
 
-![Register to be Raked](images/recipient.jpg)
+![Register to be Raked](assets/images/recipient.jpg)
 
 If you're a senior, veteran, or disabled Eagle resident, register to have your yard raked!
 
