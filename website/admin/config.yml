@@ -68,4 +68,3 @@ singletons:
       - name: body
         label: Body
         widget: richtext
-
