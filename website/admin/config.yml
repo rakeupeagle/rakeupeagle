@@ -10,11 +10,9 @@ backend:
     delete: Delete {{slug}}
     uploadMedia: Upload {{path}}
     deleteMedia: Delete {{path}}
-  cms_label_prefix: cms/
 logo:
   src: /assets/images/logo.png
 app_title: "Rake Up Eagle Admin"
-publish_mode: editorial_workflow
 media_folder: website/assets
 public_folder: /assets
 editor:
